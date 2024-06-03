@@ -1,0 +1,21 @@
+{
+	"id" : "cauldron_mountains",
+	"name": "Cauldron Mountains",
+	"description" :
+		"Just beyond the bustling activity of Gall, the Cauldron Mountains rise starkly against the sky, a rugged and foreboding range known for its treacherous terrain and the dangerous creatures that lurk within its crags and crevices. Legends speak of twisted beasts, born from the darkness, that roam the shadowy paths, preying on unwary travelers. The air is often pierced by eerie howls that echo off the stony peaks, casting a pall of fear over the region.
+
+		Despite the inherent risks, these mountains are rumored to hold ancient secrets and hidden treasures, guarded by the creatures that call these peaks home. Adventurous souls whisper of lost artifacts and hidden veins of precious ore, drawing treasure hunters and thrill-seekers alike. The Cauldron Mountains promise great rewards to those brave or foolish enough to explore their depths, challenging all who dare to uncover the mysteries veiled beneath their imposing facade.",
+		
+	"possibilities" : [
+		{
+			"id" : "cm_quest_001",
+			"description" : "Go retrieve the rare herbs.",
+			"condition" : "quest_001_accepted"
+		},
+		{
+			"id" : "leave", 
+			"description" : "Leave the mountains 
+			for now"
+		}
+	]
+}

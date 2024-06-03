@@ -1,0 +1,13 @@
+{
+	"id" : "gall_easy_quest",
+	"name": "The Foothill Foray (accepted)",
+	"description" :
+		"With the quest parchment in hand, you gear up for the trek into the Cauldron Mountains. The path promises scenic vistas and manageable challenges, perfect for a day's adventure in search of rare herbs. Spirits high, you prepare to step out from the guild, ready to breathe in the mountain air.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_adventurers_guild", 
+			"description" : "Go back to the adventurers guild"
+		}
+	]
+}

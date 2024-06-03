@@ -1,0 +1,303 @@
+[gd_scene load_steps=11 format=3 uid="uid://d25rdiau8ito5"]
+
+[ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="1_17u6k"]
+[ext_resource type="Script" path="res://scripts/fight_ui.gd" id="1_w1j62"]
+[ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_4ir65"]
+[ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
+[ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/ui/fight_ui/enemies/monster_01.png" id="5_dreb0"]
+[ext_resource type="Script" path="res://scripts/enemies_display.gd" id="6_nmvit"]
+
+[sub_resource type="SystemFont" id="SystemFont_rkucr"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_y52tr"]
+font = SubResource("SystemFont_rkucr")
+font_size = 64
+font_color = Color(0.462745, 0.262745, 0.0627451, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qsvt1"]
+font_size = 24
+font_color = Color(0.425692, 0.276456, 0.142323, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v40v7"]
+font_size = 32
+font_color = Color(0.461154, 0.262919, 0.0611425, 1)
+
+[node name="fight_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w1j62")
+
+[node name="bg" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -957.5
+offset_top = -537.0
+offset_right = 957.5
+offset_bottom = 537.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_17u6k")
+expand_mode = 3
+
+[node name="UI_title" type="TextureRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -842.5
+offset_right = 773.5
+offset_bottom = 186.0
+grow_horizontal = 2
+texture = ExtResource("2_4ir65")
+expand_mode = 1
+
+[node name="Title" type="Label" parent="bg/UI_title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -142.5
+offset_top = -57.0
+offset_right = 142.5
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fight"
+label_settings = SubResource("LabelSettings_y52tr")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="bg" type="TextureRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -857.5
+offset_top = -274.0
+offset_right = 834.5
+offset_bottom = 492.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_17u6k")
+expand_mode = 3
+
+[node name="party_display" type="Control" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="main_character_display" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
+layout_mode = 1
+offset_left = -696.0
+offset_top = -304.0
+offset_right = -282.0
+offset_bottom = -162.0
+show_delete_button = false
+character_class = "Mage"
+
+[node name="infos" parent="bg/bg/party_display/main_character_display" index="0"]
+text = "Halfai, Mage
+ Lvl : 1"
+
+[node name="delete_button" parent="bg/bg/party_display/main_character_display" index="2"]
+visible = false
+disabled = true
+
+[node name="character_display2" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
+layout_mode = 1
+offset_left = -696.0
+offset_top = -154.0
+offset_right = -282.0
+offset_bottom = -12.0
+show_delete_button = false
+character_class = "Rogue"
+character_portrait = 17
+
+[node name="character_display3" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
+layout_mode = 1
+offset_left = -696.0
+offset_top = -4.0
+offset_right = -282.0
+offset_bottom = 138.0
+show_delete_button = false
+character_level = 0
+character_portrait = 16
+
+[node name="character_display4" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
+layout_mode = 1
+offset_left = -696.0
+offset_top = 146.0
+offset_right = -282.0
+offset_bottom = 288.0
+show_delete_button = false
+character_class = "Mage"
+character_level = 0
+character_portrait = 19
+
+[node name="enemies_display" type="Control" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_nmvit")
+enemy_class = "None"
+
+[node name="avatar_background" type="ColorRect" parent="bg/bg/enemies_display"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 256.0
+offset_top = -148.0
+offset_right = 512.0
+offset_bottom = 108.0
+grow_vertical = 2
+color = Color(0.509804, 0.313726, 0.160784, 1)
+
+[node name="avatar_portrait" type="TextureRect" parent="bg/bg/enemies_display/avatar_background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_dreb0")
+flip_h = true
+
+[node name="enemy_description" type="Label" parent="bg/bg/enemies_display"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 480.0
+offset_top = -75.0
+offset_right = 760.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "2 Mountain Drake
+ Lvl : 1"
+label_settings = SubResource("LabelSettings_qsvt1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="fight_button" type="Button" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -32.0
+offset_right = 128.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fight"
+
+[node name="flee_button" type="Button" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 47.0
+offset_right = 128.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Flee"
+
+[node name="proceed_button" type="Button" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 198.0
+offset_right = 128.0
+offset_bottom = 262.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Proceed"
+
+[node name="chances_label" type="Label" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -231.5
+offset_right = 140.0
+offset_bottom = -42.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Victory Chances : 70%"
+label_settings = SubResource("LabelSettings_v40v7")
+horizontal_alignment = 1
+
+[node name="result_label" type="Label" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -142.0
+offset_top = 130.5
+offset_right = 138.0
+offset_bottom = 191.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Success !"
+label_settings = SubResource("LabelSettings_v40v7")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[editable path="bg/bg/party_display/main_character_display"]

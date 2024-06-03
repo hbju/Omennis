@@ -1,0 +1,27 @@
+{
+	"id" : "gall_turn_quests",
+	"name": "Adventurer's guild desk",
+	"description" :
+		"The Adventurer's Guild is bustling with activity as you step inside, filled with the hum of conversation and the clinking of gear. Making your way to the large wooden desk at the front, you find the quest master, a grizzled veteran with a sharp eye, overseeing the flow of adventurers. Behind him, the quest board is covered with mission parchments.
+
+		As you approach, the quest master looks up and nods. \"Back from the field, I see,\" he says with a hint of a smile. \"What quests do you have to turn in today?\"
+		
+		You take a moment to glance around at the other adventurers sharing their stories, then turn back to the quest master, ready to report your accomplishments.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_turn_easy_quest", 
+			"description" : "Turn the Foothill Foray",
+			"condition" : "quest_001_accomplished"
+		},
+		{
+			"id" : "gall_turn_hard_quest", 
+			"description" : "Turn the Echoes of the Damned",
+			"condition" : "quest_002_accomplished"
+		},
+		{
+			"id" : "gall_adventurers_guild", 
+			"description" : "Go back to the guild"
+		}
+	]
+}

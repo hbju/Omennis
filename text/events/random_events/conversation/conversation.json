@@ -1,0 +1,29 @@
+{
+	"id" : "conversation",
+	"name": "A campfire conversation",
+	"description" :
+		"During the evening, [Name 1] and [Name 0] share a meal together near the campfire. 
+		
+		[Name 1]: The road ahead is as bleak as ever. Do you ever get used to this darkness?
+
+		[Name 0]: Not really. Every shadow seems to hide something worse than the last. How long have you been traveling like this, [Name 1]?
+		
+		[Name 1]: Feels like forever, but it's only been a few months. And you, [Name 0]? What's your story?
+		
+		[Name 0]: I've been on the move for about a year now. Lost my home to raiders. Since then, I've just been trying to survive. Do you ever think we'll find something better?
+		
+		[Name 1]: I hope so. It's hard to keep faith, but meeting others like you, it helps. Makes the road a bit less lonely.
+		
+		[Name 0]: I agree. It’s strange how quickly we have to trust each other in times like these. But I’m glad we met. We stand a better chance together.
+		
+		[Name 1]: Yeah, we do. Let’s keep moving. Maybe together, we can find a bit of light in all this darkness.
+		",
+		
+	"possibilities" : [
+		{
+			"id" : "leave", 
+			"description" : "They leave each other and 
+			go to their respective bedroll for the night"
+		}
+	]
+}

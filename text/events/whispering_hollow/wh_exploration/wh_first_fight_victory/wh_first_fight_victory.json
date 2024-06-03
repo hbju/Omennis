@@ -1,0 +1,15 @@
+{
+	"id" : "wh_first_fight_victory",
+	"name": "The cultists' leader",
+	"description" :
+		"With the last of the fanatics defeated, their chants silenced, your party pushes open the heavy gates and steps into the Whispering Hollow. The eerie whispers grow louder, echoing off the cold stone walls as you navigate the winding path. The dense fog begins to thin, revealing a towering structure ahead—a dark, imposing hall that seems to pulse with malevolent energy.
+
+		As you cautiously enter the hall, the oppressive atmosphere presses down on you. At the far end of the chamber, the cultist leader stands upon a raised dais, surrounded by flickering torches casting long shadows. His eyes burn with an unnatural light as he glares at your party. \"So, you’ve made it this far,\" he hisses, his voice dripping with contempt. \"But this is where your journey ends.\" The hall’s air crackles with dark energy, and you can sense the true battle is just beginning.",
+		
+	"possibilities" : [
+		{
+			"id" : "wh_leader_fight", 
+			"description" : "Fight the cultists' leader"
+		}
+	]
+}

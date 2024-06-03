@@ -1,0 +1,19 @@
+{
+	"id" : "gall_turn_easy_quest",
+	"name": "The Foothill Foray",
+	"description" :
+		"As you step back into the guild, the hustle and bustle of adventurers and quests momentarily fades into the background. You approach the quest board, the herbalist eagerly awaiting your return. With a satisfied nod, you hand over the rare herbs collected from the Cauldron Mountains. The herbalist beams with gratitude, quickly exchanging the herbs for a pouch of gold and a potion. 
+        \"Well done,\" he says, \"Your efforts will not go unnoticed. Here is your reward.\"",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_turn_quests", 
+			"description" : "Go turn another quest",
+			"condition" : "quest_accomplished"
+		},
+		{
+			"id" : "gall_adventurers_guild", 
+			"description" : "Go back to the adventurer's guild"
+		}
+	]
+}

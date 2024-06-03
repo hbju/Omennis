@@ -1,0 +1,27 @@
+{
+	"id" : "gall_new_member",
+	"name": "A new member ?",
+	"description" :
+		"Amidst the clamor and chaos of the tavern, [Name 0] stands apart. 
+		
+		Though many here seek fortune and glory, few possess the distinct blend of skill and resolve displayed by this [Class 0]. 
+		
+		Known across Gall for [his/her/their 0] daring exploits, [Name 0] carries a reputation that precedes [him/her/them 0], whether [he/she/they 0] welcomes it or not. 
+		
+		Now, nursing a drink at a shadowed table, [he/she/they 0] seems to be weighing the odds of joining yet another perilous venture. 
+		
+		After a short conversation, [he/she/they 0] say they could join you for a sum of 100 golds.",
+		
+	"possibilities" : [
+		{
+			"id" : "recruit_member", 
+			"description" : "Recruit [him/her/them 0] to the party
+			for 100g.",
+			"condition" : "gold_100"
+		},
+		{
+			"id" : "gall_tavern", 
+			"description" : "Go back to the tavern"
+		}
+	]
+}

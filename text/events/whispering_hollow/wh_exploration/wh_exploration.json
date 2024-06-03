@@ -1,0 +1,15 @@
+{
+	"id" : "wh_exploration",
+	"name": "The Whispering Hollow entrance",
+	"description" :
+		"The dense, eerie fog clings to the ancient trees as your party approaches the foreboding gates of the Whispering Hollow. The path is lined with gnarled roots and overgrown foliage, giving the area an otherworldly feel. The air is thick with tension and the faint whispers of the Hollow seem to beckon you closer. As you near the rusted, wrought-iron gates, they creak open ominously, revealing a shadowy path that disappears into the mist.
+
+		Just as you prepare to enter, a group of fanatics emerges from the gloom, their eyes wild with fervor. Clad in tattered robes and clutching makeshift weapons, they block your path, chanting in a language you cannot understand. Their leader, a tall, gaunt figure with a feverish gleam in his eye, steps forward and raises his hand, demanding your purpose. The fanatics' presence and their unwavering zeal for whatever dark faith they follow send a shiver down your spine, but you steel yourself, knowing that the mission must continue.",
+		
+	"possibilities" : [
+		{
+			"id" : "wh_first_fight", 
+			"description" : "Fight the cultists"
+		}
+	]
+}

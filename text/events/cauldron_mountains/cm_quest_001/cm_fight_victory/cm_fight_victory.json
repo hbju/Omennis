@@ -1,0 +1,17 @@
+{
+	"id" : "cm_fight_victory",
+	"name": "The Foothill Foray - Victory",
+	"description" :
+		"With the last of the mountain drakes defeated, the adrenaline of battle slowly ebbs away, replaced by a sense of hard-won triumph. Your party takes a moment to catch their breath, the echoes of the skirmish still fading in the crisp mountain air.
+
+		The path now clear, you resume your search for the rare herbs. Venturing further into the verdant foothills, you soon spot the distinctive plants growing amidst the rocky outcrops and wildflowers. The herbalist's descriptions were accurate, and with careful hands, you begin to gather the precious herbs.
+
+		The Cauldron Mountains, though treacherous, have yielded their bounty. With the herbs safely stowed, you prepare for the journey back to Gall, ready to deliver the sought-after plants and claim your well-earned reward.",
+		
+	"possibilities" : [
+		{
+			"id" : "cauldron_mountains", 
+			"description" : "Go back to the mountains"
+		}
+	]
+}

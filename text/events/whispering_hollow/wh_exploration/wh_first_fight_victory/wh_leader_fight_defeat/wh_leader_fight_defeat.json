@@ -1,0 +1,13 @@
+{
+	"id" : "wh_leader_fight_defeat",
+	"name": "Echoes of the Damned - Defeat",
+	"description" :
+		"Defeated by the cult leader's dark powers, your party is left battered and broken. The oppressive energy of the hall presses down on you as you struggle to retreat. With the cultist's mocking laughter echoing in your ears, you flee the Whispering Hollow, barely escaping with your lives. Determined to recover and seek vengeance, you vow to return stronger and end his reign of terror.",
+		
+	"possibilities" : [
+		{
+			"id" : "whispering_hollow", 
+			"description" : "Flee the fortress"
+		}
+	]
+}

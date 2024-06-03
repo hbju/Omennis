@@ -1,0 +1,119 @@
+[gd_scene load_steps=7 format=3 uid="uid://bwx5vgdwyp3rl"]
+
+[ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="1_s6f5d"]
+[ext_resource type="Script" path="res://scripts/party_ui.gd" id="1_txqup"]
+[ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_54ewt"]
+[ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="2_pdnay"]
+[ext_resource type="Texture2D" uid="uid://dto44ujliykem" path="res://assets/chars/female/female_00.png" id="5_scn0u"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tyvgq"]
+font_size = 22
+font_color = Color(0, 0, 0, 1)
+
+[node name="party_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_txqup")
+
+[node name="bg" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -331.068
+offset_top = -520.0
+offset_right = 331.068
+offset_bottom = 520.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_s6f5d")
+expand_mode = 3
+
+[node name="UI_title" type="TextureRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -207.0
+offset_top = 41.0
+offset_right = 207.0
+offset_bottom = 183.0
+grow_horizontal = 2
+texture = ExtResource("2_54ewt")
+expand_mode = 5
+
+[node name="Title" type="Label" parent="bg/UI_title"]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 45.0
+offset_right = 346.0
+offset_bottom = 86.0
+text = "Party Management"
+label_settings = SubResource("LabelSettings_tyvgq")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="displays" type="Control" parent="bg"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="main_character_display" parent="bg/displays" instance=ExtResource("2_pdnay")]
+layout_mode = 1
+offset_left = 30.0
+offset_top = 180.0
+offset_right = 580.0
+offset_bottom = 380.0
+character_class = ""
+character_level = 0
+character_portrait = 0
+
+[node name="avatar_portrait" parent="bg/displays/main_character_display/avatar_background" index="0"]
+texture = ExtResource("5_scn0u")
+
+[node name="delete_button" parent="bg/displays/main_character_display" index="2"]
+visible = false
+disabled = true
+
+[node name="character_display2" parent="bg/displays" instance=ExtResource("2_pdnay")]
+layout_mode = 1
+offset_left = 30.0
+offset_top = 380.0
+offset_right = 580.0
+offset_bottom = 580.0
+character_class = ""
+character_level = 0
+character_portrait = 0
+
+[node name="character_display3" parent="bg/displays" instance=ExtResource("2_pdnay")]
+layout_mode = 1
+offset_left = 30.0
+offset_top = 580.0
+offset_right = 580.0
+offset_bottom = 780.0
+character_class = ""
+character_level = 0
+character_portrait = 0
+
+[node name="character_display4" parent="bg/displays" instance=ExtResource("2_pdnay")]
+layout_mode = 1
+anchors_preset = 7
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 760.0
+offset_right = 580.0
+offset_bottom = 960.0
+grow_vertical = 0
+character_class = ""
+character_level = 0
+character_portrait = 0
+
+[editable path="bg/displays/main_character_display"]

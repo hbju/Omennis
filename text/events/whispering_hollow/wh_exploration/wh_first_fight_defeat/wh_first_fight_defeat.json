@@ -1,0 +1,14 @@
+{
+	"id" : "wh_first_fight_defeat",
+	"name": "Echoes of the Damned - Defeat",
+	"description" :
+		"Overwhelmed by the ferocity of the fanatics, your party is forced to retreat. Bloodied and exhausted, you scramble back through the gates of the Whispering Hollow, the fanatics' wild chants echoing in your ears. With adrenaline surging, you barely escape with your lives, vowing to regroup and return stronger.",
+		
+	"possibilities" : [
+		{
+			"id" : "whispering_hollow", 
+			"description" : "Come back to the entrance of the 
+			Whispering Hollow"
+		}
+	]
+}

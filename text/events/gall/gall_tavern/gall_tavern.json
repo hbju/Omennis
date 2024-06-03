@@ -1,0 +1,24 @@
+{
+	"id" : "gall_tavern",
+	"name": "The Creaking Mast",
+	"description" :
+		"Nestled in a shadowy alleyway off Gall's bustling main thoroughfare lies the Creaking Mast, a modest tavern known more for its rough-and-tumble clientele than its culinary offerings. The building itself leans slightly to one side, as if tired from years of standing, with a faded sign creaking on rusty hinges in the ever-present breeze from the docks nearby.
+
+		Inside, the atmosphere is thick with the smell of spilt ale and the smoky residue of countless candles that flicker in the dim interior. Wooden beams overhead groan under the weight of the building, matching the creaking of the floorboards underfoot. The air is alive with the murmurs of weathered sailors, off-duty guards, and mysterious wanderers, all huddled around mismatched tables scattered haphazardly throughout the cramped space.
+
+		The tavern's bar, a sturdy affair of scarred wood, runs along one wall, manned by a burly, no-nonsense keeper who serves drinks with a side of gruff advice. Behind him, shelves laden with dusty bottles and crockery add to the room's cluttered, lived-in feel.
+
+		In one corner, a small hearth fights a losing battle against the chill that seeps in through the gaps in the walls, while a nearby corner serves as a makeshift stage for the occasional bard brave enough to entertain this tough crowd. Despite its less than reputable reputation, the Creaking Mast is a place where alliances are formed over pints of cheap ale, and where a clever adventurer might find just the right companions for the next quest or misadventure.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_new_member", 
+			"description" : "Look for a new companion",
+			"condition" : "not(party_full)"
+		},
+		{
+			"id" : "gall", 
+			"description" : "Go back to the city"
+		}
+	]
+}

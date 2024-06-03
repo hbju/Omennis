@@ -1,0 +1,24 @@
+{
+	"id" : "whispering_hollow",
+	"name": "The Whispering Hollow",
+	"description" :
+		"Nestled deep within the shadowy recesses of the Cauldron Mountains lies the Whispering Hollow, a notorious cultist lair. This sinister enclave is carved into the very bones of the mountains, hidden away from prying eyes by dense mists and treacherous paths that few dare to tread. The entrance is marked by ancient runes, their meanings long forgotten by all but the cult itself.
+
+		Within, the cavernous halls are lit by flickering torches that cast long shadows, creating an ambiance of eerie dread. The air is thick with the scent of incense and the soft, continuous murmur of cryptic chants. Symbols and eerie iconography adorn the walls, telling the dark history and forbidden rituals practiced by the cult. Here, the followers of the shadow gather, devoted to esoteric rites that seek to awaken ancient forces best left undisturbed.
+
+		The Whispering Hollow serves not only as a sanctuary for these dark adherents but also as a fortress, storing relics and artefacts of considerable power. It is said that within these walls, plans are made that could threaten the very fabric of reality, driven by a devotion that knows no bounds.",
+		
+	"possibilities" : [
+		
+		{
+			"id" : "wh_exploration", 
+			"description" : "Approach the fortress",
+			"condition" : "quest_002_accepted"
+		},
+		{
+			"id" : "leave", 
+			"description" : "Leave the Whispering Hollow, 
+			before a cultist sees your party"
+		}
+	]
+}

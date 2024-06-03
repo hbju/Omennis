@@ -1,0 +1,26 @@
+{
+	"id" : "gall_adventurers_guild",
+	"name": "Gall's Adventurer's Guild",
+	"description" :
+		"In the bustling heart of Gall, amidst the clatter of the city, stands the robust stone building of the Adventurer's Guild. A beacon for thrill-seekers and heroes alike, this guild is the hub of questing activity in the Empire. Its weathered wooden doors, forever swinging on their hinges, welcome a constant stream of hopefuls and seasoned explorers eager to check the sprawling bulletin board brimming with leads, rumors, and contracts ranging from the mundane to the perilous.
+
+Inside, the hall buzzes with the vibrant energy of adventurers sharing tales and trading tips over hearty meals served at long communal tables. The walls are adorned with maps of distant lands and trophies from successful exploits, inspiring awe and ambition in equal measure. Managed by a council of respected elder adventurers, the guild offers not only quests but also training, resources, and the crucial camaraderie needed to face the dangers lurking beyond the city's edges. Here, in the heart of Gall, legends are born and the next great adventure is always just around the corner.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_quest", 
+			"description" : "Approach the board
+			to get a quest"
+		},
+		{
+			"id" : "gall_turn_quests", 
+			"description" : "Go to the guild desk to
+			get your rewards",
+			"condition" : "quest_accomplished"
+		},
+		{
+			"id" : "gall", 
+			"description" : "Go back to the city"
+		}
+	]
+}

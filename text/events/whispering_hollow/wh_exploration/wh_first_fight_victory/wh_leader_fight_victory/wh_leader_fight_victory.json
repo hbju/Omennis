@@ -1,0 +1,15 @@
+{
+	"id" : "wh_leader_fight_victory",
+	"name": "Echoes of the Damned - Victory",
+	"description" :
+		"With a final, desperate strike, the cult leader crumples to the ground, his malevolent eyes losing their unnatural glow. The oppressive energy that filled the hall begins to dissipate, replaced by an eerie silence. The torches' flickering light casts long shadows over the fallen leader, and a sense of triumph slowly washes over your party.
+
+		Breathing heavily, you take a moment to gather yourselves, the reality of your victory sinking in. The once-dominant figure now lies motionless at your feet, and the dark whispers that haunted the Whispering Hollow begin to fade. As you search the chamber, you find an array of sinister artifacts and documents that reveal the cult's dark plans, ensuring that their malevolence will end here.",
+		
+	"possibilities" : [
+		{
+			"id" : "whispering_hollow", 
+			"description" : "Leave the fortress behind"
+		}
+	]
+}

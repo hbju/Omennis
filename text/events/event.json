@@ -1,0 +1,21 @@
+{
+	"id" : "",
+	"name": "",
+	"description" :
+		"",
+		
+	"possibilities" : [
+		{
+			"id" : "", 
+			"description" : ""
+		},
+		{
+			"id" : "", 
+			"description" : ""
+		},
+		{
+			"id" : "", 
+			"description" : ""
+		}
+	]
+}

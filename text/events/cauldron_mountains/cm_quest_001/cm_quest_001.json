@@ -1,0 +1,17 @@
+{
+	"id" : "cm_quest_001",
+	"name": "The Foothill Foray",
+	"description" :
+		"As your party ascends the rugged trails of the Cauldron Mountains, the fresh mountain air fills your lungs, invigorating your spirits. The terrain becomes increasingly steep and treacherous, the path winding through towering peaks and dense underbrush. The quest for rare herbs leads you deeper into the mountain's embrace.
+
+		Suddenly, the tranquil silence is shattered by a rustling from the thick foliage. Without warning, two mountain drakes, their scales shimmering in the dappled sunlight, emerge onto the path. Their eyes, fiery and wild, fix on your party. It seems the rumors of manageable challenges were slightly understated.
+
+		With no choice but to defend yourselves, you ready your weapons and prepare for combat. The battle will be fierce, but overcoming these mountain guardians may just yield the path to the herbs you seek, nestled somewhere beyond this unexpected confrontation.",
+		
+	"possibilities" : [
+		{
+			"id" : "cm_fight", 
+			"description" : "Fight the mountain drakes"
+		}
+	]
+}

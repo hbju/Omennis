@@ -1,0 +1,13 @@
+{
+	"id" : "gall_hard_quest",
+	"name": "Echoes of the Damned (Accepted)",
+	"description" :
+		"The parchment detailing the Whispering Hollow mission feels heavier than it looks. With a deep breath, you steel yourself for the perilous journey ahead. Gathering your best gear, you mentally prepare to confront whatever darkness awaits in that cursed place, knowing well the risks involved.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_adventurers_guild", 
+			"description" : "Go back to the adventurer's Guild"
+		}
+	]
+}

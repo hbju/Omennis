@@ -1,0 +1,18 @@
+{
+	"id" : "cm_fight_defeat",
+	"name": "The Foothill Foray - Defeat",
+	"description" :
+		"Defeated by the fierce mountain drakes, your party is battered and bruised. You now face a critical decision: flee to safety or muster your courage and try again. The choice is yours.",
+		
+	"possibilities" : [
+		{
+			"id" : "cm_fight", 
+			"description" : "Try again"
+		},
+		{
+			"id" : "cauldron_mountains", 
+			"description" : "Go back to the mountains
+			to gather up your forces"
+		}
+	]
+}

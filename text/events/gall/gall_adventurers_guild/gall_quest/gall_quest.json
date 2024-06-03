@@ -1,0 +1,37 @@
+{
+	"id" : "gall_quest",
+	"name": "The Guild's Quest Board",
+	"description" :
+		"As you approach the guild's quest board, a large, weathered wooden slab crowded with parchments and notices, the air buzzes with the anticipation of adventure. The board is a focal point of the guild hall, drawing adventurers of all sorts to its promising array of tasks. Each parchment, pinned haphazardly atop another, tells tales of needed deeds and rewards for the brave.
+
+Among the myriad quests, two catch your eye:
+
+1. The Foothill Foray (Easy)
+   - Location: Cauldron Mountains
+   - Description: A local herbalist seeks brave souls to retrieve rare herbs found only in the lower foothills of the Cauldron Mountains. The journey promises light resistance from the mountain's less formidable creatures, but watch your step—the terrain is tricky and unforgiving.
+   - Reward: 50 gold pieces.
+
+2. Echoes of the Damned (Hard)
+   - Location: Whispering Hollow
+   - Description: Dark whispers from the Whispering Hollow speak of a malevolent force gathering power. The guild seeks seasoned warriors to investigate and clear out any unholy presence. Be warned, this mission is not for the faint-hearted, and the Hollow is known for its treacherous inhabitants and deceiving paths.
+   - Reward: 150 gold pieces and a rare artifact.
+
+Each quest offers a parchment for adventurers to claim, signifying their acceptance of the risks and rewards that lie ahead. As you ponder which quest to undertake, the sense of adventure stirs within you, pulling you towards the unknown.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_easy_quest", 
+			"description" : "Take the first quest",
+			"condition" : "not(quest_001_accepted)"
+		},
+		{
+			"id" : "gall_hard_quest", 
+			"description" : "Take the second quest",
+			"condition" : "not(quest_002_accepted)"
+		},
+		{
+			"id" : "gall_adventurers_guild", 
+			"description" : "Leave the board alone"
+		}
+	]
+}

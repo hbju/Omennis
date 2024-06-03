@@ -1,0 +1,18 @@
+{
+	"id" : "gall_turn_hard_quest",
+	"name": "The Echoes of the Damned",
+	"description" :
+		"As you approach the guild desk, the quest master looks up with interest. \"Back from the Whispering Hollow, are you?\" he asks. You nod and hand over the evidence of your victory against the dark forces. The quest master examines it, then smiles. \"Well done. Here’s your reward. Your bravery won't be forgotten.\" He hands you a hefty pouch of gold.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_turn_quests", 
+			"description" : "Go turn another quest",
+			"condition" : "quest_accomplished"
+		},
+		{
+			"id" : "gall_adventurers_guild", 
+			"description" : "Go back to the adventurer's guild"
+		}
+	]
+}

@@ -1,0 +1,31 @@
+{
+	"id" : "gall",
+	"name": "Gall, Capital of the Empire",
+	"description" :
+		"As you approach Gall, the capital of the Empire, its imposing silhouette unfolds under the towering peaks of the Cauldron Mountains. The city’s grand gates open to reveal a sprawling metropolis, alive with the vibrant hustle and bustle of its inhabitants. The air resonates with the clang of smiths at work and the chatter of busy marketplaces.
+
+		Majestic, ornate buildings line the broad, cobblestone streets, showcasing the architectural prowess and longstanding wealth of the noble class. Towering statues of historic figures and heroes of the Empire loom at various squares, silently watching over the daily activities of their descendants.
+
+		In the heart of the city, the magnificent Imperial Palace rises, a marvel of stone and artistry, its spires reaching towards the sky. Surrounding it, lush gardens and opulent manors speak of a rich, albeit divided, societal heritage.
+
+		On the outskirts, the contrast is palpable as simpler, crowded houses huddle together, hosting a bustling community of artisans, merchants, and common folk. Here, the city's energy is palpable, with lively markets offering everything from exotic spices and silks to practical goods and local crafts.
+
+		As you make your way through Gall, the mingling scents of fresh bread, seasoned meats, and blooming flowers fill the air, inviting you to explore further into this city of contrasts and possibilities.",
+		
+	"possibilities" : [
+		{
+			"id" : "gall_tavern", 
+			"description" : "Go into a tavern to recruit
+ 				a new member"
+		},
+		{
+			"id" : "gall_adventurers_guild", 
+			"description" : "Go to the adventurer's guild
+				to get a new mission"
+		},
+		{
+			"id" : "leave", 
+			"description" : "Leave the city"
+		}
+	]
+}
