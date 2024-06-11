@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8iy1w8skuh2v"]
+
+[ext_resource type="Script" path="res://scripts/combat_character.gd" id="1_7e84u"]
+[ext_resource type="Texture2D" uid="uid://boq6l5yfycyqc" path="res://assets/overworld_elements/party/Badge_12.png" id="2_kb1cs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ek470"]
+radius = 150.96
+
+[sub_resource type="Gradient" id="Gradient_iwu2c"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7l162"]
+gradient = SubResource("Gradient_iwu2c")
+
+[sub_resource type="Gradient" id="Gradient_0iyvg"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4tww3"]
+gradient = SubResource("Gradient_0iyvg")
+
+[node name="player" type="CharacterBody2D"]
+position = Vector2(811, 433)
+script = ExtResource("1_7e84u")
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_kb1cs")
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_ek470")
+
+[node name="health_bar" type="TextureProgressBar" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -127.0
+offset_top = -207.0
+offset_right = 129.0
+offset_bottom = -188.0
+grow_horizontal = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_7l162")
+texture_progress = SubResource("GradientTexture1D_4tww3")
