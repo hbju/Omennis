@@ -1,6 +1,9 @@
 extends CharacterBody2D
+class_name CombatCharacter
 
-var target = null
+var move_target = null
+var attack_target = null
+var init_pos = null
 @export var speed: int = 800
 signal target_reached
 
@@ -9,22 +12,47 @@ signal character_died(character)
 
 var health: float = 100
 var max_health: float = 100
-var damage: float = 10
+var damage: float = 50
 
 func move_to(new_target) : 
-	print("move_to")
-	if not target :
-		target = new_target
+	if not move_target :
+		move_target = new_target
+		
+func attack(new_target) :
+	if not attack_target :
+		attack_target = new_target
+		init_pos = position
 
 func _physics_process(delta):
-	if not target : 
+	if not move_target and not attack_target : 
 		return
-	velocity = position.direction_to(target) * speed
-	if position.distance_to(target) > 50:
+
+	if move_target :	
+		move_to_target()
+	elif attack_target :
+		move_to_attack_target()
+
+func move_to_target() :
+	velocity = position.direction_to(move_target) * speed
+	if position.distance_to(move_target) > 50:
 		move_and_slide()
 	else :
 		target_reached.emit()
-		target = null
+		move_target = null
+
+func move_to_attack_target() :		
+	z_index = 10
+	velocity = position.direction_to(attack_target) * speed
+	if position.distance_to(attack_target) > 50:
+		move_and_slide()
+	else :
+		if init_pos :
+			attack_target = init_pos
+			init_pos = null
+		else :
+			z_index = 0
+			target_reached.emit()
+			attack_target = null
 
 func take_damage(damage_taken) :
 	health -= damage_taken

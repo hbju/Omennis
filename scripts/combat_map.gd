@@ -63,6 +63,7 @@ func highlight_neighbours(hex) :
 func next_turn() : 
 	reset_neighbours(old_pos)
 
+	print("turn : ", turn, "new turn : ", (turn + 1) % characters.size())
 	turn = (turn + 1) % characters.size()
 
 	var player = characters[turn]
@@ -89,14 +90,19 @@ func _input(event):
 					if local_to_map(to_local(character.global_position)) == click_pos : 
 						if character != player : 
 							character.take_damage(player.damage)
+							player.attack(to_local(character.global_position))
+							turn_finished = false
+							old_pos = player_pos
 
 func _on_target_reached() :
 	turn_finished = true
 	next_turn()
 
 func _on_character_died(character) : 
+	var char_index = characters.find(character)
 	characters.erase(character)
-	if turn >= characters.size() : 
+	print("turn : ", turn, " new turn : ", turn - 1)
+	if turn > char_index :
 		turn -= 1
 	if characters.size() == 1 : 
 		print("Game Over")
