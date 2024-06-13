@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d1fin3jhtoocl"]
+[gd_scene load_steps=18 format=3 uid="uid://oxvk4meh5fi1"]
 
 [ext_resource type="Texture2D" uid="uid://c8ag7tlvtsnyu" path="res://assets/terrain/nature_tiles.png" id="1_xfr45"]
 [ext_resource type="Texture2D" uid="uid://y3l42tdnts0v" path="res://assets/terrain/water_tiles.png" id="2_4vdme"]
@@ -106,6 +106,7 @@ z_index = 2
 
 [node name="fight_ui" parent="UI" instance=ExtResource("10_14wst")]
 visible = false
+debug_fight = false
 
 [node name="party_button" type="TextureButton" parent="UI"]
 anchors_preset = 1
@@ -150,5 +151,7 @@ grow_vertical = 2
 text = "99999g"
 label_settings = SubResource("LabelSettings_mrmpd")
 horizontal_alignment = 2
+
+[node name="Node2D" type="Node2D" parent="."]
 
 [editable path="gall"]

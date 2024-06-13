@@ -86,9 +86,9 @@ func process_text(raw_text: String, characters: Array[Character]) -> String:
 	for i  in range(0, characters.size()):
 		new_text = new_text.replace("[Name " + str(i) + "]", characters[i].name)
 		new_text = new_text.replace("[Class " + str(i) + "]", characters[i].get_char_class())
-		new_text = new_text.replace("[he/she/they " + str(i) + "]", "he" if characters[i].sex == Character.SEX.Male else "she" if characters[i].sex == Character.SEX.Female else "they")
-		new_text = new_text.replace("[his/her/their " + str(i) + "]", "his" if characters[i].sex == Character.SEX.Male else "her" if characters[i].sex == Character.SEX.Female else "their")
-		new_text = new_text.replace("[him/her/them " + str(i) + "]", "him" if characters[i].sex == Character.SEX.Male else "her" if characters[i].sex == Character.SEX.Female else "them")
+		new_text = new_text.replace("[he/she/they " + str(i) + "]", "he" if characters[i].char_sex == Character.SEX.Male else "she" if characters[i].char_sex == Character.SEX.Female else "they")
+		new_text = new_text.replace("[his/her/their " + str(i) + "]", "his" if characters[i].char_sex == Character.SEX.Male else "her" if characters[i].char_sex == Character.SEX.Female else "their")
+		new_text = new_text.replace("[him/her/them " + str(i) + "]", "him" if characters[i].char_sex == Character.SEX.Male else "her" if characters[i].char_sex == Character.SEX.Female else "them")
 	return new_text
 	
 func _process(delta):

@@ -1,18 +1,57 @@
 extends TileMap
+class_name CombatMap
 
-@onready var characters: Array = get_node("characters").get_children()
-var turn = 0
-var turn_finished = true
-var old_pos = null
+var astar: AStar2D = AStar2D.new()
+var cell_ids: Dictionary = {}
+
+var characters: Array[CombatCharacter]
+var turn = -1
+var player_count = 0
+var enemy_count = 0
+
+var enemyCharacter = preload("res://scenes/ai_combat_character.tscn")
+var playerCharacter = preload("res://scenes/player_combat_character.tscn")
+
+signal combat_ended(victory: bool)
 
 func _ready():
-	var player = characters[turn]
-	var player_pos = local_to_map(to_local(player.global_position))
-	highlight_neighbours(player_pos)
+	pass
+	#enter_combat([Character.new_rand()], [Enemy.new("Dark Cultist", 1, 2, 2)])
+
+
+func enter_combat(party: Array[Character], enemies: Array[Enemy]) : 
 
 	for character in characters : 
-		character.target_reached.connect(_on_target_reached)
-		character.character_died.connect(_on_character_died)
+		character.queue_free()
+
+	player_count = party.size()
+	enemy_count = enemies.size()
+
+	var player_characters = []
+	for i in range(0, max(party.size(), enemies.size())) : 
+		if i < party.size() : 
+			var player: CombatCharacter = playerCharacter.instantiate()
+			get_node("characters/player_characters").add_child(player)
+			player.position = map_to_local(Vector2i(i + 1, 6))
+			player_characters.append(player)
+
+			characters.append(player)
+			player.target_reached.connect(_on_target_reached)
+			player.character_died.connect(_on_character_died)
+
+		if i < enemies.size() : 
+			var enemy: CombatCharacter = enemyCharacter.instantiate()
+			get_node("characters/enemies").add_child(enemy)
+			enemy.position = map_to_local(Vector2i(9 - i, 1))
+
+			characters.append(enemy)
+			enemy.target_reached.connect(_on_target_reached)
+			enemy.character_died.connect(_on_character_died)	
+			enemy.set_player_units(player_characters)
+
+	_setup_astar()
+
+	next_turn()
 
 var oddr_direction_differences = [
 	[[+1,  0], [ 0, -1], [-1, -1], 
@@ -21,13 +60,6 @@ var oddr_direction_differences = [
 	[[+1,  0], [+1, -1], [ 0, -1], 
 	 [-1,  0], [ 0, +1], [+1, +1]],
 ]
-
-var nature_walkable_cells = [0, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
-
-func oddr_offset_neighbor(hex, direction):
-	var parity = hex.y & 1
-	var diff = oddr_direction_differences[parity][direction]
-	return Vector2i(hex.x + diff[0], hex.y + diff[1])
 	
 func is_neighbour(hex, pos) : 
 	var parity = hex.y & 1
@@ -44,67 +76,85 @@ func cell_occupied(hex) :
 	return false
 	
 func can_walk(hex) : 
-	return get_cell_source_id(0, hex) == 22 && get_cell_atlas_coords(0, hex).x in nature_walkable_cells
+	return get_cell_source_id(0, hex) == 22 && get_cell_atlas_coords(0, hex).x in characters[turn].walkable_cells
 
 
 func reset_neighbours(hex) : 
 	for i in range(0, 6) :
-		var neighbour = oddr_offset_neighbor(hex, i)
+		var neighbour = _oddr_offset_neighbor(hex, i)
 		set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 0)
 
 func highlight_neighbours(hex) : 
 	for i in range(0, 6) :
-		var neighbour = oddr_offset_neighbor(hex, i)
+		var neighbour = _oddr_offset_neighbor(hex, i)
 		if can_walk(neighbour) : 
 			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 1)
 		if cell_occupied(neighbour) : 
 			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 3)
 
-func next_turn() : 
-	reset_neighbours(old_pos)
+func get_character(hex) -> CombatCharacter : 
+	for character in characters : 
+		if get_cell_coords(character.global_position) == hex : 
+			return character
+	return null
 
+func get_cell_coords(pos) : 
+	return local_to_map(to_local(pos))
+
+func get_cell_astar_id(cell_pos) : 
+	return cell_ids[get_cell_coords(cell_pos)]
+
+func next_turn() : 
 	print("turn : ", turn, "new turn : ", (turn + 1) % characters.size())
 	turn = (turn + 1) % characters.size()
+	characters[turn].take_turn()	
 
-	var player = characters[turn]
-	var player_pos = local_to_map(to_local(player.global_position))
-	highlight_neighbours(player_pos)
-	old_pos = player_pos
-			
-	
-func _input(event):
-	if not turn_finished : 
-		return
-
-	var player = characters[turn]
-	if event is InputEventMouseButton :
-		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
-			var click_pos = local_to_map(to_local(get_global_mouse_position()))
-			var player_pos = local_to_map(to_local(player.global_position))
-			if is_neighbour(player_pos, click_pos) && can_walk(click_pos) && !cell_occupied(click_pos): 
-				player.move_to(map_to_local(click_pos))
-				turn_finished = false
-				old_pos = player_pos
-			if is_neighbour(player_pos, click_pos) && cell_occupied(click_pos) : 
-				for character in characters : 
-					if local_to_map(to_local(character.global_position)) == click_pos : 
-						if character != player : 
-							character.take_damage(player.damage)
-							player.attack(to_local(character.global_position))
-							turn_finished = false
-							old_pos = player_pos
 
 func _on_target_reached() :
-	turn_finished = true
 	next_turn()
 
 func _on_character_died(character) : 
 	var char_index = characters.find(character)
 	characters.erase(character)
+
+	if character is PlayerCombatCharacter : 
+		player_count -= 1
+	else : 
+		enemy_count -= 1
+
 	print("turn : ", turn, " new turn : ", turn - 1)
 	if turn > char_index :
 		turn -= 1
-	if characters.size() == 1 : 
-		print("Game Over")
-		get_tree().quit()
-				
+	
+	if player_count == 0 :
+		print("You lost")
+		for enemy in characters : 
+			character.queue_free()
+		emit_signal("combat_ended", false)
+
+	elif enemy_count == 0 : 
+		print("You won")
+		emit_signal("combat_ended", true)
+
+func _oddr_offset_neighbor(hex, direction):
+	var parity = hex.y & 1
+	var diff = oddr_direction_differences[parity][direction]
+	return Vector2i(hex.x + diff[0], hex.y + diff[1])
+
+func _setup_astar():
+	var enemy_walkable_cells = [0, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
+	var id = 0
+
+	for hex in get_used_cells(0):
+		if get_cell_atlas_coords(0, hex).x in enemy_walkable_cells: # Assuming -1 is an invalid tile
+			astar.add_point(id, hex)
+			cell_ids[hex] = id
+			id += 1
+
+	for hex in cell_ids.keys():
+		for i in range(0, 6):
+			var neighbour = _oddr_offset_neighbor(hex, i)
+			if cell_ids.has(neighbour):
+				astar.connect_points(cell_ids[hex], cell_ids[neighbour], false)
+
+	print(astar.get_point_path(10, 12))

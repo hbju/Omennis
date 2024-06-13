@@ -14,14 +14,25 @@ var health: float = 100
 var max_health: float = 100
 var damage: float = 50
 
+var walkable_cells = null
+
+
+
+
 func move_to(new_target) : 
 	if not move_target :
 		move_target = new_target
-		
+
+
+
+
 func attack(new_target) :
 	if not attack_target :
 		attack_target = new_target
 		init_pos = position
+
+
+
 
 func _physics_process(delta):
 	if not move_target and not attack_target : 
@@ -32,6 +43,9 @@ func _physics_process(delta):
 	elif attack_target :
 		move_to_attack_target()
 
+
+
+
 func move_to_target() :
 	velocity = position.direction_to(move_target) * speed
 	if position.distance_to(move_target) > 50:
@@ -39,6 +53,9 @@ func move_to_target() :
 	else :
 		target_reached.emit()
 		move_target = null
+
+
+
 
 func move_to_attack_target() :		
 	z_index = 10
@@ -54,10 +71,19 @@ func move_to_attack_target() :
 			target_reached.emit()
 			attack_target = null
 
+
+
+
 func take_damage(damage_taken) :
 	health -= damage_taken
 	health_bar.value = (health / max_health) * health_bar.max_value
 	if health <= 0 :
 		queue_free()
 		character_died.emit(self)
+
+
+
+
+func take_turn() : 
+	assert(false, "take_turn not implemented")
 

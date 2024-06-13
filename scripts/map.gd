@@ -42,8 +42,6 @@ func _ready():
 		game_state.new_candidate(Character.new_rand())
 		game_state.recruit_candidate()
 
-		content_generator.generate_event("Generate a the event gall for when the player first arrives in Gall, the capital of the Kingdom of Gallia. The event should be a simple introduction to the city and its inhabitants. The player has the option to visit the inn where they can recruit a new party member, the adventurer's guild where they can accept quests, or to leave the city (id \"leave\")")
-
 func oddr_offset_neighbor(hex, direction):
 	var parity = hex.y & 1
 	var diff = oddr_direction_differences[parity][direction]
@@ -71,8 +69,11 @@ func _input(event):
 			if is_neighbour(player_pos, click_pos) && can_walk(click_pos): 
 				player.move_to(map_to_local(click_pos))
 				game_state.step_taken()
+
+func toggle_ui(state: bool) : 
+	$UI.visible = state
 	
-func _toggle_event_ui(body, event_id: String): 
+func _toggle_event_ui(_body, event_id: String): 
 	event_manager.enter_event(event_id)
 	
 func _toggle_party_ui(): 
@@ -95,5 +96,4 @@ func _on_random_event() :
 	event_manager.random_event_manager()
 	
 func _on_money_changed() : 
-	print("yo")
 	gold_amount.text = str(game_state.party_money) + "g"

@@ -1,65 +1,47 @@
 extends CombatCharacter
 class_name AICombatCharacter
 
-var tilemap: TileMap
+var map: CombatMap
 var player_units: Array
 var attack_range: int = 1
-var move_range: int = 2 # Number of tiles the enemy can move per turn
-
-var astar: AStar2D = AStar2D.new()
+var move_range: int = 1 # Number of tiles the enemy can move per turn
 
 func _ready():
-	tilemap = get_node("/root/map") # Adjust the path to your TileMap node
-	player_units = get_parent().get_node("player_characters").get_children() # Fill this with references to your player units
+	walkable_cells = [0, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
+	map = get_parent().get_parent().get_parent()
 
-	setup_astar()
+func set_player_units(units):
+	player_units = units
 
-func perform_turn():
-	var closest_player = get_closest_player()
+func take_turn():
+	var closest_player_and_path = get_closest_player_path()
+	var closest_player = closest_player_and_path[0]
+	var path = closest_player_and_path[1]
 	if closest_player:
-		var path = calculate_path_to_player(closest_player)
-		if path.size() > 0:
-			move_towards_player(path)
-			if is_within_attack_range(closest_player):
-				attack(closest_player)
+		if path.size() > 2:
+			print(path[1])
+			move_to(map.map_to_local(path[1]))
+		if path.size() == 2:
+			attack(map.to_local(closest_player.global_position))
+			closest_player.take_damage(damage)
 
-func get_closest_player():
-	var min_distance = INF
+
+func get_closest_player_path() -> Array:
 	var closest_player = null
+	var closest_path = null
 	for player in player_units:
-		var distance = tile_distance_to(player.global_position)
-		if distance < min_distance:
-			min_distance = distance
+		var path = calculate_path_to_player(player)
+		print(path)
+		var distance = path.size()
+		if  closest_path == null or distance < closest_path.size():
+			closest_path = path
 			closest_player = player
-	return closest_player
+	return [closest_player, closest_path]
 
-func calculate_path_to_player(player):
-	var start = tilemap.world_to_map(global_position)
-	var end = tilemap.world_to_map(player.global_position)
-	return astar.get_point_path(start, end)
+func calculate_path_to_player(player) -> PackedVector2Array:
+	var enemy_tile_id = map.cell_ids[map.get_cell_coords(global_position)]
+	var target_tile_id = map.cell_ids[map.get_cell_coords(player.global_position)]
+	return map.astar.get_point_path(enemy_tile_id, target_tile_id)
 
-func setup_astar():
-	for x in range(tilemap.get_used_rect().size.x):
-		for y in range(tilemap.get_used_rect().size.y):
-			var id = tilemap.get_cell(x, y)
-			if id != - 1: # Assuming -1 is an invalid tile
-				astar.add_point(tilemap.map_to_world(Vector2(x, y)), Vector2(x, y))
-				if x > 0 and astar.has_point(tilemap.map_to_world(Vector2(x - 1, y))):
-					astar.connect_points(tilemap.map_to_world(Vector2(x, y)), tilemap.map_to_world(Vector2(x - 1, y)))
-				if y > 0 and astar.has_point(tilemap.map_to_world(Vector2(x, y - 1))):
-					astar.connect_points(tilemap.map_to_world(Vector2(x, y)), tilemap.map_to_world(Vector2(x, y - 1)))
-
-func move_towards_player(path):
-	if path.size() > move_range:
-		path = path.slice(0, move_range + 1)
-	for i in range(1, path.size()):
-		move_to(path[i])
-
-func is_within_attack_range(player):
-	return tile_distance_to(player.global_position) <= attack_range
-
-func tile_distance_to(cell):
-	var enemy_tile = tilemap.world_to_map(global_position)
-	var target_tile = tilemap.world_to_map(cell)
-	return enemy_tile.distance_to(target_tile)
+	
 

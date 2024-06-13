@@ -1,9 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://de5n37s7ivoq6"]
+[gd_scene load_steps=5 format=3 uid="uid://de5n37s7ivoq6"]
 
 [ext_resource type="Texture2D" uid="uid://c8ag7tlvtsnyu" path="res://assets/terrain/nature_tiles.png" id="1_iej71"]
 [ext_resource type="Script" path="res://scripts/combat_map.gd" id="2_aloxe"]
-[ext_resource type="PackedScene" uid="uid://b8iy1w8skuh2v" path="res://scenes/combat_character.tscn" id="3_1a142"]
-[ext_resource type="PackedScene" uid="uid://d4ervltakupw2" path="res://scenes/ai_character.tscn" id="4_4wlnr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p72ej"]
 texture = ExtResource("1_iej71")
@@ -43,25 +41,15 @@ tile_shape = 3
 tile_size = Vector2i(1098, 1280)
 sources/22 = SubResource("TileSetAtlasSource_p72ej")
 
-[node name="Node2D" type="Node2D"]
+[node name="map" type="TileMap"]
 scale = Vector2(0.15, 0.15)
-
-[node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_l6rux")
 format = 2
 layer_0/tile_data = PackedInt32Array(1, 65558, 0, 65537, 22, 0, 131074, 65558, 0, 196610, 22, 0, 262147, 65558, 0, 327683, 22, 0, 327684, 22, 0, 393221, 22, 0, 393222, 22, 0, 458758, 65558, 0, 393223, 22, 0, 458759, 65558, 0, 458760, 65558, 0, 458761, 65558, 0, 393226, 22, 0, 393227, 65558, 0, 327691, 65558, 0, 262156, 65558, 0, 196620, 65558, 0, 131084, 65558, 0, 65548, 65558, 0, 65547, 65558, 0, 11, 65558, 0, -65526, 65558, 0, -131062, 65558, 0, -131063, 65558, 0, -131064, 65558, 0, -131065, 65558, 0, -131066, 65558, 0, -131067, 65558, 0, -65532, 65558, 0, -65533, 65558, 0, 3, 65558, 0, 2, 65558, 0, 65538, 22, 0, 131075, 22, 0, 196611, 22, 0, 196612, 22, 0, 196613, 22, 0, 196614, 22, 0, 131078, 65558, 0, 65542, 65558, 0, 6, 65558, 0, -65531, 65558, 0, -131068, 65558, 0, 4, 65558, 0, 65539, 22, 0, 131076, 22, 0, 262148, 22, 0, 262149, 22, 0, 131079, 22, 0, 65543, 22, 0, 8, 65558, 0, -65529, 65558, 0, -65530, 65558, 0, 5, 65558, 0, 65541, 22, 0, 7, 65558, 0, 131077, 22, 0, 65540, 22, 0, 327685, 22, 0, 327686, 22, 0, 262150, 22, 0, 327687, 22, 0, 393224, 22, 0, 327688, 65558, 0, 262151, 22, 0, 262152, 22, 0, 327689, 22, 0, 393225, 22, 0, 262153, 22, 0, 196616, 22, 0, 131080, 22, 0, 196615, 22, 0, 9, 65558, 0, -65528, 65558, 0, -65527, 65558, 0, 10, 65558, 0, 65545, 22, 0, 65546, 65558, 0, 65544, 22, 0, 131081, 22, 0, 131082, 22, 0, 196617, 22, 0, 262154, 22, 0, 327690, 65558, 0, 262155, 65558, 0, 196618, 65558, 0, 131083, 65558, 0, 196619, 65558, 0, -65534, 65558, 0, -65535, 65558, 0, -65536, 65558, 0, 0, 65558, 0, 131071, 65558, 0, 131072, 65558, 0, 262143, 65558, 0, 262144, 65558, 0, 393215, 65558, 0, 393216, 65558, 0, 524287, 65558, 0, 524288, 65558, 0, 655359, 65558, 0, 458752, 65558, 0, 458753, 65558, 0, 458754, 65558, 0, 458755, 65558, 0, 458756, 65558, 0, 458757, 65558, 0, 458762, 65558, 0, 458763, 65558, 0, 65536, 65558, 0, 131073, 22, 0, 196608, 22, 0, 196609, 22, 0, 262145, 22, 0, 327680, 22, 0, 327681, 22, 0, 262146, 22, 0, 327682, 22, 0, 393217, 22, 0, 393218, 22, 0, 393219, 22, 0, 393220, 22, 0, -1, 65558, 0, -65525, 65558, 0, 458751, 65558, 0, 327679, 65558, 0, 196607, 65558, 0, 65535, 65558, 0, 12, 65558, 0, 393228, 65558, 0, 524289, 65558, 0, 524290, 65558, 0, 524291, 65558, 0, 524292, 65558, 0, 524293, 65558, 0, 524294, 65558, 0, 524295, 65558, 0, 524296, 65558, 0, 524297, 65558, 0, 524298, 65558, 0, 524299, 65558, 0, -131061, 65558, 0, -131069, 65558, 0, -131070, 65558, 0, -131071, 65558, 0, -131072, 65558, 0)
 script = ExtResource("2_aloxe")
 
-[node name="characters" type="Node2D" parent="TileMap"]
+[node name="characters" type="Node2D" parent="."]
 
-[node name="player" parent="TileMap/characters" instance=ExtResource("3_1a142")]
-position = Vector2(7666.67, 5460)
-scale = Vector2(2.5, 2.5)
+[node name="player_characters" type="Node2D" parent="characters"]
 
-[node name="player2" parent="TileMap/characters" instance=ExtResource("4_4wlnr")]
-position = Vector2(8793.33, 5440)
-scale = Vector2(2.5, 2.5)
-
-[node name="enemy2" parent="TileMap/characters" instance=ExtResource("3_1a142")]
-position = Vector2(8233.34, 6440)
-scale = Vector2(2.5, 2.5)
+[node name="enemies" type="Node2D" parent="characters"]

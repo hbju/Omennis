@@ -41,7 +41,7 @@ func update_values():
 	if Engine.is_editor_hint():
 		if infos_label :
 			infos_label.text = character_name + ", " + character_class + "\n Lvl : " + str(character_level)
-			avatar_portrait.texture = load("res://assets/chars/" + ("female/female_" if character.sex == 1 else "male/male_") + "%02d" % character_portrait + ".png")
+			avatar_portrait.texture = load("res://assets/chars/" + ("female/female_" if character.char_sex == 1 else "male/male_") + "%02d" % character_portrait + ".png")
 			var char_class = Character.CLASSES.Warrior if character_class == "Warrior" else Character.CLASSES.Rogue if character_class == "Rogue" else Character.CLASSES.Mage
 			character = Character.new(character_name, char_class, character_portrait, 0, character_level)
 			character_changed.emit()
@@ -49,8 +49,8 @@ func update_values():
 
 func update_character(character: Character):
 	self.character = character
-	infos_label.text = character.name + ", " + Character.CLASSES.keys()[character.char_class] + "\n Lvl : " + str(character.character_level)
-	avatar_portrait.texture = load("res://assets/chars/"  + ("female/female_" if character.sex == 1 else "male/male_") + "%02d"  % character.char_portrait + ".png")
+	infos_label.text = character.name + ", " + Character.CLASSES.keys()[character.char_class] + "\n Lvl : " + str(character.char_level)
+	avatar_portrait.texture = load("res://assets/chars/"  + ("female/female_" if character.char_sex == 1 else "male/male_") + "%02d"  % character.char_portrait + ".png")
 	
 func _on_delete_button_pressed(): 
 	fire_character.emit()

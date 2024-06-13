@@ -31,6 +31,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w1j62")
+debug_fight = null
 
 [node name="bg" type="TextureRect" parent="."]
 layout_mode = 1
@@ -220,7 +221,7 @@ label_settings = SubResource("LabelSettings_qsvt1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="fight_button" type="Button" parent="bg/bg"]
+[node name="simulation_button" type="Button" parent="bg/bg"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -231,6 +232,21 @@ offset_left = -128.0
 offset_top = -32.0
 offset_right = 128.0
 offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Simulate"
+
+[node name="fight_button" type="Button" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -110.0
+offset_right = 128.0
+offset_bottom = -46.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Fight"

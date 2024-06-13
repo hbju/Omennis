@@ -5,12 +5,12 @@ var fight_ui: FightUI
 var game_state: GameState
 var curr_fight: String
 
-func _init(event_ui: EventUI, fight_ui: FightUI, game_state: GameState) :
-	self.event_ui = event_ui
-	self.fight_ui = fight_ui
+func _init(_event_ui: EventUI, _fight_ui: FightUI, _game_state: GameState) :
+	self.event_ui = _event_ui
+	self.fight_ui = _fight_ui
 	event_ui.resolve_event.connect(event_manager)
 	fight_ui.resolve_fight.connect(exit_fight)
-	self.game_state = game_state
+	self.game_state = _game_state
 
 func event_manager(event_id: String) : 
 	match event_id : 
@@ -44,7 +44,7 @@ func event_manager(event_id: String) :
 			
 		# Cauldron Moutains
 		"cm_fight" : 
-			enter_fight(EnemyGroup.new("Mountain Drakes", EnemyGroup.CLASSES.None, 1, 2, 1), event_id)
+			enter_fight(EnemyGroup.new("Mountain Drakes", Enemy.CLASSES.None, 1, 2, 1), event_id)
 		"cm_fight_victory" :
 			game_state.accomplish_quest(1)
 			event_ui.show_event(event_id)
@@ -55,7 +55,7 @@ func event_manager(event_id: String) :
 			
 		# Whispering Hollow
 		"wh_first_fight" : 
-			enter_fight(EnemyGroup.new("Cultists", EnemyGroup.CLASSES.Mage, 2, 4, 2), event_id)
+			enter_fight(EnemyGroup.new("Cultists", Enemy.CLASSES.Mage, 2, 2, 4), event_id)
 		"wh_first_fight_victory" : 
 			game_state.receive_experience(1000)
 			event_ui.show_event(event_id)
@@ -63,7 +63,7 @@ func event_manager(event_id: String) :
 			game_state.receive_experience(400)
 			event_ui.show_event(event_id)
 		"wh_leader_fight" : 
-			enter_fight(EnemyGroup.new("Cultist Leader", EnemyGroup.CLASSES.Mage, 2, 1, 5), event_id)
+			enter_fight(EnemyGroup.new("Cultist Leader", Enemy.CLASSES.Mage, 2, 7, 1), event_id)
 		"wh_leader_fight_victory" : 
 			game_state.accomplish_quest(2)
 			game_state.receive_experience(1000)

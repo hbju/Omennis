@@ -18,3 +18,6 @@ func _physics_process(delta):
 	else :
 		target_reached.emit()
 		target = null
+
+func toggle_camera() : 
+	$Camera2D.enabled = not $Camera2D.enabled

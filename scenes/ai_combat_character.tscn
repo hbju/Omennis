@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8iy1w8skuh2v"]
+[gd_scene load_steps=9 format=3 uid="uid://7ruoao68t0vm"]
 
-[ext_resource type="Script" path="res://scripts/combat_character.gd" id="1_7e84u"]
-[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_j7j7e"]
-[ext_resource type="Texture2D" uid="uid://b818jtm4d4and" path="res://assets/ui/fight_ui/enemies/monster_02.png" id="3_1fhkk"]
+[ext_resource type="Script" path="res://scripts/ai_combat_character.gd" id="1_u8wva"]
+[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_2uaoh"]
+[ext_resource type="Texture2D" uid="uid://b818jtm4d4and" path="res://assets/ui/fight_ui/enemies/monster_02.png" id="3_4dkge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
 size = Vector2(296, 294)
@@ -23,17 +23,17 @@ gradient = SubResource("Gradient_0iyvg")
 position = Vector2(811, 433)
 scale = Vector2(2.5, 2.5)
 collision_layer = 0
-script = ExtResource("1_7e84u")
+script = ExtResource("1_u8wva")
 
 [node name="sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_j7j7e")
+texture = ExtResource("2_2uaoh")
 
 [node name="sprite2" type="Sprite2D" parent="sprite"]
 z_index = 1
 position = Vector2(7.62939e-05, 3.25441e-05)
 scale = Vector2(2.83854, 2.83854)
-texture = ExtResource("3_1fhkk")
+texture = ExtResource("3_4dkge")
 
 [node name="collision" type="CollisionShape2D" parent="."]
 z_index = -1
