@@ -39,7 +39,7 @@ func _ready():
 	
 	if testing :
 		game_state.accept_quest(1)
-		game_state.new_candidate(Character.new_rand())
+		game_state.new_candidate(PartyMember.new_rand())
 		game_state.recruit_candidate()
 
 func oddr_offset_neighbor(hex, direction):

@@ -8,21 +8,24 @@ var init_pos = null
 signal target_reached
 
 @onready var health_bar = $health_bar
+@onready var character_portrait = $character_portrait_bg/character_portrait
 signal character_died(character)
+
+var character: Character
 
 var health: float = 100
 var max_health: float = 100
 var damage: float = 50
 
-var walkable_cells = null
+var walkable_cells: Array[int] = []
 
-
+func _ready() : 
+	character_portrait.texture = load(character.get_portrait_path())
 
 
 func move_to(new_target) : 
 	if not move_target :
 		move_target = new_target
-
 
 
 
@@ -34,7 +37,7 @@ func attack(new_target) :
 
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not move_target and not attack_target : 
 		return
 

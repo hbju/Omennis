@@ -32,7 +32,7 @@ signal fire_character
 		character_portrait = value
 		update_values()
 
-var character: Character
+var party_member: PartyMember
 
 func _ready() : 
 	delete_button.pressed.connect(_on_delete_button_pressed)
@@ -41,16 +41,17 @@ func update_values():
 	if Engine.is_editor_hint():
 		if infos_label :
 			infos_label.text = character_name + ", " + character_class + "\n Lvl : " + str(character_level)
-			avatar_portrait.texture = load("res://assets/chars/" + ("female/female_" if character.char_sex == 1 else "male/male_") + "%02d" % character_portrait + ".png")
-			var char_class = Character.CLASSES.Warrior if character_class == "Warrior" else Character.CLASSES.Rogue if character_class == "Rogue" else Character.CLASSES.Mage
-			character = Character.new(character_name, char_class, character_portrait, 0, character_level)
+			var char_class = party_member.CLASSES.Warrior if character_class == "Warrior" else party_member.CLASSES.Rogue if character_class == "Rogue" else party_member.CLASSES.Mage
+			party_member = PartyMember.new(character_name, char_class, character_portrait, character_level, 0)
+			avatar_portrait.texture = load(party_member.get_portrait_path())
+
 			character_changed.emit()
 
 
-func update_character(character: Character):
-	self.character = character
-	infos_label.text = character.name + ", " + Character.CLASSES.keys()[character.char_class] + "\n Lvl : " + str(character.char_level)
-	avatar_portrait.texture = load("res://assets/chars/"  + ("female/female_" if character.char_sex == 1 else "male/male_") + "%02d"  % character.char_portrait + ".png")
+func update_character(_party_member: PartyMember):
+	self.party_member = _party_member
+	infos_label.text = party_member.character_name + ", " + party_member.CLASSES.keys()[party_member.character_class] + "\n Lvl : " + str(party_member.character_level)
+	avatar_portrait.texture = load(party_member.get_portrait_path())
 	
 func _on_delete_button_pressed(): 
 	fire_character.emit()

@@ -9,7 +9,7 @@ func move_to(new_target) :
 	if not target :
 		target = new_target
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not target : 
 		return
 	velocity = position.direction_to(target) * speed

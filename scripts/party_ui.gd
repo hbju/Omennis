@@ -16,7 +16,7 @@ func _ready() :
 	displays[3].fire_character.connect(_on_fire_character.bind(3))
 
 # Called when the node enters the scene tree for the first time.
-func update_ui(party: Array[Character]) :
+func update_ui(party: Array[PartyMember]) :
 	for i in range(0, party.size()):
 		displays[i].update_character(party[i])
 		displays[i].visible = true

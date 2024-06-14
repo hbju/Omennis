@@ -15,11 +15,11 @@ class_name FightUI
 	set(value) : 
 		_debug_fight()
 
-signal launch_fight(party: Array[Character], enemy_group: EnemyGroup)
+signal launch_fight(party: Array[PartyMember], enemy_group: EnemyGroup)
 signal resolve_fight(fight_ccl: String)
 var fight_result = false
 
-var party: Array[Character]
+var party: Array[PartyMember]
 var enemy_group: EnemyGroup
 
 var party_strength: float
@@ -37,7 +37,7 @@ func _ready() :
 	simulation_button.pressed.connect(_on_simulate_button_pressed)
 	
 	
-func update_ui(_party: Array[Character], _enemy_group: EnemyGroup) :
+func update_ui(_party: Array[PartyMember], _enemy_group: EnemyGroup) :
 	self.party = _party
 	self.enemy_group = _enemy_group
 	
@@ -83,14 +83,14 @@ func _get_advantage_factor(attacker_class, defender_class):
 func _calculate_party_strength():
 	var total_strength = 0
 	for member in party:
-		var advantage_factor = _get_advantage_factor(member.get_char_class(), enemy_group.enemies[0].get_enemy_class())
-		var member_strength = member.char_level * advantage_factor
+		var advantage_factor = _get_advantage_factor(member.get_char_class(), enemy_group.enemy.get_char_class())
+		var member_strength = member.character_level * advantage_factor
 		total_strength += member_strength
 	return total_strength
 
 # Calculate the total effective strength of an enemy group
 func _calculate_enemy_strength():
-	return enemy_group.enemy_level * enemy_group.enemies.size()
+	return enemy_group.enemy.character_level * enemy_group.enemies.size()
 
 # Simulate the fight
 func _simulate_fight() -> bool:
@@ -130,13 +130,13 @@ func _debug_fight() :
 		party = []
 		for char_display in party_display.get_children() : 
 			char_display = char_display as Character_Display 
-			party.append(char_display.character)
+			party.append(char_display.party_member)
 			
 		enemy_group = enemies_display.enemy_group
 		
 		party_strength = _calculate_party_strength()
 		enemy_strength = _calculate_enemy_strength()
-		print(enemy_group.get_enemy_group_class())
+		print(enemy_group.enemy.get_char_class())
 		print(str(party_strength) + " " + str(enemy_strength))
 	
 		var odds: int =  round(_calculate_odds(500000) * 100)

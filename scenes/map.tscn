@@ -76,7 +76,7 @@ testing = true
 
 [node name="player" parent="." instance=ExtResource("3_0caf0")]
 z_index = 10
-position = Vector2(540, 660)
+position = Vector2(3833.33, -1206.67)
 scale = Vector2(2, 2)
 
 [node name="gall" parent="." instance=ExtResource("5_p7rx4")]
@@ -106,7 +106,6 @@ z_index = 2
 
 [node name="fight_ui" parent="UI" instance=ExtResource("10_14wst")]
 visible = false
-debug_fight = false
 
 [node name="party_button" type="TextureButton" parent="UI"]
 anchors_preset = 1

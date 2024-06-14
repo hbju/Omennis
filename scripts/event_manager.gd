@@ -44,7 +44,7 @@ func event_manager(event_id: String) :
 			
 		# Cauldron Moutains
 		"cm_fight" : 
-			enter_fight(EnemyGroup.new("Mountain Drakes", Enemy.CLASSES.None, 1, 2, 1), event_id)
+			enter_fight(EnemyGroup.new("Mountain Drakes", Character.CLASSES.None, 1, 2, 1), event_id)
 		"cm_fight_victory" :
 			game_state.accomplish_quest(1)
 			event_ui.show_event(event_id)
@@ -55,7 +55,7 @@ func event_manager(event_id: String) :
 			
 		# Whispering Hollow
 		"wh_first_fight" : 
-			enter_fight(EnemyGroup.new("Cultists", Enemy.CLASSES.Mage, 2, 2, 4), event_id)
+			enter_fight(EnemyGroup.new("Cultists", Character.CLASSES.Mage, 2, 2, 3), event_id)
 		"wh_first_fight_victory" : 
 			game_state.receive_experience(1000)
 			event_ui.show_event(event_id)
@@ -63,7 +63,7 @@ func event_manager(event_id: String) :
 			game_state.receive_experience(400)
 			event_ui.show_event(event_id)
 		"wh_leader_fight" : 
-			enter_fight(EnemyGroup.new("Cultist Leader", Enemy.CLASSES.Mage, 2, 7, 1), event_id)
+			enter_fight(EnemyGroup.new("Cultist Leader", Character.CLASSES.Mage, 2, 7, 1), event_id)
 		"wh_leader_fight_victory" : 
 			game_state.accomplish_quest(2)
 			game_state.receive_experience(1000)
@@ -91,9 +91,9 @@ func enter_event(event_id: String) :
 	game_state.in_event = true
 	
 func display_new_member() :
-	var candidate: Character = Character.new_rand()
+	var candidate: PartyMember = PartyMember.new_rand()
 	game_state.new_candidate(candidate)
-	var candidate_array: Array[Character] = [candidate]
+	var candidate_array: Array[PartyMember] = [candidate]
 	event_ui.show_event("gall_new_member", candidate_array)
 	
 	

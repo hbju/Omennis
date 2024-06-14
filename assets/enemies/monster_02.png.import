@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://24c2etikrbk5"
-path="res://.godot/imported/monster_01.png-3b15428f8039f7a35517afe4cebccbfb.ctex"
+uid="uid://b818jtm4d4and"
+path="res://.godot/imported/monster_02.png-a11084cf9130601c5338402c9abddea1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/fight_ui/enemies/monster_01.png"
-dest_files=["res://.godot/imported/monster_01.png-3b15428f8039f7a35517afe4cebccbfb.ctex"]
+source_file="res://assets/enemies/monster_02.png"
+dest_files=["res://.godot/imported/monster_02.png-a11084cf9130601c5338402c9abddea1.ctex"]
 
 [params]
 

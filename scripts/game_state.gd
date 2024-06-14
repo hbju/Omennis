@@ -2,8 +2,8 @@ extends Node
 class_name GameState
 
 var player_coords: Vector2
-var party: Array[Character]
-var curr_candidate: Character
+var party: Array[PartyMember]
+var curr_candidate: PartyMember
 const PARTY_MAX_NUMBER = 4
 
 enum QUEST_STATE {Accepted, Accomplished, Turned}
@@ -19,7 +19,7 @@ var steps_until_event: int = randi_range(12, 20)
 signal random_event
 
 func _ready():
-	party.append(Character.new_rand())
+	party.append(PartyMember.new_rand())
 	
 	
 ## PARTY LOGIC 
@@ -27,7 +27,7 @@ func recruit_candidate() :
 	party.append(curr_candidate)
 	curr_candidate = null
 	
-func new_candidate(candidate: Character): 
+func new_candidate(candidate: PartyMember): 
 	curr_candidate = candidate
 
 func receive_experience(experience: int) : 

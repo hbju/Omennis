@@ -25,7 +25,7 @@ func _ready():
 	show_event("gall")
 
 		
-func show_event(event_id: String, characters: Array[Character] = [], random: bool = false) :
+func show_event(event_id: String, characters: Array[PartyMember] = [], random: bool = false) :
 	if ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + event_id + ".png") :
 		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + event_id + ".png")
 	
@@ -81,17 +81,17 @@ func get_event_data(event_id: String, random: bool) -> Resource :
 func on_possibilities_buttons_pressed(event_conclusion: String) :
 	resolve_event.emit(event_conclusion)
 	
-func process_text(raw_text: String, characters: Array[Character]) -> String:
+func process_text(raw_text: String, party: Array[PartyMember]) -> String:
 	var new_text: String = raw_text
-	for i  in range(0, characters.size()):
-		new_text = new_text.replace("[Name " + str(i) + "]", characters[i].name)
-		new_text = new_text.replace("[Class " + str(i) + "]", characters[i].get_char_class())
-		new_text = new_text.replace("[he/she/they " + str(i) + "]", "he" if characters[i].char_sex == Character.SEX.Male else "she" if characters[i].char_sex == Character.SEX.Female else "they")
-		new_text = new_text.replace("[his/her/their " + str(i) + "]", "his" if characters[i].char_sex == Character.SEX.Male else "her" if characters[i].char_sex == Character.SEX.Female else "their")
-		new_text = new_text.replace("[him/her/them " + str(i) + "]", "him" if characters[i].char_sex == Character.SEX.Male else "her" if characters[i].char_sex == Character.SEX.Female else "them")
+	for i  in range(0, party.size()):
+		new_text = new_text.replace("[Name " + str(i) + "]", party[i].character_name)
+		new_text = new_text.replace("[Class " + str(i) + "]", party[i].get_char_class())
+		new_text = new_text.replace("[he/she/they " + str(i) + "]", "he" if party[i].character_sex == PartyMember.SEX.Male else "she" if party[i].character_sex == PartyMember.SEX.Female else "they")
+		new_text = new_text.replace("[his/her/their " + str(i) + "]", "his" if party[i].character_sex == PartyMember.SEX.Male else "her" if party[i].character_sex == PartyMember.SEX.Female else "their")
+		new_text = new_text.replace("[him/her/them " + str(i) + "]", "him" if party[i].character_sex == PartyMember.SEX.Male else "her" if party[i].character_sex == PartyMember.SEX.Female else "them")
 	return new_text
 	
-func _process(delta):
+func _process(_delta):
 	card_description_label.position.y = 0
 
 

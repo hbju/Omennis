@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/fight_ui.gd" id="1_w1j62"]
 [ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_4ir65"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
-[ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/ui/fight_ui/enemies/monster_01.png" id="5_dreb0"]
+[ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="6_e1ypk"]
 [ext_resource type="Script" path="res://scripts/enemies_display.gd" id="6_nmvit"]
 
 [sub_resource type="SystemFont" id="SystemFont_rkucr"]
@@ -31,7 +31,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w1j62")
-debug_fight = null
 
 [node name="bg" type="TextureRect" parent="."]
 layout_mode = 1
@@ -199,7 +198,7 @@ offset_right = 128.0
 offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_dreb0")
+texture = ExtResource("6_e1ypk")
 flip_h = true
 
 [node name="enemy_description" type="Label" parent="bg/bg/enemies_display"]

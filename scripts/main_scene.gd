@@ -14,7 +14,7 @@ func _ready():
 	combat_scene.combat_ended.connect(_end_combat)
 
 
-func lauch_combat(party: Array[Character], enemies: EnemyGroup): 
+func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup): 
 	combat_scene.visible = true
 	overworld.visible = false
 	overworld.toggle_ui(false)

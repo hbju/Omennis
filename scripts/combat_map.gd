@@ -1,6 +1,8 @@
 extends TileMap
 class_name CombatMap
 
+@export var debug_mode: bool = false
+
 var astar: AStar2D = AStar2D.new()
 var cell_ids: Dictionary = {}
 
@@ -9,20 +11,18 @@ var turn = -1
 var player_count = 0
 var enemy_count = 0
 
-var enemyCharacter = preload("res://scenes/ai_combat_character.tscn")
-var playerCharacter = preload("res://scenes/player_combat_character.tscn")
-
 signal combat_ended(victory: bool)
 
 func _ready():
-	pass
-	#enter_combat([Character.new_rand()], [Enemy.new("Dark Cultist", 1, 2, 2)])
+	if debug_mode : 
+		enter_combat([PartyMember.new_rand()], [Character.new("Dark Cultist", 1, 2, 2)])
 
 
-func enter_combat(party: Array[Character], enemies: Array[Enemy]) : 
+func enter_combat(party: Array[PartyMember], enemies: Array[Character]) : 
 
 	for character in characters : 
 		character.queue_free()
+	characters.clear()
 
 	player_count = party.size()
 	enemy_count = enemies.size()
@@ -30,7 +30,7 @@ func enter_combat(party: Array[Character], enemies: Array[Enemy]) :
 	var player_characters = []
 	for i in range(0, max(party.size(), enemies.size())) : 
 		if i < party.size() : 
-			var player: CombatCharacter = playerCharacter.instantiate()
+			var player: CombatCharacter = PlayerCombatCharacter.new_character(party[i])
 			get_node("characters/player_characters").add_child(player)
 			player.position = map_to_local(Vector2i(i + 1, 6))
 			player_characters.append(player)
@@ -40,11 +40,12 @@ func enter_combat(party: Array[Character], enemies: Array[Enemy]) :
 			player.character_died.connect(_on_character_died)
 
 		if i < enemies.size() : 
-			var enemy: CombatCharacter = enemyCharacter.instantiate()
+			var enemy: CombatCharacter = AICombatCharacter.new_character(enemies[i])
 			get_node("characters/enemies").add_child(enemy)
 			enemy.position = map_to_local(Vector2i(9 - i, 1))
 
 			characters.append(enemy)
+			enemy.changed_cell.connect(_on_enemy_cell_changed)
 			enemy.target_reached.connect(_on_target_reached)
 			enemy.character_died.connect(_on_character_died)	
 			enemy.set_player_units(player_characters)
@@ -71,9 +72,15 @@ func is_neighbour(hex, pos) :
 
 func cell_occupied(hex) : 
 	for character in characters : 
-		if local_to_map(to_local(character.global_position)) == hex : 
+		if get_cell_coords(character.global_position) == hex : 
 			return true
 	return false
+
+func enemy_in_cell(hex) -> CombatCharacter: 
+	for character in characters : 
+		if character is AICombatCharacter && get_cell_coords(character.global_position) == hex : 
+			return character
+	return null
 	
 func can_walk(hex) : 
 	return get_cell_source_id(0, hex) == 22 && get_cell_atlas_coords(0, hex).x in characters[turn].walkable_cells
@@ -87,10 +94,22 @@ func reset_neighbours(hex) :
 func highlight_neighbours(hex) : 
 	for i in range(0, 6) :
 		var neighbour = _oddr_offset_neighbor(hex, i)
-		if can_walk(neighbour) : 
+		if can_walk(neighbour) && !cell_occupied(neighbour): 
 			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 1)
-		if cell_occupied(neighbour) : 
+		if enemy_in_cell(neighbour) : 
 			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 3)
+
+func get_random_walkable_neighbor(hex: Vector2i, walkable_cells: Array[int]) -> Vector2i : 
+	var parity = hex.y & 1
+	var possible_neighbours = []
+	for i in range(0, 6) :
+		var diff = oddr_direction_differences[parity][i]
+		var neighbour = Vector2i(hex.x + diff[0], hex.y + diff[1])
+		if walkable_cells.has(get_cell_atlas_coords(0, neighbour).x) && !cell_occupied(neighbour) : 
+			possible_neighbours.append(neighbour)
+	if possible_neighbours.size() == 0 : 
+		return Vector2i(-INF, -INF)
+	return possible_neighbours[randi() % possible_neighbours.size()]
 
 func get_character(hex) -> CombatCharacter : 
 	for character in characters : 
@@ -158,3 +177,7 @@ func _setup_astar():
 				astar.connect_points(cell_ids[hex], cell_ids[neighbour], false)
 
 	print(astar.get_point_path(10, 12))
+
+func _on_enemy_cell_changed(from: Vector2i, to: Vector2i) : 
+	astar.set_point_disabled(cell_ids[from], false)
+	astar.set_point_disabled(cell_ids[to], true)
