@@ -15,7 +15,7 @@ signal combat_ended(victory: bool)
 
 func _ready():
 	if debug_mode : 
-		enter_combat([PartyMember.new_rand()], [Character.new("Dark Cultist", 1, 2, 2)])
+		enter_combat([PartyMember.new_rand(), PartyMember.new_rand()], [Character.new("Dark Cultist", 1, 2, 2)])
 
 
 func enter_combat(party: Array[PartyMember], enemies: Array[Character]) : 
@@ -32,7 +32,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 		if i < party.size() : 
 			var player: CombatCharacter = PlayerCombatCharacter.new_character(party[i])
 			get_node("characters/player_characters").add_child(player)
-			player.position = map_to_local(Vector2i(i + 1, 6))
+			player.position = map_to_local(Vector2i(i + 1, 4))
 			player_characters.append(player)
 
 			characters.append(player)
@@ -53,6 +53,11 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 	_setup_astar()
 
 	next_turn()
+
+func next_turn() : 
+	print("turn : ", turn, " new turn : ", (turn + 1) % characters.size())
+	turn = (turn + 1) % characters.size()
+	characters[turn].take_turn()	
 
 var oddr_direction_differences = [
 	[[+1,  0], [ 0, -1], [-1, -1], 
@@ -123,10 +128,8 @@ func get_cell_coords(pos) :
 func get_cell_astar_id(cell_pos) : 
 	return cell_ids[get_cell_coords(cell_pos)]
 
-func next_turn() : 
-	print("turn : ", turn, "new turn : ", (turn + 1) % characters.size())
-	turn = (turn + 1) % characters.size()
-	characters[turn].take_turn()	
+func toggle_ui() : 
+	$UI.visible = !$UI.visible
 
 
 func _on_target_reached() :

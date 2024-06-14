@@ -7,6 +7,7 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	combat_scene.visible = false
+	combat_scene.toggle_ui()
 	overworld.visible = true
 	overworld.toggle_ui(true)
 
@@ -16,6 +17,7 @@ func _ready():
 
 func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup): 
 	combat_scene.visible = true
+	combat_scene.toggle_ui()
 	overworld.visible = false
 	overworld.toggle_ui(false)
 	overworld.player.toggle_camera()
@@ -25,6 +27,7 @@ func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
 
 func _end_combat(result: bool):
 	combat_scene.visible = false
+	combat_scene.toggle_ui()
 	overworld.visible = true
 	overworld.toggle_ui(true)
 	overworld.player.toggle_camera()

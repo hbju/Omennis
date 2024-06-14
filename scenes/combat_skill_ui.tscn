@@ -1,0 +1,93 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyw8duvfrq3mb"]
+
+[ext_resource type="Texture2D" uid="uid://cc7ybuojvbhyf" path="res://assets/ui/fight_ui/combat_skills_bg.png" id="1_3w51x"]
+[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_xg045"]
+[ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_attack.PNG" id="3_sudfy"]
+
+[node name="skill_bar" type="TextureRect"]
+offset_left = 47.0
+offset_top = 803.0
+offset_right = 1875.0
+offset_bottom = 1049.0
+texture = ExtResource("1_3w51x")
+expand_mode = 1
+
+[node name="skill_button_1" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1100.0
+offset_top = 45.0
+offset_right = 1250.0
+offset_bottom = 195.0
+texture_normal = ExtResource("2_xg045")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon_1" type="TextureRect" parent="skill_button_1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_sudfy")
+expand_mode = 1
+
+[node name="skill_button_2" type="TextureButton" parent="."]
+modulate = Color(0.408329, 0.408329, 0.408329, 1)
+offset_left = 1300.0
+offset_top = 45.0
+offset_right = 1450.0
+offset_bottom = 195.0
+texture_normal = ExtResource("2_xg045")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon_2" type="TextureRect" parent="skill_button_2"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_sudfy")
+expand_mode = 1
+
+[node name="skill_icon_3" type="TextureButton" parent="."]
+modulate = Color(0.407843, 0.407843, 0.407843, 1)
+offset_left = 1500.0
+offset_top = 45.0
+offset_right = 1650.0
+offset_bottom = 195.0
+texture_normal = ExtResource("2_xg045")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon_3" type="TextureRect" parent="skill_icon_3"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_sudfy")
+expand_mode = 1

@@ -4,7 +4,7 @@ class_name CombatCharacter
 var move_target = null
 var attack_target = null
 var init_pos = null
-@export var speed: int = 800
+@export var speed: int = 600
 signal target_reached
 
 @onready var health_bar = $health_bar

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://7ruoao68t0vm"]
 
-[ext_resource type="Script" path="res://scripts/ai_combat_character.gd" id="1_u8wva"]
+[ext_resource type="Script" path="res://scripts/combat/ai_combat_character.gd" id="1_p787k"]
 [ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_2uaoh"]
 [ext_resource type="Texture2D" uid="uid://b818jtm4d4and" path="res://assets/enemies/monster_02.png" id="3_vmbuy"]
 
@@ -23,7 +23,7 @@ gradient = SubResource("Gradient_0iyvg")
 position = Vector2(811, 433)
 scale = Vector2(2.5, 2.5)
 collision_layer = 0
-script = ExtResource("1_u8wva")
+script = ExtResource("1_p787k")
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)

@@ -9,5 +9,6 @@ script = ExtResource("1_vjedo")
 
 [node name="combat_scene" parent="." instance=ExtResource("14_k6hqc")]
 visible = false
+debug_mode = null
 
 [node name="overworld" parent="." instance=ExtResource("2_4cta6")]

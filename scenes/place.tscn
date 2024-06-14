@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdrsfqh46wpr2"]
 
-[ext_resource type="Script" path="res://scripts/place.gd" id="1_vgmqp"]
+[ext_resource type="Script" path="res://scripts/overworld/place.gd" id="1_gh2pi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0t7k4"]
 radius = 797.569
 
 [node name="place" type="Area2D"]
 scale = Vector2(0.5, 0.5)
-script = ExtResource("1_vgmqp")
+script = ExtResource("1_gh2pi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
