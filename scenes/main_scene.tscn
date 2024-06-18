@@ -11,3 +11,4 @@ script = ExtResource("1_vjedo")
 visible = false
 
 [node name="overworld" parent="." instance=ExtResource("2_4cta6")]
+z_index = -100

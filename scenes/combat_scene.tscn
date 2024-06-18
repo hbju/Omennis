@@ -9,12 +9,14 @@ texture = ExtResource("1_iej71")
 margins = Vector2i(7, 0)
 separation = Vector2i(12, 0)
 texture_region_size = Vector2i(1098, 1280)
-0:0/next_alternative_id = 4
+0:0/next_alternative_id = 5
 0:0/0 = 0
 0:0/1 = 1
 0:0/1/modulate = Color(0.783523, 0.783523, 0.783523, 1)
 0:0/3 = 3
-0:0/3/modulate = Color(1, 0.568015, 0.532648, 1)
+0:0/3/modulate = Color(0.999992, 0.39293, 0.367945, 1)
+0:0/4 = 4
+0:0/4/modulate = Color(1, 0.646115, 0.612919, 1)
 1:0/0 = 0
 2:0/0 = 0
 21:0/0 = 0
@@ -43,6 +45,7 @@ tile_size = Vector2i(1098, 1280)
 sources/22 = SubResource("TileSetAtlasSource_p72ej")
 
 [node name="map" type="TileMap"]
+z_index = -100
 scale = Vector2(0.15, 0.15)
 tile_set = SubResource("TileSet_l6rux")
 format = 2
@@ -51,6 +54,7 @@ script = ExtResource("2_dfckw")
 debug_mode = true
 
 [node name="characters" type="Node2D" parent="."]
+z_index = 1
 
 [node name="player_characters" type="Node2D" parent="characters"]
 

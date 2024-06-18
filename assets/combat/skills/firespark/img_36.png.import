@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7o3a8tlw6qhr"
-path="res://.godot/imported/basic_attack.PNG-b7783acdc3394133c9cc31bf3a915005.ctex"
+uid="uid://cr23guyspxbgx"
+path="res://.godot/imported/img_36.png-4f48c514fc42af8ced5f1a975100a9a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/skills/basic_attack.PNG"
-dest_files=["res://.godot/imported/basic_attack.PNG-b7783acdc3394133c9cc31bf3a915005.ctex"]
+source_file="res://assets/combat/skills/firespark/img_36.png"
+dest_files=["res://.godot/imported/img_36.png-4f48c514fc42af8ced5f1a975100a9a2.ctex"]
 
 [params]
 

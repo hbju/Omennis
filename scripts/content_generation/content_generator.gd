@@ -34,7 +34,7 @@ func generate_event(prompt: String):
     var json_data = JSON.stringify(data)
     http_request.request(url, headers, HTTPClient.METHOD_POST, json_data)
 
-func _on_request_completed(result, response_code, headers, body):
+func _on_request_completed(_result, response_code, _headers, body):
     print("Response code: ", response_code)
     print("Response body: ", body.get_string_from_utf8())
     if response_code == 200:

@@ -1,0 +1,190 @@
+[gd_scene load_steps=44 format=3 uid="uid://f0widx1xsh6f"]
+
+[ext_resource type="Texture2D" uid="uid://b53mqagif6xqx" path="res://assets/combat/skills/firespark/img_0.png" id="1_n32x1"]
+[ext_resource type="Texture2D" uid="uid://cvlpejo4q80rb" path="res://assets/combat/skills/firespark/img_1.png" id="2_y7bek"]
+[ext_resource type="Texture2D" uid="uid://c65kwdry1c3to" path="res://assets/combat/skills/firespark/img_2.png" id="3_sswge"]
+[ext_resource type="Texture2D" uid="uid://c52kn670acbw1" path="res://assets/combat/skills/firespark/img_3.png" id="4_xhj88"]
+[ext_resource type="Texture2D" uid="uid://b82w3kv7gkulw" path="res://assets/combat/skills/firespark/img_4.png" id="5_uvvbk"]
+[ext_resource type="Texture2D" uid="uid://crr0vt1xqejxy" path="res://assets/combat/skills/firespark/img_5.png" id="6_7qkga"]
+[ext_resource type="Texture2D" uid="uid://c5teumr6xfllv" path="res://assets/combat/skills/firespark/img_6.png" id="7_cfukx"]
+[ext_resource type="Texture2D" uid="uid://c3bnxs3hi1hjt" path="res://assets/combat/skills/firespark/img_7.png" id="8_6jbqw"]
+[ext_resource type="Texture2D" uid="uid://6ofgvno1eq7b" path="res://assets/combat/skills/firespark/img_8.png" id="9_41461"]
+[ext_resource type="Texture2D" uid="uid://dcdkg6dsji1jy" path="res://assets/combat/skills/firespark/img_9.png" id="10_itcq8"]
+[ext_resource type="Texture2D" uid="uid://buguuica3ledx" path="res://assets/combat/skills/firespark/img_10.png" id="11_0xf47"]
+[ext_resource type="Texture2D" uid="uid://gijke8xcpkq3" path="res://assets/combat/skills/firespark/img_11.png" id="12_6fb6a"]
+[ext_resource type="Texture2D" uid="uid://dv0bo3oy0nty7" path="res://assets/combat/skills/firespark/img_12.png" id="13_xums8"]
+[ext_resource type="Texture2D" uid="uid://x2vovwmu1nlp" path="res://assets/combat/skills/firespark/img_13.png" id="14_pt3ps"]
+[ext_resource type="Texture2D" uid="uid://dnqvw0t5see31" path="res://assets/combat/skills/firespark/img_14.png" id="15_dqqgk"]
+[ext_resource type="Texture2D" uid="uid://bj443pw5mgal1" path="res://assets/combat/skills/firespark/img_15.png" id="16_3xopb"]
+[ext_resource type="Texture2D" uid="uid://yfjexdtvr48e" path="res://assets/combat/skills/firespark/img_16.png" id="17_gy15v"]
+[ext_resource type="Texture2D" uid="uid://bd7jq3cqvb168" path="res://assets/combat/skills/firespark/img_17.png" id="18_ltptn"]
+[ext_resource type="Texture2D" uid="uid://ccsf30uhdmqi6" path="res://assets/combat/skills/firespark/img_18.png" id="19_2doxy"]
+[ext_resource type="Texture2D" uid="uid://djiytaeiia0ib" path="res://assets/combat/skills/firespark/img_19.png" id="20_ukvcj"]
+[ext_resource type="Texture2D" uid="uid://bujkyp6diatd2" path="res://assets/combat/skills/firespark/img_20.png" id="21_qo6y0"]
+[ext_resource type="Texture2D" uid="uid://dxghuinfy67dq" path="res://assets/combat/skills/firespark/img_21.png" id="22_eqfui"]
+[ext_resource type="Texture2D" uid="uid://dt0vy5n5mdcg" path="res://assets/combat/skills/firespark/img_22.png" id="23_sa8g1"]
+[ext_resource type="Texture2D" uid="uid://dao1goxtnuj15" path="res://assets/combat/skills/firespark/img_23.png" id="24_upqlm"]
+[ext_resource type="Texture2D" uid="uid://chy3qxupsxhh8" path="res://assets/combat/skills/firespark/img_24.png" id="25_sq6wl"]
+[ext_resource type="Texture2D" uid="uid://kt63n27cj322" path="res://assets/combat/skills/firespark/img_25.png" id="26_170t1"]
+[ext_resource type="Texture2D" uid="uid://u1ytuii5hcgh" path="res://assets/combat/skills/firespark/img_26.png" id="27_kwhd3"]
+[ext_resource type="Texture2D" uid="uid://o1mm8v63fubd" path="res://assets/combat/skills/firespark/img_27.png" id="28_bcjqa"]
+[ext_resource type="Texture2D" uid="uid://db43vv0xl0e3q" path="res://assets/combat/skills/firespark/img_28.png" id="29_jled4"]
+[ext_resource type="Texture2D" uid="uid://cqgbqsb4matfo" path="res://assets/combat/skills/firespark/img_29.png" id="30_g3tnx"]
+[ext_resource type="Texture2D" uid="uid://6ux42ld7sok8" path="res://assets/combat/skills/firespark/img_30.png" id="31_p5k5r"]
+[ext_resource type="Texture2D" uid="uid://duxotkybnei4" path="res://assets/combat/skills/firespark/img_31.png" id="32_djyyt"]
+[ext_resource type="Texture2D" uid="uid://c06n8yl547dqc" path="res://assets/combat/skills/firespark/img_32.png" id="33_ksxy3"]
+[ext_resource type="Texture2D" uid="uid://cpj427o4n8dvs" path="res://assets/combat/skills/firespark/img_33.png" id="34_qfcds"]
+[ext_resource type="Texture2D" uid="uid://c2etx4tqwkrt1" path="res://assets/combat/skills/firespark/img_34.png" id="35_ykuci"]
+[ext_resource type="Texture2D" uid="uid://03p6k0pupdeo" path="res://assets/combat/skills/firespark/img_35.png" id="36_dxv1t"]
+[ext_resource type="Texture2D" uid="uid://cr23guyspxbgx" path="res://assets/combat/skills/firespark/img_36.png" id="37_jekxx"]
+[ext_resource type="Texture2D" uid="uid://d0f2da53xma8o" path="res://assets/combat/skills/firespark/img_37.png" id="38_vo8jn"]
+[ext_resource type="Texture2D" uid="uid://dcm7h83fo4gps" path="res://assets/combat/skills/firespark/img_38.png" id="39_ewlmf"]
+[ext_resource type="Texture2D" uid="uid://dacplb5u3fjyi" path="res://assets/combat/skills/firespark/img_39.png" id="40_gjohi"]
+[ext_resource type="Script" path="res://scripts/combat/skills/firespark_combat.gd" id="41_3404a"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fo4ap"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_n32x1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y7bek")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_sswge")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xhj88")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_uvvbk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_7qkga")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_cfukx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6jbqw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_41461")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_itcq8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0xf47")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_6fb6a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_xums8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_pt3ps")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_dqqgk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_3xopb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_gy15v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_ltptn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_2doxy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_ukvcj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_qo6y0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_eqfui")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_sa8g1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_upqlm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_sq6wl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_170t1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_kwhd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_bcjqa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_jled4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_g3tnx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_p5k5r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_djyyt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_ksxy3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_qfcds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_ykuci")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_dxv1t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_jekxx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_vo8jn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_ewlmf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_gjohi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 39.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ke1pq"]
+
+[node name="firespark" type="CharacterBody2D"]
+z_index = -1
+scale = Vector2(0.8, 0.8)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("41_3404a")
+speed = 1200
+
+[node name="firespark_animation" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fo4ap")
+frame_progress = 0.860348
+centered = false
+offset = Vector2(-705, -460)
+
+[node name="collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ke1pq")

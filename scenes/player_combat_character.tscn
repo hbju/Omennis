@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://xkfew8g51xdy"]
 
-[ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_7dmge"]
-[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_3xutx"]
-[ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_c4nth"]
+[ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
+[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_3xit3"]
+[ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_rduhn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
 size = Vector2(296, 294)
@@ -23,17 +23,17 @@ gradient = SubResource("Gradient_0iyvg")
 position = Vector2(811, 433)
 scale = Vector2(2.5, 2.5)
 collision_layer = 0
-script = ExtResource("1_7dmge")
+script = ExtResource("1_38dme")
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_3xutx")
+texture = ExtResource("2_3xit3")
 
 [node name="character_portrait" type="Sprite2D" parent="character_portrait_bg"]
 z_index = 1
 position = Vector2(0.666626, -2.66672)
 scale = Vector2(0.578, 0.578)
-texture = ExtResource("3_c4nth")
+texture = ExtResource("3_rduhn")
 
 [node name="collision" type="CollisionShape2D" parent="."]
 z_index = -1

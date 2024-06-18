@@ -9,9 +9,13 @@ const NB_MALE_PORTRAIT = 21
 
 enum SEX {Male, Female, Other}
 
-func _init(char_name, _class, portrait, level, sex):
+func _init(char_name, _class, portrait, level, sex, _skill_list: Array[Skill] = []):
 	super(char_name, _class, portrait, level)
 	self.character_sex = sex
+
+	var basic_skill: Skill = Charge.new()
+	self.skill_list = _skill_list
+	self.skill_list.append(basic_skill)
 	
 static func new_rand() -> PartyMember: 
 	var sex = randi_range(0, 1)

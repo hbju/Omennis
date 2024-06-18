@@ -5,6 +5,8 @@ var character_class: CLASSES
 var character_portrait: int
 var character_level: int
 
+var skill_list: Array[Skill] = []
+
 enum CLASSES {Warrior, Rogue, Mage, None}
 
 func _init(name, _class, portrait, level):
