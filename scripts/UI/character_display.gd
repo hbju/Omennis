@@ -5,6 +5,7 @@ class_name Character_Display
 @onready var infos_label = $infos
 @onready var avatar_portrait = $avatar_background/avatar_portrait
 @onready var delete_button = $delete_button
+@onready var xp_bar = $infos/xp_bar
 
 signal character_changed
 signal fire_character
@@ -27,6 +28,10 @@ signal fire_character
 	set(value):
 		character_level = value
 		update_values()
+@export var character_xp: int = 0:
+	set(value):
+		character_xp = value
+		update_values()
 @export var character_portrait: int = 1:
 	set(value):
 		character_portrait = value
@@ -40,18 +45,28 @@ func _ready() :
 func update_values():
 	if Engine.is_editor_hint():
 		if infos_label :
-			infos_label.text = character_name + ", " + character_class + "\n Lvl : " + str(character_level)
 			var char_class = party_member.CLASSES.Warrior if character_class == "Warrior" else party_member.CLASSES.Rogue if character_class == "Rogue" else party_member.CLASSES.Mage
 			party_member = PartyMember.new(character_name, char_class, character_portrait, character_level, 0)
-			avatar_portrait.texture = load(party_member.get_portrait_path())
+			party_member.character_experience = character_xp
+
+			_update_infos()
 
 			character_changed.emit()
 
 
 func update_character(_party_member: PartyMember):
 	self.party_member = _party_member
-	infos_label.text = party_member.character_name + ", " + party_member.CLASSES.keys()[party_member.character_class] + "\n Lvl : " + str(party_member.character_level)
-	avatar_portrait.texture = load(party_member.get_portrait_path())
+	
+	_update_infos()
 	
 func _on_delete_button_pressed(): 
 	fire_character.emit()
+
+func _update_infos():
+	infos_label.text = party_member.character_name + "\n Lvl : " + str(party_member.character_level) + "\n XP : " + str(party_member.character_experience) + "/" + str(party_member.next_level())
+
+	xp_bar.value = party_member.character_experience
+	xp_bar.max_value = party_member.next_level()
+
+	avatar_portrait.texture = load(party_member.get_portrait_path())
+

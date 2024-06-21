@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="1_s6f5d"]
 [ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_54ewt"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="2_pdnay"]
-[ext_resource type="Texture2D" uid="uid://dto44ujliykem" path="res://assets/chars/female/female_00.png" id="5_scn0u"]
+[ext_resource type="Texture2D" uid="uid://cygxw5gpduq6s" path="res://assets/chars/male/male_05.png" id="5_qj0u8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tyvgq"]
 font_size = 22
@@ -72,11 +72,20 @@ offset_top = 180.0
 offset_right = 580.0
 offset_bottom = 380.0
 character_class = ""
-character_level = 0
-character_portrait = 0
+character_xp = 800
+character_portrait = 5
+
+[node name="infos" parent="bg/displays/main_character_display" index="0"]
+text = "Halfai
+ Lvl : 1
+ XP : 800/1000"
+
+[node name="xp_bar" parent="bg/displays/main_character_display/infos" index="0"]
+max_value = 1000.0
+value = 800.0
 
 [node name="avatar_portrait" parent="bg/displays/main_character_display/avatar_background" index="0"]
-texture = ExtResource("5_scn0u")
+texture = ExtResource("5_qj0u8")
 
 [node name="delete_button" parent="bg/displays/main_character_display" index="2"]
 visible = false
@@ -89,7 +98,7 @@ offset_top = 380.0
 offset_right = 580.0
 offset_bottom = 580.0
 character_class = ""
-character_level = 0
+character_xp = 201
 character_portrait = 0
 
 [node name="character_display3" parent="bg/displays" instance=ExtResource("2_pdnay")]
@@ -100,6 +109,7 @@ offset_right = 580.0
 offset_bottom = 780.0
 character_class = ""
 character_level = 0
+character_xp = 0
 character_portrait = 0
 
 [node name="character_display4" parent="bg/displays" instance=ExtResource("2_pdnay")]
@@ -114,6 +124,7 @@ offset_bottom = 960.0
 grow_vertical = 0
 character_class = ""
 character_level = 0
+character_xp = 0
 character_portrait = 0
 
 [editable path="bg/displays/main_character_display"]

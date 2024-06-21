@@ -1,12 +1,34 @@
-[gd_scene load_steps=6 format=3 uid="uid://cje0ll6pwd5yp"]
+[gd_scene load_steps=13 format=3 uid="uid://cje0ll6pwd5yp"]
 
 [ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="1_211ks"]
 [ext_resource type="Script" path="res://scripts/UI/character_display.gd" id="2_5ghbd"]
 [ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_np1w4"]
+[ext_resource type="FontFile" uid="uid://c8gm6pjmvi186" path="res://assets/fonts/VarelaRound-Regular.ttf" id="3_ro1vb"]
 [ext_resource type="Texture2D" uid="uid://ctu2krmr78qvb" path="res://assets/ui/icons/delete_button.png" id="4_2j70a"]
+[ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="4_dgf6y"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_r0k1a"]
-font_size = 22
+font = ExtResource("3_ro1vb")
+font_size = 20
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_76707"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m6uat"]
+gradient = SubResource("Gradient_76707")
+width = 128
+
+[sub_resource type="Gradient" id="Gradient_5hgs1"]
+colors = PackedColorArray(0.1547, 0.382346, 0.973716, 1, 0.152941, 0.380392, 0.972549, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qxm63"]
+gradient = SubResource("Gradient_5hgs1")
+width = 128
+
+[sub_resource type="LabelSettings" id="LabelSettings_umn4v"]
+font = ExtResource("3_ro1vb")
+font_size = 18
 font_color = Color(0, 0, 0, 1)
 
 [node name="background" type="TextureRect"]
@@ -15,16 +37,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -207.0
-offset_top = -71.0
-offset_right = 207.0
-offset_bottom = 71.0
+offset_left = -275.0
+offset_top = -100.0
+offset_right = 275.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_211ks")
 expand_mode = 5
 script = ExtResource("2_5ghbd")
 character_class = "Warrior"
+character_xp = null
 character_portrait = 13
 
 [node name="infos" type="Label" parent="."]
@@ -34,28 +57,88 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -94.0
-offset_top = -20.0
-offset_right = 118.0
-offset_bottom = 21.0
+offset_left = -148.0
+offset_top = -69.0
+offset_right = 34.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Halfai, Warrior
- Lvl : 1"
+text = "Halfai
+Lvl : 1
+XP : 1000/10000"
 label_settings = SubResource("LabelSettings_r0k1a")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="xp_bar" type="TextureProgressBar" parent="infos"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = 2.0
+offset_right = 64.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 50.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_m6uat")
+texture_progress = SubResource("GradientTexture1D_qxm63")
+
+[node name="classe_badge" type="TextureButton" parent="infos"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = -0.677429
+offset_right = 298.0
+offset_bottom = 89.3226
+texture_normal = ExtResource("4_dgf6y")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="class_name_button" type="Button" parent="infos/classe_badge"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -39.5
+offset_top = -1.0
+offset_right = 39.5
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 0
+flat = true
+
+[node name="class_name" type="Label" parent="infos/classe_badge/class_name_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Warrior"
+label_settings = SubResource("LabelSettings_umn4v")
 
 [node name="avatar_background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 28.0
-offset_top = -48.0
-offset_right = 1028.0
-offset_bottom = 1202.0
+offset_left = 25.0
+offset_top = -67.0
+offset_right = 1385.0
+offset_bottom = 1633.0
 grow_vertical = 2
 scale = Vector2(0.07, 0.07)
 color = Color(0.509804, 0.313726, 0.160784, 1)
@@ -67,10 +150,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -500.0
-offset_top = -625.0
-offset_right = 500.0
-offset_bottom = 625.0
+offset_left = -680.0
+offset_top = -850.0
+offset_right = 680.0
+offset_bottom = 850.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_np1w4")

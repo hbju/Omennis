@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://d25rdiau8ito5"]
+[gd_scene load_steps=10 format=3 uid="uid://d25rdiau8ito5"]
 
-[ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="1_17u6k"]
 [ext_resource type="Script" path="res://scripts/UI/fight_ui.gd" id="1_fhe66"]
-[ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_4ir65"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
+[ext_resource type="Texture2D" uid="uid://cc7ybuojvbhyf" path="res://assets/ui/fight_ui/combat_skills_bg.png" id="3_o314g"]
 [ext_resource type="Script" path="res://scripts/UI/enemies_display.gd" id="5_subih"]
 [ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="6_e1ypk"]
 
@@ -13,15 +12,15 @@ subpixel_positioning = 0
 [sub_resource type="LabelSettings" id="LabelSettings_y52tr"]
 font = SubResource("SystemFont_rkucr")
 font_size = 64
-font_color = Color(0.462745, 0.262745, 0.0627451, 1)
+font_color = Color(0.716841, 0.678761, 0.662312, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qsvt1"]
 font_size = 24
-font_color = Color(0.425692, 0.276456, 0.142323, 1)
+font_color = Color(0.717647, 0.678431, 0.662745, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_v40v7"]
 font_size = 32
-font_color = Color(0.461154, 0.262919, 0.0611425, 1)
+font_color = Color(0.717647, 0.678431, 0.662745, 1)
 
 [node name="fight_ui" type="Control"]
 layout_mode = 3
@@ -45,7 +44,6 @@ offset_right = 957.5
 offset_bottom = 537.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_17u6k")
 expand_mode = 3
 
 [node name="UI_title" type="TextureRect" parent="bg"]
@@ -53,11 +51,12 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -842.5
-offset_right = 773.5
-offset_bottom = 186.0
+offset_left = -857.5
+offset_top = 27.0
+offset_right = 842.5
+offset_bottom = 227.0
 grow_horizontal = 2
-texture = ExtResource("2_4ir65")
+texture = ExtResource("3_o314g")
 expand_mode = 1
 
 [node name="Title" type="Label" parent="bg/UI_title"]
@@ -88,12 +87,12 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -857.5
 offset_top = -274.0
-offset_right = 834.5
+offset_right = 842.5
 offset_bottom = 492.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_17u6k")
-expand_mode = 3
+texture = ExtResource("3_o314g")
+expand_mode = 1
 
 [node name="party_display" type="Control" parent="bg/bg"]
 layout_mode = 1
@@ -111,12 +110,13 @@ grow_vertical = 2
 
 [node name="main_character_display" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = -304.0
-offset_right = -282.0
-offset_bottom = -162.0
+offset_left = -764.5
+offset_top = -331.0
+offset_right = -214.5
+offset_bottom = -131.0
 show_delete_button = false
 character_class = "Mage"
+character_xp = 0
 
 [node name="infos" parent="bg/bg/party_display/main_character_display" index="0"]
 text = "Halfai, Mage
@@ -128,33 +128,36 @@ disabled = true
 
 [node name="character_display2" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = -154.0
-offset_right = -282.0
-offset_bottom = -12.0
+offset_left = -764.5
+offset_top = -181.0
+offset_right = -214.5
+offset_bottom = 19.0
 show_delete_button = false
 character_class = "Rogue"
+character_xp = 0
 character_portrait = 17
 
 [node name="character_display3" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = -4.0
-offset_right = -282.0
-offset_bottom = 138.0
+offset_left = -764.5
+offset_top = -31.0
+offset_right = -214.5
+offset_bottom = 169.0
 show_delete_button = false
 character_level = 0
+character_xp = 0
 character_portrait = 16
 
 [node name="character_display4" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = 146.0
-offset_right = -282.0
-offset_bottom = 288.0
+offset_left = -764.5
+offset_top = 119.0
+offset_right = -214.5
+offset_bottom = 319.0
 show_delete_button = false
 character_class = "Mage"
 character_level = 0
+character_xp = 0
 character_portrait = 19
 
 [node name="enemies_display" type="Control" parent="bg/bg"]
