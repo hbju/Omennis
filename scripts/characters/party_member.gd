@@ -13,9 +13,7 @@ func _init(char_name, _class, portrait, level, sex, _skill_list: Array[Skill] = 
 	super(char_name, _class, portrait, level)
 	self.character_sex = sex
 
-	var basic_skill: Skill = Charge.new()
-	self.skill_list = _skill_list
-	self.skill_list.append(basic_skill)
+	self.skill_list = [Sprint.new(), Charge.new(), Firespark.new()]
 	
 static func new_rand() -> PartyMember: 
 	var sex = randi_range(0, 1)
@@ -27,7 +25,6 @@ static func new_rand() -> PartyMember:
 	
 func receive_experience(experience: int) : 
 	var threshold = next_level()
-	print(str(threshold) + " " + str(experience))
 	character_experience += experience
 	if character_experience > threshold : 
 		character_level += 1

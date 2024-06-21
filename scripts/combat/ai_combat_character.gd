@@ -7,6 +7,11 @@ var attack_range: int = 1
 var move_range: int = 1 # Number of tiles the enemy can move per turn
 
 
+##
+## Create a new AI enemy character [br]
+## [code] _char [/code]: Character to create the AI character from  [br]
+## [code] return [/code]: the new AI character
+##
 static func new_character(_char: Character) -> AICombatCharacter:
 	var new_char = enemy_character.instantiate()
 	new_char.character = _char
@@ -18,7 +23,16 @@ func _ready():
 	walkable_cells = [0, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
 
 
+##
+## Take a turn for the AI character, moving and attacking the closest player if possible
+## If no player is in range, the AI will move to a random walkable cell
+##
 func take_turn():
+	if stunned :
+		stunned = false
+		turn_finished.emit()
+		return
+
 	var party = map.get_alive_party_members()
 	map.enable_disable_cells(true, false, true)
 	var closest_player_and_path = get_closest_player_path(party)
@@ -42,6 +56,11 @@ func take_turn():
 	map.enable_disable_cells(true, false, false)
 
 
+##
+## Get the closest player and the path to reach him
+## [code] party [/code]: Array of players to check for the closest one
+## [code] return [/code]: Array containing the closest player and the path to reach him
+##
 func get_closest_player_path(party: Array[PlayerCombatCharacter]) -> Array:
 	var closest_player = null
 	var closest_path = null

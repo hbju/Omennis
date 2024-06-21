@@ -8,6 +8,7 @@ func use_skill(from: CombatCharacter, skill_target: CombatCharacter) -> void:
 
     from.attack(skill_target.map.to_local(skill_target.global_position))
     skill_target.take_damage(damage)
+    skill_target.stun()
     cooldown = max_cooldown
     
 func get_skill_name() -> String:
@@ -27,6 +28,9 @@ func target_allies() -> bool:
 
 func target_enemies() -> bool:
     return true
+
+func target_self() -> bool:
+    return false
     
 func is_melee() -> bool:
     return false

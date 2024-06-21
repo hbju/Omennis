@@ -5,7 +5,6 @@ var target = null
 signal target_reached
 
 func move_to(new_target) : 
-	print("move_to")
 	if not target :
 		target = new_target
 

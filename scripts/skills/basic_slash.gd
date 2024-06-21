@@ -26,6 +26,9 @@ func target_allies() -> bool:
 
 func target_enemies() -> bool:
     return true
+
+func target_self() -> bool:
+    return false
     
 func is_melee() -> bool:
     return true

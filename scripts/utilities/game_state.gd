@@ -108,7 +108,6 @@ func evaluate_expression(condition_id: String) -> bool:
 		"quest_accomplished" :
 			for quest in quest_log : 
 				if quest_log[quest] == QUEST_STATE.Accomplished : 
-					print("quest accomplished : " + str(quest))
 					return true
 			return false
 		"quest_turned" :

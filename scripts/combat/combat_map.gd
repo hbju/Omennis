@@ -65,8 +65,8 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##  Advances the turn to the next character.
 ##  
 func next_turn() :
+	print("Next turn : ", characters[turn].character.character_name, " finished, now ", characters[(turn + 1) % characters.size()].character.character_name, " turn.")
 	turn = (turn + 1) % characters.size()
-	print(characters[turn].character.skill_list)
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)
 
@@ -158,24 +158,33 @@ func reset_neighbours(highlighted_cells: Array[Vector2i]) :
 ## [code]highlighted_cells [/code]: An array of previously highlighted cells (default: []).[br]
 ## [code]return [/code]: An array of Vector2i representing the coordinates of the highlighted neighboring cells.
 ##
-func highlight_neighbours(hex, highlight_range = 1, empty_cell_alt: int = 1, highlighted_cells: Array[Vector2i] = []) -> Array[Vector2i]:
+func highlight_neighbours(hex: Vector2i, highlight_range = 1, empty_cell_alt: int = 0, enemy_cell_alt: int = 0) -> Array[Vector2i]:
 	# Function implementation goes here
-	highlighted_cells.append(hex) 
-	for i in range(0, 6) :
-		var neighbour = _oddr_offset_neighbor(hex, i)
-		if neighbour in highlighted_cells : 
-			continue
+	var highlighted_cells = {hex : 0}
+	var queue = [hex]
 
-		if can_walk(neighbour) && !cell_occupied(neighbour): 
-			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), empty_cell_alt)
-			if highlight_range > 1 : 
-				highlight_neighbours(neighbour, highlight_range - 1, empty_cell_alt, highlighted_cells)
-			else : 
-				highlighted_cells.append(neighbour)
-		if enemy_in_cell(neighbour) : 
-			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 3)
-			highlighted_cells.append(neighbour)
-	return highlighted_cells
+	while queue.size() > 0 :
+		var curr_cell = queue.pop_front()
+		if highlighted_cells[curr_cell] >= highlight_range : 
+			continue
+			
+		for i in range(0, 6) :
+			var neighbour = _oddr_offset_neighbor(curr_cell, i)
+			if not neighbour in highlighted_cells : 
+				var curr_range = highlighted_cells[curr_cell]
+				if can_walk(neighbour) && !cell_occupied(neighbour): 
+					set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), empty_cell_alt)
+					highlighted_cells[neighbour] = curr_range + 1
+					queue.append(neighbour)
+
+				if enemy_in_cell(neighbour) : 
+					set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), enemy_cell_alt)
+					highlighted_cells[neighbour] = curr_range + 1
+
+	var cells: Array[Vector2i] = []
+	for cell in highlighted_cells.keys() : 
+		cells.append(cell)
+	return cells
 
 
 ##

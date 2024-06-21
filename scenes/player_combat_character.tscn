@@ -24,6 +24,7 @@ position = Vector2(811, 433)
 scale = Vector2(2.5, 2.5)
 collision_layer = 0
 script = ExtResource("1_38dme")
+speed = null
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)

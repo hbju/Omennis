@@ -38,12 +38,14 @@ func target_allies() -> bool:
 
 func target_enemies() -> bool:
     return true
+
+func target_self() -> bool:
+    return false
     
 func is_melee() -> bool:
     return false
 
 func _on_reached_target(): 
-    print("Firespark reached target")
     target.take_damage(damage)
     curr_firespark.queue_free()
     skill_finished.emit()

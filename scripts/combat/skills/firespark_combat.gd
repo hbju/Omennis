@@ -13,7 +13,7 @@ func _physics_process(_delta):
 		return
 	
 	velocity = position.direction_to(move_target) * speed	
-	if position.distance_to(move_target) > 50:
+	if position.distance_to(move_target) > 100:
 		move_and_slide()
 	else :
 		target_reached.emit()
