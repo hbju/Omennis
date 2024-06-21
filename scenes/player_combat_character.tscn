@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://xkfew8g51xdy"]
+
+[ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
+[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_3xit3"]
+[ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_rduhn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
+size = Vector2(296, 294)
+
+[sub_resource type="Gradient" id="Gradient_iwu2c"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7l162"]
+gradient = SubResource("Gradient_iwu2c")
+
+[sub_resource type="Gradient" id="Gradient_0iyvg"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4tww3"]
+gradient = SubResource("Gradient_0iyvg")
+
+[node name="player" type="CharacterBody2D"]
+position = Vector2(811, 433)
+scale = Vector2(2.5, 2.5)
+collision_layer = 0
+script = ExtResource("1_38dme")
+speed = null
+
+[node name="character_portrait_bg" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_3xit3")
+
+[node name="character_portrait" type="Sprite2D" parent="character_portrait_bg"]
+z_index = 1
+position = Vector2(0.666626, -2.66672)
+scale = Vector2(0.578, 0.578)
+texture = ExtResource("3_rduhn")
+
+[node name="collision" type="CollisionShape2D" parent="."]
+z_index = -1
+position = Vector2(-1, 2)
+shape = SubResource("RectangleShape2D_wtnqe")
+
+[node name="health_bar" type="TextureProgressBar" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -127.0
+offset_top = -207.0
+offset_right = 129.0
+offset_bottom = -188.0
+grow_horizontal = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_7l162")
+texture_progress = SubResource("GradientTexture1D_4tww3")

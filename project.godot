@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Omennis"
-run/main_scene="res://scenes/map.tscn"
+run/main_scene="res://scenes/main_scene.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-game_state="*res://scripts/game_state.gd"
-content_generator="*res://scripts/content_generator.gd"
+game_state="*res://scripts/utilities/game_state.gd"
+content_generator="*res://scripts/content_generation/content_generator.gd"
 
 [display]
 

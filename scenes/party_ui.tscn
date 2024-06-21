@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bwx5vgdwyp3rl"]
 
+[ext_resource type="Script" path="res://scripts/UI/party_ui.gd" id="1_cqsal"]
 [ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="1_s6f5d"]
-[ext_resource type="Script" path="res://scripts/party_ui.gd" id="1_txqup"]
 [ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_54ewt"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="2_pdnay"]
 [ext_resource type="Texture2D" uid="uid://dto44ujliykem" path="res://assets/chars/female/female_00.png" id="5_scn0u"]
@@ -17,7 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_txqup")
+script = ExtResource("1_cqsal")
 
 [node name="bg" type="TextureRect" parent="."]
 layout_mode = 1
