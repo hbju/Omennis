@@ -5,6 +5,9 @@ class_name CombatMap
 
 @export var debug_mode: bool = false
 
+const PLAYER_STARTING_POS = [Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 4)]
+const ENEMY_STARTING_POS = [Vector2i(9, 1), Vector2i(8, 1), Vector2i(7, 1), Vector2i(10, 2), Vector2i(9, 3), Vector2i(10, 3)]
+
 var astar: AStar2D = AStar2D.new()
 var cell_ids: Dictionary = {}
 
@@ -19,6 +22,8 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
 		enter_combat([PartyMember.new_rand()], [Character.new("Dark Cultist", 1, 2, 2)])
+		characters[0].character.skill_list.append(Charge.new())
+		characters[1].stun()
 
 
 ##
@@ -40,7 +45,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 		if i < party.size() : 
 			var player: CombatCharacter = PlayerCombatCharacter.new_character(party[i])
 			get_node("characters/player_characters").add_child(player)
-			player.position = map_to_local(Vector2i(i + 3, 2))
+			player.position = map_to_local(PLAYER_STARTING_POS[i])
 
 			characters.append(player)
 			player.turn_finished.connect(_on_target_reached)
@@ -49,7 +54,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 		if i < enemies.size() : 
 			var enemy: CombatCharacter = AICombatCharacter.new_character(enemies[i])
 			get_node("characters/enemies").add_child(enemy)
-			enemy.position = map_to_local(Vector2i(8 - i, 2))
+			enemy.position = map_to_local(ENEMY_STARTING_POS[i])
 
 			characters.append(enemy)
 			enemy.turn_finished.connect(_on_target_reached)
@@ -65,7 +70,6 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##  Advances the turn to the next character.
 ##  
 func next_turn() :
-	print("Next turn : ", characters[turn].character.character_name, " finished, now ", characters[(turn + 1) % characters.size()].character.character_name, " turn.")
 	turn = (turn + 1) % characters.size()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)

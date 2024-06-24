@@ -89,7 +89,7 @@ func _calculate_party_strength():
 	return total_strength
 
 # Calculate the total effective strength of an enemy group
-func _calculate_enemy_strength():
+func _calculate_enemy_strength() -> float:
 	return enemy_group.enemy.character_level * enemy_group.enemies.size()
 
 # Simulate the fight

@@ -14,6 +14,8 @@ signal turn_finished
 signal character_died(character)
 
 var stunned: bool = false
+var stunned_animation = preload("res://scenes/stun_animation.tscn")
+var curr_stun_animation = null
 
 var character: Character
 
@@ -131,4 +133,9 @@ func _calculate_path_to_character(other_char_pos: Vector2i) -> PackedVector2Arra
 ##
 func stun() : 
 	stunned = true
+	curr_stun_animation = stunned_animation.instantiate()
+	curr_stun_animation.position = Vector2(0, 0)
+	add_child(curr_stun_animation)
+	curr_stun_animation.z_index = 10
+	curr_stun_animation.play()
 

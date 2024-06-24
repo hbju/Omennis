@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://d25rdiau8ito5"]
 
-[ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="1_17u6k"]
 [ext_resource type="Script" path="res://scripts/UI/fight_ui.gd" id="1_fhe66"]
-[ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_4ir65"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
+[ext_resource type="Texture2D" uid="uid://cc7ybuojvbhyf" path="res://assets/ui/fight_ui/combat_skills_bg.png" id="3_o314g"]
+[ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="4_6mm15"]
 [ext_resource type="Script" path="res://scripts/UI/enemies_display.gd" id="5_subih"]
 [ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="6_e1ypk"]
 
@@ -13,15 +13,15 @@ subpixel_positioning = 0
 [sub_resource type="LabelSettings" id="LabelSettings_y52tr"]
 font = SubResource("SystemFont_rkucr")
 font_size = 64
-font_color = Color(0.462745, 0.262745, 0.0627451, 1)
+font_color = Color(0.716841, 0.678761, 0.662312, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qsvt1"]
 font_size = 24
-font_color = Color(0.425692, 0.276456, 0.142323, 1)
+font_color = Color(0.717647, 0.678431, 0.662745, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_v40v7"]
 font_size = 32
-font_color = Color(0.461154, 0.262919, 0.0611425, 1)
+font_color = Color(0.717647, 0.678431, 0.662745, 1)
 
 [node name="fight_ui" type="Control"]
 layout_mode = 3
@@ -45,7 +45,6 @@ offset_right = 957.5
 offset_bottom = 537.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_17u6k")
 expand_mode = 3
 
 [node name="UI_title" type="TextureRect" parent="bg"]
@@ -53,11 +52,12 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -842.5
-offset_right = 773.5
-offset_bottom = 186.0
+offset_left = -857.5
+offset_top = 7.0
+offset_right = 842.5
+offset_bottom = 207.0
 grow_horizontal = 2
-texture = ExtResource("2_4ir65")
+texture = ExtResource("3_o314g")
 expand_mode = 1
 
 [node name="Title" type="Label" parent="bg/UI_title"]
@@ -86,14 +86,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -857.5
-offset_top = -274.0
-offset_right = 834.5
-offset_bottom = 492.0
+offset_left = -934.5
+offset_top = -317.0
+offset_right = 928.5
+offset_bottom = 535.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_17u6k")
-expand_mode = 3
+texture = ExtResource("3_o314g")
+expand_mode = 1
 
 [node name="party_display" type="Control" parent="bg/bg"]
 layout_mode = 1
@@ -111,16 +111,23 @@ grow_vertical = 2
 
 [node name="main_character_display" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = -304.0
-offset_right = -282.0
-offset_bottom = -162.0
+offset_left = -764.5
+offset_top = -329.0
+offset_right = -214.5
+offset_bottom = -129.0
 show_delete_button = false
-character_class = "Mage"
 
 [node name="infos" parent="bg/bg/party_display/main_character_display" index="0"]
-text = "Halfai, Mage
- Lvl : 1"
+text = "Halfai
+ Lvl : 1
+ XP : 0/1000"
+
+[node name="xp_bar" parent="bg/bg/party_display/main_character_display/infos" index="0"]
+max_value = 1000.0
+value = 0.0
+
+[node name="avatar_portrait" parent="bg/bg/party_display/main_character_display/avatar_background" index="0"]
+texture = ExtResource("4_6mm15")
 
 [node name="delete_button" parent="bg/bg/party_display/main_character_display" index="2"]
 visible = false
@@ -128,33 +135,34 @@ disabled = true
 
 [node name="character_display2" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = -154.0
-offset_right = -282.0
-offset_bottom = -12.0
+offset_left = -764.5
+offset_top = -179.0
+offset_right = -214.5
+offset_bottom = 21.0
 show_delete_button = false
 character_class = "Rogue"
+character_xp = 1
 character_portrait = 17
 
 [node name="character_display3" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = -4.0
-offset_right = -282.0
-offset_bottom = 138.0
+offset_left = -764.5
+offset_top = -29.0
+offset_right = -214.5
+offset_bottom = 171.0
 show_delete_button = false
-character_level = 0
+character_xp = 6
 character_portrait = 16
 
 [node name="character_display4" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
-offset_left = -696.0
-offset_top = 146.0
-offset_right = -282.0
-offset_bottom = 288.0
+offset_left = -764.5
+offset_top = 121.0
+offset_right = -214.5
+offset_bottom = 321.0
 show_delete_button = false
 character_class = "Mage"
-character_level = 0
+character_xp = 600
 character_portrait = 19
 
 [node name="enemies_display" type="Control" parent="bg/bg"]
@@ -293,7 +301,7 @@ offset_right = 140.0
 offset_bottom = -42.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Victory Chances : 70%"
+text = "Victory Chances : 98%"
 label_settings = SubResource("LabelSettings_v40v7")
 horizontal_alignment = 1
 
