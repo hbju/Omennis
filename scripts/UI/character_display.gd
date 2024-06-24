@@ -6,9 +6,12 @@ class_name Character_Display
 @onready var avatar_portrait = $avatar_background/avatar_portrait
 @onready var delete_button = $delete_button
 @onready var xp_bar = $infos/xp_bar
+@onready var class_badge: TextureButton = $infos/class_badge
+@onready var class_label: Label = $infos/class_badge/class_label
 
 signal character_changed
 signal fire_character
+signal show_skill_tree
 
 @export var show_delete_button: bool = true:
 	set(value): 
@@ -41,6 +44,7 @@ var party_member: PartyMember
 
 func _ready() : 
 	delete_button.pressed.connect(_on_delete_button_pressed)
+	class_badge.pressed.connect(_on_class_badge_pressed)
 
 func update_values():
 	if Engine.is_editor_hint():
@@ -62,6 +66,9 @@ func update_character(_party_member: PartyMember):
 func _on_delete_button_pressed(): 
 	fire_character.emit()
 
+func _on_class_badge_pressed():
+	show_skill_tree.emit()
+
 func _update_infos():
 	infos_label.text = party_member.character_name + "\n Lvl : " + str(party_member.character_level) + "\n XP : " + str(party_member.character_experience) + "/" + str(party_member.next_level())
 
@@ -69,4 +76,7 @@ func _update_infos():
 	xp_bar.max_value = party_member.next_level()
 
 	avatar_portrait.texture = load(party_member.get_portrait_path())
+
+	class_label.text = party_member.get_char_class()
+	class_badge.texture_normal = load("res://assets/ui/classes_icons/" + party_member.get_char_class().to_lower() + ".png")
 

@@ -22,6 +22,8 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
 		enter_combat([PartyMember.new_rand()], [Character.new("Dark Cultist", 1, 2, 2)])
+		characters[0].character.skill_list.append(Charge.new())
+		characters[1].stun()
 
 
 ##
@@ -68,7 +70,6 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##  Advances the turn to the next character.
 ##  
 func next_turn() :
-	print("Next turn : ", characters[turn].character.character_name, " finished, now ", characters[(turn + 1) % characters.size()].character.character_name, " turn.")
 	turn = (turn + 1) % characters.size()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)

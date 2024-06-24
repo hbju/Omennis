@@ -39,8 +39,18 @@ grow_vertical = 2
 texture = ExtResource("2_rheag")
 expand_mode = 3
 
+[node name="event_visual" type="TextureRect" parent="bg"]
+clip_contents = true
+layout_mode = 0
+offset_left = 72.0
+offset_top = 101.0
+offset_right = 1096.0
+offset_bottom = 1125.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_it7lx")
+expand_mode = 2
+
 [node name="event_name" type="TextureRect" parent="bg"]
-z_index = 1
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -65,7 +75,6 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="event_description" type="TextureRect" parent="bg"]
-z_index = 1
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -182,14 +191,3 @@ grow_vertical = 0
 layout_mode = 2
 offset_right = 8.0
 offset_bottom = 8.0
-
-[node name="event_visual" type="TextureRect" parent="bg"]
-clip_contents = true
-layout_mode = 0
-offset_left = 72.0
-offset_top = 101.0
-offset_right = 1096.0
-offset_bottom = 1125.0
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("4_it7lx")
-expand_mode = 2

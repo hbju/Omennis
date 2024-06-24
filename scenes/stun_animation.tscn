@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://da7vdg81bo00o"]
+
+[ext_resource type="Texture2D" uid="uid://kbg2mdl2depx" path="res://assets/combat/vfx/stun/twirl_01.png" id="1_bslqy"]
+[ext_resource type="Texture2D" uid="uid://cxj1wwgunl7uc" path="res://assets/combat/vfx/stun/twirl_02.png" id="2_ep85w"]
+[ext_resource type="Texture2D" uid="uid://bwqum0x5hcxbv" path="res://assets/combat/vfx/stun/twirl_03.png" id="3_x8ql1"]
+[ext_resource type="Texture2D" uid="uid://61ncyajbb5kb" path="res://assets/combat/vfx/stun/twirl_04.png" id="4_p37ag"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aushd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_bslqy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ep85w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_x8ql1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_p37ag")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+modulate = Color(1, 0.784314, 0.141176, 1)
+position = Vector2(960, 480)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_aushd")
+frame_progress = 0.356093

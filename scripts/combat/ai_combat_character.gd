@@ -30,6 +30,8 @@ func _ready():
 func take_turn():
 	if stunned :
 		stunned = false
+		curr_stun_animation.queue_free()
+		curr_stun_animation = null
 		turn_finished.emit()
 		return
 

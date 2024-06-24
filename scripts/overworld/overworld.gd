@@ -1,4 +1,5 @@
 extends TileMap
+class_name Overworld
 
 @onready var player = $player
 @onready var gall = $gall
@@ -6,6 +7,7 @@ extends TileMap
 @onready var whispering_hollow = $whispering_hollow
 @onready var party_ui: PartyUI = $UI/party_ui
 @onready var quest_log_ui: QuestLogUI = $UI/quest_log_ui
+@onready var skill_ui: SkillUI = $UI/skill_ui
 @onready var gold_amount = $UI/gold/gold_amount
 @onready var game_state: GameState = $"/root/game_state"
 @onready var content_generator: ContentGenerator = $"/root/content_generator"
@@ -33,6 +35,7 @@ func _ready():
 	$UI/party_button.pressed.connect(_toggle_party_ui)
 	$UI/quest_log_button.pressed.connect(_toggle_questlog_ui)
 	party_ui.fire_character.connect(_on_fire_character)
+	party_ui.show_skill_tree.connect(_on_show_skill_tree)
 	game_state.random_event.connect(_on_random_event)
 	game_state.money_changed.connect(_on_money_changed)
 	game_state.change_gold(100)
@@ -41,6 +44,7 @@ func _ready():
 		game_state.accept_quest(1)
 		game_state.new_candidate(PartyMember.new_rand())
 		game_state.recruit_candidate()
+		game_state.receive_experience(50000)
 
 func oddr_offset_neighbor(hex, direction):
 	var parity = hex.y & 1
@@ -91,6 +95,10 @@ func _toggle_questlog_ui() :
 func _on_fire_character(index: int) : 
 	game_state.fire_member(index)
 	party_ui.update_ui(game_state.party)
+
+func _on_show_skill_tree(index: int) : 
+	skill_ui.update_ui(game_state.party[index])
+	skill_ui.visible = true
 	
 func _on_random_event() : 
 	event_manager.random_event_manager()

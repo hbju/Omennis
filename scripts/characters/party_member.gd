@@ -3,6 +3,8 @@ class_name PartyMember
 
 var character_sex: SEX
 var character_experience: int
+var skill_points: int
+var spent_skill_points: int
 
 const NB_FEMALE_PORTRAIT = 36
 const NB_MALE_PORTRAIT = 21
@@ -13,7 +15,6 @@ func _init(char_name, _class, portrait, level, sex, _skill_list: Array[Skill] = 
 	super(char_name, _class, portrait, level)
 	self.character_sex = sex
 
-	self.skill_list = [Sprint.new(), Charge.new(), Firespark.new()]
 	
 static func new_rand() -> PartyMember: 
 	var sex = randi_range(0, 1)
@@ -26,9 +27,16 @@ static func new_rand() -> PartyMember:
 func receive_experience(experience: int) : 
 	var threshold = next_level()
 	character_experience += experience
-	if character_experience > threshold : 
+	while character_experience > threshold : 
 		character_level += 1
+		skill_points += 1
 		character_experience -= threshold
+		threshold = next_level()
+
+func spend_skill_point() : 
+	if skill_points > 0 : 
+		skill_points -= 1
+		spent_skill_points += 1
 	
 func next_level() : 
 	return floor(1000 * pow(character_level, 1.5))

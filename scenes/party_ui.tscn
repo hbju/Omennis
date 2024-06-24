@@ -81,7 +81,6 @@ text = "Halfai
  XP : 800/1000"
 
 [node name="xp_bar" parent="bg/displays/main_character_display/infos" index="0"]
-max_value = 1000.0
 value = 800.0
 
 [node name="avatar_portrait" parent="bg/displays/main_character_display/avatar_background" index="0"]
@@ -109,7 +108,6 @@ offset_right = 580.0
 offset_bottom = 780.0
 character_class = ""
 character_level = 0
-character_xp = 0
 character_portrait = 0
 
 [node name="character_display4" parent="bg/displays" instance=ExtResource("2_pdnay")]
@@ -124,7 +122,6 @@ offset_bottom = 960.0
 grow_vertical = 0
 character_class = ""
 character_level = 0
-character_xp = 0
 character_portrait = 0
 
 [editable path="bg/displays/main_character_display"]
