@@ -14,11 +14,11 @@ static func axial_to_cube(hex: Vector2i) -> Vector3i:
 
 static func axial_to_oddr(hex: Vector2i) -> Vector2i:
     var col = hex.x + (hex.y - (hex.y&1)) / 2
-    var row = hex.x
+    var row = hex.y
     return Vector2i(col, row)
 
 static func oddr_to_axial(hex: Vector2i) -> Vector2i:
-    var q = hex.x - (hex.y - (hex.x&1)) / 2
+    var q = hex.x - (hex.y - (hex.y&1)) / 2
     var r = hex.y
     return Vector2i(q, r)
 
@@ -94,7 +94,7 @@ static func axial_distance(a: Vector2i, b: Vector2i) -> int:
 
 ## Offset coordinates
 
-static func oddr_offset_distance(a: Vector2i, b: Vector2i) -> int:
+static func distance(a: Vector2i, b: Vector2i) -> int:
     var ac = oddr_to_axial(a)
     var bc = oddr_to_axial(b)
     return axial_distance(ac, bc)
@@ -104,22 +104,34 @@ static func oddr_offset_distance(a: Vector2i, b: Vector2i) -> int:
 static func lerp(a: float, b: float, t: float) -> float:
     return a + (b - a) * t
 
-static func cube_lerp(a: Vector3i, b: Vector3i, t: int) -> Vector3i:
-    return Vector3i(lerp(a.x, b.x, t),
+static func cube_lerp(a: Vector3i, b: Vector3i, t: float) -> Vector3:
+    return Vector3(lerp(a.x, b.x, t),
                 lerp(a.y, b.y, t),
                 lerp(a.z, b.z, t))
 
-static func cube_linedraw(a, b):
+static func cube_linedraw(a: Vector3i, b: Vector3i) -> Array[Vector3i]:
     var N = cube_distance(a, b)
-    var results = []
+    var results: Array[Vector3i] = []
     for i in range(N+1):
         results.append(cube_round(cube_lerp(a, b, 1.0/N * i)))
+    return results
+
+static func axial_linedraw(a: Vector2i, b: Vector2i) -> Array[Vector2i]:
+    var results: Array[Vector2i] = []
+    for hex in cube_linedraw(axial_to_cube(a), axial_to_cube(b)):
+        results.append(cube_to_axial(hex))
+    return results
+
+static func oddr_linedraw(a: Vector2i, b: Vector2i) -> Array[Vector2i]:
+    var results: Array[Vector2i] = []
+    for hex in axial_linedraw(oddr_to_axial(a), oddr_to_axial(b)):
+        results.append(axial_to_oddr(hex))
     return results
 
 # Range
 
 static func cube_range(center: Vector3i, radius: int) -> Array[Vector3i]:
-    var results = []
+    var results: Array[Vector3i] = []
     for dx in range(-radius, radius+1):
         for dy in range(max(-radius, -dx-radius), min(radius, -dx+radius)+1):
             var dz = -dx-dy
@@ -127,14 +139,17 @@ static func cube_range(center: Vector3i, radius: int) -> Array[Vector3i]:
     return results
 
 static func axial_range(center: Vector2i, radius: int) -> Array[Vector2i]:
-    var results = []
+    var results: Array[Vector2i] = []
     for dx in range(-radius, radius+1):
         for dy in range(max(-radius, -dx-radius), min(radius, -dx+radius)+1):
             results.append(Vector2i(center.x + dx, center.y + dy))
     return results
 
 static func range(center: Vector2i, radius: int) -> Array[Vector2i]:
-    return axial_range(oddr_to_axial(center), radius)
+    var results: Array[Vector2i] = []
+    for hex in axial_range(oddr_to_axial(center), radius):
+        results.append(axial_to_oddr(hex))
+    return results
 
 static func cube_range_intersection(a: Vector3i, b: Vector3i, radius: int) -> Array[Vector2i]:
     var results = []
@@ -156,10 +171,12 @@ static func axial_range_intersection(a: Vector2i, b: Vector2i, radius: int) -> A
     return cube_range_intersection(axial_to_cube(a), axial_to_cube(b), radius)
 
 static func range_intersection(a: Vector2i, b: Vector2i, radius: int) -> Array[Vector2i]:
-    return axial_range_intersection(oddr_to_axial(a), oddr_to_axial(b), radius)
+    var results = []
+    for hex in axial_range_intersection(oddr_to_axial(a), oddr_to_axial(b), radius):
+        results.append(axial_to_oddr(hex))
+    return results
 
-
-static func hex_reachable(start: Vector2i, movement: int, can_move_to: Callable):
+static func hex_reachable(start: Vector2i, movement: int, can_move_to: Callable) -> Array[Vector2i]:
     var visited = {} # set of hexes
     visited[start] = null
     var fringes = [] # array of arrays of hexes
@@ -171,10 +188,13 @@ static func hex_reachable(start: Vector2i, movement: int, can_move_to: Callable)
             for dir in range(6):
                 var neighbor = hex_neighbor(hex, dir)
                 if neighbor not in visited and can_move_to.call(neighbor):
-                    visited.add(neighbor)
+                    visited[neighbor] = null
                     fringes[k].append(neighbor)
 
-    return visited
+    var reachables : Array[Vector2i] = []
+    for hex in visited.keys():
+        reachables.append(hex)
+    return reachables
 
 # Rotation
 
@@ -198,7 +218,7 @@ static func cube_scale(hex: Vector3i, factor: int) -> Vector3i:
     return Vector3i(hex.x * factor, hex.y * factor, hex.z * factor)
 
 static func cube_ring(center: Vector3i, radius: int) -> Array[Vector3i]:
-    var results = []
+    var results: Array[Vector3i] = []
     var hex = cube_add(center,
                         cube_scale(cube_direction(4), radius))
     for i in range(0, 6):
@@ -208,32 +228,65 @@ static func cube_ring(center: Vector3i, radius: int) -> Array[Vector3i]:
     return results
 
 static func cube_spiral(center: Vector3i, radius: int) -> Array[Vector3i]:
-    var results = [center]
+    var results: Array[Vector3i] = [center]
     for k in range(1, radius+1):
         results += cube_ring(center, k)
     return results
 
 static func axial_ring(center: Vector2i, radius: int) -> Array[Vector2i]:
-    return cube_ring(axial_to_cube(center), radius).map(axial_to_cube)
+    var results: Array[Vector2i] = []
+    for hex in cube_ring(axial_to_cube(center), radius):
+        results.append(cube_to_axial(hex))
+    return results
 
 static func axial_spiral(center: Vector2i, radius: int) -> Array[Vector2i]:
-    return cube_spiral(axial_to_cube(center), radius).map(cube_to_axial)
+    var results: Array[Vector2i] = [center]
+    for k in range(1, radius+1):
+        results += axial_ring(center, k)
+    return results
 
 static func ring(center: Vector2i, radius: int) -> Array[Vector2i]:
-    return axial_ring(oddr_to_axial(center), radius).map(axial_to_oddr)
+    var results: Array[Vector2i] = []
+    for hex in axial_ring(oddr_to_axial(center), radius):
+        results.append(axial_to_oddr(hex))
+    return results
 
 static func spiral(center: Vector2i, radius: int) -> Array[Vector2i]:
-    return axial_spiral(oddr_to_axial(center), radius).map(axial_to_oddr)
+    var results: Array[Vector2i] = [center]
+    for k in range(1, radius+1):
+        results += ring(center, k)
+    return results
+
+# Columns
+
+static func cube_column(start: Vector3i, direction: int, length: int) -> Array[Vector3i]:
+    var results: Array[Vector3i] = []
+    for i in range(0, length):
+        results.append(start)
+        start = cube_neighbor(start, direction)
+    return results
+
+static func axial_column(start: Vector2i, direction: int, length: int) -> Array[Vector2i]:
+    var results: Array[Vector2i] = []
+    for hex in cube_column(axial_to_cube(start), direction, length):
+        results.append(cube_to_axial(hex))
+    return results
+
+static func column(start: Vector2i, direction: int, length: int) -> Array[Vector2i]:
+    var results: Array[Vector2i] = []
+    for hex in axial_column(oddr_to_axial(start), direction, length):
+        results.append(axial_to_oddr(hex))
+    return results
 
 
 # Field of view
 
-static func cube_fov(center: Vector3i, radius: int, can_view: Callable):
-    var results = []
-    for hex in cube_range(center, radius):
+
+static func fov(center: Vector2i, target: Vector2i, can_view: Callable) -> Array[Vector2i]:
+    var results: Array[Vector2i] = []
+    for hex in oddr_linedraw(center, target):
         if can_view.call(hex):
             results.append(hex)
-
     return results
 
 # Rounding

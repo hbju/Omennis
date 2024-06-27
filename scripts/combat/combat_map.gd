@@ -22,7 +22,9 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
 		var party: Array[PartyMember] = [PartyMember.new_rand()]
+		party[0].skill_list.append(Firespark.new())
 		party[0].skill_list.append(Charge.new())
+		party[0].skill_list.append(Sprint.new())
 		enter_combat(party, [Character.new("Dark Cultist", 1, 2, 2)])
 		characters[1].stun()
 
@@ -70,7 +72,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##
 ##  Advances the turn to the next character.
 ##  
-func next_turn() :
+func next_turn() -> void :
 	turn = (turn + 1) % characters.size()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)
@@ -78,10 +80,10 @@ func next_turn() :
 ##
 ## Checks if a given hexagon is occupied by a character.
 ##
-## [code]hex [/code]: The hexagon to check if it is occupied.
+## [code]hex [/code]: The coords of the hexagon to check if it is occupied.
 ## [code]return [/code]: True if the hexagon is occupied, false otherwise.
 ##
-func cell_occupied(hex) : 
+func cell_occupied(hex: Vector2i) -> bool : 
 	for character in characters : 
 		if get_cell_coords(character.global_position) == hex : 
 			return true
@@ -93,7 +95,7 @@ func cell_occupied(hex) :
 ## [code]hex [/code]: The hexagon to check for an enemy character. [br]
 ## [code]return [/code]: The enemy character in the hexagon, or null if there is none. [br]
 ##
-func enemy_in_cell(hex) -> CombatCharacter: 
+func enemy_in_cell(hex: Vector2i) -> CombatCharacter: 
 	for character in characters : 
 		if character is AICombatCharacter && get_cell_coords(character.global_position) == hex : 
 			return character
@@ -105,7 +107,7 @@ func enemy_in_cell(hex) -> CombatCharacter:
 ## [code]hex [/code]: The hexagon to check for a character.[br]
 ## [code]return [/code]: The character in the hexagon, or null if there is none.
 ##
-func get_character(hex) -> CombatCharacter : 
+func get_character(hex: Vector2i) -> CombatCharacter : 
 	for character in characters : 
 		if get_cell_coords(character.global_position) == hex : 
 			return character
@@ -117,7 +119,7 @@ func get_character(hex) -> CombatCharacter :
 ## [code]hex [/code]: The hexagon to check if it is walkable. [br]
 ## [code]return [/code]: True if the hexagon is walkable, false otherwise. [br]
 ##
-func can_walk(hex) : 
+func can_walk(hex: Vector2i) -> bool : 
 	return get_cell_source_id(0, hex) == 22 && get_cell_atlas_coords(0, hex).x in characters[turn].walkable_cells
 
 ##
@@ -125,7 +127,7 @@ func can_walk(hex) :
 ##
 ## [code]highlighted_cells [/code]: An array of previously highlighted cells. [br]
 ##
-func reset_neighbours(highlighted_cells: Array[Vector2i]) : 
+func reset_neighbours(highlighted_cells: Array[Vector2i]) -> void : 
 	for neighbour in highlighted_cells :
 		set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 0)
 
@@ -176,8 +178,9 @@ func highlight_neighbours(hex: Vector2i, highlight_range = 1, empty_cell_alt: in
 ## [code]highlight_range [/code]: The range of columns to highlight (default: 1).[br]
 ## [code]return [/code]: An array of Vector2i representing the coordinates of the highlighted columns.
 ##
-func highlight_columns(hex, highlight_range) -> Array[Vector2i] : 
+func highlight_columns(hex: Vector2i, highlight_range: int) -> Array[Vector2i] : 
 	var highlighted_cells: Array[Vector2i] = []
+	
 	for i in range(0, 6) : 
 		var neighbour = HexHelper.hex_neighbor(hex, i)
 		for j in range(0, highlight_range - 1) : 
@@ -229,7 +232,7 @@ func get_random_walkable_neighbor(hex: Vector2i, walkable_cells: Array[int]) -> 
 ## [code]pos [/code]: The position to get its cell coordinates.[br]
 ## [code]return [/code]: A Vector2i representing the coordinates of the position in the hex grid.
 ##
-func get_cell_coords(pos) : 
+func get_cell_coords(pos: Vector2) -> Vector2i: 
 	return local_to_map(to_local(pos))
 
 ##

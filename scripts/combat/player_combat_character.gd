@@ -16,7 +16,7 @@ signal use_skill(skill: Skill)
 ## [code] return [/code]: the new player character
 ##
 static func new_character(_char: Character) -> PlayerCombatCharacter:
-	var new_char = player_character.instantiate()
+	var new_char: PlayerCombatCharacter = player_character.instantiate()
 	new_char.character = _char
 	for skill in _char.skill_list : 
 		skill.skill_finished.connect(new_char.finish_turn)
@@ -41,6 +41,10 @@ func take_turn() :
 	current_skill = null
 	is_turn = true
 
+func finish_turn() : 
+	map.reset_neighbours(action_cells)
+	super()
+
 
 ##
 ## Highlight the cells that can be targeted by a skill [br]
@@ -57,13 +61,7 @@ func highlight_skill(skill: Skill) :
 		return
 
 	current_skill = skill
-	if skill.is_melee() :	
-		var empty_color = 4 if skill.target_enemies() else 1
-		var enemy_color = 3 if skill.target_enemies() else 0
-		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), skill.get_skill_range(), empty_color, enemy_color)
-		action_cells.erase(map.get_cell_coords(global_position))
-	else : 
-		action_cells = map.highlight_columns(map.get_cell_coords(global_position), skill.get_skill_range())
+	action_cells = skill.highlight_targets(self, map)
 
 ##
 ## Process the input of the player, moving the character or attacking an enemy [br]
@@ -73,6 +71,14 @@ func highlight_skill(skill: Skill) :
 func _input(event):
 	if not is_turn: 
 		return
+	
+	if event is InputEventMouseMotion :
+		if current_skill : 
+			var mouse_cell = map.get_cell_coords(get_global_mouse_position())
+			map.reset_neighbours(action_cells)
+			action_cells = current_skill.highlight_mouse_pos(self, mouse_cell, map)
+		
+
 
 	if event is InputEventMouseButton :
 		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
@@ -91,19 +97,8 @@ func _input(event):
 					map.reset_neighbours(action_cells)
 
 			else : 
-				var click_character = map.get_character(click_pos)
 				if click_pos in action_cells :
-					if click_character : 
-						if click_character is AICombatCharacter and current_skill.target_enemies() : 
-							current_skill.use_skill(self, click_character)
-							map.reset_neighbours(action_cells)
-						if click_character is PlayerCombatCharacter and current_skill.target_allies() : 
-							current_skill.use_skill(self, click_character)
-							map.reset_neighbours(action_cells)
-						if click_character == self and current_skill.target_self() : 
-							current_skill.use_skill(self, click_character)
-							map.reset_neighbours(action_cells)
-
-					elif not (current_skill.target_allies() or current_skill.target_enemies() or current_skill.target_self()) :
-						current_skill.use_skill(self, map.map_to_local(click_pos))
-						map.reset_neighbours(action_cells) 
+					var skill_used = current_skill.use_skill(self, click_pos, map)
+					map.reset_neighbours(action_cells)
+					if skill_used : 
+						current_skill = null
