@@ -36,13 +36,15 @@ func take_turn() :
 	for skill in character.skill_list : 
 		skill.decrease_cooldown()
 
-	action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 3)
+	action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
 	action_cells.erase(map.get_cell_coords(global_position))
 	current_skill = null
 	is_turn = true
 
 func finish_turn() : 
 	map.reset_neighbours(action_cells)
+	action_cells = []
+	current_skill = null
 	super()
 
 
@@ -55,7 +57,7 @@ func highlight_skill(skill: Skill) :
 	map.reset_neighbours(action_cells)
 
 	if current_skill == skill : 
-		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 3)
+		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
 		action_cells.erase(map.get_cell_coords(global_position))
 		current_skill = null
 		return
@@ -75,6 +77,7 @@ func _input(event):
 	if event is InputEventMouseMotion :
 		if current_skill : 
 			var mouse_cell = map.get_cell_coords(get_global_mouse_position())
+
 			map.reset_neighbours(action_cells)
 			action_cells = current_skill.highlight_mouse_pos(self, mouse_cell, map)
 		
@@ -91,14 +94,17 @@ func _input(event):
 
 				var enemy = map.enemy_in_cell(click_pos)
 				if click_pos in action_cells && enemy : 
-					enemy.take_damage(damage)
+					enemy.take_damage(get_damage())
 					attack(map.to_local(enemy.global_position))
 					is_turn = false
 					map.reset_neighbours(action_cells)
 
 			else : 
 				if click_pos in action_cells :
-					var skill_used = current_skill.use_skill(self, click_pos, map)
-					map.reset_neighbours(action_cells)
-					if skill_used : 
-						current_skill = null
+					current_skill.use_skill(self, click_pos, map)
+
+		if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
+			map.reset_neighbours(action_cells)
+			action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
+			action_cells.erase(map.get_cell_coords(global_position))
+			current_skill = null

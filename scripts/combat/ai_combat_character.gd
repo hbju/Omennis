@@ -28,10 +28,11 @@ func _ready():
 ## If no player is in range, the AI will move to a random walkable cell
 ##
 func take_turn():
-	if stunned :
-		stunned = false
-		curr_stun_animation.queue_free()
-		curr_stun_animation = null
+	if char_statuses["stunned"] != 0 :
+		char_statuses["stunned"] -= 1
+		if char_statuses["stunned"] == 0:
+			curr_stun_animation.queue_free()
+			curr_stun_animation = null
 		turn_finished.emit()
 		return
 
@@ -46,7 +47,7 @@ func take_turn():
 
 		if path.size() == 2:
 			attack(map.to_local(closest_player.global_position))
-			closest_player.take_damage(damage)	
+			closest_player.take_damage(get_damage())	
 
 	else : 
 		var random_neighbor = map.get_random_walkable_neighbor(map.get_cell_coords(global_position), walkable_cells)

@@ -1,8 +1,8 @@
 extends Skill
 class_name Firespark
 
-var damage := 90
-var max_cooldown := 2
+var damage_mult : int = 2
+var max_cooldown : int = 2
 
 const firespark_scene = preload("res://scenes/firespark.tscn")
 var caster: CombatCharacter
@@ -12,7 +12,7 @@ var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
     var skill_target = map.get_character(skill_pos)
-    if skill_target == null or not skill_target is AICombatCharacter:
+    if skill_target == null or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
         return false
 
     caster = from
@@ -52,7 +52,7 @@ func is_melee() -> bool:
     return false
 
 func _on_reached_target(): 
-    target.take_damage(damage)
+    target.take_damage(damage_mult * caster.get_damage())
     curr_firespark.queue_free()
     skill_finished.emit()
 
@@ -65,11 +65,11 @@ func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: Combat
         if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
             curr_highlighted_cells.erase(cell)
             continue
-        var mouse_char = map.get_character(mouse_pos)
-        if mouse_char != null and mouse_char is AICombatCharacter:
+        var cell_char = map.get_character(cell)
+        if cell_char and cell_char is AICombatCharacter:
+            map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+        else :
             map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
-        elif mouse_char == null :
-            map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
         
 
     return curr_highlighted_cells

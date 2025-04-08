@@ -3,6 +3,8 @@ class_name SkillNode
 
 @onready var skill_icon: TextureRect = $skill_icon
 
+@export var previous_node: SkillNode
+
 
 var skill: Skill
 var curr_char: PartyMember
@@ -27,10 +29,10 @@ func update_node(spent_points: int, new_skill: Skill, skill_points: int, party_m
 	skill = new_skill
 	remaining_points = skill_points
 	curr_char = party_member
-	if spent_points >= min_spent_points:
-		disabled = false
-	else:
+	if previous_node and not previous_node.is_unlocked.has(curr_char):
 		disabled = true
+	else:
+		disabled = false
 
 
 func _on_skillNode_pressed():

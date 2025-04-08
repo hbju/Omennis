@@ -21,12 +21,15 @@ signal combat_ended(victory: bool)
 func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
-		var party: Array[PartyMember] = [PartyMember.new_rand()]
-		party[0].skill_list.append(Firespark.new())
-		party[0].skill_list.append(Charge.new())
-		party[0].skill_list.append(Sprint.new())
+		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
+		party[0].skill_list.append(ZealousCharge.new())
+		party[0].skill_list.append(RageSlam.new())
+		party[0].skill_list.append(Frenzy.new())
+		party[1].skill_list.append(HolyStrike.new())
+		party[1].skill_list.append(GuardiansAura.new())
+		party[1].skill_list.append(ShieldBash.new())
 		enter_combat(party, [Character.new("Dark Cultist", 1, 2, 2)])
-		characters[1].stun()
+		characters[1].gain_stunned_status()
 
 
 ##
@@ -183,14 +186,19 @@ func highlight_columns(hex: Vector2i, highlight_range: int) -> Array[Vector2i] :
 	
 	for i in range(0, 6) : 
 		var neighbour = HexHelper.hex_neighbor(hex, i)
+		if not can_walk(neighbour) or cell_occupied(neighbour) : 
+			continue
 		for j in range(0, highlight_range - 1) : 
 			neighbour = HexHelper.hex_neighbor(neighbour, i)
 			if not can_walk(neighbour) :
 				break
 			if cell_occupied(neighbour) :
-				set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 3)
-			else : 
-				set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 4)
+				if get_character(neighbour) is AICombatCharacter:
+					set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 4)
+					highlighted_cells.append(neighbour)
+				break
+			 
+			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 3)
 			highlighted_cells.append(neighbour)
 	return highlighted_cells
 

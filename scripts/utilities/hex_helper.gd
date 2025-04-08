@@ -285,8 +285,9 @@ static func column(start: Vector2i, direction: int, length: int) -> Array[Vector
 static func fov(center: Vector2i, target: Vector2i, can_view: Callable) -> Array[Vector2i]:
     var results: Array[Vector2i] = []
     for hex in oddr_linedraw(center, target):
-        if can_view.call(hex):
-            results.append(hex)
+        if not can_view.call(hex):
+            break
+        results.append(hex)
     return results
 
 # Rounding

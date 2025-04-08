@@ -6,7 +6,6 @@ var max_cooldown := 2
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
-	print(skill_pos)
 	if map.can_walk(skill_pos) and !map.cell_occupied(skill_pos) and HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) <= get_skill_range():
 		from.move_to(map.map_to_local(skill_pos))
 		cooldown = max_cooldown
@@ -47,10 +46,10 @@ func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]
 
 	return curr_highlighted_cells
 
-func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
 	for cell in curr_highlighted_cells:
 		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1)
 		if mouse_pos == cell:
-			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 2)
 			
 	return curr_highlighted_cells
