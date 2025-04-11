@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://pnu8ghovek6s"]
+[gd_scene load_steps=21 format=3 uid="uid://pnu8ghovek6s"]
 
 [ext_resource type="Script" path="res://scripts/UI/skill_tree.gd" id="1_obde8"]
 [ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="1_rhdbn"]
+[ext_resource type="PackedScene" uid="uid://2bnhkewiggc3" path="res://scenes/skill_tooltip.tscn" id="2_ly2ir"]
 [ext_resource type="Script" path="res://scripts/UI/skill_node.gd" id="3_q158y"]
 [ext_resource type="Texture2D" uid="uid://cp286ngrg4ejf" path="res://assets/ui/skills/charge.png" id="4_rcxh1"]
 [ext_resource type="Texture2D" uid="uid://dq4f2ix8xq145" path="res://assets/ui/skills/defensive_stance.png" id="5_3xnke"]
@@ -38,6 +39,7 @@ offset_bottom = 541.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_obde8")
+skill_tooltip_scene = ExtResource("2_ly2ir")
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 2

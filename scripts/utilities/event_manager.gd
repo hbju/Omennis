@@ -75,14 +75,12 @@ func event_manager(event_id: String) :
 		_ : 
 			event_ui.show_event(event_id)
 
-func random_event_manager() : 
+func random_event_manager(event_content: Dictionary) : 
 	var party = game_state.party
-	if party.size() >= 2 : 
-		var char1 = randi() % party.size()
-		var char2 = (randi() % (party.size() - 1)) + 1
-		event_ui.show_event("conversation", [party[char1], party[(char1 + char2) % party.size()]], true)
-		event_ui.visible = true
-		game_state.in_event = true
+	#TODO change party to whatever
+	event_ui.show_event("conversation", party, true)
+	event_ui.visible = true
+	game_state.in_event = true
 
 
 func enter_event(event_id: String) :

@@ -114,3 +114,4 @@ scroll_vertical = 100
 [node name="skill_tree" parent="bg/skill_tree_container" instance=ExtResource("3_abr10")]
 custom_minimum_size = Vector2(1920, 1979)
 layout_mode = 2
+debugging = false

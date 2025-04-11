@@ -26,16 +26,28 @@ var oddr_direction_differences = [
 
 var nature_walkable_cells = [0, 1, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
 
+var next_random_event: Dictionary
+
 func _ready():
 	event_manager = EventManager.new($UI/event_ui, $UI/fight_ui, game_state)
 	quest_manager = QuestManager.new()
+
 	gall.body_entered.connect(_toggle_event_ui.bind("gall"))
 	cauldron_mountains.body_entered.connect(_toggle_event_ui.bind("cauldron_mountains"))
 	whispering_hollow.body_entered.connect(_toggle_event_ui.bind("whispering_hollow"))
+
 	$UI/party_button.pressed.connect(_toggle_party_ui)
 	$UI/quest_log_button.pressed.connect(_toggle_questlog_ui)
+
 	party_ui.fire_character.connect(_on_fire_character)
 	party_ui.show_skill_tree.connect(_on_show_skill_tree)
+
+	content_generator.content_received.connect(_on_content_received)
+	var initial_random_event_prompt = "Generate a random event for the following party of adventurers : "
+	for i in range(game_state.party.size()) :
+		initial_random_event_prompt += "\n" + game_state.party[i].to_string()
+	content_generator.request_content(initial_random_event_prompt)
+
 	game_state.random_event.connect(_on_random_event)
 	game_state.money_changed.connect(_on_money_changed)
 	game_state.change_gold(100)
@@ -99,9 +111,48 @@ func _on_fire_character(index: int) :
 func _on_show_skill_tree(index: int) : 
 	skill_ui.update_ui(game_state.party[index])
 	skill_ui.visible = true
+
+func _on_content_received(data: Dictionary) :
+	next_random_event = data
 	
 func _on_random_event() : 
-	event_manager.random_event_manager()
+	# if next_random_event.is_empty() :
+	#	print("No random event available")
+	#	return
+	
+	event_manager.random_event_manager(next_random_event)
+	next_random_event = {}
+
+	var party = game_state.party
+	var prompt = """
+	You are a creative game event generator for the Party RPG Omennis.
+	Generate a brief but flavorful random event suitable for occurring during travel or at camp.
+	The event should primarily feature an interaction between two party members, using placeholders like `[Name 0]` and `[Name 1]`.
+	Make the event concise and entertaining, allowing for varied tones like tension, drama, humor, bonding, or discovery.
+
+	The event description must lead into 2-3 distinct player choices ('possibilities').
+	For each possibility, provide:
+	- The id of the choice, which must always be `leave`, which means that the event is only a single panel.
+	- A short `description` of the choice presented to the player.
+
+	Ensure your final output will contain values for:
+	- A unique event `id` (lowercase_snake_case, e.g., 'campfire_argument').
+	- A short event `name` (Title Case, e.g., 'Heated Words').
+	- The main event `description` (using the placeholders `[Name 0]` and `[Name 1]`).
+	- The array named `possibilities` containing the choices as described above.
+	"""
+	var context_info = "The party consists of the following characters: \n"
+	for i in range(party.size()) :
+		context_info += "\n" + party[i]._to_string()
+		context_info += "\n\n"
+	context_info += "Current money: " + str(game_state.party_money) + "g"
+	context_info += "\n\n"
+	context_info += "Current quests: \n"
+	for j in range(game_state.quest_log.size()) :
+		context_info += game_state.quest_log[j]._to_string()
+		context_info += "\n\n"
+
+	content_generator.request_content(prompt, context_info)
 	
 func _on_money_changed() : 
 	gold_amount.text = str(game_state.party_money) + "g"

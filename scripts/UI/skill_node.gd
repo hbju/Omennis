@@ -15,10 +15,16 @@ var min_spent_points: int
 var glowing: bool = false
 
 var is_unlocked: Array[PartyMember] = []
+
+signal skill_hover_entered(skill_node: Control, skill: Skill) 
+signal skill_hover_exited()
 signal skill_unlocked(skill: Skill)
 
 func _ready():
 	pressed.connect(_on_skillNode_pressed)
+
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 
 func update_node(spent_points: int, new_skill: Skill, skill_points: int, party_member: PartyMember):
@@ -41,6 +47,14 @@ func _on_skillNode_pressed():
 		skill_unlocked.emit(skill)
 		disabled = true
 
+func _on_mouse_entered():
+    # Only show hover info if the skill has data
+	if skill:
+		skill_hover_entered.emit(self, skill)
+
+func _on_mouse_exited():
+    # Always emit exit signal to ensure tooltip hides
+	skill_hover_exited.emit()	
 
 func _process(delta):
 	if not curr_char:

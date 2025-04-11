@@ -43,3 +43,11 @@ func next_level() :
 
 func get_portrait_path() -> String : 
 	return "res://assets/chars/" + ("female/female_" if character_sex == 1 else "male/male_") + "%02d" % character_portrait + ".png"
+
+func _to_string():
+	return "Name: " + character_name + "\n" + \
+		"Class: " + get_char_class() + "\n" + \
+		"Level: " + str(character_level) + "\n" + \
+		"Experience: " + str(character_experience) + "\n" + \
+		"Skill Points: " + str(skill_points) + "\n" + \
+		"Spent Skill Points: " + str(spent_skill_points) + "\n"
