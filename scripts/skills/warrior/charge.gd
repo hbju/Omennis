@@ -11,8 +11,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
         return false
 
     from.attack(map.to_local(skill_target.global_position))
-    skill_target.take_damage(damage_mult * from.get_damage())
-    skill_target.gain_stunned_status()
+    from.deal_damage(skill_target, damage_mult)
     cooldown = max_cooldown
     return true
     

@@ -54,7 +54,7 @@ func finish_turn() :
 ## [code] return [/code]: void
 ##
 func highlight_skill(skill: Skill) : 
-	map.reset_neighbours(action_cells)
+	map.reset_map()
 
 	if current_skill == skill : 
 		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
@@ -94,7 +94,7 @@ func _input(event):
 
 				var enemy = map.enemy_in_cell(click_pos)
 				if click_pos in action_cells && enemy : 
-					enemy.take_damage(get_damage())
+					deal_damage(enemy, 1)
 					attack(map.to_local(enemy.global_position))
 					is_turn = false
 					map.reset_neighbours(action_cells)
@@ -104,7 +104,7 @@ func _input(event):
 					current_skill.use_skill(self, click_pos, map)
 
 		if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
-			map.reset_neighbours(action_cells)
+			map.reset_map()
 			action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
 			action_cells.erase(map.get_cell_coords(global_position))
 			current_skill = null

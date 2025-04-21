@@ -3,14 +3,15 @@ class_name DivineShield
 
 var damage := 0
 var max_cooldown := 5
+var shield_amount := 0.3
 var curr_highlighted_cells: Array[Vector2i] = []
 
-func use_skill(_from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	if skill_pos in curr_highlighted_cells:
 		for cell in curr_highlighted_cells :
 			var character: CombatCharacter = map.get_character(cell)
 			if character != null and character is PlayerCombatCharacter :
-				character.gain_shield(40)
+				character.gain_shield(from.max_health * shield_amount)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
@@ -21,7 +22,7 @@ func get_skill_name() -> String:
 	return "Divine Shield"
 
 func get_skill_description() -> String:
-	return "Create around all adjacent allies and yourself shields that absorb 30% of your max HP damage."
+	return "Create shields around all adjacent allies and yourself that absorb " + str(shield_amount * 100) + "% of your max HP."
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/divine_shield.png")

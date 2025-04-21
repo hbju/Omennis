@@ -7,10 +7,10 @@ var max_cooldown := 4
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var target = map.get_character(skill_pos)
 	if target and target is AICombatCharacter and skill_pos in curr_highlighted_cells:
-		var damage = from.get_damage() * damage_mult
-		if target.get_health() < target.get_max_health() *3 / 10:
-			damage *= 2
-		target.take_damage(damage)
+		var actual_damage_mult = damage_mult
+		if target.health < target.max_health * 3/10:
+			actual_damage_mult *= 2
+		from.deal_damage(target, actual_damage_mult)
 		from.attack(map.to_local(target.global_position))
 		cooldown = max_cooldown
 		return true

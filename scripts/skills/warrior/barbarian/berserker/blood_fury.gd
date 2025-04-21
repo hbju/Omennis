@@ -3,11 +3,13 @@ class_name BloodFury
 
 var damage := 0
 var max_cooldown := 6
+var duration := 3
+var vampiric_strength = 33
 var curr_highlighted_cells: Array[Vector2i] = []
 
-func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, _map: CombatMap) -> bool:
 	if skill_pos in curr_highlighted_cells:
-		from.gain_vampiric_status(3, 33)
+		from.gain_vampiric_status(duration, vampiric_strength)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
@@ -18,7 +20,7 @@ func get_skill_name() -> String:
 	return "Blood Fury"
 
 func get_skill_description() -> String:
-	return "For the next 3 turns, heal for 33% of the damage dealt."
+	return "For the next " + str(duration) + " turns, heal for " + str(vampiric_strength) + "% of the damage dealt."
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/blood_fury.png")

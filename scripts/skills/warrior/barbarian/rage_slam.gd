@@ -19,7 +19,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 				var index = randi() % char_list.size()
 				var character = char_list[index]
 				char_list.erase(character)
-				character.take_damage(damage)
+				from.deal_damage(character, damage)
 
 
 		cooldown = max_cooldown
@@ -29,7 +29,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	return false
 	
 func get_skill_name() -> String:
-	return "Defensive Stance"
+	return "Rage Slam"
 
 func get_skill_description() -> String:
 	return "Deal " + str(damage_mult) + " times your base damage to up to three random adjacent characters."

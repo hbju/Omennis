@@ -1,18 +1,17 @@
 extends Skill
 class_name Whirlwind
 
-var damage_mult := 4
+var damage_mult := 5
 var max_cooldown := 3
 
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	if skill_pos in curr_highlighted_cells:
-		var damage = damage_mult * from.get_damage()
 		for cell in curr_highlighted_cells :
-			var character: CombatCharacter = map.get_character(cell)
-			if character && character is AICombatCharacter :
-				character.take_damage(damage)
+			var target: CombatCharacter = map.get_character(cell)
+			if target && target is AICombatCharacter :
+				from.deal_damage(target, damage_mult)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true

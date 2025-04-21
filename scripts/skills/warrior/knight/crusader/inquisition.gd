@@ -15,7 +15,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 				if character is PlayerCombatCharacter :
 					character.heal(damage)
 				if character is AICombatCharacter :
-					character.take_damage(damage)
+					from.deal_damage(character, damage_mult)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true

@@ -10,7 +10,7 @@ func is_melee() -> bool:
 	return true
 
 func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
-	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex) && map.get_character(hex) and map.get_character(hex) is AICombatCharacter
 	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
 
 	for cell in curr_highlighted_cells:
@@ -18,9 +18,6 @@ func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]
 		var character = map.get_character(cell)
 		if character and character is AICombatCharacter:
 			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
-		if character and character is PlayerCombatCharacter:
-			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 0)
-			curr_highlighted_cells.erase(cell)
 
 	return curr_highlighted_cells
 

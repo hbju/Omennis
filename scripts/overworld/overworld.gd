@@ -148,9 +148,15 @@ func _on_random_event() :
 	context_info += "Current money: " + str(game_state.party_money) + "g"
 	context_info += "\n\n"
 	context_info += "Current quests: \n"
-	for j in range(game_state.quest_log.size()) :
-		context_info += game_state.quest_log[j]._to_string()
-		context_info += "\n\n"
+	for quest in game_state.quest_log.keys() : 
+		var quest_info = load("res://text/quests/" + "%03d" % quest + ".json").data
+		context_info += "\n" + quest_info.name + "\n"
+		context_info += "Difficulty: {difficulty} \n" + \
+			"Location: {location} \n" + \
+			"Description: {description} \n" + \
+			"Reward: {reward} \n".format({"difficulty" : quest_info.difficulty, "location" : quest_info.location,
+			"description": quest_info.description, "reward": quest_info.reward})
+
 
 	content_generator.request_content(prompt, context_info)
 	

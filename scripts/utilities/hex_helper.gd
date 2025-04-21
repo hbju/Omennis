@@ -13,12 +13,12 @@ static func axial_to_cube(hex: Vector2i) -> Vector3i:
     return Vector3i(q, r, s)
 
 static func axial_to_oddr(hex: Vector2i) -> Vector2i:
-    var col = hex.x + (hex.y - (hex.y&1)) / 2
+    var col = round(hex.x + (hex.y - (hex.y&1)) / 2.0)
     var row = hex.y
     return Vector2i(col, row)
 
 static func oddr_to_axial(hex: Vector2i) -> Vector2i:
-    var q = hex.x - (hex.y - (hex.y&1)) / 2
+    var q = round(hex.x - (hex.y - (hex.y&1)) / 2.0)
     var r = hex.y
     return Vector2i(q, r)
 

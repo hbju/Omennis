@@ -4,10 +4,11 @@ class_name DefensiveStance
 var damage := 0
 var max_cooldown := 4
 var curr_highlighted_cells: Array[Vector2i] = []
+var duration := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	if map.get_cell_coords(from.global_position) == skill_pos:
-		from.gain_defensive_status(3)
+		from.gain_defensive_status(duration)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true

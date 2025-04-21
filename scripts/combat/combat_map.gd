@@ -22,14 +22,13 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
 		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
-		party[0].skill_list.append(ZealousCharge.new())
-		party[0].skill_list.append(RageSlam.new())
-		party[0].skill_list.append(Frenzy.new())
-		party[1].skill_list.append(HolyStrike.new())
-		party[1].skill_list.append(GuardiansAura.new())
-		party[1].skill_list.append(ShieldBash.new())
-		enter_combat(party, [Character.new("Dark Cultist", 1, 2, 2)])
-		characters[1].gain_stunned_status()
+		party[0].skill_list.append(BoneArmor.new())
+		party[0].skill_list.append(SoulHarvest.new())
+		party[0].skill_list.append(MoltenBlade.new())
+		party[1].skill_list.append(DeathCoil.new())
+		party[1].skill_list.append(DrainLife.new())
+		party[1].skill_list.append(Decay.new())
+		enter_combat(party, [Character.new("Dark Cultist", 1, 2, 2),Character.new("Dark Cultist", 1, 2, 2),Character.new("Dark Cultist", 1, 2, 2),Character.new("Dark Cultist", 1, 2, 2)])
 
 
 ##
@@ -76,6 +75,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##  Advances the turn to the next character.
 ##  
 func next_turn() -> void :
+	reset_map()
 	turn = (turn + 1) % characters.size()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)
@@ -133,6 +133,10 @@ func can_walk(hex: Vector2i) -> bool :
 func reset_neighbours(highlighted_cells: Array[Vector2i]) -> void : 
 	for neighbour in highlighted_cells :
 		set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 0)
+
+func reset_map() -> void : 
+	for hex in get_used_cells(0) :
+		set_cell(0, hex, 22, get_cell_atlas_coords(0, hex), 0)
 
 
 

@@ -44,7 +44,7 @@ func update_ui(new_member: PartyMember) :
 	var remaining_points = party_member.skill_points
 
 	var warrior_skills = [Charge.new(), DefensiveStance.new(), ShieldBash.new(), GuardiansAura.new(), HolyStrike.new(), DivineShield.new(), ZealousCharge.new(), Inquisition.new(), Frenzy.new(), RageSlam.new(), WarCry.new(), Whirlwind.new(), BloodFury.new(), RagingBlow.new()]
-	var mage_skills = [Firespark.new(), Sprint.new(), Charge.new(), Firespark.new(), Sprint.new(), Charge.new(), Firespark.new(), Sprint.new(), Charge.new(),Firespark.new(), Sprint.new(), Charge.new(), Firespark.new(), Sprint.new()	]
+	var mage_skills = [FiresparkMage.new(), ArcaneShield.new(), Frostbolt.new(), Thunderstrike.new(), LightningStorm.new(), Meteor.new(), ArcaneSlash.new(), MoltenBlade.new(), DarkPact.new(), DrainLife.new(), BoneArmor.new(), SoulHarvest.new(), DeathCoil.new(), Decay.new()]
 	var rogue_skills = [Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new()]
 
 	var curr_skills = warrior_skills if party_member.get_char_class() == "Warrior" else mage_skills if party_member.get_char_class() == "Mage" else rogue_skills

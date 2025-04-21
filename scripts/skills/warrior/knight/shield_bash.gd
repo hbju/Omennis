@@ -6,9 +6,9 @@ var max_cooldown := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var target = map.get_character(skill_pos)
-	if target and target is AICombatCharacter and HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) == 1:
+	if target and target is AICombatCharacter and skill_pos in curr_highlighted_cells:
 		target.gain_weak_status(2)
-		target.take_damage(from.get_damage() * damage_mult)
+		from.deal_damage(target, damage_mult)
 		from.attack(map.to_local(target.global_position))
 		cooldown = max_cooldown
 		skill_finished.emit()
@@ -17,7 +17,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	return false
 	
 func get_skill_name() -> String:
-	return "Defensive Stance"
+	return "Shield Bash"
 
 func get_skill_description() -> String:
 	return "Deal " + str(damage_mult) + " times your base damage and reduce the enemy’s damage by 33% for 2 turns. "

@@ -7,7 +7,7 @@ var character_level: int
 
 var skill_list: Array[Skill] = []
 
-enum CLASSES {Warrior, Rogue, Mage, None}
+enum CLASSES {Warrior, Mage, Rogue, None}
 
 func _init(name, _class, portrait, level):
 	self.character_name = name

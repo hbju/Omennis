@@ -18,7 +18,7 @@ signal turn_finished
 @onready var character_portrait = $character_portrait_bg/character_portrait
 signal character_died(character)
 
-var char_statuses: Dictionary = {"stunned": 0, "poisoned": 0, "burned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "vampiric" : []}
+var char_statuses: Dictionary = {"stunned": 0, "poisoned": 0, "burned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "vampiric" : [], "imbue" : [0,0], "thorns" : [0,0], "decay" : [0,0]}
 
 var stunned_animation = preload("res://scenes/stun_animation.tscn")
 var curr_stun_animation = null
@@ -111,12 +111,12 @@ func move_to_attack_target() :
 			finish_turn()
 
 ##
-## Decrease the health of the character by the base_damage taken [br]
+## Decrease the health of the character by the damage taken [br]
 ## Update the health bar [br]
 ## If the health is less than or equal to 0, emit the character_died signal
 ## [code] damage_taken [/code]: The amount of base_damage taken
 ##
-func take_damage(damage_taken: float) :
+func take_damage(damage_taken: float) -> float :
 	if char_statuses["defensive"] > 0 : 
 		damage_taken = damage_taken / 2
 	if char_statuses["vulnerable"] > 0 : 
@@ -138,13 +138,29 @@ func take_damage(damage_taken: float) :
 	if health <= 0 :
 		queue_free()
 		character_died.emit(self)
+	
+	return damage_taken
+
+##
+## Decrease the health of the character by the health_spent. Ignore statuses and shield. [br]
+## Update the health bar [br]
+## If the health is less than or equal to 0, emit the character_died signal
+## [code] health_spent [/code]: The amount of health to spend
+##
+func spend_health(health_spent: float) : 
+	health -= health_spent
+	_update_health_bar()
+
+	if health <= 0 :
+		queue_free()
+		character_died.emit(self)
 
 ##
 ## Heal the character by the heal_amount [br]
 ## If the character is blessed, the heal_amount is increased by 10% times the level of blessed [br]
 ## [code] heal_amount [/code]: The amount of health to heal
 ##
-func heal(heal_amount: float) : 
+func heal(heal_amount: float) -> float: 
 	var blessed_lvl = char_statuses["blessed"]
 	if blessed_lvl > 0 : 
 		heal_amount = heal_amount * (1 + blessed_lvl/10.0)
@@ -152,13 +168,17 @@ func heal(heal_amount: float) :
 	health = min(max_health, health + heal_amount)
 	_update_health_bar()
 
+	return heal_amount
+
 ##
 ## Gain shield up to the max health of the character [br]
 ## [code] shield_percentage [/code]: The percentage of max_health to gain as shield
 ##
-func gain_shield(shield_percentage: float) : 
+func gain_shield(shield_percentage: float) -> float:
+	var old_value = shield 
 	shield = min(max_health, shield + shield_percentage * max_health / 100.0)
 	_update_shield_bar()
+	return shield - old_value
 
 ##
 ## Update the health bar [br]
@@ -186,16 +206,20 @@ func _update_shield_bar() :
 ## [code] return [/code]: The amount of base_damage the character can deal
 ##
 func get_damage() -> float :
-	var damage = base_damage
+	var damage =  base_damage + char_statuses["imbue"][1] if char_statuses["imbue"][0] > 0 else base_damage
 	if char_statuses["weak"] > 0 : 
 		damage = damage * 2 / 3
 	if char_statuses["strong"] > 0 : 
 		damage = damage * 3 / 2
 	return damage
 
-func deal_damage(other: CombatCharacter) -> float : 
-	var damage = get_damage()
+func deal_damage(other: CombatCharacter, damage_mult: float) -> float : 
+	var damage = get_damage() * damage_mult
 	other.take_damage(damage)
+
+	if (other.char_statuses["thorns"][0] > 0) :
+		take_damage(other.char_statuses["thorns"][1])
+
 	if char_statuses["vampiric"].size() > 0 : 
 		var vampiric_stats = char_statuses["vampiric"]
 		var vampiric_level = 0
@@ -203,6 +227,7 @@ func deal_damage(other: CombatCharacter) -> float :
 			if vampiric_stats[i][0] > 0 : 
 				vampiric_level += vampiric_stats[i][1]
 		heal(damage * vampiric_level / 100.0)
+
 	return damage
 
 func take_turn() : 
@@ -221,10 +246,19 @@ func finish_turn() :
 	char_statuses["vulnerable"] = max(0, char_statuses["vulnerable"] - 1)
 	char_statuses["weak"] = max(0, char_statuses["weak"] - 1)
 	char_statuses["strong"] = max(0, char_statuses["strong"] - 1)
+	char_statuses["imbue"][0] = max(0, char_statuses["imbue"][0] - 1)
+	var new_vampiric = []
 	for i in range(char_statuses["vampiric"].size()) : 
-		char_statuses["vampiric"][i][0] -= 1
-		if char_statuses["vampiric"][i][0] <= 0 : 
-			char_statuses["vampiric"].remove(i)
+		char_statuses["vampiric"][i][0] = char_statuses["vampiric"][i][0] - 1
+		if char_statuses["vampiric"][i][0] > 0 : 
+			new_vampiric.append(char_statuses["vampiric"][i])
+	char_statuses["vampiric"] = new_vampiric
+	char_statuses["decay"][0] = max(0, char_statuses["decay"][0] - 1)
+	char_statuses["thorns"][0] = max(0, char_statuses["thorns"][0] - 1)
+
+	if char_statuses["decay"][0] > 0 : 
+		take_damage(char_statuses["decay"][1] * max_health / 100.0)
+
 	
 	turn_finished.emit()
 
@@ -244,8 +278,8 @@ func _calculate_path_to_character(other_char_pos: Vector2i) -> PackedVector2Arra
 func gain_stunned_status(nb_turns: int = 1) : 
 	char_statuses["stunned"] = nb_turns
 	curr_stun_animation = stunned_animation.instantiate()
-	curr_stun_animation.position = Vector2(0, 0)
 	add_child(curr_stun_animation)
+	curr_stun_animation.position = Vector2(0, 0)
 	curr_stun_animation.z_index = 10
 	curr_stun_animation.play()
 
@@ -267,6 +301,10 @@ func gain_strong_status(nb_turns: int = 1) :
 	if char_statuses["weak"] > 0 : 
 		char_statuses["weak"] = 0
 
+func gain_imbue_status(nb_turns: int = 1, imbue_strength: int = 10) :
+	char_statuses["imbue"][0] = nb_turns
+	char_statuses["imbue"][1] = imbue_strength
+
 func gain_vulnerable_status(nb_turns: int = 1) : 
 	char_statuses["vulnerable"] = nb_turns
 	if char_statuses["defensive"] > 0 : 
@@ -274,6 +312,14 @@ func gain_vulnerable_status(nb_turns: int = 1) :
 
 func gain_vampiric_status(nb_turns: int = 1, nb_levels: int = 1) : 
 	char_statuses["vampiric"].append([nb_turns, nb_levels])
+
+func gain_thorn_status(nb_turns: int = 1, nb_levels: int = 1) :
+	char_statuses["thorns"][0] = char_statuses["thorns"][0] + nb_turns
+	char_statuses["thorns"][1] = max(char_statuses["thorns"][1], nb_levels)
+
+func gain_decay_status(nb_turns: int = 1, decay_percent: int = 10) :
+	char_statuses["decay"][0] = max(char_statuses["decay"][0], nb_turns)
+	char_statuses["decay"][1] = char_statuses["decay"][1] + decay_percent
 
 func knockback(knockback_distance: int, direction: int, knockback_damage: float) : 
 	var curr_pos = map.get_cell_coords(global_position)

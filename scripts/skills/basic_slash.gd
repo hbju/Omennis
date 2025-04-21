@@ -9,7 +9,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
     if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
         return false
 
-    skill_target.take_damage(damage_mult * from.get_attack())
+    from.deal_damage(skill_target, damage_mult)
     cooldown = max_cooldown
     skill_finished.emit()
 

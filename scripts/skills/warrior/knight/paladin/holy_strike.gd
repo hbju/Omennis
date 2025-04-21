@@ -8,7 +8,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	var target = map.get_character(skill_pos)
 	if target and target is AICombatCharacter and skill_pos in curr_highlighted_cells:
 		var damage = from.get_damage() * damage_mult
-		target.take_damage(damage)
+		from.deal_damage(target, damage_mult)
 		from.heal(damage / 4.0)
 		from.attack(map.to_local(target.global_position))
 		cooldown = max_cooldown
