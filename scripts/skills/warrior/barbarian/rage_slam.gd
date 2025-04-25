@@ -1,8 +1,9 @@
 extends MeleeSkill
 class_name RageSlam
 
-var damage_mult := 2
+var damage_mult := 4
 var max_cooldown := 4
+var targets_number := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	if skill_pos in curr_highlighted_cells:
@@ -13,13 +14,10 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 			if character:
 				char_list.append(character)
 
-		for i in range(3):
-			if char_list.size() > 0:
-				print(char_list.size())
-				var index = randi() % char_list.size()
-				var character = char_list[index]
-				char_list.erase(character)
-				from.deal_damage(character, damage)
+		char_list.shuffle()
+		char_list = char_list.slice(0, targets_number)
+		for character in char_list:
+			from.deal_damage(character, damage)
 
 
 		cooldown = max_cooldown
@@ -27,12 +25,72 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 		return true
 
 	return false
+
+func score_action(caster: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, _map: CombatMap) -> float:
+	# AoE Melee - Hits up to 3 random adjacent characters
+	# Score based on expected hits on enemies vs allies
+	var score = AIScoringWeights.WEIGHT_BASE_MELEE
+	var potential_damage = caster.get_damage() * damage_mult
+
+	if potential_targets.size() == 0:
+		return 0.0
+
+	var combinations = []
+	if potential_targets.size() <= targets_number:
+		combinations.append(potential_targets)
+	else:
+		for i in range(potential_targets.size() - targets_number + 1):
+			for j in range(i + 1, potential_targets.size()):
+				for k in range(j + 1, potential_targets.size()):
+					combinations.append([potential_targets[i], potential_targets[j], potential_targets[k]])
+
+
+
+	var expected_ally_hits = 0.0
+	var enemy_damage_score = 0.0
+	for combination in combinations:
+		for target in combination:
+			if target and target is PlayerCombatCharacter:
+				enemy_damage_score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE
+				if target.health < potential_damage :
+					enemy_damage_score += AIScoringWeights.WEIGHT_KILL_BONUS
+				else :
+					enemy_damage_score += potential_damage * (1 - target.health / target.max_health) * AIScoringWeights.WEIGHT_DAMAGE_PER_HP # Scale damage based on target health
+			elif target and target.is_ally(caster):
+				expected_ally_hits += 1
+
+	# Penalize expected damage to allies
+	enemy_damage_score /= combinations.size() # Average score
+	var ally_penalty = expected_ally_hits * AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY / 10 / combinations.size() # Scale penalty
+
+	score += enemy_damage_score + ally_penalty
+	return max(0.0, score)
+
+func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	var caster_pos = map.get_cell_coords(caster.global_position)
+	var adjacent_chars: Array[CombatCharacter] = []
+	var potential_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), map.can_walk)
+
+	for cell in potential_cells:
+			var target_char = map.get_character(cell)
+			if is_valid_target_type(caster, target_char):
+				adjacent_chars.append(target_char)
+
+	if not adjacent_chars.is_empty():
+		return [TargetInfo.new(
+			TargetInfo.TargetType.SELF_AOE_ACTIVATION, # Activation type
+			caster,
+			caster_pos,
+			adjacent_chars # List of *all* adjacent characters (random selection later)
+		)]
+	return []
+
 	
 func get_skill_name() -> String:
 	return "Rage Slam"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to up to three random adjacent characters."
+	return "Deal " + str(damage_mult) + " times your base damage to up to " + str(targets_number) + " random adjacent characters."
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/rage_slam.png")

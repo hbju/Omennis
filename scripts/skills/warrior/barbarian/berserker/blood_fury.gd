@@ -8,13 +8,45 @@ var vampiric_strength = 33
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, _map: CombatMap) -> bool:
-	if skill_pos in curr_highlighted_cells:
+	var skill_target = _map.get_character(skill_pos)
+	if is_valid_target_type(from, skill_target) :
 		from.gain_vampiric_status(duration, vampiric_strength)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
 
 	return false
+
+func score_action(caster: CombatCharacter, _potential_targets: Array[CombatCharacter], _target_cell: Vector2i, map: CombatMap) -> float:
+	# Self buff - Vampiric
+	var score = AIScoringWeights.WEIGHT_BUFF_POSITIVE * 1.1 # Good sustain buff
+
+	# Value more if caster is lower health
+	score += (1.0 - caster.health / caster.max_health) * AIScoringWeights.WEIGHT_HEAL_LOW_HP_BONUS
+
+	# Value more if likely to deal damage soon
+	var enemies_nearby = 0
+	var caster_pos = map.get_cell_coords(caster.global_position)
+	for p in map.get_alive_party_members():
+		if HexHelper.distance(caster_pos, map.get_cell_coords(p.global_position)) <= caster.move_range + 1:
+			enemies_nearby += 1
+	score += enemies_nearby * 4.0
+
+	if caster.char_statuses["vampiric"].size() > 0:
+		score *= 0.8
+
+	return score
+
+func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	# Self-cast only
+	var caster_pos = map.get_cell_coords(caster.global_position)
+	if is_valid_target_type(caster, caster):
+		return [TargetInfo.new(
+			TargetInfo.TargetType.SELF_CAST, caster, caster_pos, [caster]
+		)]
+	else:
+		return []
+
 	
 func get_skill_name() -> String:
 	return "Blood Fury"

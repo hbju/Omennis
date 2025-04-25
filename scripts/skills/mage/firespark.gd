@@ -12,7 +12,7 @@ var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)
-	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+	if not is_valid_target_type(from, skill_target) or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
 		return false
 
 	caster = from
@@ -21,11 +21,53 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	curr_firespark = firespark_scene.instantiate()
 	from.get_parent().add_child(curr_firespark)
 	curr_firespark.position = from.position
-	curr_firespark.move_target = target.position
+	curr_firespark.scale = Vector2(1.5, 1.5)
+	curr_firespark.speed = 1000.0
+	curr_firespark.set_target_position(target.position)
 	curr_firespark.target_reached.connect(_on_reached_target)
 
 	cooldown = max_cooldown
 	return true
+
+func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], target_cell: Vector2i, map: CombatMap) -> float:
+	if potential_targets.is_empty(): return 0.0
+	var curr_target = potential_targets[0]
+
+	var score = AIScoringWeights.WEIGHT_BASE_RANGED # Ranged attacks are generally safer/valuable
+	var potential_damage = from.get_damage() * damage_mult
+	score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE
+
+	if curr_target.health <= potential_damage:
+		score += AIScoringWeights.WEIGHT_KILL_BONUS
+	else:
+		score += (1.0 - (curr_target.health / curr_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+
+	score -= curr_target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY
+
+	# Bonus for range - less valuable if target is already close?
+	var dist = HexHelper.distance(map.get_cell_coords(from.global_position), target_cell)
+	if dist > 1:
+		score += dist * AIScoringWeights.WEIGHT_SKILL_DISTANCE # Slight preference for using range
+
+	return score
+
+func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	var targets: Array[TargetInfo] = []
+	var caster_pos = map.get_cell_coords(from.global_position)
+	var potential_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), map.can_walk)
+
+	for cell in potential_cells:
+		if cell != caster_pos:
+			var target_char = map.get_character(cell)
+			if target_char and is_valid_target_type(from, target_char):
+				targets.append(TargetInfo.new(
+					TargetInfo.TargetType.CHARACTER,
+					target_char,
+					cell,
+					[target_char]
+				))
+	return targets
+
 	
 func get_skill_name() -> String:
 	return "Firespark"

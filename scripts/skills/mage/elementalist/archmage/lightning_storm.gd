@@ -3,7 +3,7 @@ class_name LightningStorm
 
 var damage_mult := 4
 var num_targets := 3
-var stun_chance := 0.5
+var stun_chance := 0.4
 var stun_duration := 1
 var max_cooldown := 6
 var curr_highlighted_cells: Array[Vector2i] = []
@@ -17,16 +17,16 @@ var curr_storms: Dictionary = {}
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var caster_pos = map.get_cell_coords(from.global_position)
-	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex): return true)
+	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex): return true).filter(map.can_walk)
 
 	if not skill_pos in aoe_cells:
 		return false # Skill position is not in the AoE radius
 
 	# Find potential targets in radius
-	var potential_targets: Array[AICombatCharacter] = []
+	var potential_targets: Array[CombatCharacter] = []
 	for cell in aoe_cells:
 		var character = map.get_character(cell)
-		if character and character is AICombatCharacter:
+		if is_valid_target_type(from, character):
 			potential_targets.append(character)
 
 
@@ -51,6 +51,70 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	cooldown = max_cooldown
 	return true
 
+func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, _map: CombatMap) -> float:
+
+	var score = AIScoringWeights.WEIGHT_BASE_RANGED
+	# Find ALL potential enemies in range
+
+	if potential_targets.is_empty():
+		return 0.0 # No enemies in range
+
+	var three_combinations: Array = []
+	if potential_targets.size() <= 3:
+		three_combinations = [potential_targets]
+
+	else :
+		three_combinations = []
+		for i in range(potential_targets.size() - 2):
+			for j in range(i + 1, potential_targets.size()):
+				for k in range(j + 1, potential_targets.size()):
+					three_combinations.append([potential_targets[i], potential_targets[j], potential_targets[k]])
+
+
+	var potential_damage_per_target = from.get_damage() * damage_mult
+
+	var combi_score = 0.0
+	
+	for combination in three_combinations:
+		var total_damage = potential_damage_per_target * combination.size()
+		combi_score += total_damage * AIScoringWeights.WEIGHT_DAMAGE * AIScoringWeights.WEIGHT_AOE_TARGET_ENEMY
+
+		for target in combination:
+			if target.health <= potential_damage_per_target:
+				combi_score += AIScoringWeights.WEIGHT_KILL_BONUS
+			else:
+				combi_score += (1.0 - (target.health / target.max_health)) * potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+		
+			combi_score += AIScoringWeights.WEIGHT_DISABLE_TURN * stun_duration * stun_chance * combination.size()
+
+			combi_score -= target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY #
+
+	score += combi_score / (three_combinations.size() * 1.0) # Average score for all combinations
+	
+
+	return score
+
+func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	var caster_pos = map.get_cell_coords(from.global_position)
+	var potential_enemies: Array[CombatCharacter] = []
+	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), map.can_walk)
+
+	for cell in aoe_cells:
+		var target_char = map.get_character(cell)
+		if target_char and is_valid_target_type(from, target_char): # Check if it's an enemy
+			potential_enemies.append(target_char)
+
+	if not potential_enemies.is_empty():
+		return [TargetInfo.new(
+			TargetInfo.TargetType.SELF_AOE_ACTIVATION,
+			from,
+			caster_pos,
+			potential_enemies # List of potential targets
+		)]
+	else:
+		return []
+
+
 
 func _apply_effect(target):
 	if is_instance_valid(target):
@@ -58,7 +122,6 @@ func _apply_effect(target):
 		if randf() < stun_chance:
 			target.gain_stunned_status(stun_duration)
 
-	# Remove the storm effect
 	if curr_storms.has(target):
 		var curr_storm = curr_storms[target]
 		if is_instance_valid(curr_storm):
@@ -84,7 +147,7 @@ func target_allies() -> bool:
 	return false
 
 func target_enemies() -> bool:
-	return true # Implicitly targets enemies in area
+	return false
 
 func target_self() -> bool:
 	return true # Activated by targeting self / area around self

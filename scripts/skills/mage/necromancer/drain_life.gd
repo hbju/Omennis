@@ -12,7 +12,7 @@ var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)
-	if not skill_target or not skill_target is CombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+	if not is_valid_target_type(from, skill_target) or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
 		return false
 
 	caster = from
@@ -29,6 +29,50 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	cooldown = max_cooldown
 	skill_finished.emit()
 	return true
+
+func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, _map: CombatMap) -> float:
+	if potential_targets.is_empty(): return 0.0
+	var potential_target = potential_targets[0]
+
+	var score = AIScoringWeights.WEIGHT_BASE_RANGED
+	var potential_damage = from.get_damage() * damage_mult
+	var potential_heal = potential_damage # Heal amount equals damage dealt
+
+	# Score damage component
+	var damage_score = potential_damage * AIScoringWeights.WEIGHT_DAMAGE
+	if potential_target.health <= potential_damage:
+		damage_score += AIScoringWeights.WEIGHT_KILL_BONUS
+	else:
+		damage_score += (1.0 - (potential_target.health / potential_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+	damage_score -= potential_target.shield * 0.1
+
+	# Score heal component
+	var heal_score = potential_heal * AIScoringWeights.WEIGHT_HEAL
+	# Value heal more if caster is low health
+	var caster_health_percent = from.health / from.max_health
+	heal_score += (1.0 - caster_health_percent) * potential_heal * AIScoringWeights.WEIGHT_HEAL_LOW_HP_BONUS
+
+	# If targeting an ally, damage score is negative!
+	if potential_target is AICombatCharacter : 
+		damage_score = (1 - (potential_target.health / potential_target.max_health)) * AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY # Use heavy penalty
+
+	score += damage_score + heal_score
+	return max(0.0, score)
+
+func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	# Ranged single target, can hit allies or enemies
+	var targets: Array[TargetInfo] = []
+	var caster_pos = map.get_cell_coords(from.global_position)
+	var potential_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), map.can_walk)
+
+	for cell in potential_cells:
+		var target_char = map.get_character(cell)
+		if is_valid_target_type(from, target_char):
+			targets.append(TargetInfo.new(
+				TargetInfo.TargetType.CHARACTER, target_char, cell, [target_char]
+			))
+	return targets
+
 
 func _on_reached_target():
 	if is_instance_valid(target):

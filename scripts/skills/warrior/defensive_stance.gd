@@ -1,19 +1,52 @@
 extends Skill
 class_name DefensiveStance
 
-var damage := 0
 var max_cooldown := 4
 var curr_highlighted_cells: Array[Vector2i] = []
 var duration := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
-	if map.get_cell_coords(from.global_position) == skill_pos:
-		from.gain_defensive_status(duration)
+	var skill_target = map.get_character(skill_pos)
+	if is_valid_target_type(from, skill_target):
+		from.gain_defensive_status(duration+1)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
 
 	return false
+
+func score_action(from: CombatCharacter, _potential_targets: Array[CombatCharacter], _target_cell: Vector2i, map: CombatMap) -> float:
+	# Self buff
+	var score = AIScoringWeights.WEIGHT_BUFF_POSITIVE
+
+	var health_percent = from.health / from.max_health
+	score += (1.0 - health_percent) * AIScoringWeights.WEIGHT_HEAL_LOW_HP_BONUS * 0.6 # Value more when low HP
+
+	# Value more if likely to be attacked
+	var enemies_nearby = 0
+	var caster_pos = map.get_cell_coords(from.global_position)
+	for p in map.get_alive_party_members():
+		if HexHelper.distance(caster_pos, map.get_cell_coords(p.global_position)) <= 3:
+			enemies_nearby += 1
+	score += enemies_nearby * 6.0
+
+	if from.char_statuses["vulnerable"] > 0:
+		score += AIScoringWeights.WEIGHT_SETUP_BONUS # Removes vulnerable
+
+	if from.char_statuses["defensive"] > 0:
+		score *= 0.3 # Less value if already defensive
+
+	return score
+
+func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	var caster_pos = map.get_cell_coords(caster.global_position)
+	if is_valid_target_type(caster, caster):
+		return [TargetInfo.new(
+			TargetInfo.TargetType.SELF_CAST, caster, caster_pos, [caster]
+		)]
+	else:
+		return []
+
 	
 func get_skill_name() -> String:
 	return "Defensive Stance"
