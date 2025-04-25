@@ -7,7 +7,8 @@ var curr_highlighted_cells: Array[Vector2i] = []
 var duration := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
-	if skill_pos in curr_highlighted_cells:
+	var skill_target = map.get_character(skill_pos)
+	if is_valid_target_type(from, skill_target) :
 		from.gain_vulnerable_status(duration)
 		from.gain_strong_status(duration)
 		cooldown = max_cooldown
@@ -15,6 +16,43 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 		return true
 
 	return false
+
+func score_action(caster: CombatCharacter, _potential_targets: Array[CombatCharacter], _target_cell: Vector2i, map: CombatMap) -> float:
+	# Self buff (Strong + Vulnerable)
+	var score = AIScoringWeights.WEIGHT_BUFF_POSITIVE * 0.5 # Base value, offset by risk
+
+	# Calculate potential damage increase value
+	var enemies_nearby = 0
+	var caster_pos = map.get_cell_coords(caster.global_position)
+	for p in map.get_alive_party_members():
+		if HexHelper.distance(caster_pos, map.get_cell_coords(p.global_position)) <= caster.move_range + 1:
+			enemies_nearby += 1
+	# Rough estimate: Value based on potential extra damage over duration vs nearby enemies
+	var potential_extra_damage = caster.get_damage() * 1.5 # Damage increase per attack
+	score += enemies_nearby * potential_extra_damage * min(duration, 2) * 0.6 # Estimate 2 attacks over duration
+
+	# Penalize for Vulnerable status
+	score -= AIScoringWeights.WEIGHT_BUFF_NEGATIVE  # Vulnerable is very risky
+	# Penalize more if low health or already defensive (overrides defensive)
+	if caster.health < caster.max_health * 0.6:
+		score -= 20.0
+	if caster.char_statuses["defensive"] > 0:
+		score -= 10.0 # Losing defensive stance is bad
+
+	# Less valuable if already strong
+	if caster.char_statuses["strong"] > 0:
+		score *= 0.3
+
+	return max(0.0, score)
+
+func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	var caster_pos = map.get_cell_coords(caster.global_position)
+	if is_valid_target_type(caster, caster):
+		return [TargetInfo.new(
+			TargetInfo.TargetType.SELF_CAST, caster, caster_pos, [caster]
+		)]
+	else:
+		return []
 	
 func get_skill_name() -> String:
 	return "Frenzy"

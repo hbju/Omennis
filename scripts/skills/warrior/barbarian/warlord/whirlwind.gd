@@ -7,16 +7,60 @@ var max_cooldown := 3
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
-	if skill_pos in curr_highlighted_cells:
-		for cell in curr_highlighted_cells :
+	var cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), map.can_walk)
+	if skill_pos in cells:
+		for cell in cells:
 			var target: CombatCharacter = map.get_character(cell)
-			if target && target is AICombatCharacter :
+			if is_valid_target_type(from, target):
 				from.deal_damage(target, damage_mult)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
 
 	return false
+
+func score_action(caster: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, _map: CombatMap) -> float:
+	# AoE Melee Damage (Adjacent Enemies)
+	# potential_targets should be adjacent enemies hit
+	if potential_targets.is_empty(): return 0.0
+
+	var score = AIScoringWeights.WEIGHT_BASE_MELEE # Base for melee AoE
+	var potential_damage_per_target = caster.get_damage() * damage_mult
+	var total_enemy_damage_score = 0.0
+
+	for target in potential_targets:
+		var enemy_score = potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE
+		if target.health <= potential_damage_per_target:
+			enemy_score += AIScoringWeights.WEIGHT_KILL_BONUS
+		else:
+			enemy_score += (1.0 - (target.health / target.max_health)) * potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+		total_enemy_damage_score += enemy_score
+
+	score += total_enemy_damage_score * AIScoringWeights.WEIGHT_AOE_TARGET_ENEMY
+
+	return score
+
+func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	# Self-activation, affects adjacent enemies
+	var caster_pos = map.get_cell_coords(caster.global_position)
+	var enemies_affected: Array[CombatCharacter] = []
+	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), map.can_walk)
+
+	for cell in aoe_cells:
+		var target_char = map.get_character(cell)
+		if is_valid_target_type(caster, target_char): # Checks target_enemies
+			enemies_affected.append(target_char)
+
+	if not enemies_affected.is_empty():
+		return [TargetInfo.new(
+			TargetInfo.TargetType.SELF_AOE_ACTIVATION,
+			caster,
+			caster_pos,
+			enemies_affected
+		)]
+	else:
+		return []
+
 	
 func get_skill_name() -> String:
 	return "Whirlwind"
@@ -31,7 +75,7 @@ func get_skill_range() -> int:
 	return 1
 
 func target_allies() -> bool:
-	return true
+	return false
 
 func target_enemies() -> bool:
 	return true

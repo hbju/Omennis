@@ -13,7 +13,7 @@ var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)
-	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+	if not is_valid_target_type(from, skill_target) or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
 		return false
 
 	caster = from
@@ -33,6 +33,48 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 
 	cooldown = max_cooldown
 	return true
+
+func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, _map: CombatMap) -> float:
+	if potential_targets.is_empty(): return 0.0
+	var potential_target = potential_targets[0]
+
+	var score = AIScoringWeights.WEIGHT_BASE_RANGED
+	var potential_damage = from.get_damage() * damage_mult
+	score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE
+
+	if potential_target.health <= potential_damage:
+		score += AIScoringWeights.WEIGHT_KILL_BONUS
+	else:
+		score += (1.0 - (potential_target.health / potential_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+
+	# Penalty for health cost
+	var health_cost = from.max_health * health_cost_percent
+	score += health_cost_percent * 100.0 * AIScoringWeights.WEIGHT_HEALTH_COST_PENALTY
+
+	# Heavily penalize if the health cost would kill the caster
+	if from.health <= health_cost:
+		score = 0.0 # Never suicide with this skill
+
+	# Reduce score significantly if caster health is already low
+	if from.health < from.max_health * 0.3:
+		score *= 0.25
+
+	score -= potential_target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY
+
+	return max(0.0, score) # Ensure score isn't negative
+
+func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	var targets: Array[TargetInfo] = []
+	var caster_pos = map.get_cell_coords(from.global_position)
+	var potential_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func (_hex): return true).filter(map.can_walk)
+
+	for cell in potential_cells:
+		var target_char = map.get_character(cell)
+		if is_valid_target_type(from, target_char):
+			targets.append(TargetInfo.new(
+				TargetInfo.TargetType.CHARACTER, target_char, cell, [target_char]
+			))
+	return targets
 
 func _on_reached_target():
 	if is_instance_valid(target):

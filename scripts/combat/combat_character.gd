@@ -7,7 +7,7 @@ var move_target = null
 var attack_target = null
 var knockback_target = null
 var init_pos = null
-@export var speed: int = 600
+@export var speed: int = 1000
 signal turn_finished
 
 @onready var health_bar = $health_bar
@@ -175,8 +175,16 @@ func heal(heal_amount: float) -> float:
 ## [code] shield_percentage [/code]: The percentage of max_health to gain as shield
 ##
 func gain_shield(shield_percentage: float) -> float:
+	return gain_shield_flat(max_health * shield_percentage / 100.0)
+
+##
+## Gain shield up to the max health of the character [br]
+## [code] shield_amount [/code]: The amount of shield to gain
+## [code] return [/code]: The amount of shield gained
+##
+func gain_shield_flat(shield_amount: float) -> float:
 	var old_value = shield 
-	shield = min(max_health, shield + shield_percentage * max_health / 100.0)
+	shield = min(max_health, shield + shield_amount)
 	_update_shield_bar()
 	return shield - old_value
 

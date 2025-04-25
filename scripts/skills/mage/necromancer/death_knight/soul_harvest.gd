@@ -2,7 +2,7 @@ extends Skill
 class_name SoulHarvest
 
 const harvest_effect = preload("res://scenes/impact_effect.tscn")
-var damage_mult := 3
+var damage_mult := 4
 var max_cooldown := 3
 var curr_highlighted_cells: Array[Vector2i] = []
 
@@ -21,7 +21,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	targets = []
 	for cell in aoe_cells:
 		var character = map.get_character(cell)
-		if character and character != from:
+		if is_valid_target_type(from, character) :
 			targets.append(character)
 
 	if targets.is_empty():
@@ -36,6 +36,60 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 
 	cooldown = max_cooldown
 	return true
+
+func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, _map: CombatMap) -> float:
+	# AoE Damage around self
+	# potential_targets should include all characters hit (excluding self)
+	if potential_targets.is_empty(): return 0.0
+
+	var score = AIScoringWeights.WEIGHT_BASE_RANGED # Base for AoE damage
+	var potential_damage_per_target = from.get_damage() * damage_mult
+	var total_enemy_damage_score = 0.0
+	var total_ally_damage_penalty = 0.0
+	var enemies_hit = 0
+
+	for target in potential_targets:
+		if target == from: continue # Should already be excluded by use_skill logic
+
+		if target is PlayerCombatCharacter: # Is Enemy?
+			enemies_hit += 1
+			var enemy_score = potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE
+			if target.health <= potential_damage_per_target:
+				enemy_score += AIScoringWeights.WEIGHT_KILL_BONUS
+			else:
+				enemy_score += (1.0 - (target.health / target.max_health)) * potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+			total_enemy_damage_score += enemy_score
+		else: # Is Ally?
+			total_ally_damage_penalty += AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY * (potential_damage_per_target / target.max_health)
+
+	if enemies_hit == 0: return 0.0 # No value if only hitting allies
+
+	score += total_enemy_damage_score * AIScoringWeights.WEIGHT_AOE_TARGET_ENEMY
+	score += total_ally_damage_penalty
+
+
+	return max(0.0, score)
+
+func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	# Self-centered AoE, affects all characters except caster
+	var caster_pos = map.get_cell_coords(from.global_position)
+	var characters_hit = []
+
+	for cell in HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex): return true):
+		var character = map.get_character(cell)
+		if is_valid_target_type(from, character):
+			characters_hit.append(character)
+
+
+	if not characters_hit.is_empty():
+		return [TargetInfo.new(
+			TargetInfo.TargetType.SELF_AOE_ACTIVATION,
+			from,
+			caster_pos,
+			characters_hit # All non-caster characters hit
+		)]
+	else:
+		return []
 
 func _on_reached_target():
 	if is_instance_valid(curr_effect):
@@ -60,13 +114,13 @@ func get_skill_range() -> int:
 	return 2
 
 func target_allies() -> bool:
-	return false
+	return true
 
 func target_enemies() -> bool:
 	return true # Implicitly via area
 
 func target_self() -> bool:
-	return true # Activation target
+	return false
 
 func is_melee() -> bool:
 	# Consistent with Lightning Storm / Whirlwind
