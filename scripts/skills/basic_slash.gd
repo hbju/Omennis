@@ -1,13 +1,19 @@
 extends Skill
 class_name BasicSlash
 
-var damage := 60
+var damage_mult := 1
 var max_cooldown := 1
 
-func use_skill(from: CombatCharacter, target: CombatCharacter) -> void:
-    target.take_damage(damage)
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+    var skill_target = map.get_character(skill_pos)
+    if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+        return false
+
+    from.deal_damage(skill_target, damage_mult)
     cooldown = max_cooldown
     skill_finished.emit()
+
+    return true
     
 func get_skill_name() -> String:
     return "Basic Slash"

@@ -1,21 +1,30 @@
-[gd_scene load_steps=10 format=3 uid="uid://pnu8ghovek6s"]
+[gd_scene load_steps=21 format=3 uid="uid://pnu8ghovek6s"]
 
 [ext_resource type="Script" path="res://scripts/UI/skill_tree.gd" id="1_obde8"]
 [ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="1_rhdbn"]
-[ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="2_ktexg"]
-[ext_resource type="Texture2D" uid="uid://dn1ligfca00d8" path="res://assets/ui/skills/firespark.png" id="3_4ffkn"]
+[ext_resource type="PackedScene" uid="uid://2bnhkewiggc3" path="res://scenes/skill_tooltip.tscn" id="2_ly2ir"]
 [ext_resource type="Script" path="res://scripts/UI/skill_node.gd" id="3_q158y"]
-[ext_resource type="Texture2D" uid="uid://duahxumfrpsrs" path="res://assets/ui/skills/sprint.png" id="4_4jy7r"]
+[ext_resource type="Texture2D" uid="uid://cp286ngrg4ejf" path="res://assets/ui/skills/charge.png" id="4_rcxh1"]
+[ext_resource type="Texture2D" uid="uid://dq4f2ix8xq145" path="res://assets/ui/skills/defensive_stance.png" id="5_3xnke"]
+[ext_resource type="Texture2D" uid="uid://2dpx57kq2ew4" path="res://assets/ui/skills/shield_bash.png" id="5_bqh5g"]
+[ext_resource type="Texture2D" uid="uid://bb4a24ytey2g1" path="res://assets/ui/skills/guardians_aura.png" id="7_vahos"]
+[ext_resource type="Texture2D" uid="uid://drhbqt85vfus0" path="res://assets/ui/skills/holy_strike.png" id="9_2up3q"]
+[ext_resource type="Texture2D" uid="uid://bop7h8i68lbk2" path="res://assets/ui/skills/divine_shield.png" id="9_mjhwd"]
+[ext_resource type="Texture2D" uid="uid://cfi0xrm6ajo60" path="res://assets/ui/skills/zealous_charge.png" id="10_4w20h"]
+[ext_resource type="Texture2D" uid="uid://di3cjm1lwcyy6" path="res://assets/ui/skills/inquisition.png" id="11_0b5la"]
+[ext_resource type="Texture2D" uid="uid://bdwr3pmc6wgmv" path="res://assets/ui/skills/frenzy.png" id="12_i2nfp"]
+[ext_resource type="Texture2D" uid="uid://rtamsaitdqo7" path="res://assets/ui/skills/rage_slam.png" id="13_g7ubu"]
+[ext_resource type="Texture2D" uid="uid://np02ik5r0uw7" path="res://assets/ui/skills/war_cry.png" id="14_cbiub"]
+[ext_resource type="Texture2D" uid="uid://cb88mh7vksx8n" path="res://assets/ui/skills/whirlwind.png" id="15_u6vgq"]
+[ext_resource type="Texture2D" uid="uid://dipa2suoynvmw" path="res://assets/ui/skills/blood_fury.png" id="16_vul5c"]
+[ext_resource type="Texture2D" uid="uid://6gotthvxvabv" path="res://assets/ui/skills/raging_blow.png" id="17_p80hd"]
 
 [sub_resource type="Gradient" id="Gradient_60x87"]
 offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.28485, 0.28485, 0.28485, 1)
+colors = PackedColorArray(0.506734, 0.134841, 0.0543146, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_xppr2"]
 gradient = SubResource("Gradient_60x87")
-
-[sub_resource type="LabelSettings" id="LabelSettings_p1ob8"]
-font_size = 40
 
 [node name="skill_tree" type="MarginContainer"]
 anchors_preset = 8
@@ -24,40 +33,29 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -961.0
-offset_top = -539.0
+offset_top = -1438.0
 offset_right = 959.0
 offset_bottom = 541.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_obde8")
+skill_tooltip_scene = ExtResource("2_ly2ir")
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 2
 texture = SubResource("GradientTexture2D_xppr2")
 
-[node name="skill_points" type="Label" parent="background"]
-layout_mode = 0
-offset_left = 99.0
-offset_top = 106.0
-offset_right = 412.0
-offset_bottom = 185.0
-text = "3 skill points remaining"
-label_settings = SubResource("LabelSettings_p1ob8")
-
 [node name="skill_node1" type="TextureButton" parent="background"]
-z_index = 1
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -75.0
-offset_top = -15.0
+offset_top = 760.5
 offset_right = 75.0
-offset_bottom = 135.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_bottom = 910.5
 texture_normal = ExtResource("1_rhdbn")
 ignore_texture_size = true
 stretch_mode = 0
@@ -67,9 +65,6 @@ script = ExtResource("3_q158y")
 z_as_relative = false
 position = Vector2(-885, -533)
 points = PackedVector2Array(960, 600, 960, 325)
-
-[node name="Line2D" type="Line2D" parent="background/skill_node1/Line2D"]
-points = PackedVector2Array(570, 325, 1350, 325)
 
 [node name="skill_icon" type="TextureRect" parent="background/skill_node1"]
 layout_mode = 1
@@ -84,24 +79,35 @@ offset_right = 56.0
 offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_ktexg")
+texture = ExtResource("4_rcxh1")
 expand_mode = 1
 
-[node name="skill_node2" type="TextureButton" parent="background/skill_node1"]
+[node name="skill_node2" type="TextureButton" parent="background/skill_node1" node_paths=PackedStringArray("previous_node")]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -465.0
-offset_top = -358.0
-offset_right = -315.0
-offset_bottom = -208.0
+offset_left = -75.0
+offset_top = -375.0
+offset_right = 75.0
+offset_bottom = -225.0
+grow_horizontal = 2
+grow_vertical = 2
 texture_normal = ExtResource("1_rhdbn")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/Line2D"]
+points = PackedVector2Array(570, 325, 1350, 325)
 
 [node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2"]
 layout_mode = 1
@@ -116,10 +122,231 @@ offset_right = 56.0
 offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_4ffkn")
+texture = ExtResource("5_3xnke")
 expand_mode = 1
 
-[node name="skill_node3" type="TextureButton" parent="background/skill_node1"]
+[node name="skill_node11" type="TextureButton" parent="background/skill_node1/skill_node2" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -465.0
+offset_top = -358.0
+offset_right = -315.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node11"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node11"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_bqh5g")
+expand_mode = 1
+
+[node name="skill_node12" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node11" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -358.0
+offset_right = 75.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node11/skill_node12"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/Line2D"]
+points = PackedVector2Array(765, 325, 1155, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node11/skill_node12"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_vahos")
+expand_mode = 1
+
+[node name="skill_node111" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node11/skill_node12" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -358.0
+offset_right = -120.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node111"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node111"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_2up3q")
+expand_mode = 1
+
+[node name="skill_node112" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node111" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -358.0
+offset_right = 75.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node111/skill_node112"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_mjhwd")
+expand_mode = 1
+
+[node name="skill_node121" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node11/skill_node12" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 120.0
+offset_top = -358.0
+offset_right = 270.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node121"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node121"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_4w20h")
+expand_mode = 1
+
+[node name="skill_node122" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node121" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -358.0
+offset_right = 75.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node11/skill_node12/skill_node121/skill_node122"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_0b5la")
+expand_mode = 1
+
+[node name="skill_node21" type="TextureButton" parent="background/skill_node1/skill_node2" node_paths=PackedStringArray("previous_node")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -134,8 +361,14 @@ texture_normal = ExtResource("1_rhdbn")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("3_q158y")
+previous_node = NodePath("..")
 
-[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node3"]
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node21"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node21"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -148,5 +381,188 @@ offset_right = 56.0
 offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_4jy7r")
+texture = ExtResource("12_i2nfp")
+expand_mode = 1
+
+[node name="skill_node22" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node21" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -358.0
+offset_right = 75.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node21/skill_node22"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/Line2D"]
+points = PackedVector2Array(765, 325, 1155, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node21/skill_node22"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_g7ubu")
+expand_mode = 1
+
+[node name="skill_node212" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node21/skill_node22" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -358.0
+offset_right = -120.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node212"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node212"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_cbiub")
+expand_mode = 1
+
+[node name="skill_node212" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node212" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -358.0
+offset_right = 75.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node212/skill_node212"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_u6vgq")
+expand_mode = 1
+
+[node name="skill_node211" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node21/skill_node22" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 120.0
+offset_top = -358.0
+offset_right = 270.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node211"]
+z_as_relative = false
+position = Vector2(-885, -533)
+points = PackedVector2Array(960, 600, 960, 325)
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node211"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_vul5c")
+expand_mode = 1
+
+[node name="skill_node212" type="TextureButton" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node211" node_paths=PackedStringArray("previous_node")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -358.0
+offset_right = 75.0
+offset_bottom = -208.0
+texture_normal = ExtResource("1_rhdbn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_q158y")
+previous_node = NodePath("..")
+
+[node name="skill_icon" type="TextureRect" parent="background/skill_node1/skill_node2/skill_node21/skill_node22/skill_node211/skill_node212"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_p80hd")
 expand_mode = 1

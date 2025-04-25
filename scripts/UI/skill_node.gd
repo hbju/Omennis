@@ -3,6 +3,8 @@ class_name SkillNode
 
 @onready var skill_icon: TextureRect = $skill_icon
 
+@export var previous_node: SkillNode
+
 
 var skill: Skill
 var curr_char: PartyMember
@@ -13,10 +15,16 @@ var min_spent_points: int
 var glowing: bool = false
 
 var is_unlocked: Array[PartyMember] = []
+
+signal skill_hover_entered(skill_node: Control, skill: Skill) 
+signal skill_hover_exited()
 signal skill_unlocked(skill: Skill)
 
 func _ready():
 	pressed.connect(_on_skillNode_pressed)
+
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 
 func update_node(spent_points: int, new_skill: Skill, skill_points: int, party_member: PartyMember):
@@ -27,10 +35,10 @@ func update_node(spent_points: int, new_skill: Skill, skill_points: int, party_m
 	skill = new_skill
 	remaining_points = skill_points
 	curr_char = party_member
-	if spent_points >= min_spent_points:
-		disabled = false
-	else:
+	if previous_node and not previous_node.is_unlocked.has(curr_char):
 		disabled = true
+	else:
+		disabled = false
 
 
 func _on_skillNode_pressed():
@@ -39,6 +47,14 @@ func _on_skillNode_pressed():
 		skill_unlocked.emit(skill)
 		disabled = true
 
+func _on_mouse_entered():
+    # Only show hover info if the skill has data
+	if skill:
+		skill_hover_entered.emit(self, skill)
+
+func _on_mouse_exited():
+    # Always emit exit signal to ensure tooltip hides
+	skill_hover_exited.emit()	
 
 func _process(delta):
 	if not curr_char:

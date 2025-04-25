@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://xkfew8g51xdy"]
+[gd_scene load_steps=12 format=3 uid="uid://xkfew8g51xdy"]
 
 [ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
 [ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_3xit3"]
@@ -10,21 +10,32 @@ size = Vector2(296, 294)
 [sub_resource type="Gradient" id="Gradient_iwu2c"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_7l162"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3uflw"]
 gradient = SubResource("Gradient_iwu2c")
 
-[sub_resource type="Gradient" id="Gradient_0iyvg"]
-colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_lgo7n"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_4tww3"]
-gradient = SubResource("Gradient_0iyvg")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7dfck"]
+gradient = SubResource("Gradient_lgo7n")
+
+[sub_resource type="LabelSettings" id="LabelSettings_veh1q"]
+font_size = 28
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_1q8cw"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(4.90934e-06, 0, 0.891691, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sawqs"]
+gradient = SubResource("Gradient_1q8cw")
 
 [node name="player" type="CharacterBody2D"]
 position = Vector2(811, 433)
 scale = Vector2(2.5, 2.5)
 collision_layer = 0
 script = ExtResource("1_38dme")
-speed = null
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)
@@ -47,10 +58,55 @@ anchor_right = 1.0
 offset_left = -127.0
 offset_top = -207.0
 offset_right = 129.0
-offset_bottom = -188.0
+offset_bottom = -167.0
 grow_horizontal = 2
 step = 0.01
 value = 100.0
 nine_patch_stretch = true
-texture_under = SubResource("GradientTexture1D_7l162")
-texture_progress = SubResource("GradientTexture1D_4tww3")
+texture_under = SubResource("GradientTexture1D_3uflw")
+texture_progress = SubResource("GradientTexture2D_7dfck")
+
+[node name="curr_health" type="Label" parent="health_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_veh1q")
+
+[node name="shield_bar" type="TextureProgressBar" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -127.0
+offset_top = -248.2
+offset_right = 129.0
+offset_bottom = -208.2
+grow_horizontal = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture1D_sawqs")
+
+[node name="curr_shield" type="Label" parent="shield_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_veh1q")

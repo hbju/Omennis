@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://827rxntnhm3s" path="res://assets/ui/icons/party_button.png" id="8_ulqjd"]
 [ext_resource type="PackedScene" uid="uid://cjyeq8m6odn86" path="res://scenes/quest_log_ui.tscn" id="9_kewrd"]
 [ext_resource type="PackedScene" uid="uid://d25rdiau8ito5" path="res://scenes/fight_ui.tscn" id="10_14wst"]
-[ext_resource type="Texture2D" uid="uid://b866j1dgfgg0h" path="res://assets/ui/icons/questlog_button.PNG" id="10_n61bo"]
+[ext_resource type="Texture2D" uid="uid://b866j1dgfgg0h" path="res://assets/ui/icons/questlog_button.png" id="10_n61bo"]
 [ext_resource type="PackedScene" uid="uid://mbxnxi53kylh" path="res://scenes/skill_ui.tscn" id="13_2neqc"]
 [ext_resource type="Texture2D" uid="uid://c2p2hp5cfdp8d" path="res://assets/ui/icons/money_icon.png" id="13_aixhf"]
 

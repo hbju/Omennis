@@ -1,0 +1,337 @@
+[gd_scene load_steps=79 format=3 uid="uid://f0widx1xsh6f"]
+
+[ext_resource type="Script" path="res://scripts/combat/skills/projectile_effect.gd" id="1_g4f6b"]
+[ext_resource type="Texture2D" uid="uid://b53mqagif6xqx" path="res://assets/combat/skills/firespark/img_0.png" id="2_48fua"]
+[ext_resource type="Texture2D" uid="uid://cvlpejo4q80rb" path="res://assets/combat/skills/firespark/img_1.png" id="3_o2wre"]
+[ext_resource type="Texture2D" uid="uid://c65kwdry1c3to" path="res://assets/combat/skills/firespark/img_2.png" id="4_eljpr"]
+[ext_resource type="Texture2D" uid="uid://c52kn670acbw1" path="res://assets/combat/skills/firespark/img_3.png" id="5_nl5co"]
+[ext_resource type="Texture2D" uid="uid://b82w3kv7gkulw" path="res://assets/combat/skills/firespark/img_4.png" id="6_3glmh"]
+[ext_resource type="Texture2D" uid="uid://crr0vt1xqejxy" path="res://assets/combat/skills/firespark/img_5.png" id="7_oayr8"]
+[ext_resource type="Texture2D" uid="uid://c5teumr6xfllv" path="res://assets/combat/skills/firespark/img_6.png" id="8_742ew"]
+[ext_resource type="Texture2D" uid="uid://c3bnxs3hi1hjt" path="res://assets/combat/skills/firespark/img_7.png" id="9_e13eq"]
+[ext_resource type="Texture2D" uid="uid://6ofgvno1eq7b" path="res://assets/combat/skills/firespark/img_8.png" id="10_ty6he"]
+[ext_resource type="Texture2D" uid="uid://dcdkg6dsji1jy" path="res://assets/combat/skills/firespark/img_9.png" id="11_aypm8"]
+[ext_resource type="Texture2D" uid="uid://buguuica3ledx" path="res://assets/combat/skills/firespark/img_10.png" id="12_tfdtx"]
+[ext_resource type="Texture2D" uid="uid://gijke8xcpkq3" path="res://assets/combat/skills/firespark/img_11.png" id="13_yuyjv"]
+[ext_resource type="Texture2D" uid="uid://dv0bo3oy0nty7" path="res://assets/combat/skills/firespark/img_12.png" id="14_2abus"]
+[ext_resource type="Texture2D" uid="uid://x2vovwmu1nlp" path="res://assets/combat/skills/firespark/img_13.png" id="15_uw7sr"]
+[ext_resource type="Texture2D" uid="uid://dnqvw0t5see31" path="res://assets/combat/skills/firespark/img_14.png" id="16_jhcn0"]
+[ext_resource type="Texture2D" uid="uid://bj443pw5mgal1" path="res://assets/combat/skills/firespark/img_15.png" id="17_51xs4"]
+[ext_resource type="Texture2D" uid="uid://yfjexdtvr48e" path="res://assets/combat/skills/firespark/img_16.png" id="18_3hvj1"]
+[ext_resource type="Texture2D" uid="uid://bd7jq3cqvb168" path="res://assets/combat/skills/firespark/img_17.png" id="19_tdgee"]
+[ext_resource type="Texture2D" uid="uid://ccsf30uhdmqi6" path="res://assets/combat/skills/firespark/img_18.png" id="20_5mipl"]
+[ext_resource type="Texture2D" uid="uid://djiytaeiia0ib" path="res://assets/combat/skills/firespark/img_19.png" id="21_8aroo"]
+[ext_resource type="Texture2D" uid="uid://bujkyp6diatd2" path="res://assets/combat/skills/firespark/img_20.png" id="22_a2nj5"]
+[ext_resource type="Texture2D" uid="uid://dxghuinfy67dq" path="res://assets/combat/skills/firespark/img_21.png" id="23_vanry"]
+[ext_resource type="Texture2D" uid="uid://dt0vy5n5mdcg" path="res://assets/combat/skills/firespark/img_22.png" id="24_ccb3w"]
+[ext_resource type="Texture2D" uid="uid://dao1goxtnuj15" path="res://assets/combat/skills/firespark/img_23.png" id="25_plllx"]
+[ext_resource type="Texture2D" uid="uid://chy3qxupsxhh8" path="res://assets/combat/skills/firespark/img_24.png" id="26_aur7t"]
+[ext_resource type="Texture2D" uid="uid://kt63n27cj322" path="res://assets/combat/skills/firespark/img_25.png" id="27_056uy"]
+[ext_resource type="Texture2D" uid="uid://u1ytuii5hcgh" path="res://assets/combat/skills/firespark/img_26.png" id="28_oskj5"]
+[ext_resource type="Texture2D" uid="uid://o1mm8v63fubd" path="res://assets/combat/skills/firespark/img_27.png" id="29_6kcgc"]
+[ext_resource type="Texture2D" uid="uid://db43vv0xl0e3q" path="res://assets/combat/skills/firespark/img_28.png" id="30_6g5lc"]
+[ext_resource type="Texture2D" uid="uid://cqgbqsb4matfo" path="res://assets/combat/skills/firespark/img_29.png" id="31_miygr"]
+[ext_resource type="Texture2D" uid="uid://6ux42ld7sok8" path="res://assets/combat/skills/firespark/img_30.png" id="32_sxe5b"]
+[ext_resource type="Texture2D" uid="uid://duxotkybnei4" path="res://assets/combat/skills/firespark/img_31.png" id="33_mnmw2"]
+[ext_resource type="Texture2D" uid="uid://c06n8yl547dqc" path="res://assets/combat/skills/firespark/img_32.png" id="34_l5tn8"]
+[ext_resource type="Texture2D" uid="uid://cpj427o4n8dvs" path="res://assets/combat/skills/firespark/img_33.png" id="35_g8755"]
+[ext_resource type="Texture2D" uid="uid://c2etx4tqwkrt1" path="res://assets/combat/skills/firespark/img_34.png" id="36_nbohn"]
+[ext_resource type="Texture2D" uid="uid://03p6k0pupdeo" path="res://assets/combat/skills/firespark/img_35.png" id="37_t71j6"]
+[ext_resource type="Texture2D" uid="uid://cr23guyspxbgx" path="res://assets/combat/skills/firespark/img_36.png" id="38_h8ipu"]
+[ext_resource type="Texture2D" uid="uid://d0f2da53xma8o" path="res://assets/combat/skills/firespark/img_37.png" id="39_vpjea"]
+[ext_resource type="Texture2D" uid="uid://dcm7h83fo4gps" path="res://assets/combat/skills/firespark/img_38.png" id="40_6ahmp"]
+[ext_resource type="Texture2D" uid="uid://dacplb5u3fjyi" path="res://assets/combat/skills/firespark/img_39.png" id="41_wy8ta"]
+[ext_resource type="Texture2D" uid="uid://cuwrt8mdj70hv" path="res://assets/combat/skills/frostbolt/img_0.png" id="42_7fhlx"]
+[ext_resource type="Texture2D" uid="uid://b0gogwa4w4pjw" path="res://assets/combat/skills/frostbolt/img_1.png" id="43_m07pd"]
+[ext_resource type="Texture2D" uid="uid://bgy36xisjomjr" path="res://assets/combat/skills/frostbolt/img_2.png" id="44_6655g"]
+[ext_resource type="Texture2D" uid="uid://col0neucw404p" path="res://assets/combat/skills/frostbolt/img_3.png" id="45_3rfrs"]
+[ext_resource type="Texture2D" uid="uid://clhmbvnh3hiy2" path="res://assets/combat/skills/frostbolt/img_4.png" id="46_65nuu"]
+[ext_resource type="Texture2D" uid="uid://c5r7snk8uksv3" path="res://assets/combat/skills/frostbolt/img_5.png" id="47_2j1sm"]
+[ext_resource type="Texture2D" uid="uid://bgthstaxxyslk" path="res://assets/combat/skills/frostbolt/img_6.png" id="48_8wca0"]
+[ext_resource type="Texture2D" uid="uid://dgi4axdj7c3v0" path="res://assets/combat/skills/frostbolt/img_7.png" id="49_0kdke"]
+[ext_resource type="Texture2D" uid="uid://bbmgk3coijixa" path="res://assets/combat/skills/frostbolt/img_8.png" id="50_mmssc"]
+[ext_resource type="Texture2D" uid="uid://bve83sbgx02ba" path="res://assets/combat/skills/frostbolt/img_9.png" id="51_hwbtm"]
+[ext_resource type="Texture2D" uid="uid://cdwbl8ves1dkm" path="res://assets/combat/skills/frostbolt/img_10.png" id="52_mumb3"]
+[ext_resource type="Texture2D" uid="uid://bf206bhjohvn6" path="res://assets/combat/skills/frostbolt/img_11.png" id="53_4d5d1"]
+[ext_resource type="Texture2D" uid="uid://dm8pmnu3541uv" path="res://assets/combat/skills/frostbolt/img_12.png" id="54_itp3n"]
+[ext_resource type="Texture2D" uid="uid://cok3ihb5m6rcs" path="res://assets/combat/skills/frostbolt/img_13.png" id="55_5m4fg"]
+[ext_resource type="Texture2D" uid="uid://du7renkosve7y" path="res://assets/combat/skills/frostbolt/img_14.png" id="56_7iln4"]
+[ext_resource type="Texture2D" uid="uid://80254ys2m6a7" path="res://assets/combat/skills/frostbolt/img_15.png" id="57_flqpa"]
+[ext_resource type="Texture2D" uid="uid://bs3eurfycl18v" path="res://assets/combat/skills/frostbolt/img_16.png" id="58_kjmri"]
+[ext_resource type="Texture2D" uid="uid://duudpw603maiw" path="res://assets/combat/skills/frostbolt/img_17.png" id="59_2aesl"]
+[ext_resource type="Texture2D" uid="uid://dmjnnp0y56egb" path="res://assets/combat/skills/frostbolt/img_18.png" id="60_d35cx"]
+[ext_resource type="Texture2D" uid="uid://dmd66op85hmwf" path="res://assets/combat/skills/frostbolt/img_19.png" id="61_b7xkx"]
+[ext_resource type="Texture2D" uid="uid://oou0bpcvempm" path="res://assets/combat/skills/frostbolt/img_20.png" id="62_0be01"]
+[ext_resource type="Texture2D" uid="uid://buuuv03uql6bm" path="res://assets/combat/skills/frostbolt/img_21.png" id="63_v5yci"]
+[ext_resource type="Texture2D" uid="uid://c3bmk4f1v7fpe" path="res://assets/combat/skills/frostbolt/img_22.png" id="64_2nfvj"]
+[ext_resource type="Texture2D" uid="uid://dofhgx3gsb5b0" path="res://assets/combat/skills/frostbolt/img_23.png" id="65_t1vc2"]
+[ext_resource type="Texture2D" uid="uid://cyv7e2mun5p64" path="res://assets/combat/skills/frostbolt/img_24.png" id="66_y25m3"]
+[ext_resource type="Texture2D" uid="uid://vx2c7gcwt4fp" path="res://assets/combat/skills/frostbolt/img_25.png" id="67_e7uy5"]
+[ext_resource type="Texture2D" uid="uid://dy7mfmnd543qg" path="res://assets/combat/skills/frostbolt/img_26.png" id="68_5ewdt"]
+[ext_resource type="Texture2D" uid="uid://5st734bi4ujo" path="res://assets/combat/skills/frostbolt/img_27.png" id="69_1n3np"]
+[ext_resource type="Texture2D" uid="uid://cwxf3re6eub4j" path="res://assets/combat/skills/frostbolt/img_28.png" id="70_alwdw"]
+[ext_resource type="Texture2D" uid="uid://qa7afk2iafy1" path="res://assets/combat/skills/frostbolt/img_29.png" id="71_2av02"]
+[ext_resource type="Texture2D" uid="uid://bt6kbqnsxgdt7" path="res://assets/combat/skills/frostbolt/img_30.png" id="72_gbpmq"]
+[ext_resource type="Texture2D" uid="uid://5u8b61073hqg" path="res://assets/combat/skills/frostbolt/img_31.png" id="73_f87xb"]
+[ext_resource type="Texture2D" uid="uid://co7nis2er8n3j" path="res://assets/combat/skills/frostbolt/img_32.png" id="74_x8bj8"]
+[ext_resource type="Texture2D" uid="uid://cilkp4ugnvidu" path="res://assets/combat/skills/frostbolt/img_33.png" id="75_hp2ll"]
+[ext_resource type="Texture2D" uid="uid://dp6dtrnnejrpv" path="res://assets/combat/skills/frostbolt/img_34.png" id="76_y4bp4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fo4ap"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_48fua")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_o2wre")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_eljpr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nl5co")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3glmh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_oayr8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_742ew")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_e13eq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ty6he")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_aypm8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_tfdtx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_yuyjv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_2abus")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_uw7sr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_jhcn0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_51xs4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_3hvj1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_tdgee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_5mipl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_8aroo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_a2nj5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_vanry")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_ccb3w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_plllx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_aur7t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_056uy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_oskj5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_6kcgc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_6g5lc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_miygr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_sxe5b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_mnmw2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_l5tn8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_g8755")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_nbohn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_t71j6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_h8ipu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_vpjea")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_6ahmp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_wy8ta")
+}],
+"loop": true,
+"name": &"firespark",
+"speed": 39.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("42_7fhlx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_m07pd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_6655g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_3rfrs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_65nuu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_2j1sm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_8wca0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_0kdke")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_mmssc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_hwbtm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_mumb3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_4d5d1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_itp3n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_5m4fg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_7iln4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_flqpa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_kjmri")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_2aesl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_d35cx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_b7xkx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_0be01")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_v5yci")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_2nfvj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_t1vc2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_y25m3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_e7uy5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_5ewdt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("69_1n3np")
+}, {
+"duration": 1.0,
+"texture": ExtResource("70_alwdw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("71_2av02")
+}, {
+"duration": 1.0,
+"texture": ExtResource("72_gbpmq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("73_f87xb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("74_x8bj8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_hp2ll")
+}, {
+"duration": 1.0,
+"texture": ExtResource("76_y4bp4")
+}],
+"loop": true,
+"name": &"frostbolt",
+"speed": 34.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ke1pq"]
+
+[node name="projectile_effect" type="CharacterBody2D"]
+z_index = -1
+position = Vector2(0, 2)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_g4f6b")
+
+[node name="projectile_animation" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fo4ap")
+animation = &"firespark"
+frame_progress = 0.247766
+centered = false
+offset = Vector2(-705, -460)
+
+[node name="collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ke1pq")
+
+[node name="Timer" type="Timer" parent="."]

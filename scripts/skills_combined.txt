@@ -1,0 +1,2399 @@
+### basic_slash.gd ###
+extends Skill
+class_name BasicSlash
+
+var damage_mult := 1
+var max_cooldown := 1
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+    var skill_target = map.get_character(skill_pos)
+    if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+        return false
+
+    from.deal_damage(skill_target, damage_mult)
+    cooldown = max_cooldown
+    skill_finished.emit()
+
+    return true
+    
+func get_skill_name() -> String:
+    return "Basic Slash"
+
+func get_skill_description() -> String:
+    return "A basic attack that deals 10 damage to a nearby enemy."
+
+func get_skill_icon() -> Texture:
+    return load("res://assets/ui/skills/basic_slash.png")
+
+func get_skill_range() -> int:
+    return 1
+
+func target_allies() -> bool:
+    return false
+
+func target_enemies() -> bool:
+    return true
+
+func target_self() -> bool:
+    return false
+    
+func is_melee() -> bool:
+    return true
+
+### firespark.gd ###
+extends Skill
+class_name Firespark
+
+var damage_mult : int = 2
+var max_cooldown : int = 2
+
+const firespark_scene = preload("res://scenes/projectile_effect.tscn")
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_firespark: ProjectileEffect
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+
+	curr_firespark = firespark_scene.instantiate()
+	from.get_parent().add_child(curr_firespark)
+	curr_firespark.scale = Vector2(1.5, 1.5) 
+	curr_firespark.speed = 1500.0
+	curr_firespark.position = from.position
+	curr_firespark.set_target_position(target.position)
+	curr_firespark.target_reached.connect(_on_reached_target)
+
+	cooldown = max_cooldown
+	return true
+	
+func get_skill_name() -> String:
+	return "Firespark"
+
+func get_skill_description() -> String:
+	return "A basic fire attack that deals 90 damage to a ranged enemy."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/firespark.png")
+
+func get_skill_range() -> int:
+	return 4
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return false
+
+func _on_reached_target(): 
+	target.take_damage(damage_mult * caster.get_damage())
+	curr_firespark.queue_free()
+	skill_finished.emit()
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	for cell in curr_highlighted_cells: 
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			curr_highlighted_cells.erase(cell)
+			continue
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+		else :
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		
+
+	return curr_highlighted_cells
+
+
+### melee_skill.gd ###
+extends Skill
+class_name MeleeSkill
+
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func get_skill_range() -> int:
+	return 1
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex) && map.get_character(hex) and map.get_character(hex) is AICombatCharacter
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		var character = map.get_character(cell)
+		if character and character is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+
+		var cell_character = map.get_character(cell)
+		if cell_character and cell_character is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
+			if mouse_pos == cell:
+				map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+			
+	return curr_highlighted_cells
+
+
+
+### skill.gd ###
+class_name Skill
+
+var cooldown: int
+signal skill_finished()
+
+## Skill functions
+
+##
+## Decrease the cooldown of the skill by 1
+##
+func decrease_cooldown():
+	if cooldown > 0:
+		cooldown -= 1
+
+##
+## Make _from use the skill on _target. This function should be overriden by the child class
+##
+## [code] _from [/code]: The CombatCharacter that is using the skill
+## [code] _target [/code]: The CombatCharacter that is being targeted by the skill
+## [code] return [/code]: Whether the skill was successfully used
+##
+func use_skill(_from: CombatCharacter, _skill_pos: Vector2i, _map: CombatMap) -> bool :
+	assert(false, "function not implemented")
+	return false
+
+##
+## Get the name of the skill
+##
+func get_skill_name() -> String:
+	assert(false, "function not implemented")
+	return ""
+
+##
+## Get the description of the skill
+##
+func get_skill_description() -> String:
+	assert(false, "function not implemented")
+	return ""
+
+##
+## Get the icon of the skill
+##
+func get_skill_icon() -> Texture:
+	assert(false, "function not implemented")
+	return null
+
+##
+## Get the range of the skill
+##
+func get_skill_range() -> int:
+	assert(false, "function not implemented")
+	return -1
+
+##
+## Get whether the skill targets allies, enemies, or self
+##
+func target_allies() -> bool:
+	assert(false, "function not implemented")
+	return false
+
+func target_enemies() -> bool:
+	assert(false, "function not implemented")
+	return false
+
+func target_self() -> bool:
+	assert(false, "function not implemented")
+	return false
+
+##
+## Get the remaining cooldown of the skill
+##
+func get_cooldown() -> int:
+	return cooldown
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array:
+	assert(false, "function not implemented")
+	return []
+
+func highlight_mouse_pos(_from: CombatCharacter, _mouse_pos: Vector2i, _map: CombatMap) -> Array:
+	assert(false, "function not implemented")
+	return []
+
+##
+## Get whether the skill is a melee skill
+##
+func is_melee() -> bool:
+	assert(false, "function not implemented")
+	return false
+
+
+### sprint.gd ###
+extends Skill
+class_name Sprint
+
+var damage := 0
+var max_cooldown := 2
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if map.can_walk(skill_pos) and !map.cell_occupied(skill_pos) and HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) <= get_skill_range():
+		from.move_to(map.map_to_local(skill_pos))
+		cooldown = max_cooldown
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Sprint"
+
+func get_skill_description() -> String:
+	return "Move quickly to a nearby empty space."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/sprint.png")
+
+func get_skill_range() -> int:
+	return 2
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_sprint_to = func(hex: Vector2i): return map.can_walk(hex) and !map.cell_occupied(hex)
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_sprint_to)
+	curr_highlighted_cells.erase(map.get_cell_coords(from.global_position))
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1)
+		if mouse_pos == cell:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 2)
+			
+	return curr_highlighted_cells
+
+
+### arcane_shield.gd ###
+extends Skill
+class_name ArcaneShield
+
+var duration := 1
+var reduction_percent := 50
+var max_cooldown := 3
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+    var skill_target = map.get_character(skill_pos)
+    var caster_pos = map.get_cell_coords(from.global_position)
+
+    if HexHelper.distance(caster_pos, skill_pos) > get_skill_range():
+        return false
+
+    if skill_pos == caster_pos:
+        skill_target = from
+    elif not skill_target or not skill_target is PlayerCombatCharacter:
+        return false
+
+    skill_target.gain_defensive_status(duration + 1 if skill_target == from else duration)
+    cooldown = max_cooldown
+    skill_finished.emit()
+    return true
+
+func get_skill_name() -> String:
+    return "Arcane Shield"
+
+func get_skill_description() -> String:
+    return "Create a magical shield around an ally within a " + str(get_skill_range()) + "-cell radius or yourself that reduces incoming damage by " + str(reduction_percent) + "% for " + str(duration) + " turn."
+
+func get_skill_icon() -> Texture:
+    return load("res://assets/ui/skills/arcane_shield.png") # Placeholder path
+
+func get_skill_range() -> int:
+    return 2
+
+func target_allies() -> bool:
+    return true
+
+func target_enemies() -> bool:
+    return false
+
+func target_self() -> bool:
+    return true
+
+func is_melee() -> bool:
+    return false
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+    var caster_pos = map.get_cell_coords(from.global_position)
+    var can_target = func(hex: Vector2i): return map.can_walk(hex)
+    curr_highlighted_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), can_target)
+
+    var valid_targets: Array[Vector2i] = []
+    for cell in curr_highlighted_cells:
+        map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+        var character = map.get_character(cell)
+        if cell == caster_pos or (character and character is PlayerCombatCharacter):
+             map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+             valid_targets.append(cell)
+        elif character and character is AICombatCharacter:
+             map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 0) 
+
+    curr_highlighted_cells = valid_targets
+    return curr_highlighted_cells
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+    var caster_pos = map.get_cell_coords(from.global_position)
+    # Re-highlight potential range first
+    var potential_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(hex: Vector2i): return map.can_walk(hex))
+    for cell in potential_cells:
+         map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+
+    # Highlight actual targets and hover effect
+    for cell in curr_highlighted_cells: # Iterate only over valid targets
+        var character = map.get_character(cell)
+        var is_self = (cell == caster_pos)
+        var is_ally = character and character is PlayerCombatCharacter
+
+        if is_self or is_ally:
+             map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+             if mouse_pos == cell:
+                map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+
+    return curr_highlighted_cells
+
+
+### firespark.gd ###
+extends Skill
+class_name FiresparkMage
+
+var damage_mult : int = 2
+var max_cooldown : int = 2
+
+const firespark_scene = preload("res://scenes/firespark.tscn")
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_firespark: FiresparkCombat
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+    var skill_target = map.get_character(skill_pos)
+    if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+        return false
+
+    caster = from
+    target = skill_target
+
+    curr_firespark = firespark_scene.instantiate()
+    from.get_parent().add_child(curr_firespark)
+    curr_firespark.position = from.position
+    curr_firespark.move_target = target.position
+    curr_firespark.target_reached.connect(_on_reached_target)
+
+    cooldown = max_cooldown
+    return true
+    
+func get_skill_name() -> String:
+    return "Firespark"
+
+func get_skill_description() -> String:
+    return "A basic fire attack that deals 90 damage to a ranged enemy."
+
+func get_skill_icon() -> Texture:
+    return load("res://assets/ui/skills/firespark.png")
+
+func get_skill_range() -> int:
+    return 4
+
+func target_allies() -> bool:
+    return false
+
+func target_enemies() -> bool:
+    return true
+
+func target_self() -> bool:
+    return false
+    
+func is_melee() -> bool:
+    return false
+
+func _on_reached_target(): 
+    caster.deal_damage(target, damage_mult)
+    curr_firespark.queue_free()
+    skill_finished.emit()
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+    return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+    curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+    for cell in curr_highlighted_cells: 
+        if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+            curr_highlighted_cells.erase(cell)
+            continue
+        var cell_char = map.get_character(cell)
+        if cell_char and cell_char is AICombatCharacter:
+            map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+        else :
+            map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+        
+
+    return curr_highlighted_cells
+
+### frostbolt.gd ###
+extends Skill
+class_name Frostbolt
+#TODO add root
+
+var damage_mult := 2
+var root_duration := 1
+var max_cooldown := 3
+
+const frostbolt_scene = preload("res://scenes/projectile_effect.tscn") # ASSUMPTION: You have a scene for the visual effect
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_frostbolt: Node2D
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+
+	curr_frostbolt = frostbolt_scene.instantiate()
+	from.get_parent().add_child(curr_frostbolt)
+	curr_frostbolt.position = from.position
+	curr_frostbolt.scale = Vector2(1.5, 1.5)
+	curr_frostbolt.speed = 1000.0
+	curr_frostbolt.set_target_position(target.position)
+	curr_frostbolt.target_reached.connect(_on_reached_target)
+
+	cooldown = max_cooldown
+	return true
+
+func _on_reached_target():
+	caster.deal_damage(target, damage_mult)
+	target.gain_stunned_status(root_duration)
+	curr_frostbolt.queue_free()
+	skill_finished.emit()
+
+func get_skill_name() -> String:
+	return "Frostbolt"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult * caster.get_damage()) + " damage and root an enemy for " + str(root_duration) + " turn."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/frostbolt.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 4
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+
+func is_melee() -> bool:
+	return false
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	for cell in curr_highlighted_cells: 
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			curr_highlighted_cells.erase(cell)
+			continue
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+		else :
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		
+
+	return curr_highlighted_cells
+
+
+
+### thunderstrike.gd ###
+extends Skill
+class_name Thunderstrike
+
+var damage_mult := 3
+var stun_duration := 1
+var max_cooldown := 5
+
+const thunderstrike_scene = preload("res://scenes/impact_effect.tscn")
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_thunderstrike: ImpactEffect
+var curr_highlighted_cells: Array[Vector2i] = []
+
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+
+	curr_thunderstrike = thunderstrike_scene.instantiate()
+	curr_thunderstrike.position = target.position
+	target.get_parent().add_child(curr_thunderstrike)
+	curr_thunderstrike.scale = Vector2(1.5, 1.5)
+	curr_thunderstrike.set_impact_type("thunderstrike")
+
+	curr_thunderstrike.animated_sprite.animation_looped.connect(_apply_effect)
+
+	cooldown = max_cooldown
+	return true
+
+func _apply_effect():
+	if is_instance_valid(target):
+		caster.deal_damage(target, damage_mult)
+		target.gain_stunned_status(stun_duration)
+
+	skill_finished.emit()
+	curr_thunderstrike.queue_free()
+
+func get_skill_name() -> String:
+	return "Thunderstrike"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " damage_mult to a single enemy and stun them for " + str(stun_duration) + " turn."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/thunderstrike.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 3
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+
+func is_melee() -> bool:
+	return false
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	# Identical highlighting logic to FiresparkMage/Frostbolt
+	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	for cell in curr_highlighted_cells: 
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			curr_highlighted_cells.erase(cell)
+			continue
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+		else :
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		
+
+	return curr_highlighted_cells
+
+
+### lightning_storm.gd ###
+extends Skill
+class_name LightningStorm
+
+var damage_mult := 4
+var num_targets := 3
+var stun_chance := 0.5
+var stun_duration := 1
+var max_cooldown := 6
+var curr_highlighted_cells: Array[Vector2i] = []
+
+
+const thunderstrike_scene = preload("res://scenes/impact_effect.tscn") 
+var caster: CombatCharacter
+var curr_storms: Dictionary = {} 
+
+
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var caster_pos = map.get_cell_coords(from.global_position)
+	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex): return true)
+
+	if not skill_pos in aoe_cells:
+		return false # Skill position is not in the AoE radius
+
+	# Find potential targets in radius
+	var potential_targets: Array[AICombatCharacter] = []
+	for cell in aoe_cells:
+		var character = map.get_character(cell)
+		if character and character is AICombatCharacter:
+			potential_targets.append(character)
+
+
+	if potential_targets.is_empty():
+		return false # No enemies in range
+
+	# Select targets randomly
+	potential_targets.shuffle()
+	var actual_targets = potential_targets.slice(0, min(num_targets, potential_targets.size()))
+
+	caster = from
+
+	for target in actual_targets:
+		var curr_storm = thunderstrike_scene.instantiate()
+		curr_storm.position = target.position
+		target.get_parent().add_child(curr_storm)
+		curr_storm.scale = Vector2(2.5, 2.5)
+		curr_storm.set_impact_type("lightning_storm")
+		curr_storm.animated_sprite.animation_looped.connect(_apply_effect.bind(target))
+		curr_storms[target] = curr_storm 
+
+	cooldown = max_cooldown
+	return true
+
+
+func _apply_effect(target):
+	if is_instance_valid(target):
+		caster.deal_damage(target, damage_mult)
+		if randf() < stun_chance:
+			target.gain_stunned_status(stun_duration)
+
+	# Remove the storm effect
+	if curr_storms.has(target):
+		var curr_storm = curr_storms[target]
+		if is_instance_valid(curr_storm):
+			curr_storm.queue_free()
+			curr_storms.erase(target)
+			
+	skill_finished.emit()
+
+func get_skill_name() -> String:
+	return "Lightning Storm"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " damage_mult to " + str(num_targets) + " random enemies within a " + str(get_skill_range()) + "-cell radius, with a " + str(int(stun_chance * 100)) + "% chance to stun them."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/lightning_storm.png") # Placeholder path
+
+func get_skill_range() -> int:
+	# This is the radius of effect
+	return 3
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true # Implicitly targets enemies in area
+
+func target_self() -> bool:
+	return true # Activated by targeting self / area around self
+
+func is_melee() -> bool:
+	# Consistent with Whirlwind/Inquisition (AoE centered on self)
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var caster_pos = map.get_cell_coords(from.global_position)
+	curr_highlighted_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func (_hex): return true).filter(func (cell): return map.can_walk((cell)))
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1) # Highlight area tile
+		var character = map.get_character(cell)
+		if character and character is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3) # Mark enemy in area
+		elif character and character is PlayerCombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 0)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	var highlight_color = 1
+	if mouse_pos in curr_highlighted_cells:
+		highlight_color = 2
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), highlight_color)
+		var character = map.get_character(cell)
+
+		if character:
+			var char_highlight = 0
+			var char_hover_highlight = 0
+			if character is AICombatCharacter:
+				char_highlight = 3; char_hover_highlight = 5
+
+			if mouse_pos in curr_highlighted_cells:
+				map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), char_hover_highlight)
+			else: # Mouse outside AoE, just show characters normally within AoE
+				map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), char_highlight)
+
+	return curr_highlighted_cells
+
+### meteor.gd ###
+extends Skill
+class_name Meteor
+
+var total_damage_mult := 12
+var aoe_radius := 1
+var max_cooldown := 5
+
+const meteor_scene = preload("res://scenes/impact_effect.tscn")
+var curr_meteor: ImpactEffect 
+var targets: Array[CombatCharacter] = []
+var caster: CombatCharacter
+var curr_highlighted_cells: Array[Vector2i] = []
+var curr_aoe_highlight: Array[Vector2i] = []
+
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+    caster = from
+    targets = []
+    var caster_pos = map.get_cell_coords(from.global_position)
+    if HexHelper.distance(caster_pos, skill_pos) > get_skill_range():
+        return false
+
+    # Find all characters in the AoE centered on skill_pos
+    var impact_cells = HexHelper.hex_reachable(skill_pos, aoe_radius, func(_hex): return true)
+    for cell in impact_cells:
+        var character = map.get_character(cell)
+        if character:
+            targets.append(character)
+
+    if targets.is_empty():
+        return false
+
+    # Play visual effect at skill_pos
+    curr_meteor = meteor_scene.instantiate()
+    map.add_child(curr_meteor) 
+    curr_meteor.position = map.map_to_local(skill_pos)
+    curr_meteor.scale = Vector2(6, 6)
+    curr_meteor.set_impact_type("thunderstrike")
+    curr_meteor.animated_sprite.animation_looped.connect(_apply_effect)
+
+    cooldown = max_cooldown
+    return true
+
+func _apply_effect(): 
+    var damage_mult = total_damage_mult / (len(targets)*1.0)
+    for target in targets : 
+        caster.deal_damage(target, damage_mult)
+    curr_meteor.queue_free()
+    skill_finished.emit()
+
+func get_skill_name() -> String:
+    return "Meteor"
+
+func get_skill_description() -> String:
+    return "Deal " + str(total_damage_mult) + " damage divided between all characters in a " + str(aoe_radius) + "-cell radius around the target location."
+
+func get_skill_icon() -> Texture:
+    return load("res://assets/ui/skills/meteor.png") # Placeholder path
+
+func get_skill_range() -> int:
+    return 4
+
+func target_allies() -> bool:
+    return true # Can hit allies in blast
+
+func target_enemies() -> bool:
+    return true # Can hit enemies in blast
+
+func target_self() -> bool:
+    return true # Can hit self if targeted nearby
+
+func is_melee() -> bool:
+    return false
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+    var caster_pos = map.get_cell_coords(from.global_position)
+    curr_highlighted_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex: Vector2i): return true).filter(func (cell): return map.can_walk((cell)))
+
+    for cell in curr_highlighted_cells:
+        map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+
+    return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+    map.reset_map()
+    for cell in curr_highlighted_cells:
+        map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+
+    # If mouse is over a valid center point, highlight the AoE
+    if mouse_pos in curr_highlighted_cells:
+        map.set_cell(0, mouse_pos, 22, map.get_cell_atlas_coords(0, mouse_pos), 4) # Hovered target cell
+        curr_aoe_highlight = HexHelper.hex_reachable(mouse_pos, aoe_radius, func(hex): return map.can_walk(hex))
+
+        for cell in curr_aoe_highlight:
+            var character = map.get_character(cell)
+            if character:
+                map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+            else:
+                map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
+
+    return curr_highlighted_cells # Return the valid center points
+
+### arcane_slash.gd ###
+extends MeleeSkill # Inherits range 1, is_melee, basic highlighting
+class_name ArcaneSlash
+
+var damage_mult := 3
+var shield_gain_mult := 0.5 # Gain half of damage_mult dealt
+var max_cooldown := 3
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is AICombatCharacter or not skill_pos in curr_highlighted_cells:
+		return false 
+
+	from.deal_damage(skill_target, damage_mult)
+	from.gain_shield(damage_mult * shield_gain_mult * from.get_damage())
+	from.attack(map.to_local(skill_target.global_position))
+
+
+	cooldown = max_cooldown
+	skill_finished.emit()
+	return true
+
+func get_skill_name() -> String:
+	return "Arcane Slash"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " times your base damage to an enemy, gain " + str(int(shield_gain_mult * 100)) + "% of damage_mult dealt as shield." # Armor -> Shield
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/arcane_slash.png")
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+
+
+### molten_blade.gd ###
+extends Skill
+class_name MoltenBlade
+
+var bonus_damage = 10
+var duration := 3
+var max_cooldown := 4
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var caster_pos = map.get_cell_coords(from.global_position)
+	if skill_pos != caster_pos:
+		return false
+
+	from.gain_imbue_status(duration, bonus_damage)
+
+	cooldown = max_cooldown
+	skill_finished.emit()
+	return true
+
+func get_skill_name() -> String:
+	return "Molten Blade"
+
+func get_skill_description() -> String:
+	return "Imbue your weapon with fire, dealing " + str(bonus_damage) + " additional base damage with each melee attack for " + str(duration) + " turns."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/molten_blade.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 0 # Self cast
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+
+func is_melee() -> bool:
+	# Consistent with other self-buffs (Defensive Stance, Frenzy)
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	# Highlight self only, similar to Defensive Stance
+	var cell = map.get_cell_coords(from.global_position)
+	curr_highlighted_cells = [cell]
+	map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7) # Use self-target color
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	# Highlight self when hovered, similar to Defensive Stance
+	for cell in curr_highlighted_cells: # Should only be self cell
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7) # Default self color
+		if mouse_pos == cell:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8) # Hovered self color
+	return curr_highlighted_cells
+
+### dark_pact.gd ###
+extends Skill
+class_name DarkPact
+
+var damage_mult := 4
+var health_cost_percent := 0.10
+var max_cooldown := 1
+
+const dark_pact_projectile = preload("res://scenes/projectile_effect.tscn")
+var curr_projectile: ProjectileEffect
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+
+	# Sacrifice health first
+	var health_cost = from.max_health * health_cost_percent
+	from.spend_health(health_cost) 
+
+	curr_projectile = dark_pact_projectile.instantiate()
+	from.get_parent().add_child(curr_projectile)
+	curr_projectile.position = from.position
+	curr_projectile.scale = Vector2(1.5, 1.5)
+	curr_projectile.speed = 1000.0
+	curr_projectile.set_target_position(target.position)
+	curr_projectile.target_reached.connect(_on_reached_target, CONNECT_ONE_SHOT)
+
+	cooldown = max_cooldown
+	return true
+
+func _on_reached_target():
+	if is_instance_valid(target):
+		_apply_effect()
+	if is_instance_valid(curr_projectile):
+		curr_projectile.queue_free()
+	skill_finished.emit()
+
+func _apply_effect():
+	if is_instance_valid(target):
+		caster.deal_damage(target, damage_mult)
+
+func get_skill_name() -> String:
+	return "Dark Pact"
+
+func get_skill_description() -> String:
+	return "Sacrifice " + str(int(health_cost_percent * 100)) + "% of your max health to deal " + str(damage_mult) + " times your base damage to an enemy."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/dark_pact.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 4
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+
+func is_melee() -> bool:
+	return false
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+	# Identical highlighting logic to FiresparkMage/Frostbolt
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	for cell in curr_highlighted_cells: 
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			curr_highlighted_cells.erase(cell)
+			continue
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+		else :
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		
+
+	return curr_highlighted_cells
+
+### drain_life.gd ###
+extends Skill
+class_name DrainLife
+
+var damage_mult := 2
+var max_cooldown := 4
+
+const drain_life_effect = preload("res://scenes/projectile_effect.tscn") # ASSUMPTION: Beam/effect visual
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_effect: ProjectileEffect
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is CombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+
+	curr_effect = drain_life_effect.instantiate()
+	from.get_parent().add_child(curr_effect)
+	curr_effect.position = from.position
+	curr_effect.scale = Vector2(1.5, 1.5)
+	curr_effect.speed = 1000.0
+	curr_effect.set_target_position(target.position)
+	curr_effect.target_reached.connect(_on_reached_target, CONNECT_ONE_SHOT)
+
+	cooldown = max_cooldown
+	skill_finished.emit()
+	return true
+
+func _on_reached_target():
+	if is_instance_valid(target):
+		_apply_effect()
+	if is_instance_valid(curr_effect):
+		curr_effect.queue_free()
+
+func _apply_effect():
+	if is_instance_valid(target) and is_instance_valid(caster):
+		caster.deal_damage(target, damage_mult)
+		caster.heal(damage_mult * caster.get_damage())
+
+func get_skill_name() -> String:
+	return "Drain Life"
+
+func get_skill_description() -> String:
+	return "Steal " + str(damage_mult) + " times your base damage in health from a character."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/drain_life.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 3
+
+func target_allies() -> bool:
+	return true
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+
+func is_melee() -> bool:
+	return false
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+	# Identical highlighting logic to FiresparkMage/Frostbolt
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	for cell in curr_highlighted_cells: 
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			curr_highlighted_cells.erase(cell)
+			continue
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is CombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+		else :
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		
+
+	return curr_highlighted_cells
+
+
+### bone_armor.gd ###
+extends Skill
+class_name BoneArmor
+
+var shield_amount := 50
+var retaliate_damage := 20
+var duration := 2
+var max_cooldown := 5
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var caster_pos = map.get_cell_coords(from.global_position)
+	if skill_pos != caster_pos:
+		return false
+
+	from.gain_shield(shield_amount)
+	from.gain_thorn_status(duration, retaliate_damage)
+
+	cooldown = max_cooldown
+	skill_finished.emit()
+	return true
+
+func get_skill_name() -> String:
+	return "Bone Armor"
+
+func get_skill_description() -> String:
+	return "Create a shield that absorbs " + str(shield_amount) + " damage and deals " + str(retaliate_damage) + " damage to any enemy that attacks you for " + str(duration) + " turns."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/bone_armor.png")
+
+func get_skill_range() -> int:
+	return 0
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var cell = map.get_cell_coords(from.global_position)
+	curr_highlighted_cells = [cell]
+	map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+		if mouse_pos == cell:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+	return curr_highlighted_cells
+
+
+### soul_harvest.gd ###
+extends Skill
+class_name SoulHarvest
+
+const harvest_effect = preload("res://scenes/impact_effect.tscn")
+var damage_mult := 3
+var max_cooldown := 3
+var curr_highlighted_cells: Array[Vector2i] = []
+
+var targets : Array[CombatCharacter] = []
+var caster: CombatCharacter
+var curr_effect: ImpactEffect
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var caster_pos = map.get_cell_coords(from.global_position) 
+	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex): return true)
+
+	if not aoe_cells.has(skill_pos):
+		return false
+
+	caster = from
+	targets = []
+	for cell in aoe_cells:
+		var character = map.get_character(cell)
+		if character and character != from:
+			targets.append(character)
+
+	if targets.is_empty():
+		return false
+
+	curr_effect = harvest_effect.instantiate()
+	from.get_parent().add_child(curr_effect)
+	curr_effect.position = from.position
+	curr_effect.scale = Vector2(6, 6)
+	curr_effect.set_impact_type("thunderstrike")
+	curr_effect.animated_sprite.animation_looped.connect(_on_reached_target, CONNECT_ONE_SHOT)
+
+	cooldown = max_cooldown
+	return true
+
+func _on_reached_target():
+	if is_instance_valid(curr_effect):
+		curr_effect.queue_free()
+
+	for target in targets:
+		if is_instance_valid(target):
+			caster.deal_damage(target, damage_mult)
+
+	skill_finished.emit()
+
+func get_skill_name() -> String:
+	return "Soul Harvest"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " times your base damage to all characters in a " + str(get_skill_range()) + "-cell radius."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/soul_harvest.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 2
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true # Implicitly via area
+
+func target_self() -> bool:
+	return true # Activation target
+
+func is_melee() -> bool:
+	# Consistent with Lightning Storm / Whirlwind
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var caster_pos = map.get_cell_coords(from.global_position)
+	curr_highlighted_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex: Vector2i): return true).filter(func (cell): return map.can_walk((cell)))
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		var character = map.get_character(cell)
+		if character:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
+		if cell == caster_pos:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 0)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	var highlight_color = 3
+	if mouse_pos in curr_highlighted_cells:
+		highlight_color = 4
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), highlight_color)
+		var character = map.get_character(cell)
+		var caster_pos = map.get_cell_coords(from.global_position)
+
+		if character:
+			var char_highlight = 4; var char_hover_highlight = 5
+			if cell == caster_pos:
+				char_highlight = 0; char_hover_highlight = 0
+
+			if mouse_pos in curr_highlighted_cells:
+				map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), char_hover_highlight)
+			else:
+				map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), char_highlight)
+
+	return curr_highlighted_cells
+
+
+### death_coil.gd ###
+extends Skill
+class_name DeathCoil
+
+var damage_mult := 3
+var heal_percent := 0.5
+var max_cooldown := 2
+
+const death_coil_projectile = preload("res://scenes/projectile_effect.tscn") 
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_projectile: ProjectileEffect
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+
+	curr_projectile = death_coil_projectile.instantiate()
+	from.get_parent().add_child(curr_projectile)
+	curr_projectile.position = from.position
+	curr_projectile.set_target_position(target.position)
+	curr_projectile.target_reached.connect(_on_reached_target, CONNECT_ONE_SHOT)
+
+
+	cooldown = max_cooldown
+	return true
+
+func _on_reached_target():
+	if is_instance_valid(target) and is_instance_valid(caster):
+		var damage = caster.deal_damage(target, damage_mult)
+		caster.heal(damage * heal_percent)
+	if is_instance_valid(curr_projectile):
+		curr_projectile.queue_free()
+	skill_finished.emit()
+
+
+func get_skill_name() -> String:
+	return "Death Coil"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " damage to an enemy and heal yourself for " + str(int(heal_percent * 100)) + "% of the damage dealt."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/death_coil.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 4
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+
+func is_melee() -> bool:
+	return false
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	for cell in curr_highlighted_cells: 
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			curr_highlighted_cells.erase(cell)
+			continue
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is CombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+		else :
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		
+
+	return curr_highlighted_cells
+
+
+### decay.gd ###
+extends Skill
+class_name Decay
+
+var damage_percent := 10
+var duration := 3
+var max_cooldown := 1
+
+const decay_projectile = preload("res://scenes/projectile_effect.tscn") # ASSUMPTION: Visual effect
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_projectile: Node2D
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not skill_target or not skill_target is AICombatCharacter or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+
+	# Launch visual effect
+	curr_projectile = decay_projectile.instantiate()
+	from.get_parent().add_child(curr_projectile)
+	curr_projectile.position = from.position
+	curr_projectile.set_target_position(target.position)
+	curr_projectile.target_reached.connect(_on_reached_target, CONNECT_ONE_SHOT)
+
+
+	cooldown = max_cooldown
+	# Don't emit finished yet
+	return true
+
+func _on_reached_target():
+	if is_instance_valid(target):
+		target.gain_decay_status(duration, damage_percent)
+	if is_instance_valid(curr_projectile):
+		curr_projectile.queue_free()
+	skill_finished.emit()
+
+
+func get_skill_name() -> String:
+	return "Decay"
+
+func get_skill_description() -> String:
+	return "Inflict a decay effect on the enemy, causing them to lose " + str(int(damage_percent * 100)) + "% of their max health at the end of their turn for " + str(duration) + " turns."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/decay.png") # Placeholder path
+
+func get_skill_range() -> int:
+	return 4
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+
+func is_melee() -> bool:
+	return false
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	for cell in curr_highlighted_cells: 
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			curr_highlighted_cells.erase(cell)
+			continue
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+		else :
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		
+
+	return curr_highlighted_cells
+
+
+### charge.gd ###
+extends Skill
+class_name Charge
+
+var damage_mult := 3
+var max_cooldown := 3
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+    var skill_target = map.get_character(skill_pos)
+    if skill_target == null or not skill_target is AICombatCharacter:
+        return false
+
+    from.attack(map.to_local(skill_target.global_position))
+    from.deal_damage(skill_target, damage_mult)
+    cooldown = max_cooldown
+    return true
+    
+func get_skill_name() -> String:
+    return "Charge"
+
+func get_skill_description() -> String:
+    return "Charge a target from two tiles away, dealing " + str(damage_mult) + " times your base damage"
+
+func get_skill_icon() -> Texture:
+    return load("res://assets/ui/skills/basic_slash.png")
+
+func get_skill_range() -> int:
+    return 3
+
+func target_allies() -> bool:
+    return false
+
+func target_enemies() -> bool:
+    return true
+
+func target_self() -> bool:
+    return false
+    
+func is_melee() -> bool:
+    return false
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+    curr_highlighted_cells = map.highlight_columns(map.get_cell_coords(from.global_position), get_skill_range())
+    return curr_highlighted_cells
+
+func highlight_mouse_pos(from: CombatCharacter, _mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+    return highlight_targets(from, map)
+
+### defensive_stance.gd ###
+extends Skill
+class_name DefensiveStance
+
+var damage := 0
+var max_cooldown := 4
+var curr_highlighted_cells: Array[Vector2i] = []
+var duration := 3
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if map.get_cell_coords(from.global_position) == skill_pos:
+		from.gain_defensive_status(duration)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Defensive Stance"
+
+func get_skill_description() -> String:
+	return "Reduce damage taken by 50% for three turns."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/defensive_stance.png")
+
+func get_skill_range() -> int:
+	return 0
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var cell = map.get_cell_coords(from.global_position)
+	curr_highlighted_cells = [cell]
+	map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+		if mouse_pos == cell:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+			
+	return curr_highlighted_cells
+
+
+### frenzy.gd ###
+extends Skill
+class_name Frenzy
+
+var damage := 0
+var max_cooldown := 5
+var curr_highlighted_cells: Array[Vector2i] = []
+var duration := 3
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		from.gain_vulnerable_status(duration)
+		from.gain_strong_status(duration)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Frenzy"
+
+func get_skill_description() -> String:
+	return "Increase attack damage by 50% and receive 50% more damage for " + str(duration) + "."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/frenzy.png")
+
+func get_skill_range() -> int:
+	return 0
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var cell = map.get_cell_coords(from.global_position)
+	curr_highlighted_cells = [cell]
+	map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+		if mouse_pos == cell:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+			
+	return curr_highlighted_cells
+
+
+### rage_slam.gd ###
+extends MeleeSkill
+class_name RageSlam
+
+var damage_mult := 2
+var max_cooldown := 4
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		var damage = damage_mult * from.get_damage()
+		var char_list = []
+		for cell in curr_highlighted_cells :
+			var character: CombatCharacter = map.get_character(cell)
+			if character:
+				char_list.append(character)
+
+		for i in range(3):
+			if char_list.size() > 0:
+				print(char_list.size())
+				var index = randi() % char_list.size()
+				var character = char_list[index]
+				char_list.erase(character)
+				from.deal_damage(character, damage)
+
+
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Rage Slam"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " times your base damage to up to three random adjacent characters."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/rage_slam.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+	curr_highlighted_cells.erase(map.get_cell_coords(from.global_position))
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		if map.get_character(cell):
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
+
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+
+		if map.get_character(cell):
+			if mouse_pos in curr_highlighted_cells :
+				map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+			else : 
+				map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 4)
+			
+	return curr_highlighted_cells
+
+
+
+### blood_fury.gd ###
+extends Skill
+class_name BloodFury
+
+var damage := 0
+var max_cooldown := 6
+var duration := 3
+var vampiric_strength = 33
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, _map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		from.gain_vampiric_status(duration, vampiric_strength)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Blood Fury"
+
+func get_skill_description() -> String:
+	return "For the next " + str(duration) + " turns, heal for " + str(vampiric_strength) + "% of the damage dealt."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/blood_fury.png")
+
+func get_skill_range() -> int:
+	return 0
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var cell = map.get_cell_coords(from.global_position)
+	curr_highlighted_cells = [cell]
+	map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+		if mouse_pos == cell:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+			
+	return curr_highlighted_cells
+
+
+### raging_blow.gd ###
+extends MeleeSkill
+class_name RagingBlow
+
+var damage_mult := 5
+var max_cooldown := 4
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var target = map.get_character(skill_pos)
+	if target and target is AICombatCharacter and skill_pos in curr_highlighted_cells:
+		var actual_damage_mult = damage_mult
+		if target.health < target.max_health * 3/10:
+			actual_damage_mult *= 2
+		from.deal_damage(target, actual_damage_mult)
+		from.attack(map.to_local(target.global_position))
+		cooldown = max_cooldown
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Raging Blow"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " times your basic damage to an enemy. It the enemy health is below 30%, deal double damage. "
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/raging_blow.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return true
+
+
+
+### war_cry.gd ###
+extends Skill
+class_name WarCry
+
+var damage := 0
+var max_cooldown := 4
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(_from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		for cell in curr_highlighted_cells :
+			var character: CombatCharacter = map.get_character(cell)
+			if character and character is PlayerCombatCharacter :
+				character.gain_strong_status(2)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "War Cry"
+
+func get_skill_description() -> String:
+	return "All allies in a 2-cell radius deal 50% more damage for two turns."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/war_cry.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+	curr_highlighted_cells.erase(map.get_cell_coords(from.global_position))
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is PlayerCombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 0)
+			curr_highlighted_cells.erase(cell)
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+		if mouse_pos in curr_highlighted_cells:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+			
+	return curr_highlighted_cells
+
+
+### whirlwind.gd ###
+extends Skill
+class_name Whirlwind
+
+var damage_mult := 5
+var max_cooldown := 3
+
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		for cell in curr_highlighted_cells :
+			var target: CombatCharacter = map.get_character(cell)
+			if target && target is AICombatCharacter :
+				from.deal_damage(target, damage_mult)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Whirlwind"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " times your base damage to all adjacent enemies."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/whirlwind.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return true
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+	curr_highlighted_cells.erase(map.get_cell_coords(from.global_position))
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1)
+		var character = map.get_character(cell)
+		if character and character is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		if character and character is PlayerCombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1)
+		if mouse_pos in curr_highlighted_cells:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 2)
+
+		var cell_character = map.get_character(cell)
+		if cell_character :
+			if cell_character is AICombatCharacter:
+				if mouse_pos in curr_highlighted_cells:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+				else:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+			if cell_character is PlayerCombatCharacter:
+				if mouse_pos in curr_highlighted_cells:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+				else:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+
+			
+	return curr_highlighted_cells
+
+
+
+### guardians_aura.gd ###
+extends Skill
+class_name GuardiansAura
+
+var damage := 0
+var max_cooldown := 5
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(_from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		for cell in curr_highlighted_cells :
+			var character: CombatCharacter = map.get_character(cell)
+			if character != null and character is PlayerCombatCharacter :
+				character.gain_defensive_status(2)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Guardian's Aura"
+
+func get_skill_description() -> String:
+	return "All adjacent allies take 50% less damage for two turns."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/guardians_aura.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+	curr_highlighted_cells.erase(map.get_cell_coords(from.global_position))
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is PlayerCombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 0)
+			curr_highlighted_cells.erase(cell)
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+		if mouse_pos in curr_highlighted_cells:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+		elif map.get_character(cell):
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+			
+	return curr_highlighted_cells
+
+
+### shield_bash.gd ###
+extends MeleeSkill
+class_name ShieldBash
+
+var damage_mult := 2
+var max_cooldown := 3
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var target = map.get_character(skill_pos)
+	if target and target is AICombatCharacter and skill_pos in curr_highlighted_cells:
+		target.gain_weak_status(2)
+		from.deal_damage(target, damage_mult)
+		from.attack(map.to_local(target.global_position))
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Shield Bash"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " times your base damage and reduce the enemy’s damage by 33% for 2 turns. "
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/shield_bash.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return true
+
+
+
+### inquisition.gd ###
+extends Skill
+class_name Inquisition
+
+var damage_mult := 3
+var max_cooldown := 5
+
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		var damage = damage_mult * from.get_damage()
+		for cell in curr_highlighted_cells :
+			var character: CombatCharacter = map.get_character(cell)
+			if character:
+				if character is PlayerCombatCharacter :
+					character.heal(damage)
+				if character is AICombatCharacter :
+					from.deal_damage(character, damage_mult)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Inquisition"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " times your base damage to all enemies and heal all allies within a 2-cell radius for as much."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/inquisition.png")
+
+func get_skill_range() -> int:
+	return 2
+
+func target_allies() -> bool:
+	return true
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+	curr_highlighted_cells.erase(map.get_cell_coords(from.global_position))
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1)
+		var character = map.get_character(cell)
+		if character and character is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+		if character and character is PlayerCombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 1)
+		if mouse_pos in curr_highlighted_cells:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 2)
+
+		var cell_character = map.get_character(cell)
+		if cell_character :
+			if cell_character is AICombatCharacter:
+				if mouse_pos in curr_highlighted_cells:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+				else:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+			if cell_character is PlayerCombatCharacter:
+				if mouse_pos in curr_highlighted_cells:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+				else:
+					map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+
+			
+	return curr_highlighted_cells
+
+
+
+### zealous_charge.gd ###
+extends Skill
+class_name ZealousCharge
+
+var damage_mult := 3
+var knockback_distance := 1
+var knockback_damage_mult := 1
+var max_cooldown := 3
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+    var skill_target = map.get_character(skill_pos)
+    if skill_pos not in curr_highlighted_cells or skill_target == null or not skill_target is AICombatCharacter:
+        return false
+
+    from.attack(map.to_local(skill_target.global_position))
+    from.deal_damage(skill_target, damage_mult)
+    skill_target.gain_stunned_status()
+    skill_target.knockback(knockback_distance, _get_knockback_dir(from, skill_target, map), knockback_damage_mult * from.get_damage())
+    cooldown = max_cooldown
+    return true
+    
+func get_skill_name() -> String:
+    return "Zealous Charge"
+
+func get_skill_description() -> String:
+    return "Charge a target from two tiles away, dealing " + str(damage_mult) + " times your base damage, stunning them for one turn and knocking them back one tile."
+
+func get_skill_icon() -> Texture:
+    return load("res://assets/ui/skills/zealous_charge.png")
+
+func get_skill_range() -> int:
+    return 3
+
+func target_allies() -> bool:
+    return false
+
+func target_enemies() -> bool:
+    return true
+
+func target_self() -> bool:
+    return false
+    
+func is_melee() -> bool:
+    return false
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+    curr_highlighted_cells = map.highlight_columns(map.get_cell_coords(from.global_position), get_skill_range())
+    return curr_highlighted_cells
+
+func highlight_mouse_pos(from: CombatCharacter, _mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+    return highlight_targets(from, map)
+
+func _get_knockback_dir(from: CombatCharacter, target: CombatCharacter, map: CombatMap) -> int:
+    var cube_coords_from = HexHelper.axial_to_cube(HexHelper.oddr_to_axial(map.get_cell_coords(from.global_position)))
+    var cube_coords_target = HexHelper.axial_to_cube(HexHelper.oddr_to_axial(map.get_cell_coords(target.global_position)))
+
+    if cube_coords_from.x == cube_coords_target.x:
+        if cube_coords_from.y < cube_coords_target.y:
+            return 5
+        else:
+            return 2
+    if cube_coords_from.y == cube_coords_target.y:
+        if cube_coords_from.x < cube_coords_target.x:
+            return 0
+        else:
+            return 3
+    if cube_coords_from.z == cube_coords_target.z:
+        if cube_coords_from.x < cube_coords_target.x:
+            return 1
+        else:
+            return 4
+
+    return -1
+
+### divine_shield.gd ###
+extends Skill
+class_name DivineShield
+
+var damage := 0
+var max_cooldown := 5
+var shield_amount := 0.3
+var curr_highlighted_cells: Array[Vector2i] = []
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	if skill_pos in curr_highlighted_cells:
+		for cell in curr_highlighted_cells :
+			var character: CombatCharacter = map.get_character(cell)
+			if character != null and character is PlayerCombatCharacter :
+				character.gain_shield(from.max_health * shield_amount)
+		cooldown = max_cooldown
+		skill_finished.emit()
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Divine Shield"
+
+func get_skill_description() -> String:
+	return "Create shields around all adjacent allies and yourself that absorb " + str(shield_amount * 100) + "% of your max HP."
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/divine_shield.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return true
+
+func target_enemies() -> bool:
+	return false
+
+func target_self() -> bool:
+	return true
+	
+func is_melee() -> bool:
+	return true
+
+func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
+	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
+	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+		var cell_char = map.get_character(cell)
+		if cell_char and cell_char is PlayerCombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+		if cell_char and cell_char is AICombatCharacter:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 0)
+			curr_highlighted_cells.erase(cell)
+	return curr_highlighted_cells
+
+func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	for cell in curr_highlighted_cells:
+		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
+		if mouse_pos in curr_highlighted_cells:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 8)
+		elif map.get_character(cell):
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 7)
+			
+	return curr_highlighted_cells
+
+
+### holy_strike.gd ###
+extends MeleeSkill
+class_name HolyStrike
+
+var damage_mult := 4
+var max_cooldown := 4
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var target = map.get_character(skill_pos)
+	if target and target is AICombatCharacter and skill_pos in curr_highlighted_cells:
+		var damage = from.get_damage() * damage_mult
+		from.deal_damage(target, damage_mult)
+		from.heal(damage / 4.0)
+		from.attack(map.to_local(target.global_position))
+		cooldown = max_cooldown
+		return true
+
+	return false
+	
+func get_skill_name() -> String:
+	return "Holy Strike"
+
+func get_skill_description() -> String:
+	return "Deal " + str(damage_mult) + " 4 times your basic damage to an enemy and heal yourself for 25% of the damage dealt.
+ "
+
+func get_skill_icon() -> Texture:
+	return load("res://assets/ui/skills/holy_strike.png")
+
+func get_skill_range() -> int:
+	return 1
+
+func target_allies() -> bool:
+	return false
+
+func target_enemies() -> bool:
+	return true
+
+func target_self() -> bool:
+	return false
+	
+func is_melee() -> bool:
+	return true
+
+
+

@@ -21,9 +21,14 @@ signal combat_ended(victory: bool)
 func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
-		enter_combat([PartyMember.new_rand()], [Character.new("Dark Cultist", 1, 2, 2)])
-		characters[0].character.skill_list.append(Charge.new())
-		characters[1].stun()
+		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
+		party[0].skill_list.append(BoneArmor.new())
+		party[0].skill_list.append(SoulHarvest.new())
+		party[0].skill_list.append(MoltenBlade.new())
+		party[1].skill_list.append(DeathCoil.new())
+		party[1].skill_list.append(DrainLife.new())
+		party[1].skill_list.append(Decay.new())
+		enter_combat(party, [Character.new("Dark Cultist", 1, 2, 2),Character.new("Dark Cultist", 1, 2, 2),Character.new("Dark Cultist", 1, 2, 2),Character.new("Dark Cultist", 1, 2, 2)])
 
 
 ##
@@ -69,41 +74,19 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##
 ##  Advances the turn to the next character.
 ##  
-func next_turn() :
+func next_turn() -> void :
+	reset_map()
 	turn = (turn + 1) % characters.size()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)
 
-var oddr_direction_differences = [
-	[[+1,  0], [ 0, -1], [-1, -1], 
-	 [-1,  0], [-1, +1], [ 0, +1]],
-	
-	[[+1,  0], [+1, -1], [ 0, -1], 
-	 [-1,  0], [ 0, +1], [+1, +1]],
-]
-
-##
-## Checks if a given hexagon is a neighbor of another hexagon. [br]
-##
-## [code]hex [/code]: The hexagon to check if it is a neighbor. [br]
-## [code]pos [/code]: The hexagon to check if it is a neighbor of the first hexagon. [br]
-## [code]return [/code]: True if the second hexagon is a neighbor of the first hexagon, false otherwise.
-##
-func is_neighbour(hex, pos) : 
-	var parity = hex.y & 1
-	for i in range(0, 6) :
-		var diff = oddr_direction_differences[parity][i]
-		if Vector2i(hex.x + diff[0], hex.y + diff[1]) == pos : 
-			return true
-	return false
-
 ##
 ## Checks if a given hexagon is occupied by a character.
 ##
-## [code]hex [/code]: The hexagon to check if it is occupied.
+## [code]hex [/code]: The coords of the hexagon to check if it is occupied.
 ## [code]return [/code]: True if the hexagon is occupied, false otherwise.
 ##
-func cell_occupied(hex) : 
+func cell_occupied(hex: Vector2i) -> bool : 
 	for character in characters : 
 		if get_cell_coords(character.global_position) == hex : 
 			return true
@@ -115,7 +98,7 @@ func cell_occupied(hex) :
 ## [code]hex [/code]: The hexagon to check for an enemy character. [br]
 ## [code]return [/code]: The enemy character in the hexagon, or null if there is none. [br]
 ##
-func enemy_in_cell(hex) -> CombatCharacter: 
+func enemy_in_cell(hex: Vector2i) -> CombatCharacter: 
 	for character in characters : 
 		if character is AICombatCharacter && get_cell_coords(character.global_position) == hex : 
 			return character
@@ -127,7 +110,7 @@ func enemy_in_cell(hex) -> CombatCharacter:
 ## [code]hex [/code]: The hexagon to check for a character.[br]
 ## [code]return [/code]: The character in the hexagon, or null if there is none.
 ##
-func get_character(hex) -> CombatCharacter : 
+func get_character(hex: Vector2i) -> CombatCharacter : 
 	for character in characters : 
 		if get_cell_coords(character.global_position) == hex : 
 			return character
@@ -139,7 +122,7 @@ func get_character(hex) -> CombatCharacter :
 ## [code]hex [/code]: The hexagon to check if it is walkable. [br]
 ## [code]return [/code]: True if the hexagon is walkable, false otherwise. [br]
 ##
-func can_walk(hex) : 
+func can_walk(hex: Vector2i) -> bool : 
 	return get_cell_source_id(0, hex) == 22 && get_cell_atlas_coords(0, hex).x in characters[turn].walkable_cells
 
 ##
@@ -147,9 +130,13 @@ func can_walk(hex) :
 ##
 ## [code]highlighted_cells [/code]: An array of previously highlighted cells. [br]
 ##
-func reset_neighbours(highlighted_cells: Array[Vector2i]) : 
+func reset_neighbours(highlighted_cells: Array[Vector2i]) -> void : 
 	for neighbour in highlighted_cells :
 		set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 0)
+
+func reset_map() -> void : 
+	for hex in get_used_cells(0) :
+		set_cell(0, hex, 22, get_cell_atlas_coords(0, hex), 0)
 
 
 
@@ -173,7 +160,7 @@ func highlight_neighbours(hex: Vector2i, highlight_range = 1, empty_cell_alt: in
 			continue
 			
 		for i in range(0, 6) :
-			var neighbour = _oddr_offset_neighbor(curr_cell, i)
+			var neighbour = HexHelper.hex_neighbor(curr_cell, i)
 			if not neighbour in highlighted_cells : 
 				var curr_range = highlighted_cells[curr_cell]
 				if can_walk(neighbour) && !cell_occupied(neighbour): 
@@ -198,18 +185,24 @@ func highlight_neighbours(hex: Vector2i, highlight_range = 1, empty_cell_alt: in
 ## [code]highlight_range [/code]: The range of columns to highlight (default: 1).[br]
 ## [code]return [/code]: An array of Vector2i representing the coordinates of the highlighted columns.
 ##
-func highlight_columns(hex, highlight_range) -> Array[Vector2i] : 
+func highlight_columns(hex: Vector2i, highlight_range: int) -> Array[Vector2i] : 
 	var highlighted_cells: Array[Vector2i] = []
+	
 	for i in range(0, 6) : 
-		var neighbour = _oddr_offset_neighbor(hex, i)
+		var neighbour = HexHelper.hex_neighbor(hex, i)
+		if not can_walk(neighbour) or cell_occupied(neighbour) : 
+			continue
 		for j in range(0, highlight_range - 1) : 
-			neighbour = _oddr_offset_neighbor(neighbour, i)
+			neighbour = HexHelper.hex_neighbor(neighbour, i)
 			if not can_walk(neighbour) :
 				break
 			if cell_occupied(neighbour) :
-				set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 3)
-			else : 
-				set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 4)
+				if get_character(neighbour) is AICombatCharacter:
+					set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 4)
+					highlighted_cells.append(neighbour)
+				break
+			 
+			set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), 3)
 			highlighted_cells.append(neighbour)
 	return highlighted_cells
 
@@ -237,7 +230,7 @@ func get_random_walkable_neighbor(hex: Vector2i, walkable_cells: Array[int]) -> 
 	var parity = hex.y & 1
 	var possible_neighbours = []
 	for i in range(0, 6) :
-		var diff = oddr_direction_differences[parity][i]
+		var diff = HexHelper.oddr_direction_differences[parity][i]
 		var neighbour = Vector2i(hex.x + diff[0], hex.y + diff[1])
 		if walkable_cells.has(get_cell_atlas_coords(0, neighbour).x) && !cell_occupied(neighbour) : 
 			possible_neighbours.append(neighbour)
@@ -251,7 +244,7 @@ func get_random_walkable_neighbor(hex: Vector2i, walkable_cells: Array[int]) -> 
 ## [code]pos [/code]: The position to get its cell coordinates.[br]
 ## [code]return [/code]: A Vector2i representing the coordinates of the position in the hex grid.
 ##
-func get_cell_coords(pos) : 
+func get_cell_coords(pos: Vector2) -> Vector2i: 
 	return local_to_map(to_local(pos))
 
 ##
@@ -308,11 +301,6 @@ func _on_character_died(character) :
 	elif enemy_count == 0 : 
 		emit_signal("combat_ended", true)
 
-func _oddr_offset_neighbor(hex, direction):
-	var parity = hex.y & 1
-	var diff = oddr_direction_differences[parity][direction]
-	return Vector2i(hex.x + diff[0], hex.y + diff[1])
-
 func _setup_astar():
 	var enemy_walkable_cells = [0, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
 	var id = 0
@@ -325,7 +313,7 @@ func _setup_astar():
 
 	for hex in cell_ids.keys():
 		for i in range(0, 6):
-			var neighbour = _oddr_offset_neighbor(hex, i)
+			var neighbour = HexHelper.hex_neighbor(hex, i)
 			if cell_ids.has(neighbour):
 				astar.connect_points(cell_ids[hex], cell_ids[neighbour], false)
 

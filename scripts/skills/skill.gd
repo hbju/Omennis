@@ -17,10 +17,11 @@ func decrease_cooldown():
 ##
 ## [code] _from [/code]: The CombatCharacter that is using the skill
 ## [code] _target [/code]: The CombatCharacter that is being targeted by the skill
+## [code] return [/code]: Whether the skill was successfully used
 ##
-func use_skill(_from: CombatCharacter, _target):
+func use_skill(_from: CombatCharacter, _skill_pos: Vector2i, _map: CombatMap) -> bool :
 	assert(false, "function not implemented")
-	pass
+	return false
 
 ##
 ## Get the name of the skill
@@ -70,6 +71,14 @@ func target_self() -> bool:
 ##
 func get_cooldown() -> int:
 	return cooldown
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array:
+	assert(false, "function not implemented")
+	return []
+
+func highlight_mouse_pos(_from: CombatCharacter, _mouse_pos: Vector2i, _map: CombatMap) -> Array:
+	assert(false, "function not implemented")
+	return []
 
 ##
 ## Get whether the skill is a melee skill

@@ -14,7 +14,9 @@ func update_ui(party_member: PartyMember) :
 	title.text = party_member.get_char_class()
 	class_icon.texture = load("res://assets/ui/classes_icons/" + party_member.get_char_class() + ".png")
 	skill_tree.update_ui(party_member)
+	$bg/skill_tree_container.scroll_vertical = 1331
 
 
 func _on_close_button_pressed() : 
 	visible = false
+	

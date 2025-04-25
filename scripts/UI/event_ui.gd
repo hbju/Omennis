@@ -25,23 +25,24 @@ func _ready():
 	show_event("gall")
 
 		
-func show_event(event_id: String, characters: Array[PartyMember] = [], random: bool = false) :
+func show_event(event_id, characters: Array[PartyMember] = [], random: bool = false, event_content: Dictionary = {}) :
 	if ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + event_id + ".png") :
 		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + event_id + ".png")
 	
-	var json_data = get_event_data(event_id, random).data 
-	self.id = json_data.id
+	if event_content.is_empty() :
+		event_content = get_event_data(event_id, random).data 
+		self.id = event_content.id
 	
-	card_name_label.text = json_data.name
+	card_name_label.text = event_content.name
 	
-	card_description_label.text = process_text(json_data.description, characters)
+	card_description_label.text = process_text(event_content.description, characters)
 	card_description_label.set_size(Vector2(550, 0))
 	
 	description_container.get_v_scroll_bar().ratio = 0
 	for old_possibility in card_choice_buttons_control.get_children(): 
 		old_possibility.queue_free()
 	
-	self.possibilities = json_data.possibilities
+	self.possibilities = event_content.possibilities
 	
 	var number_of_possibilities = 0
 	for i in range(possibilities.size()) :
