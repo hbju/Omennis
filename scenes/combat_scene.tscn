@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://de5n37s7ivoq6"]
+[gd_scene load_steps=7 format=3 uid="uid://de5n37s7ivoq6"]
 
 [ext_resource type="Texture2D" uid="uid://c8ag7tlvtsnyu" path="res://assets/terrain/nature_tiles.png" id="1_iej71"]
 [ext_resource type="Script" path="res://scripts/combat/combat_map.gd" id="2_dfckw"]
 [ext_resource type="PackedScene" uid="uid://dyw8duvfrq3mb" path="res://scenes/combat_skill_ui.tscn" id="3_adxe2"]
+[ext_resource type="PackedScene" uid="uid://ciy8p71a260ti" path="res://scenes/turn_order_ui.tscn" id="4_bte5q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p72ej"]
 texture = ExtResource("1_iej71")
@@ -73,3 +74,5 @@ z_index = 1
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="skill_ui" parent="UI" instance=ExtResource("3_adxe2")]
+
+[node name="turn_order_ui" parent="UI" instance=ExtResource("4_bte5q")]

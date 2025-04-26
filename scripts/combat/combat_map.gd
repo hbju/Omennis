@@ -2,6 +2,10 @@ extends TileMap
 class_name CombatMap
 
 @onready var skill_bar_ui: SkillBarUI = $UI/skill_ui
+@onready var turn_order_container: HBoxContainer = $UI/turn_order_ui/portraits_container 
+const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
+
+
 
 @export var debug_mode: bool = false
 
@@ -89,6 +93,8 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 		character.hover_entered.connect(_on_character_hover_entered)
 		character.hover_exited.connect(_on_character_hover_exited)
 
+	characters.shuffle()
+
 	_setup_astar()
 
 	next_turn()
@@ -102,8 +108,37 @@ func next_turn() -> void :
 	reset_map()
 	turn = (turn + 1) % characters.size()
 	await get_tree().create_timer(0.5).timeout
+	update_turn_order_ui()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)
+
+### --- UI --- ###
+func update_turn_order_ui():
+	if not turn_order_container or not TurnOrderPortraitScene: return # Safety checks
+
+	# Clear existing portraits
+	for child in turn_order_container.get_children():
+		child.queue_free()
+
+	# wait for next frame to ensure the UI is ready
+	await get_tree().process_frame
+
+	if characters.is_empty(): return # No characters left
+
+	# Display portraits for the next N turns (e.g., 8 or characters.size())
+	var num_to_display = min(8, characters.size())
+	for i in range(num_to_display):
+		var display_char_index = (turn + i) % characters.size()
+		var character_to_display = characters[display_char_index]
+
+		var portrait_instance = TurnOrderPortraitScene.instantiate()
+		var is_current = (i == 0) # Highlight the first one in the sequence
+		portrait_instance.call_deferred("set_character", character_to_display, is_current)
+		portrait_instance.mouse_entered.connect(character_to_display.set_highlight.bind(true, Color(0xffffffff)))
+		portrait_instance.mouse_exited.connect(character_to_display.set_highlight.bind(false))
+
+		turn_order_container.add_child(portrait_instance)
+
 
 ##
 ## Checks if a given hexagon is occupied by a character.

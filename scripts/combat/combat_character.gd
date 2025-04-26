@@ -18,6 +18,7 @@ signal hover_exited(character)
 @onready var shield_bar = $shield_bar
 @onready var shield_label = $shield_bar/curr_shield
 @onready var status_effects_container: BoxContainer = $status_effects_container
+@onready var character_highlight = $character_portrait_bg/character_highlight
 
 const StatusIconScene = preload("res://scenes/status_icon.tscn")
 const STATUS_ICON_MAP = {
@@ -446,7 +447,6 @@ func update_status_icons():
 		if show_icon and STATUS_ICON_MAP.has(status_name):
 			if StatusIconScene:
 				var icon_instance = StatusIconScene.instantiate()
-				# when icon_instance ready, set the data
 				icon_instance.call_deferred("set_data", load(STATUS_ICON_MAP[status_name]), duration, level)
 				icon_instance.name = status_name
 				
@@ -455,3 +455,10 @@ func update_status_icons():
 				# icon_instance.tooltip_text = get_status_description(status_name)
 			else:
 				printerr("StatusIconScene not loaded!")
+
+func set_highlight(is_highlighted: bool, color: Color = Color(0xffcd12ff)):
+	if character_highlight:
+		character_highlight.visible = is_highlighted
+		character_highlight.color = color
+	else :
+		printerr("Character highlight not found!")

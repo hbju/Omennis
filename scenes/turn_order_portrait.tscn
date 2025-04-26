@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://batvfkild3kan"]
+
+[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="1_ohae5"]
+[ext_resource type="Script" path="res://scripts/UI/turn_order_portrait.gd" id="2_ulgj5"]
+[ext_resource type="Texture2D" uid="uid://y763omsm18pl" path="res://assets/chars/male/male_01.png" id="3_4p4gl"]
+
+[node name="background_rect" type="TextureRect"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ohae5")
+expand_mode = 1
+script = ExtResource("2_ulgj5")
+
+[node name="highlight_indicator" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.5
+offset_top = -37.5
+offset_right = 37.5
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.803922, 0.0705882, 1)
+
+[node name="portrait_image" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 20.0
+offset_top = 13.0
+offset_right = 79.4295
+offset_bottom = 88.0
+texture = ExtResource("3_4p4gl")
+expand_mode = 3

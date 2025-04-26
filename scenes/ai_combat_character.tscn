@@ -50,9 +50,24 @@ position = Vector2(7.62939e-05, 3.25441e-05)
 scale = Vector2(2.83854, 2.83854)
 texture = ExtResource("3_vmbuy")
 
+[node name="character_highlight" type="ColorRect" parent="character_portrait_bg"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -854.0
+offset_top = -853.5
+offset_right = -129.0
+offset_bottom = -128.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.803922, 0.0705882, 1)
+
 [node name="collision" type="CollisionShape2D" parent="."]
 z_index = -1
-position = Vector2(-1, 2)
+position = Vector2(-1, -1.52588e-05)
 shape = SubResource("RectangleShape2D_wtnqe")
 
 [node name="health_bar" type="TextureProgressBar" parent="."]

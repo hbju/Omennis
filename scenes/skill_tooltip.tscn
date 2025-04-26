@@ -5,10 +5,10 @@
 [ext_resource type="FontFile" uid="uid://c8gm6pjmvi186" path="res://assets/fonts/VarelaRound-Regular.ttf" id="2_s2ybi"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rp6u5"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 5.0
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
 texture = ExtResource("1_pqejf")
 
 [sub_resource type="LabelSettings" id="LabelSettings_bgrvm"]
@@ -16,12 +16,12 @@ font = ExtResource("2_s2ybi")
 font_size = 50
 
 [node name="SkillTooltip" type="PanelContainer"]
-custom_minimum_size = Vector2(400, 300)
+custom_minimum_size = Vector2(400, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1520.0
-offset_bottom = -780.0
+offset_bottom = -982.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
@@ -32,12 +32,21 @@ script = ExtResource("1_ayt5w")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="SkillNameLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+text = "Arcane Shield"
 label_settings = SubResource("LabelSettings_bgrvm")
 
 [node name="SkillDescriptionLabel" type="Label" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+text = "Create a magical shield around an ally or yourself that reduces incoming damage by 50% for \" + str(duration) + \" turn. \\n\" + \\
+		\"Cooldown: \" + str(max_cooldown) + \" turns.\\n\" + \\
+		\"Range: \" + str(get_skill_range()) + \" cells.\""
 autowrap_mode = 3
+
+[node name="CooldownLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "CD : 0/4"
