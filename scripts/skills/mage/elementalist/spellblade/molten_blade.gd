@@ -11,7 +11,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	if not is_valid_target_type(from, target_char) :
 		return false
 
-	from.gain_imbue_status(duration, bonus_damage)
+	from.gain_status("imbue", duration+1, bonus_damage)
 
 	cooldown = max_cooldown
 	skill_finished.emit()
@@ -51,7 +51,9 @@ func get_skill_name() -> String:
 	return "Molten Blade"
 
 func get_skill_description() -> String:
-	return "Imbue your weapon with fire, dealing " + str(bonus_damage) + " additional base damage for " + str(duration) + " turns."
+	return "Imbue your weapon with fire, dealing " + str(bonus_damage) + " additional base damage for " + str(duration) + " turns.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: yourself.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/molten_blade.png") # Placeholder path

@@ -16,6 +16,9 @@ var turn = -1
 var player_count = 0
 var enemy_count = 0
 
+const CombatCharacterTooltipScene = preload("res://scenes/character_tooltip.tscn")
+var character_tooltip_instance: CombatCharacterTooltipUI
+
 signal combat_ended(victory: bool)
 
 func _ready():
@@ -38,6 +41,14 @@ func _ready():
 		enemy2.skill_list.append(ArcaneShield.new())
 		
 		enter_combat(party, enemies)
+
+	if CombatCharacterTooltipScene :
+		character_tooltip_instance = CombatCharacterTooltipScene.instantiate()
+		character_tooltip_instance.hide()
+		character_tooltip_instance.top_level = true
+		$UI.add_child(character_tooltip_instance)
+	else :
+		printerr("CombatCharacterTooltipScene not found. Tooltip will not be displayed.")
 
 
 ##
@@ -73,6 +84,10 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			characters.append(enemy)
 			enemy.turn_finished.connect(_on_target_reached)
 			enemy.character_died.connect(_on_character_died)	
+
+	for character in characters : 
+		character.hover_entered.connect(_on_character_hover_entered)
+		character.hover_exited.connect(_on_character_hover_exited)
 
 	_setup_astar()
 
@@ -286,6 +301,30 @@ func enable_disable_cells(enemies: bool, party: bool, disable: bool) :
 ##
 func toggle_ui() : 
 	$UI.visible = !$UI.visible
+
+func _on_character_hover_entered(character: CombatCharacter):
+	if character_tooltip_instance and is_instance_valid(character):
+		character_tooltip_instance.update_content(character)
+
+		# Position the tooltip (similar logic to skill tree tooltip)
+		var mouse_pos = get_global_mouse_position()
+		var viewport_rect = get_viewport_rect()
+		var tooltip_size = character_tooltip_instance.size
+		var offset = Vector2(15, 15)
+		var target_pos = mouse_pos + offset
+
+		# Adjust if off-screen
+		if target_pos.x + tooltip_size.x > viewport_rect.size.x:
+			target_pos.x = mouse_pos.x - tooltip_size.x - offset.x
+		if target_pos.y + tooltip_size.y > viewport_rect.size.y:
+			target_pos.y = mouse_pos.y - tooltip_size.y - offset.y
+
+		character_tooltip_instance.global_position = target_pos
+		character_tooltip_instance.show()
+
+func _on_character_hover_exited(_character: CombatCharacter):
+	if character_tooltip_instance:
+		character_tooltip_instance.hide()
 
 
 func _on_target_reached() :

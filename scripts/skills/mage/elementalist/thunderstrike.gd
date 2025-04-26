@@ -71,7 +71,7 @@ func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo
 func _apply_effect():
 	if is_instance_valid(target):
 		caster.deal_damage(target, damage_mult)
-		target.gain_stunned_status(stun_duration)
+		target.gain_status("stunned", stun_duration)
 
 	skill_finished.emit()
 	curr_thunderstrike.queue_free()
@@ -80,7 +80,9 @@ func get_skill_name() -> String:
 	return "Thunderstrike"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to a single enemy and stun them for " + str(stun_duration) + " turn."
+	return "Deal " + str(damage_mult) + " times your base damage to a single enemy and stun them for " + str(stun_duration) + " turn.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells."
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/thunderstrike.png") # Placeholder path

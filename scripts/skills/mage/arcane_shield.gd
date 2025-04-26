@@ -1,7 +1,7 @@
 extends Skill
 class_name ArcaneShield
 
-var duration := 1
+var duration := 2
 var max_cooldown := 3
 var curr_highlighted_cells: Array[Vector2i] = []
 
@@ -12,7 +12,8 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	if not is_valid_target_type(from, skill_target) or HexHelper.distance(caster_pos, skill_pos) > get_skill_range():
 		return false
 
-	skill_target.gain_defensive_status(duration + 1)
+	skill_target.gain_status("defensive", duration + 1 if skill_target == from else duration)
+
 	cooldown = max_cooldown
 	skill_finished.emit()
 	return true
@@ -64,7 +65,9 @@ func get_skill_name() -> String:
 	return "Arcane Shield"
 
 func get_skill_description() -> String:
-	return "Create a magical shield around an ally within a " + str(get_skill_range()) + "-cell radius or yourself that reduces incoming damage by 50% for " + str(duration) + " turn."
+	return "Create a magical shield around an ally or yourself that reduces incoming damage by 50% for " + str(duration) + " turn. \n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells."
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/arcane_shield.png") # Placeholder path

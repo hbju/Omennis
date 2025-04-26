@@ -66,7 +66,9 @@ func get_skill_name() -> String:
 	return "Whirlwind"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to all adjacent enemies."
+	return "Deal " + str(damage_mult) + " times your base damage to all adjacent enemies.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/whirlwind.png")

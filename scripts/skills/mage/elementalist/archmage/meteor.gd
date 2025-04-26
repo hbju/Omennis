@@ -109,7 +109,9 @@ func get_skill_name() -> String:
 	return "Meteor"
 
 func get_skill_description() -> String:
-	return "Deal " + str(total_damage_mult) + " times your base damage divided between all characters in a " + str(aoe_radius) + "-cell radius around the target location."
+	return "Deal " + str(total_damage_mult) + " times your base damage divided between all characters in a " + str(aoe_radius) + "-cell radius around the target location.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/meteor.png") # Placeholder path

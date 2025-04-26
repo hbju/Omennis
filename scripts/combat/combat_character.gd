@@ -8,17 +8,36 @@ var attack_target = null
 var knockback_target = null
 var init_pos = null
 @export var speed: int = 1000
+
 signal turn_finished
+signal hover_entered(character)
+signal hover_exited(character)
 
 @onready var health_bar = $health_bar
 @onready var health_label = $health_bar/curr_health
 @onready var shield_bar = $shield_bar
 @onready var shield_label = $shield_bar/curr_shield
+@onready var status_effects_container: BoxContainer = $status_effects_container
+
+const StatusIconScene = preload("res://scenes/status_icon.tscn")
+const STATUS_ICON_MAP = {
+	"stunned": "res://assets/ui/status/stunned_icon.png",
+	"defensive": "res://assets/ui/status/defensive_icon.png",
+	"weak": "res://assets/ui/status/weak_icon.png",
+	"strong": "res://assets/ui/status/strong_icon.png",
+	"vulnerable": "res://assets/ui/status/vulnerable_icon.png",
+	"rooted": "res://assets/ui/status/rooted_icon.png",
+	"decay": "res://assets/ui/status/decay_icon.png",
+	"thorns": "res://assets/ui/status/thorns_icon.png",
+	"blessed": "res://assets/ui/status/blessed_icon.png",
+	 "leech": "res://assets/ui/status/leech_icon.png",
+	 "imbue": "res://assets/ui/status/imbue_icon.png" 
+}
 
 @onready var character_portrait = $character_portrait_bg/character_portrait
 signal character_died(character)
 
-var char_statuses: Dictionary = {"stunned": 0, "poisoned": 0, "burned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "vampiric" : [], "imbue" : [0,0], "thorns" : [0,0], "decay" : [0,0]}
+var char_statuses: Dictionary = {"stunned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "leech" : [], "imbue" : [0,0], "thorns" : [0,0], "decay" : [0,0]}
 
 var stunned_animation = preload("res://scenes/stun_animation.tscn")
 var curr_stun_animation = null
@@ -37,6 +56,9 @@ func _ready() :
 	character_portrait.texture = load(character.get_portrait_path())
 	_update_health_bar()
 	_update_shield_bar()
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+	call_deferred("update_status_icons")
 
 
 ##
@@ -228,13 +250,13 @@ func deal_damage(other: CombatCharacter, damage_mult: float) -> float :
 	if (other.char_statuses["thorns"][0] > 0) :
 		take_damage(other.char_statuses["thorns"][1])
 
-	if char_statuses["vampiric"].size() > 0 : 
-		var vampiric_stats = char_statuses["vampiric"]
-		var vampiric_level = 0
-		for i in range(vampiric_stats.size()) : 
-			if vampiric_stats[i][0] > 0 : 
-				vampiric_level += vampiric_stats[i][1]
-		heal(damage * vampiric_level / 100.0)
+	if char_statuses["leech"].size() > 0 : 
+		var leech_stats = char_statuses["leech"]
+		var leech_level = 0
+		for i in range(leech_stats.size()) : 
+			if leech_stats[i][0] > 0 : 
+				leech_level += leech_stats[i][1]
+		heal(damage * leech_level / 100.0)
 
 	return damage
 
@@ -256,19 +278,19 @@ func finish_turn() :
 	char_statuses["weak"] = max(0, char_statuses["weak"] - 1)
 	char_statuses["strong"] = max(0, char_statuses["strong"] - 1)
 	char_statuses["imbue"][0] = max(0, char_statuses["imbue"][0] - 1)
-	var new_vampiric = []
-	for i in range(char_statuses["vampiric"].size()) : 
-		char_statuses["vampiric"][i][0] = char_statuses["vampiric"][i][0] - 1
-		if char_statuses["vampiric"][i][0] > 0 : 
-			new_vampiric.append(char_statuses["vampiric"][i])
-	char_statuses["vampiric"] = new_vampiric
+	var new_leech = []
+	for i in range(char_statuses["leech"].size()) : 
+		char_statuses["leech"][i][0] = char_statuses["leech"][i][0] - 1
+		if char_statuses["leech"][i][0] > 0 : 
+			new_leech.append(char_statuses["leech"][i])
+	char_statuses["leech"] = new_leech
 	char_statuses["decay"][0] = max(0, char_statuses["decay"][0] - 1)
 	char_statuses["thorns"][0] = max(0, char_statuses["thorns"][0] - 1)
 
 	if char_statuses["decay"][0] > 0 : 
 		take_damage(char_statuses["decay"][1] * max_health / 100.0)
 
-	
+	update_status_icons()
 	turn_finished.emit()
 
 ##
@@ -280,6 +302,33 @@ func _calculate_path_to_character(other_char_pos: Vector2i) -> PackedVector2Arra
 	var this_tile_id = map.cell_ids[map.get_cell_coords(global_position)]
 	var target_tile_id = map.cell_ids[other_char_pos]
 	return map.astar.get_point_path(this_tile_id, target_tile_id)
+
+func gain_status(status_name: String, nb_turns: int = 1, nb_level: int = 0) :
+	match status_name : 
+		"stunned" : 
+			gain_stunned_status(nb_turns)
+		"rooted" : 
+			gain_rooted_status(nb_turns)
+		"defensive" : 
+			gain_defensive_status(nb_turns)
+		"weak" : 
+			gain_weak_status(nb_turns)
+		"blessed" : 
+			gain_blessed_status(nb_level)
+		"strong" : 
+			gain_strong_status(nb_turns)
+		"imbue" : 
+			gain_imbue_status(nb_turns, nb_level)
+		"vulnerable" : 
+			gain_vulnerable_status(nb_turns)
+		"leech" :
+			gain_leech_status(nb_turns, nb_level)
+		"thorns":
+			gain_thorn_status(nb_turns, nb_level)
+		"decay":
+			gain_decay_status(nb_turns, nb_level)
+
+	update_status_icons()
 
 ##
 ## Stun the character, making him skip his next turn [br]
@@ -322,8 +371,8 @@ func gain_vulnerable_status(nb_turns: int = 1) :
 	if char_statuses["defensive"] > 0 : 
 		char_statuses["defensive"] = 0
 
-func gain_vampiric_status(nb_turns: int = 1, nb_levels: int = 1) : 
-	char_statuses["vampiric"].append([nb_turns, nb_levels])
+func gain_leech_status(nb_turns: int = 1, nb_levels: int = 1) : 
+	char_statuses["leech"].append([nb_turns, nb_levels])
 
 func gain_thorn_status(nb_turns: int = 1, nb_levels: int = 1) :
 	char_statuses["thorns"][0] = char_statuses["thorns"][0] + nb_turns
@@ -350,3 +399,59 @@ func knockback(knockback_distance: int, direction: int, knockback_damage: float)
 		take_damage(knockback_damage)
 
 
+## UI
+
+func _on_mouse_entered() : 
+	hover_entered.emit(self)
+
+func _on_mouse_exited() :
+	hover_exited.emit(self)
+
+func update_status_icons():
+	if not is_inside_tree() or not status_effects_container: # Safety check
+		return
+
+	# Clear previous icons
+	for child in status_effects_container.get_children():
+		child.queue_free()
+
+	# Add icons for current statuses
+	for status_name in char_statuses.keys():
+		var status_value = char_statuses[status_name]
+		var show_icon = false
+		var duration = -1
+		var level = -1
+
+		# Determine if the status is active and get display value
+		match status_name:
+			"leech":
+				if status_value is Array and not status_value.is_empty():
+					show_icon = true
+					for i in range(status_value.size()):
+						if status_value[i][0] > 0:
+							show_icon = true
+							duration += status_value[i][0] # Show duration
+							level = max(status_value[i][1], level) # Show level
+			"imbue", "thorns", "decay":
+				if status_value is Array and status_value[0] > 0: # Check duration part
+					show_icon = true
+					duration = status_value[0] # Show duration
+					level = status_value[1] # Show level
+			_: # Default for simple duration/level statuses
+				if status_value is int and status_value > 0:
+					show_icon = true
+					duration = status_value
+
+		 # Instantiate and add icon if active
+		if show_icon and STATUS_ICON_MAP.has(status_name):
+			if StatusIconScene:
+				var icon_instance = StatusIconScene.instantiate()
+				# when icon_instance ready, set the data
+				icon_instance.call_deferred("set_data", load(STATUS_ICON_MAP[status_name]), duration, level)
+				icon_instance.name = status_name
+				
+				status_effects_container.add_child(icon_instance)
+				# Optional: Add tooltip to the icon instance here
+				# icon_instance.tooltip_text = get_status_description(status_name)
+			else:
+				printerr("StatusIconScene not loaded!")

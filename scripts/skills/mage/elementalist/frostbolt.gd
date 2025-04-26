@@ -71,7 +71,7 @@ func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo
 
 func _on_reached_target():
 	caster.deal_damage(target, damage_mult)
-	target.gain_rooted_status(root_duration)
+	target.gain_status("rooted", root_duration)
 	curr_frostbolt.queue_free()
 	skill_finished.emit()
 
@@ -79,7 +79,9 @@ func get_skill_name() -> String:
 	return "Frostbolt"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage and root an enemy for " + str(root_duration) + " turn."
+	return "Deal " + str(damage_mult) + " times your base damage and root an enemy for " + str(root_duration) + " turn.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/frostbolt.png") # Placeholder path

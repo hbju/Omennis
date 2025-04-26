@@ -77,7 +77,7 @@ func _on_reached_target():
 	if is_instance_valid(target) and is_instance_valid(caster):
 		var damage = caster.deal_damage(target, damage_mult)
 		caster.heal(damage * heal_percent)
-		target.gain_weak_status(duration + 1)
+		target.gain_status("weak", duration + 1)
 	if is_instance_valid(curr_projectile):
 		curr_projectile.queue_free()
 	skill_finished.emit()
@@ -87,7 +87,9 @@ func get_skill_name() -> String:
 	return "Death Coil"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to an enemy and heal yourself for " + str(int(heal_percent * 100)) + "% of the damage dealt. Reduces the target's damage by 33% for " + str(duration) + " turns."
+	return "Deal " + str(damage_mult) + " times your base damage to an enemy and heal yourself for " + str(int(heal_percent * 100)) + "% of the damage dealt. Reduces the target's damage by 33% for " + str(duration) + " turns.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/death_coil.png") # Placeholder path

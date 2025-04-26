@@ -90,7 +90,9 @@ func get_skill_name() -> String:
 	return "Rage Slam"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to up to " + str(targets_number) + " random adjacent characters."
+	return "Deal " + str(damage_mult) + " times your base damage to up to " + str(targets_number) + " random adjacent characters.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/rage_slam.png")

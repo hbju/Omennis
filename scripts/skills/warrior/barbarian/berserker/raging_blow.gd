@@ -59,7 +59,9 @@ func get_skill_name() -> String:
 	return "Raging Blow"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your basic damage to an enemy. It the enemy health is below 30%, deal double damage. "
+	return "Deal " + str(damage_mult) + " times your basic damage to an enemy. It the enemy health is below 30%, deal double damage.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/raging_blow.png")

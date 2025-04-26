@@ -73,7 +73,9 @@ func get_skill_name() -> String:
 	return "Firespark"
 
 func get_skill_description() -> String:
-	return "A basic fire attack that deals " + str(damage_mult) + " times your base damage to an enemy in a " + str(get_skill_range()) + "-cell radius."
+	return "A basic fire attack that deals " + str(damage_mult) + " times your base damage to an enemy.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n" 
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/firespark.png")

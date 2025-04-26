@@ -13,7 +13,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 		return false
 
 	from.gain_shield(shield_amount)
-	from.gain_thorn_status(duration, retaliate_damage)
+	from.gain_status("thorns", duration+1, retaliate_damage)
 
 	cooldown = max_cooldown
 	skill_finished.emit()
@@ -54,7 +54,9 @@ func get_skill_name() -> String:
 	return "Bone Armor"
 
 func get_skill_description() -> String:
-	return "Create a shield that absorbs " + str(shield_amount) + " damage and deals " + str(retaliate_damage) + " damage to any enemy that attacks you for " + str(duration) + " turns."
+	return "Create a shield that absorbs " + str(shield_amount) + " damage and deals " + str(retaliate_damage) + " damage to any enemy that attacks you for " + str(duration) + " turns.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: yourself.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/bone_armor.png")
