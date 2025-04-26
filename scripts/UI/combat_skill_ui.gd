@@ -123,24 +123,18 @@ func _on_skill_button_mouse_entered(skill_index: int):
 		skill_tooltip_instance.get_node("VBoxContainer/CooldownLabel").text = cd_text
 
 
-	# Position the tooltip relative to the button
-	var btn_rect: Rect2 = button.get_global_rect()
 	var tooltip_size = skill_tooltip_instance.size
 	var viewport_rect = get_viewport_rect()
 	var offset = Vector2(0, -10) # Position above the button
-	print("Tooltip size : ", tooltip_size)
 
 	# Calculate position (usually above the button)
 	var target_pos = button.global_position + Vector2(button.size.x / 2 - tooltip_size.x / 2, -tooltip_size.y) + offset
-	print(button.global_position)
-	print("Target Position: ", target_pos)
+
 
 	# Adjust if off-screen (simplified)
 	if target_pos.x < 0: target_pos.x = 0
 	if target_pos.x + tooltip_size.x > viewport_rect.size.x: target_pos.x = viewport_rect.size.x - tooltip_size.x
-	if target_pos.y < 0: target_pos.y = button.global_position.y + btn_rect.size.y + offset.y # Put below if no space above
-
-	print("Target Position: ", target_pos)
+	if target_pos.y < 0: target_pos.y = button.global_position.y + button.size.y + offset.y # Put below if no space above
 
 	skill_tooltip_instance.position = target_pos
 	skill_tooltip_instance.show()

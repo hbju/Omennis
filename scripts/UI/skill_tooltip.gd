@@ -14,7 +14,16 @@ func update_content(skill: Skill):
 	skill_name_label.text = skill.get_skill_name()
 	skill_description_label.text = skill.get_skill_description()
 
+	reset_size()
+	await get_tree().process_frame
+	
+
 func _ready():
     # Ensure it starts hidden
+	skill_name_label.text = ""
+	skill_description_label.text = ""
+
 	reset_size()
-	hide()
+	await get_tree().process_frame
+	global_position = Vector2(-1000, -1000)
+	show()

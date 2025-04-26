@@ -18,8 +18,8 @@ outline_size = 8
 outline_color = Color(0.644509, 0, 0.0486812, 1)
 
 [node name="character_tooltip" type="PanelContainer"]
-offset_right = 308.0
-offset_bottom = 193.0
+offset_right = 332.0
+offset_bottom = 197.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_sa07i")
 script = ExtResource("2_72n14")
 

@@ -24,4 +24,3 @@ content_generator="*res://scripts/content_generation/content_generator.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
