@@ -71,7 +71,7 @@ func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo
 
 func _on_reached_target():
 	caster.deal_damage(target, damage_mult)
-	target.gain_stunned_status(root_duration)
+	target.gain_rooted_status(root_duration)
 	curr_frostbolt.queue_free()
 	skill_finished.emit()
 

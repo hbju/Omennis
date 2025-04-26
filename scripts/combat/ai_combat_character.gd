@@ -144,7 +144,7 @@ func evaluate_potential_actions(current_pos: Vector2i, alive_players: Array[Play
 			can_act_now = true
 			break
 
-	if not can_act_now and not alive_players.is_empty():
+	if not can_act_now and not alive_players.is_empty() and not char_statuses["rooted"] > 0:
 		for player in alive_players:
 			var path = _calculate_path_to_character(map.get_cell_coords(player.global_position))
 			if path.size() > 1: 

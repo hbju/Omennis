@@ -252,6 +252,7 @@ func finish_turn() :
 	move_target = null
 	char_statuses["defensive"] = max(0, char_statuses["defensive"] - 1)
 	char_statuses["vulnerable"] = max(0, char_statuses["vulnerable"] - 1)
+	char_statuses["rooted"] = max(0, char_statuses["rooted"] - 1)
 	char_statuses["weak"] = max(0, char_statuses["weak"] - 1)
 	char_statuses["strong"] = max(0, char_statuses["strong"] - 1)
 	char_statuses["imbue"][0] = max(0, char_statuses["imbue"][0] - 1)
@@ -290,6 +291,9 @@ func gain_stunned_status(nb_turns: int = 1) :
 	curr_stun_animation.position = Vector2(0, 0)
 	curr_stun_animation.z_index = 10
 	curr_stun_animation.play()
+
+func gain_rooted_status(nb_turns: int = 1) : 
+	char_statuses["rooted"] = max(nb_turns, char_statuses["rooted"])
 
 func gain_defensive_status(nb_turns: int = 1) : 
 	char_statuses["defensive"] = nb_turns
