@@ -91,7 +91,9 @@ func get_skill_name() -> String:
 	return "Inquisition"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to all enemies and heal all allies within a 2-cell radius for as much."
+	return "Deal " + str(damage_mult) + " times your base damage to all enemies and heal all allies within a " + str(get_skill_range()) +"-cell radius for as much.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/inquisition.png")

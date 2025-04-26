@@ -91,7 +91,9 @@ func get_skill_name() -> String:
 	return "Dark Pact"
 
 func get_skill_description() -> String:
-	return "Sacrifice " + str(int(health_cost_percent * 100)) + "% of your max health to deal " + str(damage_mult) + " times your base damage to an enemy."
+	return "Sacrifice " + str(int(health_cost_percent * 100)) + "% of your max health to deal " + str(damage_mult) + " times your base damage to an enemy.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/dark_pact.png") # Placeholder path

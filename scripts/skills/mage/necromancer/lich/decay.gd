@@ -76,7 +76,7 @@ func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo
 
 func _on_reached_target():
 	if is_instance_valid(target):
-		target.gain_decay_status(duration, damage_percent)
+		target.gain_status("decay", duration, damage_percent)
 	if is_instance_valid(curr_projectile):
 		curr_projectile.queue_free()
 	skill_finished.emit()
@@ -86,7 +86,9 @@ func get_skill_name() -> String:
 	return "Decay"
 
 func get_skill_description() -> String:
-	return "Inflict a decay effect on the enemy, causing them to lose " + str(int(damage_percent)) + "% of their max health at the end of their turn for " + str(duration) + " turns. \nStacks."
+	return "Inflict a decay effect on the enemy, causing them to lose " + str(int(damage_percent)) + "% of their max health at the end of their turn for " + str(duration) + " turns. \nStacks.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n" 
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/decay.png") # Placeholder path

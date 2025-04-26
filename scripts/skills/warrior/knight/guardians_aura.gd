@@ -11,7 +11,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 		for cell in cells :
 			var character: CombatCharacter = map.get_character(cell)
 			if is_valid_target_type(from, character):
-				character.gain_defensive_status(duration+1)
+				character.gain_status("defensive", duration+1 if character == from else duration)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
@@ -69,7 +69,9 @@ func get_skill_name() -> String:
 	return "Guardian's Aura"
 
 func get_skill_description() -> String:
-	return "You and all adjacent allies take 50% less damage for " + str(duration) + " turns."
+	return "You and all adjacent allies take 50% less damage for " + str(duration) + " turns.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/guardians_aura.png")

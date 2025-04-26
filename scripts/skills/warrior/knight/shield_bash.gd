@@ -8,7 +8,7 @@ var duration := 2
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var target = map.get_character(skill_pos)
 	if is_valid_target_type(from, target) and HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) <= get_skill_range():
-		target.gain_weak_status(duration + 1)
+		target.gain_status("weak", duration)
 		from.deal_damage(target, damage_mult)
 		from.attack(map.to_local(target.global_position))
 		cooldown = max_cooldown
@@ -61,7 +61,9 @@ func get_skill_name() -> String:
 	return "Shield Bash"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage and reduce the enemy’s damage by 33% for " + str(duration) + " turns. "
+	return "Deal " + str(damage_mult) + " times your base damage and reduce the enemy’s damage by 33% for " + str(duration) + " turns.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/shield_bash.png")

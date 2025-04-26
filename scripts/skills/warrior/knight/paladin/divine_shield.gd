@@ -80,7 +80,9 @@ func get_skill_name() -> String:
 	return "Divine Shield"
 
 func get_skill_description() -> String:
-	return "Create shields around all adjacent allies and yourself that absorb " + str(shield_amount * 100) + "% of your max HP."
+	return "Create shields around all adjacent allies and yourself that absorb " + str(shield_amount * 100) + "% of your max HP.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/divine_shield.png")

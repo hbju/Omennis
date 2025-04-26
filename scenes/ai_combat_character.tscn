@@ -37,7 +37,7 @@ font_color = Color(0, 0, 0, 1)
 [node name="player" type="CharacterBody2D"]
 position = Vector2(811, 433)
 scale = Vector2(2.5, 2.5)
-collision_layer = 0
+input_pickable = true
 script = ExtResource("1_p787k")
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
@@ -50,18 +50,33 @@ position = Vector2(7.62939e-05, 3.25441e-05)
 scale = Vector2(2.83854, 2.83854)
 texture = ExtResource("3_vmbuy")
 
+[node name="character_highlight" type="ColorRect" parent="character_portrait_bg"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -854.0
+offset_top = -853.5
+offset_right = -129.0
+offset_bottom = -128.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.803922, 0.0705882, 1)
+
 [node name="collision" type="CollisionShape2D" parent="."]
 z_index = -1
-position = Vector2(-1, 2)
+position = Vector2(-1, -1.52588e-05)
 shape = SubResource("RectangleShape2D_wtnqe")
 
 [node name="health_bar" type="TextureProgressBar" parent="."]
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = -127.0
-offset_top = -207.0
+offset_top = -225.0
 offset_right = 129.0
-offset_bottom = -167.0
+offset_bottom = -185.0
 grow_horizontal = 2
 step = 0.01
 value = 100.0
@@ -89,9 +104,9 @@ label_settings = SubResource("LabelSettings_ppms4")
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = -127.0
-offset_top = -248.2
+offset_top = -265.0
 offset_right = 129.0
-offset_bottom = -208.2
+offset_bottom = -225.0
 grow_horizontal = 2
 step = 0.01
 value = 100.0
@@ -113,3 +128,10 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "100/100"
 label_settings = SubResource("LabelSettings_ju1bp")
+
+[node name="status_effects_container" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 40)
+offset_left = -127.0
+offset_top = -185.0
+offset_right = 129.0
+offset_bottom = -145.0

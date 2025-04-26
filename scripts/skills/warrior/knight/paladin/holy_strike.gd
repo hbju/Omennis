@@ -58,8 +58,9 @@ func get_skill_name() -> String:
 	return "Holy Strike"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " 4 times your basic damage to an enemy and heal yourself for 25% of the damage dealt.
- "
+	return "Deal " + str(damage_mult) + " 4 times your basic damage to an enemy and heal yourself for 25% of the damage dealt.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/holy_strike.png")

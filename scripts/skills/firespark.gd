@@ -51,15 +51,15 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 
 	return score
 
-func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
 	var targets: Array[TargetInfo] = []
-	var caster_pos = map.get_cell_coords(caster.global_position)
+	var caster_pos = map.get_cell_coords(from.global_position)
 	var potential_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), map.can_walk)
 
 	for cell in potential_cells:
 		if cell != caster_pos:
 			var target_char = map.get_character(cell)
-			if target_char and is_valid_target_type(caster, target_char):
+			if target_char and is_valid_target_type(from, target_char):
 				targets.append(TargetInfo.new(
 					TargetInfo.TargetType.CHARACTER,
 					target_char,
@@ -72,7 +72,9 @@ func get_skill_name() -> String:
 	return "Firespark"
 
 func get_skill_description() -> String:
-	return "A basic fire attack that deals 90 damage to a ranged enemy."
+	return "A basic fire attack that deals " + str(damage_mult) + " damage to a nearby enemy. \n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/firespark.png")

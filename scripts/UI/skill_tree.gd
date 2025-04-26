@@ -2,27 +2,15 @@ extends MarginContainer
 class_name SkillTree
 
 @export var debugging: bool = false
-@export var skill_tooltip_scene: PackedScene
 
 var skills: Array[SkillNode]
 
 var party_member: PartyMember
-var skill_tooltip_instance: Control # To hold the instantiated tooltip
 
+signal skill_tooltip_needed(hovered_node: SkillNode, skill_data: Skill)
+signal skill_tooltip_not_needed(skill_data: Skill)
 
 func _ready() :
-	if skill_tooltip_scene:
-		skill_tooltip_instance = skill_tooltip_scene.instantiate()
-		add_child(skill_tooltip_instance)
-		skill_tooltip_instance.update_content(null)
-		skill_tooltip_instance.set("top_level", true) 
-		skill_tooltip_instance.reset_size()	
-		skill_tooltip_instance.force_update_transform()
-		skill_tooltip_instance.hide() 
-		skill_tooltip_instance.z_index = 100 # Or another high value
-	else:
-		printerr("SkillTree: Skill Tooltip Scene not assigned!")
-
 	_get_skills($background, skills)
 	for skill_node in skills : 
 		# Check if signals are already connected if _ready can be called multiple times
@@ -71,37 +59,8 @@ func _get_skills(node: Node, result : Array[SkillNode]) -> void:
 		_get_skills(child, result)
 
 func _on_skill_hover_entered(hovered_node: SkillNode, skill_data: Skill):	
-
-	if skill_tooltip_instance and is_instance_valid(hovered_node): 	
-
-		skill_tooltip_instance.reset_size()
-		skill_tooltip_instance.update_content(skill_data)
-		skill_tooltip_instance.force_update_transform()
-
-		# Get necessary info for positioning
-		var node_rect = hovered_node.get_global_rect() 
-		var tooltip_size = skill_tooltip_instance.size 
-		var viewport_rect = get_viewport_rect()
-		var offset = Vector2(10, 0) 
-
-		var target_pos = node_rect.position + Vector2(node_rect.size.x, 0) + offset
-
-		if target_pos.x + tooltip_size.x > viewport_rect.size.x:
-			target_pos.x = node_rect.position.x - tooltip_size.x - offset.x
-
-		if target_pos.y + tooltip_size.y > viewport_rect.size.y:
-			target_pos.y = viewport_rect.size.y - tooltip_size.y # Stick to viewport bottom
-
-		if target_pos.y < 0:
-			target_pos.y = 0 
-
-		if target_pos.x < 0:
-			target_pos.x = 0 
-
-		skill_tooltip_instance.global_position = target_pos
-		skill_tooltip_instance.show()
+	skill_tooltip_needed.emit(hovered_node, skill_data)
 
 
 func _on_skill_hover_exited():
-	if skill_tooltip_instance:
-		skill_tooltip_instance.hide()
+	skill_tooltip_not_needed.emit()

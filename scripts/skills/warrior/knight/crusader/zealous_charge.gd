@@ -4,6 +4,7 @@ class_name ZealousCharge
 var damage_mult := 3
 var knockback_distance := 1
 var knockback_damage_mult := 1
+var stunned_duration := 1
 var max_cooldown := 3
 var curr_highlighted_cells: Array[Vector2i] = []
 
@@ -14,7 +15,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 
 	from.attack(map.to_local(skill_target.global_position))
 	from.deal_damage(skill_target, damage_mult)
-	skill_target.gain_stunned_status()
+	skill_target.gain_status("stunned", stunned_duration)
 	skill_target.knockback(knockback_distance, _get_knockback_dir(from, skill_target, map), knockback_damage_mult * from.get_damage())
 	cooldown = max_cooldown
 	return true
@@ -90,7 +91,10 @@ func get_skill_name() -> String:
 	return "Zealous Charge"
 
 func get_skill_description() -> String:
-	return "Charge a target from " + str(get_skill_range()) + " tiles away, dealing " + str(damage_mult) + " times your base damage, stunning them for one turn and knocking them back one tile."
+	return "Charge a target from " + str(get_skill_range()) + " tiles away, dealing " + str(damage_mult) + " times your base damage, stunning them for one turn and knocking them back one tile.\n" + \
+		"Can only target enemies not adjacent to you, in a straight line.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/zealous_charge.png")

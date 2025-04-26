@@ -1,0 +1,163 @@
+[gd_scene load_steps=7 format=3 uid="uid://bg0qabemqt4dy"]
+
+[ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_nnihd"]
+[ext_resource type="Script" path="res://scripts/UI/combat_character_tooltip.gd" id="2_72n14"]
+[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_acf1k"]
+[ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="3_j0hk4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sa07i"]
+content_margin_left = 12.0
+content_margin_top = 9.0
+content_margin_right = 12.0
+content_margin_bottom = 9.0
+texture = ExtResource("1_nnihd")
+
+[sub_resource type="LabelSettings" id="LabelSettings_7mai5"]
+font_size = 75
+outline_size = 8
+outline_color = Color(0.644509, 0, 0.0486812, 1)
+
+[node name="character_tooltip" type="PanelContainer"]
+offset_right = 332.0
+offset_bottom = 197.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_sa07i")
+script = ExtResource("2_72n14")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="info_label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Character Name
+Class : 
+Level : "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="skill_button_1" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture_normal = ExtResource("2_acf1k")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon_1" type="TextureRect" parent="VBoxContainer/HBoxContainer/skill_button_1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -37.0
+offset_right = 38.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_j0hk4")
+expand_mode = 1
+
+[node name="skill_cooldown_1" type="Label" parent="VBoxContainer/HBoxContainer/skill_button_1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -68.5
+offset_right = 38.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "5"
+label_settings = SubResource("LabelSettings_7mai5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="skill_button_2" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+modulate = Color(0.408329, 0.408329, 0.408329, 1)
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+disabled = true
+texture_normal = ExtResource("2_acf1k")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon_2" type="TextureRect" parent="VBoxContainer/HBoxContainer/skill_button_2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -37.0
+offset_right = 38.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_j0hk4")
+expand_mode = 1
+
+[node name="skill_cooldown_2" type="Label" parent="VBoxContainer/HBoxContainer/skill_button_2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -68.5
+offset_right = 56.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "5"
+label_settings = SubResource("LabelSettings_7mai5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="skill_button_3" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+modulate = Color(0.407843, 0.407843, 0.407843, 1)
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = ExtResource("2_acf1k")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon_3" type="TextureRect" parent="VBoxContainer/HBoxContainer/skill_button_3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -37.0
+offset_right = 38.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_j0hk4")
+expand_mode = 1
+
+[node name="skill_cooldown_3" type="Label" parent="VBoxContainer/HBoxContainer/skill_button_3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -68.5
+offset_right = 56.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "5"
+label_settings = SubResource("LabelSettings_7mai5")
+horizontal_alignment = 1
+vertical_alignment = 1

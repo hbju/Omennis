@@ -89,7 +89,9 @@ func get_skill_name() -> String:
 	return "Drain Life"
 
 func get_skill_description() -> String:
-	return "Steal " + str(damage_mult) + " times your base damage in health from a character."
+	return "Steal " + str(damage_mult) + " times your base damage in health from a character.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/drain_life.png") # Placeholder path

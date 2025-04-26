@@ -120,7 +120,7 @@ func _apply_effect(target):
 	if is_instance_valid(target):
 		caster.deal_damage(target, damage_mult)
 		if randf() < stun_chance:
-			target.gain_stunned_status(stun_duration)
+			target.gain_status("stunned", stun_duration)
 
 	if curr_storms.has(target):
 		var curr_storm = curr_storms[target]
@@ -134,7 +134,9 @@ func get_skill_name() -> String:
 	return "Lightning Storm"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to " + str(num_targets) + " random enemies within a " + str(get_skill_range()) + "-cell radius, with a " + str(int(stun_chance * 100)) + "% chance to stun them."
+	return "Deal " + str(damage_mult) + " times your base damage to " + str(num_targets) + " random enemies, with a " + str(int(stun_chance * 100)) + "% chance to stun them.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/lightning_storm.png") # Placeholder path

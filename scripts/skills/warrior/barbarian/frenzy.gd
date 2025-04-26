@@ -9,8 +9,8 @@ var duration := 3
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)
 	if is_valid_target_type(from, skill_target) :
-		from.gain_vulnerable_status(duration)
-		from.gain_strong_status(duration)
+		from.gain_status("vulnerable", duration+1)
+		from.gain_status("strong", duration+1)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
@@ -58,7 +58,9 @@ func get_skill_name() -> String:
 	return "Frenzy"
 
 func get_skill_description() -> String:
-	return "Increase attack damage by 50% and receive 50% more damage for " + str(duration) + "."
+	return "Increase attack damage by 50% and receive 50% more damage for " + str(duration) + ".\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: yourself.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/frenzy.png")

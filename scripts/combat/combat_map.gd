@@ -2,6 +2,10 @@ extends TileMap
 class_name CombatMap
 
 @onready var skill_bar_ui: SkillBarUI = $UI/skill_ui
+@onready var turn_order_container: HBoxContainer = $UI/turn_order_ui/portraits_container 
+const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
+
+
 
 @export var debug_mode: bool = false
 
@@ -15,6 +19,9 @@ var characters: Array[CombatCharacter]
 var turn = -1
 var player_count = 0
 var enemy_count = 0
+
+const CombatCharacterTooltipScene = preload("res://scenes/character_tooltip.tscn")
+var character_tooltip_instance: CombatCharacterTooltipUI
 
 signal combat_ended(victory: bool)
 
@@ -38,6 +45,14 @@ func _ready():
 		enemy2.skill_list.append(ArcaneShield.new())
 		
 		enter_combat(party, enemies)
+
+	if CombatCharacterTooltipScene :
+		character_tooltip_instance = CombatCharacterTooltipScene.instantiate()
+		character_tooltip_instance.hide()
+		character_tooltip_instance.top_level = true
+		$UI.add_child(character_tooltip_instance)
+	else :
+		printerr("CombatCharacterTooltipScene not found. Tooltip will not be displayed.")
 
 
 ##
@@ -74,6 +89,12 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			enemy.turn_finished.connect(_on_target_reached)
 			enemy.character_died.connect(_on_character_died)	
 
+	for character in characters : 
+		character.hover_entered.connect(_on_character_hover_entered)
+		character.hover_exited.connect(_on_character_hover_exited)
+
+	characters.shuffle()
+
 	_setup_astar()
 
 	next_turn()
@@ -87,8 +108,37 @@ func next_turn() -> void :
 	reset_map()
 	turn = (turn + 1) % characters.size()
 	await get_tree().create_timer(0.5).timeout
+	update_turn_order_ui()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character)
+
+### --- UI --- ###
+func update_turn_order_ui():
+	if not turn_order_container or not TurnOrderPortraitScene: return # Safety checks
+
+	# Clear existing portraits
+	for child in turn_order_container.get_children():
+		child.queue_free()
+
+	# wait for next frame to ensure the UI is ready
+	await get_tree().process_frame
+
+	if characters.is_empty(): return # No characters left
+
+	# Display portraits for the next N turns (e.g., 8 or characters.size())
+	var num_to_display = min(8, characters.size())
+	for i in range(num_to_display):
+		var display_char_index = (turn + i) % characters.size()
+		var character_to_display = characters[display_char_index]
+
+		var portrait_instance = TurnOrderPortraitScene.instantiate()
+		var is_current = (i == 0) # Highlight the first one in the sequence
+		portrait_instance.call_deferred("set_character", character_to_display, is_current)
+		portrait_instance.mouse_entered.connect(character_to_display.set_highlight.bind(true, Color(0xffffffff)))
+		portrait_instance.mouse_exited.connect(character_to_display.set_highlight.bind(false))
+
+		turn_order_container.add_child(portrait_instance)
+
 
 ##
 ## Checks if a given hexagon is occupied by a character.
@@ -286,6 +336,30 @@ func enable_disable_cells(enemies: bool, party: bool, disable: bool) :
 ##
 func toggle_ui() : 
 	$UI.visible = !$UI.visible
+
+func _on_character_hover_entered(character: CombatCharacter):
+	if character_tooltip_instance and is_instance_valid(character):
+		character_tooltip_instance.update_content(character)
+
+		# Position the tooltip (similar logic to skill tree tooltip)
+		var mouse_pos = get_global_mouse_position()
+		var viewport_rect = get_viewport_rect()
+		var tooltip_size = character_tooltip_instance.size
+		var offset = Vector2(15, 15)
+		var target_pos = mouse_pos + offset
+
+		# Adjust if off-screen
+		if target_pos.x + tooltip_size.x > viewport_rect.size.x:
+			target_pos.x = mouse_pos.x - tooltip_size.x - offset.x
+		if target_pos.y + tooltip_size.y > viewport_rect.size.y:
+			target_pos.y = mouse_pos.y - tooltip_size.y - offset.y
+
+		character_tooltip_instance.global_position = target_pos
+		character_tooltip_instance.show()
+
+func _on_character_hover_exited(_character: CombatCharacter):
+	if character_tooltip_instance:
+		character_tooltip_instance.hide()
 
 
 func _on_target_reached() :

@@ -66,7 +66,10 @@ func get_skill_name() -> String:
 	return "Charge"
 
 func get_skill_description() -> String:
-	return "Charge a target from up to three tiles away, dealing " + str(damage_mult) + " times your base damage"
+	return "Charge a target from up to three tiles away, dealing " + str(damage_mult) + " times your base damage.\n" + \
+		"Can only target enemies not adjacent to you, in a straight line.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/basic_slash.png")

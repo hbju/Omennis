@@ -58,7 +58,9 @@ func get_skill_name() -> String:
 	return "Basic Slash"
 
 func get_skill_description() -> String:
-	return "A basic attack that deals 10 damage to a nearby enemy."
+	return "A basic attack that deals 10 damage to a nearby enemy. \n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/basic_slash.png")

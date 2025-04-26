@@ -4,13 +4,13 @@ class_name BloodFury
 var damage := 0
 var max_cooldown := 6
 var duration := 3
-var vampiric_strength = 33
+var leech_strength = 33
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, _map: CombatMap) -> bool:
 	var skill_target = _map.get_character(skill_pos)
 	if is_valid_target_type(from, skill_target) :
-		from.gain_vampiric_status(duration, vampiric_strength)
+		from.gain_status("leech", duration, leech_strength+1)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
@@ -18,7 +18,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, _map: CombatMap) -> b
 	return false
 
 func score_action(caster: CombatCharacter, _potential_targets: Array[CombatCharacter], _target_cell: Vector2i, map: CombatMap) -> float:
-	# Self buff - Vampiric
+	# Self buff - leech
 	var score = AIScoringWeights.WEIGHT_BUFF_POSITIVE * 1.1 # Good sustain buff
 
 	# Value more if caster is lower health
@@ -32,7 +32,7 @@ func score_action(caster: CombatCharacter, _potential_targets: Array[CombatChara
 			enemies_nearby += 1
 	score += enemies_nearby * 4.0
 
-	if caster.char_statuses["vampiric"].size() > 0:
+	if caster.char_statuses["leech"].size() > 0:
 		score *= 0.8
 
 	return score
@@ -52,7 +52,9 @@ func get_skill_name() -> String:
 	return "Blood Fury"
 
 func get_skill_description() -> String:
-	return "For the next " + str(duration) + " turns, heal for " + str(vampiric_strength) + "% of the damage dealt."
+	return "For the next " + str(duration) + " turns, heal for " + str(leech_strength) + "% of the damage dealt.\n" + \
+		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
+		"Range: yourself.\n"
 
 func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/blood_fury.png")
