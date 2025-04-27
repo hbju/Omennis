@@ -136,8 +136,6 @@ func _debug_fight() :
 		
 		party_strength = _calculate_party_strength()
 		enemy_strength = _calculate_enemy_strength()
-		print(enemy_group.enemy.get_char_class())
-		print(str(party_strength) + " " + str(enemy_strength))
 	
 		var odds: int =  round(_calculate_odds(500000) * 100)
 		chances_label.text = "Victory Chances : " + str(odds) + "%"

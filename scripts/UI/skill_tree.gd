@@ -1,55 +1,74 @@
 extends MarginContainer
 class_name SkillTree
 
-@export var debugging: bool = false
 
 var skills: Array[SkillNode]
 
 var party_member: PartyMember
 
+enum HighlightMode { NONE, HIGHLIGHT_SELECTABLE_FOR_SLOT, HIGHLIGHT_PENDING_SKILL }
+var current_highlight_mode = HighlightMode.NONE
+var currently_equipped_skills: Array[Skill] = []
+var pending_skill_selection: Skill = null
+
+signal unlocked_skill_pressed(skill: Skill)
 signal skill_tooltip_needed(hovered_node: SkillNode, skill_data: Skill)
 signal skill_tooltip_not_needed(skill_data: Skill)
 
 func _ready() :
 	_get_skills($background, skills)
+
 	for skill_node in skills : 
 		# Check if signals are already connected if _ready can be called multiple times
-		if not skill_node.skill_unlocked.is_connected(_on_skill_unlocked):
-			skill_node.skill_unlocked.connect(_on_skill_unlocked)
-		if not skill_node.skill_hover_entered.is_connected(_on_skill_hover_entered):
-			skill_node.skill_hover_entered.connect(_on_skill_hover_entered)
-		if not skill_node.skill_hover_exited.is_connected(_on_skill_hover_exited):
-			skill_node.skill_hover_exited.connect(_on_skill_hover_exited)
-
-	if debugging:
-		party_member = PartyMember.new("DebugWarrior", Character.CLASSES.Warrior, 1, 5, PartyMember.SEX.Male)
-		party_member.skill_points = 10
-		update_ui(party_member)
+		skill_node.skill_hover_entered.connect(_on_skill_hover_entered)
+		skill_node.skill_hover_exited.connect(_on_skill_hover_exited)
+		skill_node.pressed.connect(_on_skill_node_activated.bind(skill_node))
 
 
 func update_ui(new_member: PartyMember) : 
+	print("Updating UI for ", new_member.character_name)
 	party_member = new_member
-	var remaining_points = party_member.skill_points
 
-	var warrior_skills = [Charge.new(), DefensiveStance.new(), ShieldBash.new(), GuardiansAura.new(), HolyStrike.new(), DivineShield.new(), ZealousCharge.new(), Inquisition.new(), Frenzy.new(), RageSlam.new(), WarCry.new(), Whirlwind.new(), BloodFury.new(), RagingBlow.new()]
-	var mage_skills = [FiresparkMage.new(), ArcaneShield.new(), Frostbolt.new(), Thunderstrike.new(), LightningStorm.new(), Meteor.new(), ArcaneSlash.new(), MoltenBlade.new(), DarkPact.new(), DrainLife.new(), BoneArmor.new(), SoulHarvest.new(), DeathCoil.new(), Decay.new()]
-	var rogue_skills = [Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new()]
+	var warrior_skills: Array[Skill] = [Charge.new(), DefensiveStance.new(), ShieldBash.new(), GuardiansAura.new(), HolyStrike.new(), DivineShield.new(), ZealousCharge.new(), Inquisition.new(), Frenzy.new(), RageSlam.new(), WarCry.new(), Whirlwind.new(), BloodFury.new(), RagingBlow.new()]
+	var mage_skills: Array[Skill] = [FiresparkMage.new(), ArcaneShield.new(), Frostbolt.new(), Thunderstrike.new(), LightningStorm.new(), Meteor.new(), ArcaneSlash.new(), MoltenBlade.new(), DarkPact.new(), DrainLife.new(), BoneArmor.new(), SoulHarvest.new(), DeathCoil.new(), Decay.new()]
+	var rogue_skills: Array[Skill] = [Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new()]
 
-	var curr_skills = warrior_skills if party_member.get_char_class() == "Warrior" else mage_skills if party_member.get_char_class() == "Mage" else rogue_skills
+	var background: ColorRect = $background
+	var curr_skills: Array[Skill] = []
+	match party_member.get_char_class():
+		"Warrior":
+			background.color = Color(0x81220eff)
+			curr_skills = warrior_skills
+		"Mage":
+			background.color = Color(0x08748bff)
+			curr_skills = mage_skills
+		"Rogue":
+			background.color = Color(0x4f4f4fff)
+			curr_skills = rogue_skills
 
 	for i in range(min(skills.size(), curr_skills.size())):
 		var skill_node = skills[i]
 		var skill_data = curr_skills[i] 
-		skill_node.update_node(party_member.spent_skill_points, skill_data, remaining_points, party_member)
+		skill_node.update_node(skill_data, party_member)
 
+func set_highlight_mode(mode, equipped_skills: Array[Skill] = [], pending_skill: Skill = null):
+	match mode:
+		SkillUI.SelectionMode.NONE:
+			current_highlight_mode = HighlightMode.NONE
+		SkillUI.SelectionMode.SELECTING_SKILL_FOR_SLOT:
+			current_highlight_mode = HighlightMode.HIGHLIGHT_SELECTABLE_FOR_SLOT
+		SkillUI.SelectionMode.SELECTING_SLOT_FOR_SKILL:
+			current_highlight_mode = HighlightMode.HIGHLIGHT_PENDING_SKILL
 
-func _on_skill_unlocked(skill_data: Skill) :
-	if party_member and party_member.skill_points > 0: 
-		if not skill_data in party_member.skill_list:
-			party_member.skill_list.append(skill_data)
-			party_member.spend_skill_point()
-			update_ui(party_member) 
-			_on_skill_hover_exited()
+	currently_equipped_skills = equipped_skills
+	pending_skill_selection = pending_skill # Store the skill to highlight
+	_update_node_visuals()
+
+# Helper function to update visuals based on mode
+func _update_node_visuals():
+	for skill_node in skills:
+		skill_node.update_visual_state(current_highlight_mode, currently_equipped_skills, pending_skill_selection)
+
 
 func _get_skills(node: Node, result : Array[SkillNode]) -> void:
 	if node is SkillNode :
@@ -58,9 +77,33 @@ func _get_skills(node: Node, result : Array[SkillNode]) -> void:
 	for child in node.get_children():
 		_get_skills(child, result)
 
+
+
 func _on_skill_hover_entered(hovered_node: SkillNode, skill_data: Skill):	
 	skill_tooltip_needed.emit(hovered_node, skill_data)
 
 
+
+
 func _on_skill_hover_exited():
 	skill_tooltip_not_needed.emit()
+
+
+
+func _on_skill_node_activated(skill_node: SkillNode):
+	var skill = skill_node.skill
+	if not skill: return
+
+	match current_highlight_mode:
+		HighlightMode.NONE:
+			if not skill_node.is_unlocked.has(party_member) and party_member.skill_points > 0:
+				skill_node.is_unlocked.append(party_member)
+				party_member.spend_skill_point()
+				update_ui(party_member) 
+				_on_skill_hover_exited()
+			elif skill_node.is_unlocked.has(party_member):
+				unlocked_skill_pressed.emit(skill)
+
+		HighlightMode.HIGHLIGHT_SELECTABLE_FOR_SLOT, HighlightMode.HIGHLIGHT_PENDING_SKILL:
+			if skill_node.is_unlocked.has(party_member):
+				unlocked_skill_pressed.emit(skill)

@@ -21,8 +21,18 @@ static func new_rand() -> PartyMember:
 	var names = load("res://text/characters/" + ("female_character_names.json" if sex == 1 else "male_character_names.json")).data.names
 	var char_name = names[randi() % names.size()]
 	var portrait = randi() % (NB_FEMALE_PORTRAIT if sex == 1 else NB_MALE_PORTRAIT)
+	var char_class: CLASSES = CLASSES.values()[randi_range(0, CLASSES.size() - 3)]
+	var char_init_skill: Array[Skill] = []
+	match char_class:
+		CLASSES.Warrior:
+			char_init_skill.append(Charge.new())
+		CLASSES.Mage:
+			char_init_skill.append(FiresparkMage.new())
+
+	var new_char = PartyMember.new(char_name, CLASSES.values()[randi_range(0, CLASSES.size() - 3)], portrait, 1, sex)
+	new_char.skill_list = char_init_skill
 	
-	return PartyMember.new(char_name, CLASSES.values()[randi_range(0, CLASSES.size() - 3)], portrait, 1, sex)
+	return new_char
 	
 func receive_experience(experience: int) : 
 	var threshold = next_level()
