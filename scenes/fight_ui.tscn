@@ -1,27 +1,42 @@
-[gd_scene load_steps=11 format=3 uid="uid://d25rdiau8ito5"]
+[gd_scene load_steps=26 format=3 uid="uid://d25rdiau8ito5"]
 
 [ext_resource type="Script" path="res://scripts/UI/fight_ui.gd" id="1_fhe66"]
+[ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_bcqcl"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
-[ext_resource type="Texture2D" uid="uid://cc7ybuojvbhyf" path="res://assets/ui/fight_ui/combat_skills_bg.png" id="3_o314g"]
-[ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="4_6mm15"]
 [ext_resource type="Script" path="res://scripts/UI/enemies_display.gd" id="5_subih"]
 [ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="6_e1ypk"]
-
-[sub_resource type="SystemFont" id="SystemFont_rkucr"]
-subpixel_positioning = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_y52tr"]
-font = SubResource("SystemFont_rkucr")
-font_size = 64
-font_color = Color(0.716841, 0.678761, 0.662312, 1)
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="6_gjri0"]
+[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/fight_ui/red_square_button_un.png" id="7_46l7a"]
+[ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="7_uhvgr"]
+[ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="8_saijr"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/fight_ui/red_square_button_h.png" id="8_ybgqt"]
+[ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="9_rwa88"]
+[ext_resource type="Texture2D" uid="uid://bif1amwq6bxy7" path="res://assets/ui/menu_ui/box_heading_midsec_repeat.png" id="9_y56ro"]
+[ext_resource type="Texture2D" uid="uid://ctbvwknltdyh6" path="res://assets/ui/menu_ui/box_head_pattern_repeatable.png" id="10_5q8w6"]
+[ext_resource type="Texture2D" uid="uid://c4winy4h5qjb5" path="res://assets/ui/menu_ui/Box Borders/bottom_border_left_cap.png" id="11_rdvbw"]
+[ext_resource type="Texture2D" uid="uid://dyk3kfoj7vbcu" path="res://assets/ui/menu_ui/Box Borders/left_border_top_cap.png" id="12_703vx"]
+[ext_resource type="Texture2D" uid="uid://chv3fk35lrax7" path="res://assets/ui/menu_ui/Box Borders/left_border_repeat_vertical.png" id="13_urlir"]
+[ext_resource type="Texture2D" uid="uid://62kll5a67er" path="res://assets/ui/menu_ui/Box Borders/bottom_border_right_cap.png" id="14_otp32"]
+[ext_resource type="Texture2D" uid="uid://fl75hrwyp5te" path="res://assets/ui/menu_ui/Box Borders/right_border_top_cap.png" id="15_bewba"]
+[ext_resource type="Texture2D" uid="uid://b33r0uq86r7wh" path="res://assets/ui/menu_ui/Box Borders/right_border_repeat_vertical.png" id="16_7qw21"]
+[ext_resource type="Texture2D" uid="uid://2vfdpjf4u6dj" path="res://assets/ui/menu_ui/Box Borders/bottom_border_midsec_repeat_horizontal.png" id="17_g6hh2"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="18_bkmp0"]
+[ext_resource type="FontFile" uid="uid://cqreiydojq74a" path="res://assets/fonts/playfair/PlayfairDisplay-Black.ttf" id="19_vvif5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qsvt1"]
+font = ExtResource("6_gjri0")
 font_size = 24
 font_color = Color(0.717647, 0.678431, 0.662745, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_v40v7"]
+font = ExtResource("6_gjri0")
 font_size = 32
 font_color = Color(0.717647, 0.678431, 0.662745, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_y52tr"]
+font = ExtResource("19_vvif5")
+font_size = 56
+font_color = Color(0.716841, 0.678761, 0.662312, 1)
 
 [node name="fight_ui" type="Control"]
 layout_mode = 3
@@ -39,45 +54,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -957.5
+offset_left = -921.0
 offset_top = -537.0
-offset_right = 957.5
+offset_right = 927.0
 offset_bottom = 537.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 3
-
-[node name="UI_title" type="TextureRect" parent="bg"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -857.5
-offset_top = 7.0
-offset_right = 842.5
-offset_bottom = 207.0
-grow_horizontal = 2
-texture = ExtResource("3_o314g")
-expand_mode = 1
-
-[node name="Title" type="Label" parent="bg/UI_title"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -142.5
-offset_top = -57.0
-offset_right = 142.5
-offset_bottom = 46.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Fight"
-label_settings = SubResource("LabelSettings_y52tr")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
 
 [node name="bg" type="TextureRect" parent="bg"]
 layout_mode = 1
@@ -86,13 +69,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -934.5
-offset_top = -317.0
-offset_right = 928.5
-offset_bottom = 535.0
+offset_left = -829.0
+offset_top = -398.0
+offset_right = 826.0
+offset_bottom = 499.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_o314g")
+texture = ExtResource("2_bcqcl")
 expand_mode = 1
 
 [node name="party_display" type="Control" parent="bg/bg"]
@@ -112,22 +95,14 @@ grow_vertical = 2
 [node name="main_character_display" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
 offset_left = -764.5
-offset_top = -329.0
+offset_top = -354.0
 offset_right = -214.5
-offset_bottom = -129.0
+offset_bottom = -154.0
 show_delete_button = false
 
-[node name="infos" parent="bg/bg/party_display/main_character_display" index="0"]
-text = "Halfai
- Lvl : 1
- XP : 0/1000"
-
-[node name="xp_bar" parent="bg/bg/party_display/main_character_display/infos" index="0"]
-max_value = 1000.0
-value = 0.0
-
-[node name="avatar_portrait" parent="bg/bg/party_display/main_character_display/avatar_background" index="0"]
-texture = ExtResource("4_6mm15")
+[node name="class_badge" parent="bg/bg/party_display/main_character_display/infos" index="1"]
+offset_top = -1.67743
+offset_bottom = 88.3226
 
 [node name="delete_button" parent="bg/bg/party_display/main_character_display" index="2"]
 visible = false
@@ -136,20 +111,19 @@ disabled = true
 [node name="character_display2" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
 offset_left = -764.5
-offset_top = -179.0
+offset_top = -173.0
 offset_right = -214.5
-offset_bottom = 21.0
+offset_bottom = 27.0
 show_delete_button = false
-character_class = "Rogue"
 character_xp = 1
 character_portrait = 17
 
 [node name="character_display3" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
 offset_left = -764.5
-offset_top = -29.0
+offset_top = 2.0
 offset_right = -214.5
-offset_bottom = 171.0
+offset_bottom = 202.0
 show_delete_button = false
 character_xp = 6
 character_portrait = 16
@@ -157,9 +131,9 @@ character_portrait = 16
 [node name="character_display4" parent="bg/bg/party_display" instance=ExtResource("3_4n8ts")]
 layout_mode = 1
 offset_left = -764.5
-offset_top = 121.0
+offset_top = 193.0
 offset_right = -214.5
-offset_bottom = 321.0
+offset_bottom = 393.0
 show_delete_button = false
 character_class = "Mage"
 character_xp = 600
@@ -235,13 +209,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -128.0
-offset_top = -32.0
-offset_right = 128.0
-offset_bottom = 32.0
+offset_left = -127.5
+offset_top = -32.5
+offset_right = 128.5
+offset_bottom = 31.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Simulate"
+icon = ExtResource("7_46l7a")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="fight_button" type="Button" parent="bg/bg"]
 layout_mode = 1
@@ -257,6 +235,10 @@ offset_bottom = -46.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Fight"
+icon = ExtResource("7_46l7a")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="flee_button" type="Button" parent="bg/bg"]
 layout_mode = 1
@@ -265,13 +247,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -128.0
+offset_left = -127.5
 offset_top = 47.0
-offset_right = 128.0
+offset_right = 128.5
 offset_bottom = 111.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Flee"
+icon = ExtResource("7_46l7a")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="proceed_button" type="Button" parent="bg/bg"]
 layout_mode = 1
@@ -287,23 +273,10 @@ offset_bottom = 262.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Proceed"
-
-[node name="chances_label" type="Label" parent="bg/bg"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -140.0
-offset_top = -231.5
-offset_right = 140.0
-offset_bottom = -42.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Victory Chances : 98%"
-label_settings = SubResource("LabelSettings_v40v7")
-horizontal_alignment = 1
+icon = ExtResource("8_ybgqt")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="result_label" type="Label" parent="bg/bg"]
 layout_mode = 1
@@ -321,6 +294,184 @@ grow_vertical = 2
 text = "Success !"
 label_settings = SubResource("LabelSettings_v40v7")
 horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="chances_bg" type="TextureRect" parent="bg/bg"]
+layout_mode = 0
+offset_left = 655.0
+offset_top = 184.0
+offset_right = 1009.0
+offset_bottom = 273.0
+texture = ExtResource("9_rwa88")
+expand_mode = 5
+
+[node name="chances_label" type="Label" parent="bg/bg/chances_bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -158.0
+offset_top = -21.5
+offset_right = 155.0
+offset_bottom = 31.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Victory Chances : 98%"
+label_settings = SubResource("LabelSettings_v40v7")
+horizontal_alignment = 1
+
+[node name="border" type="Control" parent="bg"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -99.0
+offset_right = 40.0
+offset_bottom = -59.0
+
+[node name="upper_banner" type="Control" parent="bg/border"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="head_left" type="TextureRect" parent="bg/border/upper_banner"]
+layout_mode = 0
+offset_left = -23.0
+offset_top = 104.0
+offset_right = 191.0
+offset_bottom = 318.0
+texture = ExtResource("7_uhvgr")
+
+[node name="head_right" type="TextureRect" parent="bg/border/upper_banner"]
+layout_mode = 0
+offset_left = 1625.0
+offset_top = 104.0
+offset_right = 1839.0
+offset_bottom = 318.0
+texture = ExtResource("8_saijr")
+
+[node name="borders_up" type="TextureRect" parent="bg/border/upper_banner"]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 162.0
+offset_right = 1630.0
+offset_bottom = 318.0
+texture = ExtResource("9_y56ro")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="up" type="TextureRect" parent="bg/border/upper_banner/borders_up"]
+layout_mode = 0
+offset_left = -5.0
+offset_top = 12.0
+offset_right = 1444.0
+offset_bottom = 145.0
+texture = ExtResource("10_5q8w6")
+stretch_mode = 1
+
+[node name="left_column" type="Control" parent="bg/border"]
+anchors_preset = 0
+offset_left = -49.0
+offset_top = -15.0
+offset_right = -9.0
+offset_bottom = 25.0
+
+[node name="left_bottom_corner" type="TextureRect" parent="bg/border/left_column"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 1109.0
+offset_right = 363.0
+offset_bottom = 1156.0
+texture = ExtResource("11_rdvbw")
+
+[node name="left_up_corner" type="TextureRect" parent="bg/border/left_column"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 332.0
+offset_right = 162.0
+offset_bottom = 371.0
+texture = ExtResource("12_703vx")
+
+[node name="left_part" type="TextureRect" parent="bg/border/left_column"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 371.0
+offset_right = 162.0
+offset_bottom = 1109.0
+texture = ExtResource("13_urlir")
+stretch_mode = 1
+
+[node name="right_column" type="Control" parent="bg/border"]
+anchors_preset = 0
+offset_left = 1603.0
+offset_top = -17.0
+offset_right = 1643.0
+offset_bottom = 23.0
+
+[node name="right_bottom_corner" type="TextureRect" parent="bg/border/right_column"]
+layout_mode = 0
+offset_left = -75.0
+offset_top = 1111.0
+offset_right = 180.0
+offset_bottom = 1158.0
+texture = ExtResource("14_otp32")
+
+[node name="right_up_corner" type="TextureRect" parent="bg/border/right_column"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 332.0
+offset_right = 175.0
+offset_bottom = 371.0
+texture = ExtResource("15_bewba")
+
+[node name="right_part" type="TextureRect" parent="bg/border/right_column"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 370.0
+offset_right = 149.0
+offset_bottom = 1111.0
+texture = ExtResource("16_7qw21")
+stretch_mode = 1
+
+[node name="bottom_part" type="TextureRect" parent="bg/border"]
+layout_mode = 0
+offset_left = 308.0
+offset_top = 1094.0
+offset_right = 1537.0
+offset_bottom = 1141.0
+texture = ExtResource("17_g6hh2")
+stretch_mode = 1
+
+[node name="UI_title" type="TextureRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -172.0
+offset_top = 37.0
+offset_right = 179.0
+offset_bottom = 181.0
+grow_horizontal = 2
+texture = ExtResource("18_bkmp0")
+expand_mode = 1
+
+[node name="Title" type="Label" parent="bg/UI_title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -142.5
+offset_top = -56.0
+offset_right = 142.5
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fight"
+label_settings = SubResource("LabelSettings_y52tr")
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [editable path="bg/bg/party_display/main_character_display"]
