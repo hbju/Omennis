@@ -4,7 +4,7 @@ class_name FightUI
 
 @onready var party_display = $bg/bg/party_display
 @onready var enemies_display: EnemiesDisplay = $bg/bg/enemies_display
-@onready var chances_label = $bg/bg/chances_label
+@onready var chances_label = $bg/bg/chances_bg/chances_label
 @onready var result_label = $bg/bg/result_label
 @onready var fight_button = $bg/bg/fight_button
 @onready var simulation_button = $bg/bg/simulation_button

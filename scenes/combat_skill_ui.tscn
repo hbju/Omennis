@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dyw8duvfrq3mb"]
 
-[ext_resource type="Texture2D" uid="uid://cc7ybuojvbhyf" path="res://assets/ui/fight_ui/combat_skills_bg.png" id="1_3w51x"]
+[ext_resource type="Texture2D" uid="uid://b5iofwi1qo8pt" path="res://assets/ui/fight_ui/skill_bar_ui.png" id="1_ge7uk"]
 [ext_resource type="Script" path="res://scripts/UI/combat_skill_ui.gd" id="2_vqerd"]
 [ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_xg045"]
 [ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="4_yn2gs"]
@@ -15,7 +15,7 @@ offset_left = 47.0
 offset_top = 803.0
 offset_right = 1875.0
 offset_bottom = 1049.0
-texture = ExtResource("1_3w51x")
+texture = ExtResource("1_ge7uk")
 expand_mode = 1
 script = ExtResource("2_vqerd")
 
