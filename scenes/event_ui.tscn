@@ -1,18 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://dh861xbgpqjsu"]
+[gd_scene load_steps=11 format=3 uid="uid://dh861xbgpqjsu"]
 
 [ext_resource type="Script" path="res://scripts/UI/event_ui.gd" id="1_vhn48"]
-[ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="2_rheag"]
-[ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="3_ox0f7"]
+[ext_resource type="Texture2D" uid="uid://bnel1clkuwbpb" path="res://assets/ui/party_ui/armoury_body_merge.png" id="2_sxwhk"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="4_baxa8"]
 [ext_resource type="Texture2D" uid="uid://cq8dee61l6frv" path="res://assets/ui/events_ui/pictures/gall.png" id="4_it7lx"]
+[ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="5_v7vpi"]
+[ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="6_bedjm"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="7_fhrwg"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/fight_ui/red_square_button_h.png" id="8_0wlb8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tpmku"]
-font_size = 32
-font_color = Color(0, 0, 0, 1)
+font = ExtResource("5_v7vpi")
+font_size = 44
+font_color = Color(0.712129, 0.712129, 0.712129, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_2v0bb"]
 line_spacing = 0.0
+font = ExtResource("7_fhrwg")
 font_size = 18
-font_color = Color(0, 0, 0, 1)
+font_color = Color(0.733005, 0.733005, 0.733005, 1)
 
 [node name="event_ui" type="Control"]
 layout_mode = 3
@@ -36,16 +42,16 @@ offset_right = 331.136
 offset_bottom = 520.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_rheag")
-expand_mode = 3
+texture = ExtResource("2_sxwhk")
+expand_mode = 4
 
 [node name="event_visual" type="TextureRect" parent="bg"]
 clip_contents = true
 layout_mode = 0
-offset_left = 72.0
-offset_top = 101.0
-offset_right = 1096.0
-offset_bottom = 1125.0
+offset_left = 99.0
+offset_top = 140.0
+offset_right = 1045.0
+offset_bottom = 1086.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_it7lx")
 expand_mode = 2
@@ -55,19 +61,26 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -296.068
-offset_right = 304.932
-offset_bottom = 165.0
+offset_left = -343.068
+offset_top = -3.0
+offset_right = 343.932
+offset_bottom = 169.0
 grow_horizontal = 2
-texture = ExtResource("3_ox0f7")
-expand_mode = 5
+texture = ExtResource("4_baxa8")
 
 [node name="name" type="Label" parent="bg/event_name"]
-layout_mode = 0
-offset_left = 25.0
-offset_top = 29.0
-offset_right = 565.0
-offset_bottom = 125.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -48.0
+offset_right = 270.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Event"
 label_settings = SubResource("LabelSettings_tpmku")
 horizontal_alignment = 1
@@ -81,14 +94,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -313.068
-offset_top = -558.0
-offset_right = 317.932
-offset_bottom = 59.0
+offset_left = -315.068
+offset_top = -434.0
+offset_right = 315.932
+offset_bottom = -65.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("3_ox0f7")
-expand_mode = 5
+texture = ExtResource("6_bedjm")
+expand_mode = 1
 
 [node name="description_container" type="ScrollContainer" parent="bg/event_description"]
 layout_mode = 1
@@ -98,9 +111,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -298.5
-offset_top = -197.5
+offset_top = -161.5
 offset_right = 288.5
-offset_bottom = 164.5
+offset_bottom = 160.5
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
@@ -188,6 +201,20 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Button" type="Button" parent="bg/event_description/description_container/description_node/description_text/choice_buttons"]
-layout_mode = 2
-offset_right = 8.0
-offset_bottom = 8.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -168.0
+offset_top = -53.0
+offset_right = 168.0
+offset_bottom = 53.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Salut comment va"
+icon = ExtResource("8_0wlb8")
+flat = true
+icon_alignment = 1
+expand_icon = true

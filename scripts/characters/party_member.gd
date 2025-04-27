@@ -29,7 +29,7 @@ static func new_rand() -> PartyMember:
 		CLASSES.Mage:
 			char_init_skill.append(FiresparkMage.new())
 
-	var new_char = PartyMember.new(char_name, CLASSES.values()[randi_range(0, CLASSES.size() - 3)], portrait, 1, sex)
+	var new_char = PartyMember.new(char_name, char_class, portrait, 1, sex)
 	new_char.skill_list = char_init_skill
 	
 	return new_char

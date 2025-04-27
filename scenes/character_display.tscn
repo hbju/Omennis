@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cje0ll6pwd5yp"]
+[gd_scene load_steps=14 format=3 uid="uid://cje0ll6pwd5yp"]
 
 [ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="1_p5af0"]
 [ext_resource type="Script" path="res://scripts/UI/character_display.gd" id="2_5ghbd"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="4_dgf6y"]
 [ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="5_j8110"]
 [ext_resource type="Texture2D" uid="uid://cykdlhnuv3jbh" path="res://assets/ui/icons/close_button_h.png" id="6_0scqc"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_u4r2h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_r0k1a"]
 font = ExtResource("3_fa86o")
@@ -38,9 +39,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -275.0
-offset_top = -100.0
+offset_top = -78.0
 offset_right = 275.0
-offset_bottom = 100.0
+offset_bottom = 82.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_p5af0")
@@ -112,6 +113,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Warrior"
 label_settings = SubResource("LabelSettings_umn4v")
+horizontal_alignment = 1
 
 [node name="avatar_background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -119,9 +121,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 57.0
-offset_top = -60.0
+offset_top = -58.0
 offset_right = 1417.0
-offset_bottom = 1640.0
+offset_bottom = 1642.0
 grow_vertical = 2
 scale = Vector2(0.07, 0.07)
 color = Color(0.509804, 0.313726, 0.160784, 1)
@@ -140,6 +142,14 @@ offset_bottom = 850.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_j8110")
+
+[node name="frame" type="TextureRect" parent="avatar_background"]
+layout_mode = 0
+offset_left = -71.0
+offset_top = -100.0
+offset_right = 1443.0
+offset_bottom = 1771.0
+texture = ExtResource("6_u4r2h")
 
 [node name="delete_button" type="TextureButton" parent="."]
 layout_mode = 1

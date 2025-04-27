@@ -1,8 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://xkfew8g51xdy"]
+[gd_scene load_steps=15 format=3 uid="uid://xkfew8g51xdy"]
 
 [ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
-[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_3xit3"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_rl8hf"]
 [ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_rduhn"]
+
+[sub_resource type="Gradient" id="Gradient_88r5d"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.352829, 0.720809, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5sxcu"]
+gradient = SubResource("Gradient_88r5d")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
 size = Vector2(296, 294)
@@ -43,29 +50,21 @@ input_pickable = true
 script = ExtResource("1_38dme")
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_3xit3")
+z_index = 1
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_rl8hf")
+
+[node name="character_background" type="Sprite2D" parent="character_portrait_bg"]
+z_index = -1
+position = Vector2(1.8, -0.60001)
+scale = Vector2(0.704688, 182.8)
+texture = SubResource("GradientTexture1D_5sxcu")
 
 [node name="character_portrait" type="Sprite2D" parent="character_portrait_bg"]
-z_index = 1
-position = Vector2(0.666626, -2.66672)
-scale = Vector2(0.578, 0.578)
+z_index = -1
+position = Vector2(-3.3999, 0.800049)
+scale = Vector2(0.1404, 0.14)
 texture = ExtResource("3_rduhn")
-
-[node name="character_highlight" type="ColorRect" parent="character_portrait_bg"]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -854.0
-offset_top = -853.5
-offset_right = -129.0
-offset_bottom = -128.5
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 0.803922, 0.0705882, 1)
 
 [node name="collision" type="CollisionShape2D" parent="."]
 z_index = -1

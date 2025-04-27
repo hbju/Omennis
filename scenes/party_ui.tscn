@@ -1,14 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwx5vgdwyp3rl"]
+[gd_scene load_steps=8 format=3 uid="uid://bwx5vgdwyp3rl"]
 
 [ext_resource type="Script" path="res://scripts/UI/party_ui.gd" id="1_cqsal"]
-[ext_resource type="Texture2D" uid="uid://ce3f5pt13vuca" path="res://assets/ui/events_ui/card_bg_01.PNG" id="1_s6f5d"]
-[ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="2_54ewt"]
+[ext_resource type="Texture2D" uid="uid://bnel1clkuwbpb" path="res://assets/ui/party_ui/armoury_body_merge.png" id="2_cnifg"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="2_pdnay"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="3_jkd3s"]
+[ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="4_invhi"]
 [ext_resource type="Texture2D" uid="uid://cygxw5gpduq6s" path="res://assets/chars/male/male_05.png" id="5_qj0u8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tyvgq"]
-font_size = 22
-font_color = Color(0, 0, 0, 1)
+font = ExtResource("4_invhi")
+font_size = 37
+font_color = Color(0.60933, 0.60933, 0.60933, 1)
 
 [node name="party_ui" type="Control"]
 layout_mode = 3
@@ -26,34 +28,40 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -331.068
-offset_top = -520.0
-offset_right = 331.068
+offset_left = -331.0
+offset_top = -408.0
+offset_right = 331.0
 offset_bottom = 520.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_s6f5d")
-expand_mode = 3
+texture = ExtResource("2_cnifg")
+expand_mode = 5
 
 [node name="UI_title" type="TextureRect" parent="bg"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -207.0
-offset_top = 41.0
-offset_right = 207.0
-offset_bottom = 183.0
+offset_left = -334.5
+offset_top = -90.0
+offset_right = 334.5
+offset_bottom = 67.0
 grow_horizontal = 2
-texture = ExtResource("2_54ewt")
-expand_mode = 5
+texture = ExtResource("3_jkd3s")
 
 [node name="Title" type="Label" parent="bg/UI_title"]
-layout_mode = 0
-offset_left = 61.0
-offset_top = 45.0
-offset_right = 346.0
-offset_bottom = 86.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -164.0
+offset_top = -25.5
+offset_right = 164.0
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
 text = "Party Management"
 label_settings = SubResource("LabelSettings_tyvgq")
 horizontal_alignment = 1
@@ -62,8 +70,9 @@ autowrap_mode = 2
 
 [node name="displays" type="Control" parent="bg"]
 anchors_preset = 0
+offset_top = -114.0
 offset_right = 40.0
-offset_bottom = 40.0
+offset_bottom = -74.0
 
 [node name="main_character_display" parent="bg/displays" instance=ExtResource("2_pdnay")]
 layout_mode = 1

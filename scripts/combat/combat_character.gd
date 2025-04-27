@@ -18,7 +18,7 @@ signal hover_exited(character)
 @onready var shield_bar = $shield_bar
 @onready var shield_label = $shield_bar/curr_shield
 @onready var status_effects_container: BoxContainer = $status_effects_container
-@onready var character_highlight = $character_portrait_bg/character_highlight
+@onready var character_highlight = $character_portrait_bg/character_background
 
 const StatusIconScene = preload("res://scenes/status_icon.tscn")
 const STATUS_ICON_MAP = {

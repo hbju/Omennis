@@ -1,8 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://7ruoao68t0vm"]
+[gd_scene load_steps=15 format=3 uid="uid://7ruoao68t0vm"]
 
 [ext_resource type="Script" path="res://scripts/combat/ai_combat_character.gd" id="1_p787k"]
-[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_2uaoh"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_gwoe4"]
 [ext_resource type="Texture2D" uid="uid://b818jtm4d4and" path="res://assets/enemies/monster_02.png" id="3_vmbuy"]
+
+[sub_resource type="Gradient" id="Gradient_xwqtt"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.440239, 0.0964848, 0.0795145, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rs2ri"]
+gradient = SubResource("Gradient_xwqtt")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
 size = Vector2(296, 294)
@@ -41,29 +48,20 @@ input_pickable = true
 script = ExtResource("1_p787k")
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_2uaoh")
+z_index = 1
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_gwoe4")
+
+[node name="character_background" type="Sprite2D" parent="character_portrait_bg"]
+z_index = -1
+position = Vector2(1.8, -0.60001)
+scale = Vector2(0.704688, 182.8)
+texture = SubResource("GradientTexture1D_rs2ri")
 
 [node name="character_portrait" type="Sprite2D" parent="character_portrait_bg"]
-z_index = 1
-position = Vector2(7.62939e-05, 3.25441e-05)
-scale = Vector2(2.83854, 2.83854)
+z_index = -1
+scale = Vector2(0.7, 0.714062)
 texture = ExtResource("3_vmbuy")
-
-[node name="character_highlight" type="ColorRect" parent="character_portrait_bg"]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -854.0
-offset_top = -853.5
-offset_right = -129.0
-offset_bottom = -128.5
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 0.803922, 0.0705882, 1)
 
 [node name="collision" type="CollisionShape2D" parent="."]
 z_index = -1

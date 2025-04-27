@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bg0qabemqt4dy"]
+[gd_scene load_steps=9 format=3 uid="uid://bg0qabemqt4dy"]
 
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_nnihd"]
 [ext_resource type="Script" path="res://scripts/UI/combat_character_tooltip.gd" id="2_72n14"]
 [ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="2_acf1k"]
 [ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="3_j0hk4"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="3_qyt6r"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sa07i"]
 content_margin_left = 12.0
@@ -11,6 +12,9 @@ content_margin_top = 9.0
 content_margin_right = 12.0
 content_margin_bottom = 9.0
 texture = ExtResource("1_nnihd")
+
+[sub_resource type="LabelSettings" id="LabelSettings_cihhv"]
+font = ExtResource("3_qyt6r")
 
 [sub_resource type="LabelSettings" id="LabelSettings_7mai5"]
 font_size = 75
@@ -31,6 +35,7 @@ layout_mode = 2
 text = "Character Name
 Class : 
 Level : "
+label_settings = SubResource("LabelSettings_cihhv")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
