@@ -108,6 +108,7 @@ func move_to_target() :
 	if position.distance_to(move_target) > 50:
 		move_and_slide()
 	else :
+		position = move_target
 		finish_turn()
 
 func knock_to_target() :
@@ -115,6 +116,7 @@ func knock_to_target() :
 	if position.distance_to(knockback_target) > 50:
 		move_and_slide()
 	else :
+		position = knockback_target
 		knockback_target = null
 
 ##
@@ -127,6 +129,7 @@ func move_to_attack_target() :
 	if position.distance_to(attack_target) > 50:
 		move_and_slide()
 	else :
+		position = attack_target
 		if init_pos :
 			attack_target = init_pos
 			init_pos = null
@@ -187,7 +190,6 @@ func heal(heal_amount: float) -> float:
 	var blessed_lvl = char_statuses["blessed"]
 	if blessed_lvl > 0 : 
 		heal_amount = heal_amount * (1 + blessed_lvl/10.0)
-	print(str(heal_amount), " ", str(health + heal_amount), " ", str(max_health))
 	health = min(max_health, health + heal_amount)
 	_update_health_bar()
 

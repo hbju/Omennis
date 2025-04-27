@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://pnu8ghovek6s"]
+[gd_scene load_steps=18 format=3 uid="uid://pnu8ghovek6s"]
 
 [ext_resource type="Script" path="res://scripts/UI/skill_tree.gd" id="1_obde8"]
 [ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="1_rhdbn"]
@@ -18,13 +18,6 @@
 [ext_resource type="Texture2D" uid="uid://dipa2suoynvmw" path="res://assets/ui/skills/blood_fury.png" id="16_vul5c"]
 [ext_resource type="Texture2D" uid="uid://6gotthvxvabv" path="res://assets/ui/skills/raging_blow.png" id="17_p80hd"]
 
-[sub_resource type="Gradient" id="Gradient_60x87"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.506734, 0.134841, 0.0543146, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_xppr2"]
-gradient = SubResource("Gradient_60x87")
-
 [node name="skill_tree" type="MarginContainer"]
 anchors_preset = 8
 anchor_left = 0.5
@@ -32,17 +25,16 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -961.0
-offset_top = -1438.0
-offset_right = 959.0
+offset_top = -1152.0
+offset_right = 621.0
 offset_bottom = 541.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_obde8")
-debugging = true
 
-[node name="background" type="TextureRect" parent="."]
+[node name="background" type="ColorRect" parent="."]
 layout_mode = 2
-texture = SubResource("GradientTexture2D_xppr2")
+color = Color(0.0313726, 0.454902, 0.545098, 1)
 
 [node name="skill_node1" type="TextureButton" parent="background"]
 layout_mode = 1
@@ -52,9 +44,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -75.0
-offset_top = 760.5
+offset_top = 654.5
 offset_right = 75.0
-offset_bottom = 910.5
+offset_bottom = 804.5
 texture_normal = ExtResource("1_rhdbn")
 ignore_texture_size = true
 stretch_mode = 0

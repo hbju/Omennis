@@ -1,8 +1,8 @@
 extends Skill
 class_name FiresparkMage
 
-var damage_mult : int = 2
-var max_cooldown : int = 2
+var damage_mult : float = 1.0
+var max_cooldown : int = 1
 
 const firespark_scene = preload("res://scenes/projectile_effect.tscn")
 var caster: CombatCharacter

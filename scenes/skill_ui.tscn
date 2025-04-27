@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://mbxnxi53kylh"]
+[gd_scene load_steps=10 format=3 uid="uid://mbxnxi53kylh"]
 
 [ext_resource type="Script" path="res://scripts/UI/skill_ui.gd" id="1_2v110"]
-[ext_resource type="Texture2D" uid="uid://cc7ybuojvbhyf" path="res://assets/ui/fight_ui/combat_skills_bg.png" id="2_2k3k2"]
 [ext_resource type="FontFile" uid="uid://c8gm6pjmvi186" path="res://assets/fonts/VarelaRound-Regular.ttf" id="2_34iuo"]
+[ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="2_y3yqy"]
 [ext_resource type="PackedScene" uid="uid://pnu8ghovek6s" path="res://scenes/skill_tree.tscn" id="3_abr10"]
 [ext_resource type="Texture2D" uid="uid://ctu2krmr78qvb" path="res://assets/ui/icons/delete_button.png" id="3_fm14b"]
 [ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="5_j7cwr"]
+[ext_resource type="Texture2D" uid="uid://dqe1q13m2i0m8" path="res://assets/ui/fight_ui/combat_char_bg_2.png" id="7_ptlp8"]
+[ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="8_nnteu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y52tr"]
 font = ExtResource("2_34iuo")
@@ -21,30 +23,46 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2v110")
 
-[node name="UI_title" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -857.5
-offset_top = 10.0
-offset_right = 842.5
-offset_bottom = 210.0
-grow_horizontal = 2
-texture = ExtResource("2_2k3k2")
-expand_mode = 1
-
-[node name="title" type="Label" parent="UI_title"]
+[node name="bg" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -142.5
-offset_top = -57.0
-offset_right = 142.5
-offset_bottom = 46.0
+offset_left = -934.0
+offset_top = -536.0
+offset_right = 929.0
+offset_bottom = 535.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_y3yqy")
+expand_mode = 1
+
+[node name="UI_title" type="TextureRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -566.5
+offset_top = 23.0
+offset_right = 556.5
+offset_bottom = 204.0
+grow_horizontal = 2
+texture = ExtResource("2_y3yqy")
+expand_mode = 1
+
+[node name="title" type="Label" parent="bg/UI_title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -137.5
+offset_top = -51.0
+offset_right = 147.5
+offset_bottom = 52.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Warrior"
@@ -53,7 +71,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="close_button" type="TextureButton" parent="UI_title"]
+[node name="close_button" type="TextureButton" parent="bg/UI_title"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -70,29 +88,13 @@ scale = Vector2(0.1, 0.1)
 texture_normal = ExtResource("3_fm14b")
 stretch_mode = 0
 
-[node name="class_icon" type="TextureRect" parent="UI_title"]
+[node name="class_icon" type="TextureRect" parent="bg/UI_title"]
 layout_mode = 0
-offset_left = 521.5
-offset_top = 23.0
-offset_right = 671.5
-offset_bottom = 173.0
+offset_left = 102.0
+offset_top = 26.0
+offset_right = 252.0
+offset_bottom = 176.0
 texture = ExtResource("5_j7cwr")
-expand_mode = 1
-
-[node name="bg" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -934.5
-offset_top = -317.0
-offset_right = 928.5
-offset_bottom = 535.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_2k3k2")
 expand_mode = 1
 
 [node name="skill_tree_container" type="ScrollContainer" parent="bg"]
@@ -102,15 +104,97 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -876.5
-offset_top = -336.0
-offset_right = 887.5
-offset_bottom = 320.0
+offset_left = -791.0
+offset_top = -310.0
+offset_right = 791.0
+offset_bottom = 310.0
 grow_horizontal = 2
 grow_vertical = 2
-scroll_horizontal = 85
-scroll_vertical = 100
 
 [node name="skill_tree" parent="bg/skill_tree_container" instance=ExtResource("3_abr10")]
-custom_minimum_size = Vector2(1920, 1979)
+custom_minimum_size = Vector2(1582, 1693)
 layout_mode = 2
+
+[node name="equipped_skills_container" type="HBoxContainer" parent="bg"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -235.0
+offset_top = -203.0
+offset_right = 235.0
+offset_bottom = -53.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+
+[node name="equipped_skill_1" type="TextureButton" parent="bg/equipped_skills_container"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("7_ptlp8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="bg/equipped_skills_container/equipped_skill_1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_nnteu")
+expand_mode = 1
+
+[node name="equipped_skill_2" type="TextureButton" parent="bg/equipped_skills_container"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("7_ptlp8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="bg/equipped_skills_container/equipped_skill_2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_nnteu")
+expand_mode = 1
+
+[node name="equipped_skill_3" type="TextureButton" parent="bg/equipped_skills_container"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("7_ptlp8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="bg/equipped_skills_container/equipped_skill_3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_nnteu")
+expand_mode = 1
