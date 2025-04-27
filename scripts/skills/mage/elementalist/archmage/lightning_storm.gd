@@ -139,7 +139,7 @@ func get_skill_description() -> String:
 		"Range: " + str(get_skill_range()) + " cells.\n"
 
 func get_skill_icon() -> Texture:
-	return load("res://assets/ui/skills/lightning_storm.png") # Placeholder path
+	return load("res://assets/ui/skills/lightning_storm.png") 
 
 func get_skill_range() -> int:
 	# This is the radius of effect

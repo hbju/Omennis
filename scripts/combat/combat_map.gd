@@ -9,7 +9,7 @@ const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
 
 @export var debug_mode: bool = false
 
-const PLAYER_STARTING_POS = [Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 4)]
+const PLAYER_STARTING_POS = [Vector2i(1, 4), Vector2i(2, 4), Vector2i(0, 3), Vector2i(1, 3)]
 const ENEMY_STARTING_POS = [Vector2i(9, 1), Vector2i(8, 1), Vector2i(7, 1), Vector2i(10, 2), Vector2i(9, 3), Vector2i(10, 3)]
 
 var astar: AStar2D = AStar2D.new()

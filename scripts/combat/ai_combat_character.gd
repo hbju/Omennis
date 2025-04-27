@@ -14,6 +14,7 @@ var move_range: int = 1 # Number of tiles the enemy can move per turn
 ##
 static func new_character(_char: Character) -> AICombatCharacter:
 	var new_char = enemy_character.instantiate()
+	new_char.health = 10
 	new_char.character = _char
 	for skill in _char.skill_list : 
 		skill.skill_finished.connect(new_char.finish_turn)

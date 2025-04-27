@@ -67,16 +67,21 @@ func show_event(event_id, characters: Array[PartyMember] = [], random: bool = fa
 func get_event_data(event_id: String, random: bool) -> Resource : 
 	var path = "res://text/events/" + ("random_events/" if random else "")
 	var index = 0
+	print("Event ID: ", event_id)
+	print("Event Path: ", event_path)
+	print("Path: ", path)
 
 	while not ResourceLoader.exists(path + event_id + "/" + event_id + ".json") && index < event_path.size() : 
 		path += event_path[index] + "/"
 		index += 1
+		print("Path: ", path)
 		
 	if not ResourceLoader.exists(path + event_id + "/" + event_id + ".json") : 
 		return null
 	
 	event_path = event_path.slice(0, index)
 	event_path.append(event_id)
+	print("Final event Path: ", event_path)
 	return load(path + event_id + "/" + event_id + ".json")
 		
 func on_possibilities_buttons_pressed(event_conclusion: String) :

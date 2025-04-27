@@ -85,7 +85,7 @@ func get_skill_description() -> String:
 		"Range: " + str(get_skill_range()) + " cells."
 
 func get_skill_icon() -> Texture:
-	return load("res://assets/ui/skills/thunderstrike.png") # Placeholder path
+	return load("res://assets/ui/skills/thunderstrike.png") 
 
 func get_skill_range() -> int:
 	return 3

@@ -13,6 +13,7 @@ func _init(_event_ui: EventUI, _fight_ui: FightUI, _game_state: GameState) :
 	self.game_state = _game_state
 
 func event_manager(event_id: String) : 
+	print("Event ID from Event manager: ", event_id)
 	match event_id : 
 		"leave" :
 			leave_event()

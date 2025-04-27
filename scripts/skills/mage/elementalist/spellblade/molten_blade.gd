@@ -56,7 +56,7 @@ func get_skill_description() -> String:
 		"Range: yourself.\n"
 
 func get_skill_icon() -> Texture:
-	return load("res://assets/ui/skills/molten_blade.png") # Placeholder path
+	return load("res://assets/ui/skills/molten_blade.png") 
 
 func get_skill_range() -> int:
 	return 0 # Self cast

@@ -21,6 +21,7 @@ func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
 	overworld.visible = false
 	overworld.toggle_ui(false)
 	overworld.player.toggle_camera()
+	overworld.disable_collisions(true)
 
 	combat_scene.enter_combat(party, enemies.enemies)
 
@@ -31,6 +32,7 @@ func _end_combat(result: bool):
 	overworld.visible = true
 	overworld.toggle_ui(true)
 	overworld.player.toggle_camera()
+	overworld.disable_collisions(false)
 
 	overworld.event_manager.exit_fight(result)
 

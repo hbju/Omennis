@@ -2,13 +2,16 @@ extends TileMap
 class_name Overworld
 
 @onready var player = $player
+
 @onready var gall = $gall
 @onready var cauldron_mountains = $cauldron_mountains
 @onready var whispering_hollow = $whispering_hollow
+
 @onready var party_ui: PartyUI = $UI/party_ui
 @onready var quest_log_ui: QuestLogUI = $UI/quest_log_ui
 @onready var skill_ui: SkillUI = $UI/skill_ui
 @onready var gold_amount = $UI/gold/gold_amount
+
 @onready var game_state: GameState = $"/root/game_state"
 @onready var content_generator: ContentGenerator = $"/root/content_generator"
 @onready var event_manager: EventManager
@@ -53,7 +56,7 @@ func _ready():
 	game_state.change_gold(100)
 	
 	if testing :
-		game_state.accept_quest(1)
+		game_state.accept_quest(2)
 		game_state.new_candidate(PartyMember.new_rand())
 		game_state.recruit_candidate()
 		game_state.receive_experience(50000)
@@ -88,6 +91,12 @@ func _input(event):
 
 func toggle_ui(state: bool) : 
 	$UI.visible = state
+
+func disable_collisions(state: bool) : 
+	$gall/CollisionShape2D.disabled = state
+	$cauldron_mountains/CollisionShape2D.disabled = state
+	$whispering_hollow/CollisionShape2D.disabled = state
+	$player/CollisionShape2D.disabled = state
 	
 func _toggle_event_ui(_body, event_id: String): 
 	event_manager.enter_event(event_id)
