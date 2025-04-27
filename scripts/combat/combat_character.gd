@@ -389,12 +389,10 @@ func knockback(knockback_distance: int, direction: int, knockback_damage: float)
 	var curr_pos = map.get_cell_coords(global_position)
 	var knock_target = curr_pos
 	var knocked = false
-	var knock_char = null
 	for i in range(knockback_distance) : 
 		var neighbour = HexHelper.hex_neighbor(knock_target, direction)
 		if not map.can_walk(neighbour) or map.cell_occupied(neighbour) : 
 			knocked = true
-			knock_char = map.get_character(neighbour)
 			break
 		knock_target = neighbour
 	knockback_target = map.map_to_local(knock_target)

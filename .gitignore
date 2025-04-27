@@ -1,3 +1,10 @@
 # Godot 4+ specific ignores
 .godot/
 .versions/
+._scripts_skills_combined.txt
+get_txt_files.py
+versions/Omennis_0.03.console.exe
+versions/Omennis_0.03.pck
+versions/Omennis_0.03.exe
+versions/Omennis_0.03.rar
+scripts/skills/combined.txt
