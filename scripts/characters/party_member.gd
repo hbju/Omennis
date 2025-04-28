@@ -61,3 +61,11 @@ func _to_string():
 		"Experience: " + str(character_experience) + "\n" + \
 		"Skill Points: " + str(skill_points) + "\n" + \
 		"Spent Skill Points: " + str(spent_skill_points) + "\n"
+
+func duplicate() -> PartyMember:
+	var new_character = PartyMember.new(character_name, character_class, character_portrait, character_level, character_sex)
+	new_character.skill_list = skill_list.duplicate(true)
+	new_character.character_experience = character_experience
+	new_character.skill_points = skill_points
+	new_character.spent_skill_points = spent_skill_points
+	return new_character

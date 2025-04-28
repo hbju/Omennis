@@ -122,10 +122,9 @@ anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 57.0
 offset_top = -58.0
-offset_right = 1417.0
-offset_bottom = 1642.0
+offset_right = 157.0
+offset_bottom = 42.0
 grow_vertical = 2
-scale = Vector2(0.07, 0.07)
 color = Color(0.509804, 0.313726, 0.160784, 1)
 
 [node name="avatar_portrait" type="TextureRect" parent="avatar_background"]
@@ -135,21 +134,24 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -680.0
-offset_top = -850.0
-offset_right = 680.0
-offset_bottom = 850.0
+offset_left = -37.5
+offset_top = -50.0
+offset_right = 42.5
+offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_j8110")
+expand_mode = 3
 
 [node name="frame" type="TextureRect" parent="avatar_background"]
 layout_mode = 0
-offset_left = -71.0
-offset_top = -100.0
-offset_right = 1443.0
-offset_bottom = 1771.0
+offset_left = -5.0
+offset_top = -4.0
+offset_right = 105.0
+offset_bottom = 106.0
 texture = ExtResource("6_u4r2h")
+expand_mode = 1
+stretch_mode = 4
 
 [node name="delete_button" type="TextureButton" parent="."]
 layout_mode = 1

@@ -9,11 +9,9 @@ func _init(_event_ui: EventUI, _fight_ui: FightUI, _game_state: GameState) :
 	self.event_ui = _event_ui
 	self.fight_ui = _fight_ui
 	event_ui.resolve_event.connect(event_manager)
-	fight_ui.resolve_fight.connect(exit_fight)
 	self.game_state = _game_state
 
 func event_manager(event_id: String) : 
-	print("Event ID from Event manager: ", event_id)
 	match event_id : 
 		"leave" :
 			leave_event()
@@ -49,34 +47,28 @@ func event_manager(event_id: String) :
 		"cm_fight_victory" :
 			game_state.accomplish_quest(1)
 			event_ui.show_event(event_id)
-			game_state.receive_experience(500)
 		"cm_fight_defeat" : 
-			game_state.receive_experience(200)
 			event_ui.show_event(event_id)
 			
 		# Whispering Hollow
 		"wh_first_fight" : 
 			enter_fight(EnemyGroup.new("Cultists", Character.CLASSES.Mage, 2, 2, 3), event_id)
 		"wh_first_fight_victory" : 
-			game_state.receive_experience(1000)
 			event_ui.show_event(event_id)
 		"wh_first_fight_defeat" : 
-			game_state.receive_experience(400)
 			event_ui.show_event(event_id)
 		"wh_leader_fight" : 
 			enter_fight(EnemyGroup.new("Cultist Leader", Character.CLASSES.Mage, 2, 7, 1), event_id)
 		"wh_leader_fight_victory" : 
 			game_state.accomplish_quest(2)
-			game_state.receive_experience(1000)
 			event_ui.show_event(event_id)
 		"wh_leader_fight_defeat" :
-			game_state.receive_experience(400)
 			event_ui.show_event(event_id)
 
 		_ : 
 			event_ui.show_event(event_id)
 
-func random_event_manager(event_content: Dictionary) : 
+func random_event_manager(_event_content: Dictionary) : 
 	var party = game_state.party
 	#TODO change party to whatever
 	event_ui.show_event("conversation", party, true)

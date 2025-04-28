@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://d25rdiau8ito5"]
+[gd_scene load_steps=34 format=3 uid="uid://d25rdiau8ito5"]
 
 [ext_resource type="Script" path="res://scripts/UI/fight_ui.gd" id="1_fhe66"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_bcqcl"]
@@ -7,15 +7,21 @@
 [ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="6_e1ypk"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="6_gjri0"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_h7irw"]
-[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/fight_ui/red_square_button_un.png" id="7_46l7a"]
 [ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="7_uhvgr"]
+[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="8_7tis8"]
 [ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="8_saijr"]
-[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/fight_ui/red_square_button_h.png" id="8_ybgqt"]
+[ext_resource type="Texture2D" uid="uid://dl2ec1dk8yell" path="res://assets/ui/buttons/blue/square_blue_normal.png" id="9_bvuhg"]
 [ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="9_rwa88"]
 [ext_resource type="Texture2D" uid="uid://bif1amwq6bxy7" path="res://assets/ui/menu_ui/box_heading_midsec_repeat.png" id="9_y56ro"]
 [ext_resource type="Texture2D" uid="uid://ctbvwknltdyh6" path="res://assets/ui/menu_ui/box_head_pattern_repeatable.png" id="10_5q8w6"]
+[ext_resource type="Texture2D" uid="uid://bfahv1vlfxs8f" path="res://assets/ui/buttons/blue/square_blue_pressed.png" id="10_nf5jb"]
 [ext_resource type="Texture2D" uid="uid://c4winy4h5qjb5" path="res://assets/ui/menu_ui/Box Borders/bottom_border_left_cap.png" id="11_rdvbw"]
+[ext_resource type="Texture2D" uid="uid://bt5bf7o7yqu5g" path="res://assets/ui/buttons/blue/square_blue_hovered.png" id="11_ua5vi"]
+[ext_resource type="Texture2D" uid="uid://c0e1a6dhnf8pb" path="res://assets/ui/buttons/blue/square_any_unavailable.png" id="12_7cno0"]
 [ext_resource type="Texture2D" uid="uid://dyk3kfoj7vbcu" path="res://assets/ui/menu_ui/Box Borders/left_border_top_cap.png" id="12_703vx"]
+[ext_resource type="Texture2D" uid="uid://duq2x2rxbv2m0" path="res://assets/ui/buttons/red/square_red_normal.png" id="12_sp5rb"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="13_84ueb"]
+[ext_resource type="Texture2D" uid="uid://bop8bk140baxb" path="res://assets/ui/buttons/red/square_red_pressed.png" id="13_tq6y3"]
 [ext_resource type="Texture2D" uid="uid://chv3fk35lrax7" path="res://assets/ui/menu_ui/Box Borders/left_border_repeat_vertical.png" id="13_urlir"]
 [ext_resource type="Texture2D" uid="uid://62kll5a67er" path="res://assets/ui/menu_ui/Box Borders/bottom_border_right_cap.png" id="14_otp32"]
 [ext_resource type="Texture2D" uid="uid://fl75hrwyp5te" path="res://assets/ui/menu_ui/Box Borders/right_border_top_cap.png" id="15_bewba"]
@@ -28,6 +34,10 @@
 font = ExtResource("6_gjri0")
 font_size = 24
 font_color = Color(0.717647, 0.678431, 0.662745, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nyj1x"]
+font = ExtResource("6_gjri0")
+font_size = 24
 
 [sub_resource type="LabelSettings" id="LabelSettings_v40v7"]
 font = ExtResource("6_gjri0")
@@ -185,6 +195,7 @@ texture = ExtResource("6_e1ypk")
 flip_h = true
 
 [node name="frame" type="TextureRect" parent="bg/bg/enemies_display/avatar_background"]
+layout_mode = 0
 offset_left = -11.0
 offset_top = -10.0
 offset_right = 278.0
@@ -210,81 +221,157 @@ label_settings = SubResource("LabelSettings_qsvt1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="simulation_button" type="Button" parent="bg/bg"]
+[node name="fight_button" type="TextureButton" parent="bg/bg"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -127.5
+offset_left = -102.0
+offset_top = -129.0
+offset_right = 102.0
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("9_bvuhg")
+texture_pressed = ExtResource("10_nf5jb")
+texture_hover = ExtResource("11_ua5vi")
+texture_disabled = ExtResource("12_7cno0")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="bg/bg/fight_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -81.0
+offset_top = -25.0
+offset_right = 81.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fight !"
+label_settings = SubResource("LabelSettings_nyj1x")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="simulation_button" type="TextureButton" parent="bg/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.0
 offset_top = -32.5
-offset_right = 128.5
+offset_right = 102.0
 offset_bottom = 31.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Simulate"
-icon = ExtResource("7_46l7a")
-flat = true
-icon_alignment = 1
-expand_icon = true
+texture_normal = ExtResource("9_bvuhg")
+texture_pressed = ExtResource("10_nf5jb")
+texture_hover = ExtResource("11_ua5vi")
+texture_disabled = ExtResource("12_7cno0")
+ignore_texture_size = true
+stretch_mode = 4
 
-[node name="fight_button" type="Button" parent="bg/bg"]
+[node name="Label" type="Label" parent="bg/bg/simulation_button"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -128.0
-offset_top = -110.0
-offset_right = 128.0
-offset_bottom = -46.0
+offset_left = -81.0
+offset_top = -25.0
+offset_right = 81.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Fight"
-icon = ExtResource("7_46l7a")
-flat = true
-icon_alignment = 1
-expand_icon = true
+text = "Simulate"
+label_settings = SubResource("LabelSettings_nyj1x")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="flee_button" type="Button" parent="bg/bg"]
+[node name="flee_button" type="TextureButton" parent="bg/bg"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -127.5
-offset_top = 47.0
-offset_right = 128.5
-offset_bottom = 111.0
+offset_left = -102.0
+offset_top = 51.5
+offset_right = 102.0
+offset_bottom = 115.5
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("9_bvuhg")
+texture_pressed = ExtResource("10_nf5jb")
+texture_hover = ExtResource("11_ua5vi")
+texture_disabled = ExtResource("12_7cno0")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="bg/bg/flee_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -81.0
+offset_top = -25.0
+offset_right = 81.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Flee"
-icon = ExtResource("7_46l7a")
-flat = true
-icon_alignment = 1
-expand_icon = true
+label_settings = SubResource("LabelSettings_nyj1x")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="proceed_button" type="Button" parent="bg/bg"]
+[node name="proceed_button" type="TextureButton" parent="bg/bg"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -128.0
-offset_top = 198.0
-offset_right = 128.0
-offset_bottom = 262.0
+offset_left = -102.0
+offset_top = 197.5
+offset_right = 102.0
+offset_bottom = 261.5
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("12_sp5rb")
+texture_pressed = ExtResource("13_tq6y3")
+texture_hover = ExtResource("13_84ueb")
+texture_disabled = ExtResource("8_7tis8")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="bg/bg/proceed_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -81.0
+offset_top = -25.0
+offset_right = 81.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Proceed"
-icon = ExtResource("8_ybgqt")
-flat = true
-icon_alignment = 1
-expand_icon = true
+label_settings = SubResource("LabelSettings_nyj1x")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="result_label" type="Label" parent="bg/bg"]
 layout_mode = 1
