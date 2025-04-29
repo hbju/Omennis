@@ -334,8 +334,8 @@ func enable_disable_cells(enemies: bool, party: bool, disable: bool) :
 ##
 ## Turn the combat UI on or off.
 ##
-func toggle_ui() : 
-	$UI.visible = !$UI.visible
+func toggle_ui(show_ui: bool) : 
+	$UI.visible = show_ui
 
 func _on_character_hover_entered(character: CombatCharacter):
 	if character_tooltip_instance and is_instance_valid(character):

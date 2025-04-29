@@ -4,15 +4,14 @@ extends Node2D
 @onready var overworld: Overworld = $overworld
 
 const PostFightScreenScene = preload("res://scenes/post_fight_screen.tscn")
-var post_fight_screen_instance: Control = null 
-var last_enemy_group: EnemyGroup = null 
+var post_fight_screen_instance: Control = null
 
 var XP_PER_ENEMY_LEVEL = 250
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	combat_scene.visible = false
-	combat_scene.toggle_ui()
+	combat_scene.toggle_ui(false)
 	overworld.visible = true
 	overworld.toggle_ui(true)
 
@@ -22,12 +21,11 @@ func _ready():
 
 
 func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
-	last_enemy_group = enemies 
 	combat_scene.visible = true
-	combat_scene.toggle_ui()
+	combat_scene.toggle_ui(true)
 	overworld.visible = false
 	overworld.toggle_ui(false)
-	overworld.player.toggle_camera()
+	overworld.player.toggle_camera(false)
 	overworld.disable_collisions(true)
 
 	combat_scene.enter_combat(party, enemies.enemies)
@@ -35,12 +33,14 @@ func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
 
 func _end_combat(victory: bool):
 	combat_scene.visible = false
-	combat_scene.toggle_ui()
+	combat_scene.toggle_ui(false)
 	overworld.visible = true
 
 	overworld.toggle_ui(true)
-	overworld.player.toggle_camera()
+	overworld.player.toggle_camera(true)
 	overworld.disable_collisions(false)
+
+	var last_enemy_group: EnemyGroup = overworld.event_manager.fight_ui.enemy_group
 
 	var xp_reward = 0
 	if last_enemy_group:
@@ -77,8 +77,6 @@ func _end_combat(victory: bool):
 func _on_post_fight_proceed(victory: bool):
 	if post_fight_screen_instance and is_instance_valid(post_fight_screen_instance):
 		post_fight_screen_instance.hide()
-
-	last_enemy_group = null
 
 	overworld.event_manager.exit_fight(victory)
 
