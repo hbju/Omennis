@@ -2,14 +2,14 @@
 extends Control
 class_name FightUI
 
-@onready var party_display = $bg/bg/party_display
-@onready var enemies_display: EnemiesDisplay = $bg/bg/enemies_display
-@onready var chances_label = $bg/bg/chances_bg/chances_label
-@onready var result_label = $bg/bg/result_label
-@onready var fight_button = $bg/bg/fight_button
-@onready var simulation_button = $bg/bg/simulation_button
-@onready var flee_button = $bg/bg/flee_button
-@onready var proceed_button = $bg/bg/proceed_button
+@onready var party_display = $bg/party_display
+@onready var enemies_display: EnemiesDisplay = $bg/enemies_display
+@onready var chances_label = $bg/chances_bg/chances_label
+@onready var result_label = $bg/result_label
+@onready var fight_button = $bg/fight_button
+@onready var simulation_button = $bg/simulation_button
+@onready var flee_button = $bg/flee_button
+@onready var proceed_button = $bg/proceed_button
 
 @export var debug_fight = false : 
 	set(value) : 
