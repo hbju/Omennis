@@ -10,7 +10,7 @@ const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
 @export var debug_mode: bool = false
 
 const PLAYER_STARTING_POS = [Vector2i(1, 4), Vector2i(2, 4), Vector2i(0, 3), Vector2i(1, 3)]
-const ENEMY_STARTING_POS = [Vector2i(9, 1), Vector2i(8, 1), Vector2i(7, 1), Vector2i(10, 2), Vector2i(9, 3), Vector2i(10, 3)]
+const ENEMY_STARTING_POS = [Vector2i(3, 2), Vector2i(2, 3), Vector2i(7, 1), Vector2i(10, 2), Vector2i(9, 3), Vector2i(10, 3)]
 
 var astar: AStar2D = AStar2D.new()
 var cell_ids: Dictionary = {}
@@ -334,8 +334,8 @@ func enable_disable_cells(enemies: bool, party: bool, disable: bool) :
 ##
 ## Turn the combat UI on or off.
 ##
-func toggle_ui() : 
-	$UI.visible = !$UI.visible
+func toggle_ui(show_ui: bool) : 
+	$UI.visible = show_ui
 
 func _on_character_hover_entered(character: CombatCharacter):
 	if character_tooltip_instance and is_instance_valid(character):

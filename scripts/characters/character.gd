@@ -21,3 +21,8 @@ func get_char_class() -> String :
 
 func get_portrait_path() -> String : 
 	return "res://assets/enemies/monster_" + "%02d" % character_portrait + ".png"
+
+func duplicate() -> Character:
+	var new_character = Character.new(character_name, character_class, character_portrait, character_level)
+	new_character.skill_list = skill_list.duplicate(true)
+	return new_character

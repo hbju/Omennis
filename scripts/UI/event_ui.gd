@@ -64,25 +64,67 @@ func show_event(event_id, characters: Array[PartyMember] = [], random: bool = fa
 	description_node.custom_minimum_size = Vector2(550, card_description_label.size.y + possibilities_margin + number_of_possibilities * (possibilities_margin + possibilities_height))
 	card_description_label.position.y = 0
 	
-func get_event_data(event_id: String, random: bool) -> Resource : 
-	var path = "res://text/events/" + ("random_events/" if random else "")
-	var index = 0
-	print("Event ID: ", event_id)
-	print("Event Path: ", event_path)
-	print("Path: ", path)
+func get_event_data(event_id: String, random: bool = false) -> Resource :
+	# Define base search paths
+	var base_path = "res://text/events/"
+	var random_base_path = base_path.path_join("random_events") # "res://text/events/random_events"
+	var target_filename = event_id + ".json"
 
-	while not ResourceLoader.exists(path + event_id + "/" + event_id + ".json") && index < event_path.size() : 
-		path += event_path[index] + "/"
-		index += 1
-		print("Path: ", path)
-		
-	if not ResourceLoader.exists(path + event_id + "/" + event_id + ".json") : 
+	var found_path = ""
+
+	if random:
+		found_path = _find_file_recursively(random_base_path, target_filename)
+	else:
+		found_path = _find_file_recursively(base_path, target_filename)
+
+
+	if found_path.is_empty():
+		if random: 
+			print("Event not found in random path, checking main path for: ", target_filename)
+			found_path = _find_file_recursively(base_path, target_filename)
+
+	if not found_path.is_empty():
+		if ResourceLoader.exists(found_path): # Double-check existence before loading
+			return load(found_path)
+		else:
+			printerr("File path found but ResourceLoader says it doesn't exist: ", found_path)
+			return null
+	else:
+		printerr("Event file '%s' not found in event directories." % target_filename)
 		return null
-	
-	event_path = event_path.slice(0, index)
-	event_path.append(event_id)
-	print("Final event Path: ", event_path)
-	return load(path + event_id + "/" + event_id + ".json")
+
+
+##
+## Recursive function to search for a file in a directory and its subdirectories 
+## Returns the full path if found, or an empty string if not found
+##
+func _find_file_recursively(search_dir: String, filename_to_find: String) -> String:
+	var dir = DirAccess.open(search_dir)
+
+	if not dir:
+		return "" # Return empty, just means not found here
+
+	# Check if the file exists directly in the current directory
+	var direct_path = search_dir.path_join(filename_to_find)
+	if FileAccess.file_exists(direct_path):
+		return direct_path # Found it!
+
+	# If not found directly, search subdirectories
+	dir.list_dir_begin()
+	var item_name = dir.get_next()
+	while item_name != "":
+		if item_name != "." and item_name != "..": # Skip navigation entries
+			if dir.current_is_dir():
+				var subdir_path = search_dir.path_join(item_name)
+				var found_in_subdir = _find_file_recursively(subdir_path, filename_to_find)
+				if not found_in_subdir.is_empty():
+					dir.list_dir_end() 
+					return found_in_subdir
+		item_name = dir.get_next()
+
+	dir.list_dir_end()
+
+	return ""
 		
 func on_possibilities_buttons_pressed(event_conclusion: String) :
 	resolve_event.emit(event_conclusion)

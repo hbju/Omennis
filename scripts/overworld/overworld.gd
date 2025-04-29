@@ -56,7 +56,7 @@ func _ready():
 	game_state.change_gold(100)
 	
 	if testing :
-		game_state.accept_quest(2)
+		game_state.accept_quest(1)
 		game_state.new_candidate(PartyMember.new_rand())
 		game_state.recruit_candidate()
 		game_state.receive_experience(50000)

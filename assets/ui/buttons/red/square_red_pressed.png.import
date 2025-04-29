@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fslr5mbjwe8i"
-path="res://.godot/imported/red_square_button_un.png-ba8cc68c21f081bd7547c9aad951e537.ctex"
+uid="uid://bop8bk140baxb"
+path="res://.godot/imported/square_red_pressed.png-3798d214fdcac2fa649618297eaeeb08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/fight_ui/red_square_button_un.png"
-dest_files=["res://.godot/imported/red_square_button_un.png-ba8cc68c21f081bd7547c9aad951e537.ctex"]
+source_file="res://assets/ui/buttons/red/square_red_pressed.png"
+dest_files=["res://.godot/imported/square_red_pressed.png-3798d214fdcac2fa649618297eaeeb08.ctex"]
 
 [params]
 

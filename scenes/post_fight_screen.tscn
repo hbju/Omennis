@@ -1,0 +1,324 @@
+[gd_scene load_steps=23 format=3 uid="uid://do65us1heocex"]
+
+[ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_10nsb"]
+[ext_resource type="Script" path="res://scripts/UI/post_fight_screen.gd" id="1_m8hi8"]
+[ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="2_w8m26"]
+[ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="3_wpj3m"]
+[ext_resource type="Texture2D" uid="uid://bif1amwq6bxy7" path="res://assets/ui/menu_ui/box_heading_midsec_repeat.png" id="4_xrtpi"]
+[ext_resource type="Texture2D" uid="uid://ctbvwknltdyh6" path="res://assets/ui/menu_ui/box_head_pattern_repeatable.png" id="5_45b58"]
+[ext_resource type="Texture2D" uid="uid://c4winy4h5qjb5" path="res://assets/ui/menu_ui/Box Borders/bottom_border_left_cap.png" id="6_06uyc"]
+[ext_resource type="Texture2D" uid="uid://dyk3kfoj7vbcu" path="res://assets/ui/menu_ui/Box Borders/left_border_top_cap.png" id="7_6j332"]
+[ext_resource type="Texture2D" uid="uid://chv3fk35lrax7" path="res://assets/ui/menu_ui/Box Borders/left_border_repeat_vertical.png" id="8_2tfsa"]
+[ext_resource type="Texture2D" uid="uid://62kll5a67er" path="res://assets/ui/menu_ui/Box Borders/bottom_border_right_cap.png" id="9_epnkf"]
+[ext_resource type="Texture2D" uid="uid://fl75hrwyp5te" path="res://assets/ui/menu_ui/Box Borders/right_border_top_cap.png" id="10_bjfsa"]
+[ext_resource type="Texture2D" uid="uid://b33r0uq86r7wh" path="res://assets/ui/menu_ui/Box Borders/right_border_repeat_vertical.png" id="11_pr144"]
+[ext_resource type="Texture2D" uid="uid://2vfdpjf4u6dj" path="res://assets/ui/menu_ui/Box Borders/bottom_border_midsec_repeat_horizontal.png" id="12_04jop"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="13_4mra4"]
+[ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="14_dkhex"]
+[ext_resource type="PackedScene" uid="uid://frtrukkat3uk" path="res://scenes/character_result_display.tscn" id="16_6bpis"]
+[ext_resource type="Texture2D" uid="uid://duq2x2rxbv2m0" path="res://assets/ui/buttons/red/square_red_normal.png" id="17_dg0jx"]
+[ext_resource type="Texture2D" uid="uid://bop8bk140baxb" path="res://assets/ui/buttons/red/square_red_pressed.png" id="18_0pby2"]
+[ext_resource type="LabelSettings" uid="uid://0ssaijcssqa4" path="res://assets/fonts/normal_text.tres" id="19_maaqv"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="19_u3vga"]
+[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="20_taugr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pl6as"]
+font = ExtResource("14_dkhex")
+font_size = 64
+font_color = Color(0.728822, 0.728822, 0.728822, 1)
+
+[node name="post_fight_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m8hi8")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -827.5
+offset_top = -400.0
+offset_right = 827.5
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_10nsb")
+expand_mode = 1
+
+[node name="character_result_display_1" parent="background" instance=ExtResource("16_6bpis")]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 142.0
+offset_top = 92.0
+offset_right = 762.0
+offset_bottom = 322.0
+
+[node name="character_result_display_2" parent="background" instance=ExtResource("16_6bpis")]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 142.0
+offset_top = 342.0
+offset_right = 762.0
+offset_bottom = 572.0
+
+[node name="character_result_display_3" parent="background" instance=ExtResource("16_6bpis")]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 871.0
+offset_top = 92.0
+offset_right = 1491.0
+offset_bottom = 322.0
+
+[node name="character_result_display_4" parent="background" instance=ExtResource("16_6bpis")]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 871.0
+offset_top = 342.0
+offset_right = 1491.0
+offset_bottom = 572.0
+
+[node name="proceed_button" type="TextureButton" parent="background"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -254.5
+offset_top = -219.0
+offset_right = 246.5
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+texture_normal = ExtResource("17_dg0jx")
+texture_pressed = ExtResource("18_0pby2")
+texture_hover = ExtResource("19_u3vga")
+texture_disabled = ExtResource("20_taugr")
+
+[node name="Label" type="Label" parent="background/proceed_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -40.0
+offset_right = 101.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Continue"
+label_settings = ExtResource("19_maaqv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="borders" type="Control" parent="background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="upper_banner" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -794.5
+offset_top = -441.5
+offset_right = -794.5
+offset_bottom = -441.5
+grow_horizontal = 2
+
+[node name="head_left" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+offset_left = -119.0
+offset_top = -93.0
+offset_right = 95.0
+offset_bottom = 121.0
+texture = ExtResource("2_w8m26")
+
+[node name="head_right" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1491.0
+offset_top = -93.0
+offset_right = 1705.0
+offset_bottom = 121.0
+grow_horizontal = 0
+texture = ExtResource("3_wpj3m")
+
+[node name="borders_up" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 75.0
+offset_top = -35.0
+offset_right = 1517.0
+offset_bottom = 121.0
+grow_horizontal = 2
+texture = ExtResource("4_xrtpi")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="up" type="TextureRect" parent="background/borders/upper_banner/borders_up"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 12.0
+offset_right = 1445.0
+offset_bottom = 145.0
+texture = ExtResource("5_45b58")
+stretch_mode = 1
+
+[node name="left_column" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -794.5
+offset_top = -441.5
+offset_right = -794.5
+offset_bottom = -432.5
+grow_vertical = 2
+
+[node name="left_bottom_corner" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -36.0
+offset_top = 877.0
+offset_right = 219.0
+offset_bottom = 924.0
+texture = ExtResource("6_06uyc")
+
+[node name="left_up_corner" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 120.0
+offset_right = 18.0
+offset_bottom = 159.0
+texture = ExtResource("7_6j332")
+
+[node name="left_part" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -6.0
+offset_top = 159.0
+offset_right = 18.0
+offset_bottom = 877.0
+texture = ExtResource("8_2tfsa")
+stretch_mode = 1
+
+[node name="right_column" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 796.5
+offset_top = -441.5
+offset_right = 796.5
+offset_bottom = -441.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="right_bottom_corner" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -219.0
+offset_top = 877.0
+offset_right = 36.0
+offset_bottom = 924.0
+texture = ExtResource("9_epnkf")
+
+[node name="right_up_corner" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = 120.0
+offset_right = 31.0
+offset_bottom = 159.0
+texture = ExtResource("10_bjfsa")
+
+[node name="right_part" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = 159.0
+offset_right = 5.0
+offset_bottom = 877.0
+texture = ExtResource("11_pr144")
+stretch_mode = 1
+
+[node name="bottom_part" type="TextureRect" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -618.0
+offset_top = 395.0
+offset_right = 637.0
+offset_bottom = 442.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("12_04jop")
+stretch_mode = 1
+
+[node name="header" type="TextureRect" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -285.0
+offset_top = -514.0
+offset_right = 285.0
+offset_bottom = -357.0
+grow_horizontal = 2
+texture = ExtResource("13_4mra4")
+
+[node name="title_label" type="Label" parent="background/borders/header"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -53.5
+offset_right = 197.5
+offset_bottom = 53.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Victory !"
+label_settings = SubResource("LabelSettings_pl6as")
+horizontal_alignment = 1
+vertical_alignment = 1

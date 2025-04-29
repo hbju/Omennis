@@ -18,5 +18,5 @@ func _physics_process(_delta):
 		target_reached.emit()
 		target = null
 
-func toggle_camera() : 
-	$Camera2D.enabled = not $Camera2D.enabled
+func toggle_camera(focus: bool = false) : 
+	$Camera2D.enabled = focus

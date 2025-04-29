@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://0ssaijcssqa4"]
+
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="1_p5fxb"]
+
+[resource]
+font = ExtResource("1_p5fxb")
+font_size = 34
+font_color = Color(0.796243, 0.796243, 0.796243, 1)

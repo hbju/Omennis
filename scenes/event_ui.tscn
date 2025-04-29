@@ -7,7 +7,7 @@
 [ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="5_v7vpi"]
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="6_bedjm"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="7_fhrwg"]
-[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/fight_ui/red_square_button_h.png" id="8_0wlb8"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="8_0wlb8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tpmku"]
 font = ExtResource("5_v7vpi")
