@@ -11,8 +11,8 @@ const NB_MALE_PORTRAIT = 21
 
 enum SEX {Male, Female, Other}
 
-func _init(char_name, _class, portrait, level, sex, _skill_list: Array[Skill] = []):
-	super(char_name, _class, portrait, level)
+func _init(char_name, _class, portrait, level, sex, _skill_list: Array[Skill] = [], health: int = 100, damage: float = 10):
+	super(char_name, _class, portrait, level, health, damage)
 	self.character_sex = sex
 
 	
@@ -26,8 +26,10 @@ static func new_rand() -> PartyMember:
 	match char_class:
 		CLASSES.Warrior:
 			char_init_skill.append(Charge.new())
+			char_init_skill.append(DefensiveStance.new())
 		CLASSES.Mage:
 			char_init_skill.append(FiresparkMage.new())
+			char_init_skill.append(ArcaneShield.new())
 
 	var new_char = PartyMember.new(char_name, char_class, portrait, 1, sex)
 	new_char.skill_list = char_init_skill

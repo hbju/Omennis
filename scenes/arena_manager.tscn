@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://7x2i5w6vl2vs"]
+
+[ext_resource type="Script" path="res://scripts/arena_manager.gd" id="1_1lmge"]
+[ext_resource type="PackedScene" uid="uid://de5n37s7ivoq6" path="res://scenes/combat_scene.tscn" id="1_l5saf"]
+[ext_resource type="PackedScene" uid="uid://mbxnxi53kylh" path="res://scenes/skill_ui.tscn" id="3_0obu1"]
+
+[node name="arena_manager" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1lmge")
+
+[node name="combat_scene" parent="." instance=ExtResource("1_l5saf")]
+visible = false
+debug_mode = false
+
+[node name="skill_ui" parent="." instance=ExtResource("3_0obu1")]
+layout_mode = 1

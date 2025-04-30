@@ -5,15 +5,20 @@ var character_class: CLASSES
 var character_portrait: int
 var character_level: int
 
+var max_health: int
+var base_damage: float
+
 var skill_list: Array[Skill] = []
 
 enum CLASSES {Warrior, Mage, Rogue, None}
 
-func _init(name, _class, portrait, level):
+func _init(name, _class, portrait, level, health: int = 100, damage: float = 10):
 	self.character_name = name
 	self.character_class = _class
 	self.character_portrait = portrait
 	self.character_level = level
+	self.max_health = health
+	self.base_damage = damage
 
 
 func get_char_class() -> String : 
