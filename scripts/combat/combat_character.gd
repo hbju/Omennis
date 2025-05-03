@@ -45,9 +45,10 @@ var curr_stun_animation = null
 
 var character: Character
 
-var health: float = 100
+
 var shield: float = 0
 var max_health: float = 100
+var health: float = 100
 var base_damage: float = 10
 
 var walkable_cells: Array[int] = []
@@ -55,6 +56,9 @@ var walkable_cells: Array[int] = []
 func _ready() : 
 	map = get_parent().get_parent().get_parent()
 	character_portrait.texture = load(character.get_portrait_path())
+	max_health = character.max_health
+	health = character.max_health
+	base_damage = character.base_damage
 	_update_health_bar()
 	_update_shield_bar()
 	mouse_entered.connect(_on_mouse_entered)

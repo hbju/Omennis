@@ -14,7 +14,6 @@ var move_range: int = 1 # Number of tiles the enemy can move per turn
 ##
 static func new_character(_char: Character) -> AICombatCharacter:
 	var new_char = enemy_character.instantiate()
-	new_char.health = 10
 	new_char.character = _char
 	for skill in _char.skill_list : 
 		skill.skill_finished.connect(new_char.finish_turn)
@@ -53,7 +52,7 @@ func take_turn():
 
 	if possible_actions.size() > 0:
 		var selected_action = score_and_select_action(possible_actions)
-		print("Selected Action: ", selected_action.type, " | Skill: ", selected_action.skill.get_skill_name() if selected_action.skill else "N/A", " | Target: ", selected_action.target_character.character.character_name if selected_action.target_character else str(selected_action.target_cell), " | Score: ", selected_action.score)
+		# print("Selected Action: ", selected_action.type, " | Skill: ", selected_action.skill.get_skill_name() if selected_action.skill else "N/A", " | Target: ", selected_action.target_character.character.character_name if selected_action.target_character else str(selected_action.target_cell), " | Score: ", selected_action.score)
 
 		match selected_action.type:
 			"attack":

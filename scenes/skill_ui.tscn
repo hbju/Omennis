@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://mbxnxi53kylh"]
+[gd_scene load_steps=27 format=3 uid="uid://mbxnxi53kylh"]
 
 [ext_resource type="Script" path="res://scripts/UI/skill_ui.gd" id="1_2v110"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_rhgbk"]
@@ -15,11 +15,16 @@
 [ext_resource type="Texture2D" uid="uid://chv3fk35lrax7" path="res://assets/ui/menu_ui/Box Borders/left_border_repeat_vertical.png" id="10_lk06t"]
 [ext_resource type="Texture2D" uid="uid://dyk3kfoj7vbcu" path="res://assets/ui/menu_ui/Box Borders/left_border_top_cap.png" id="11_52ilr"]
 [ext_resource type="FontFile" uid="uid://cqreiydojq74a" path="res://assets/fonts/playfair/PlayfairDisplay-Black.ttf" id="12_7purg"]
-[ext_resource type="Texture2D" uid="uid://cykdlhnuv3jbh" path="res://assets/ui/icons/close_button_h.png" id="13_0blhv"]
 [ext_resource type="Texture2D" uid="uid://62kll5a67er" path="res://assets/ui/menu_ui/Box Borders/bottom_border_right_cap.png" id="13_q513c"]
 [ext_resource type="Texture2D" uid="uid://fl75hrwyp5te" path="res://assets/ui/menu_ui/Box Borders/right_border_top_cap.png" id="14_hckhw"]
 [ext_resource type="Texture2D" uid="uid://b33r0uq86r7wh" path="res://assets/ui/menu_ui/Box Borders/right_border_repeat_vertical.png" id="15_6qsie"]
 [ext_resource type="Texture2D" uid="uid://2vfdpjf4u6dj" path="res://assets/ui/menu_ui/Box Borders/bottom_border_midsec_repeat_horizontal.png" id="16_qq8ey"]
+[ext_resource type="Texture2D" uid="uid://cqoog8jnypwmi" path="res://assets/ui/buttons/close_button/close_button_n.png" id="19_ffywn"]
+[ext_resource type="Texture2D" uid="uid://b2vp8sx5lstxj" path="res://assets/ui/buttons/close_button/close_button_p.png" id="20_kpjkx"]
+[ext_resource type="Texture2D" uid="uid://d25w1yfqu88j2" path="res://assets/ui/buttons/close_button/close_button_h.png" id="21_etrr1"]
+[ext_resource type="Texture2D" uid="uid://cg0wdirug4tyx" path="res://assets/ui/buttons/accept_button/rb_accept_n.png" id="23_dlnp0"]
+[ext_resource type="Texture2D" uid="uid://drupxdj5flv5p" path="res://assets/ui/buttons/accept_button/rb_accept_p.png" id="24_3k1m4"]
+[ext_resource type="Texture2D" uid="uid://cf7amjduw6yu6" path="res://assets/ui/buttons/accept_button/rb_accept_h.png" id="25_t4a20"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y52tr"]
 font = ExtResource("12_7purg")
@@ -309,13 +314,14 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = 378.0
-offset_top = 14.5
-offset_right = 1378.0
-offset_bottom = 1014.5
+offset_top = -8.5
+offset_right = 503.0
+offset_bottom = 116.5
 grow_horizontal = 0
 grow_vertical = 2
-scale = Vector2(0.1, 0.1)
-texture_normal = ExtResource("13_0blhv")
+texture_normal = ExtResource("19_ffywn")
+texture_pressed = ExtResource("20_kpjkx")
+texture_hover = ExtResource("21_etrr1")
 stretch_mode = 0
 
 [node name="class_icon" type="TextureRect" parent="bg/UI_title"]
@@ -326,3 +332,15 @@ offset_right = 215.0
 offset_bottom = 161.0
 texture = ExtResource("5_j7cwr")
 expand_mode = 1
+
+[node name="confirm_button" type="TextureButton" parent="bg"]
+layout_mode = 0
+offset_left = 1570.0
+offset_top = 900.0
+offset_right = 1695.0
+offset_bottom = 1025.0
+texture_normal = ExtResource("23_dlnp0")
+texture_pressed = ExtResource("24_3k1m4")
+texture_hover = ExtResource("25_t4a20")
+ignore_texture_size = true
+stretch_mode = 4

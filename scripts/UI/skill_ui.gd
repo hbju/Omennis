@@ -8,6 +8,7 @@ class_name SkillUI
 @onready var title = $bg/UI_title/title
 @onready var class_icon = $bg/UI_title/class_icon
 @onready var close_button = $bg/UI_title/close_button
+@onready var confirm_button = $bg/confirm_button
 
 @onready var equipped_slot_1: TextureButton = $bg/equipped_skills_container/equipped_skill_1 # Adjust path
 @onready var equipped_slot_2: TextureButton = $bg/equipped_skills_container/equipped_skill_2
@@ -26,6 +27,8 @@ var current_selection_mode = SelectionMode.NONE
 const SkillTooltipScene: PackedScene = preload("res://scenes/skill_tooltip.tscn")
 var skill_tooltip_instance: PanelContainer
 
+signal skills_confirmed
+
 
 func _ready():
 	if SkillTooltipScene:
@@ -36,6 +39,7 @@ func _ready():
 		printerr("SkillTree: Skill Tooltip Scene not assigned!")
 
 	close_button.pressed.connect(_on_close_button_pressed)
+	confirm_button.pressed.connect(_on_confirm_button_pressed)
 	skill_tree.skill_tooltip_needed.connect(_on_skill_tooltip_needed)
 	skill_tree.skill_tooltip_not_needed.connect(_on_skill_tooltip_not_needed)
 
@@ -78,6 +82,11 @@ func update_ui(party_member: PartyMember) :
 
 func _on_close_button_pressed() : 
 	_cancel_selection()
+	visible = false
+
+func _on_confirm_button_pressed() :
+	_cancel_selection()
+	skills_confirmed.emit() # Emit signal with the updated skill list
 	visible = false
 
 func _on_slot_hovered(slot_index: int):
