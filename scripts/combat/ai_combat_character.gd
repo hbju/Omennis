@@ -52,7 +52,7 @@ func take_turn():
 
 	if possible_actions.size() > 0:
 		var selected_action = score_and_select_action(possible_actions)
-		print("Selected Action: ", selected_action.type, " | Skill: ", selected_action.skill.get_skill_name() if selected_action.skill else "N/A", " | Target: ", selected_action.target_character.character.character_name if selected_action.target_character else str(selected_action.target_cell), " | Score: ", selected_action.score)
+		# print("Selected Action: ", selected_action.type, " | Skill: ", selected_action.skill.get_skill_name() if selected_action.skill else "N/A", " | Target: ", selected_action.target_character.character.character_name if selected_action.target_character else str(selected_action.target_cell), " | Score: ", selected_action.score)
 
 		match selected_action.type:
 			"attack":

@@ -26,10 +26,10 @@ static func new_rand() -> PartyMember:
 	match char_class:
 		CLASSES.Warrior:
 			char_init_skill.append(Charge.new())
-			char_init_skill.append(DefensiveStance.new())
+			# char_init_skill.append(DefensiveStance.new())
 		CLASSES.Mage:
 			char_init_skill.append(FiresparkMage.new())
-			char_init_skill.append(ArcaneShield.new())
+			# char_init_skill.append(ArcaneShield.new())
 
 	var new_char = PartyMember.new(char_name, char_class, portrait, 1, sex)
 	new_char.skill_list = char_init_skill

@@ -1,0 +1,397 @@
+[gd_scene load_steps=32 format=3 uid="uid://cb72gthtfkeba"]
+
+[ext_resource type="Script" path="res://scripts/ui/arena_progression_screen.gd" id="1_n14a6"]
+[ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_321p8"]
+[ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="3_s2732"]
+[ext_resource type="Script" path="res://scripts/UI/character_result_display.gd" id="4_2hhjo"]
+[ext_resource type="Texture2D" uid="uid://duq2x2rxbv2m0" path="res://assets/ui/buttons/red/square_red_normal.png" id="4_qt4lr"]
+[ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="5_0qju3"]
+[ext_resource type="Texture2D" uid="uid://bop8bk140baxb" path="res://assets/ui/buttons/red/square_red_pressed.png" id="5_rabp8"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="6_cbolc"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_w2t6r"]
+[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="7_23j0b"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="7_l4vfj"]
+[ext_resource type="LabelSettings" uid="uid://0ssaijcssqa4" path="res://assets/fonts/normal_text.tres" id="8_4kh8c"]
+[ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="8_ita55"]
+[ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="9_aobc2"]
+[ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="10_1akyf"]
+[ext_resource type="Texture2D" uid="uid://bif1amwq6bxy7" path="res://assets/ui/menu_ui/box_heading_midsec_repeat.png" id="11_2dcym"]
+[ext_resource type="Texture2D" uid="uid://ctbvwknltdyh6" path="res://assets/ui/menu_ui/box_head_pattern_repeatable.png" id="12_phrp1"]
+[ext_resource type="Texture2D" uid="uid://c4winy4h5qjb5" path="res://assets/ui/menu_ui/Box Borders/bottom_border_left_cap.png" id="13_p0q8p"]
+[ext_resource type="Texture2D" uid="uid://dyk3kfoj7vbcu" path="res://assets/ui/menu_ui/Box Borders/left_border_top_cap.png" id="14_5jrof"]
+[ext_resource type="Texture2D" uid="uid://chv3fk35lrax7" path="res://assets/ui/menu_ui/Box Borders/left_border_repeat_vertical.png" id="15_2vy3f"]
+[ext_resource type="Texture2D" uid="uid://62kll5a67er" path="res://assets/ui/menu_ui/Box Borders/bottom_border_right_cap.png" id="16_xq0rv"]
+[ext_resource type="Texture2D" uid="uid://fl75hrwyp5te" path="res://assets/ui/menu_ui/Box Borders/right_border_top_cap.png" id="17_7hj8d"]
+[ext_resource type="Texture2D" uid="uid://b33r0uq86r7wh" path="res://assets/ui/menu_ui/Box Borders/right_border_repeat_vertical.png" id="18_ulrk8"]
+[ext_resource type="Texture2D" uid="uid://2vfdpjf4u6dj" path="res://assets/ui/menu_ui/Box Borders/bottom_border_midsec_repeat_horizontal.png" id="19_quh76"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="20_2j3vl"]
+[ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="21_yhiu7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5o4xq"]
+font = ExtResource("7_l4vfj")
+font_size = 30
+font_color = Color(0.783523, 0.783523, 0.783523, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bbdgg"]
+font = ExtResource("7_l4vfj")
+font_size = 25
+font_color = Color(0.625597, 0.625597, 0.625597, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ljopw"]
+font = ExtResource("7_l4vfj")
+font_size = 25
+font_color = Color(0.627451, 0.627451, 0.627451, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_eglbp"]
+font = ExtResource("7_l4vfj")
+font_size = 25
+font_color = Color(0.627451, 0.627451, 0.627451, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pl6as"]
+font = ExtResource("21_yhiu7")
+font_size = 64
+font_color = Color(0.728822, 0.728822, 0.728822, 1)
+
+[node name="arena_progression_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n14a6")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -827.5
+offset_top = -400.0
+offset_right = 827.5
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_321p8")
+expand_mode = 1
+
+[node name="character_result_display" type="TextureRect" parent="background"]
+custom_minimum_size = Vector2(620, 230)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -433.0
+offset_top = -150.0
+offset_right = 433.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_s2732")
+expand_mode = 1
+script = ExtResource("4_2hhjo")
+
+[node name="hbox" type="HBoxContainer" parent="background/character_result_display"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -372.0
+offset_top = -75.0
+offset_right = 396.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="portrait" type="ColorRect" parent="background/character_result_display/hbox"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.509804, 0.313726, 0.160784, 1)
+
+[node name="avatar_portrait" type="TextureRect" parent="background/character_result_display/hbox/portrait"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -75.0
+offset_right = 62.4268
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_0qju3")
+expand_mode = 3
+
+[node name="frame" type="TextureRect" parent="background/character_result_display/hbox/portrait"]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -4.0
+offset_right = 155.0
+offset_bottom = 156.0
+texture = ExtResource("6_w2t6r")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="info_vbox" type="VBoxContainer" parent="background/character_result_display/hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="name_label" type="Label" parent="background/character_result_display/hbox/info_vbox"]
+layout_mode = 2
+text = "Dummy_Character"
+label_settings = SubResource("LabelSettings_5o4xq")
+
+[node name="xp_gain_label" type="Label" parent="background/character_result_display/hbox/info_vbox"]
+layout_mode = 2
+text = "+1500XP (Level Up ! (Lv. 9 -> 10))"
+label_settings = SubResource("LabelSettings_bbdgg")
+
+[node name="xp_progress_label" type="Label" parent="background/character_result_display/hbox/info_vbox"]
+layout_mode = 2
+text = "XP: 500 / 4500"
+label_settings = SubResource("LabelSettings_ljopw")
+
+[node name="skill_points_available_label" type="Label" parent="background/character_result_display/hbox/info_vbox"]
+layout_mode = 2
+text = "Skill Points Available: 2 (+1 !)"
+label_settings = SubResource("LabelSettings_eglbp")
+
+[node name="skill_button" type="TextureButton" parent="background/character_result_display/hbox"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("8_ita55")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="proceed_button" type="TextureButton" parent="background"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -254.5
+offset_top = -219.0
+offset_right = 246.5
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_qt4lr")
+texture_pressed = ExtResource("5_rabp8")
+texture_hover = ExtResource("6_cbolc")
+texture_disabled = ExtResource("7_23j0b")
+
+[node name="Label" type="Label" parent="background/proceed_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -40.0
+offset_right = 101.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Next Wave"
+label_settings = ExtResource("8_4kh8c")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="borders" type="Control" parent="background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="upper_banner" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -794.5
+offset_top = -441.5
+offset_right = -794.5
+offset_bottom = -441.5
+grow_horizontal = 2
+
+[node name="head_left" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+offset_left = -119.0
+offset_top = -93.0
+offset_right = 95.0
+offset_bottom = 121.0
+texture = ExtResource("9_aobc2")
+
+[node name="head_right" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1491.0
+offset_top = -93.0
+offset_right = 1705.0
+offset_bottom = 121.0
+grow_horizontal = 0
+texture = ExtResource("10_1akyf")
+
+[node name="borders_up" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 75.0
+offset_top = -35.0
+offset_right = 1517.0
+offset_bottom = 121.0
+grow_horizontal = 2
+texture = ExtResource("11_2dcym")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="up" type="TextureRect" parent="background/borders/upper_banner/borders_up"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 12.0
+offset_right = 1445.0
+offset_bottom = 145.0
+texture = ExtResource("12_phrp1")
+stretch_mode = 1
+
+[node name="left_column" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -794.5
+offset_top = -441.5
+offset_right = -794.5
+offset_bottom = -432.5
+grow_vertical = 2
+
+[node name="left_bottom_corner" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -36.0
+offset_top = 877.0
+offset_right = 219.0
+offset_bottom = 924.0
+texture = ExtResource("13_p0q8p")
+
+[node name="left_up_corner" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 120.0
+offset_right = 18.0
+offset_bottom = 159.0
+texture = ExtResource("14_5jrof")
+
+[node name="left_part" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -6.0
+offset_top = 159.0
+offset_right = 18.0
+offset_bottom = 877.0
+texture = ExtResource("15_2vy3f")
+stretch_mode = 1
+
+[node name="right_column" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 796.5
+offset_top = -441.5
+offset_right = 796.5
+offset_bottom = -441.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="right_bottom_corner" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -219.0
+offset_top = 877.0
+offset_right = 36.0
+offset_bottom = 924.0
+texture = ExtResource("16_xq0rv")
+
+[node name="right_up_corner" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = 120.0
+offset_right = 31.0
+offset_bottom = 159.0
+texture = ExtResource("17_7hj8d")
+
+[node name="right_part" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = 159.0
+offset_right = 5.0
+offset_bottom = 877.0
+texture = ExtResource("18_ulrk8")
+stretch_mode = 1
+
+[node name="bottom_part" type="TextureRect" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -618.0
+offset_top = 395.0
+offset_right = 637.0
+offset_bottom = 442.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("19_quh76")
+stretch_mode = 1
+
+[node name="header" type="TextureRect" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -308.0
+offset_top = -514.0
+offset_right = 308.0
+offset_bottom = -357.0
+grow_horizontal = 2
+texture = ExtResource("20_2j3vl")
+
+[node name="title_label" type="Label" parent="background/borders/header"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -53.5
+offset_right = 197.5
+offset_bottom = 53.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Wave 3 conquered."
+label_settings = SubResource("LabelSettings_pl6as")
+horizontal_alignment = 1
+vertical_alignment = 1

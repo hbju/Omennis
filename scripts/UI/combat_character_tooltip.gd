@@ -26,12 +26,15 @@ func update_content(character: CombatCharacter):
 			var skill = character.character.skill_list[i]
 			match i:
 				0:
+					skill1.show()
 					skill1_cooldown.text = str(skill.get_cooldown()) if skill.get_cooldown() > 0 else ""
 					skill1_icon.texture = skill.get_skill_icon()
 				1:
+					skill2.show()
 					skill2_cooldown.text = str(skill.get_cooldown()) if skill.get_cooldown() > 0 else ""
 					skill2_icon.texture = skill.get_skill_icon()
 				2:
+					skill3.show()
 					skill3_cooldown.text = str(skill.get_cooldown()) if skill.get_cooldown() > 0 else ""
 					skill3_icon.texture = skill.get_skill_icon()
 		else:

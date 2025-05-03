@@ -43,7 +43,7 @@ func _ready() -> void :
 
 
 
-func update_ui(character: Character) : 
+func update_ui(character: Character, enemy_turn: bool= false ) : 
 	self.skill_list = character.skill_list
 
 	for i in range(0, 3) : 
@@ -53,7 +53,7 @@ func update_ui(character: Character) :
 				0 : 
 					button_skill_1.modulate = Color(1, 1, 1)
 					button_skill_1.show()
-					button_skill_1.disabled = false
+					button_skill_1.disabled = enemy_turn
 					cooldown_skill_1.show()
 					if skill.cooldown > 0 : 
 						cooldown_skill_1.text = str(skill.get_cooldown())
@@ -64,7 +64,7 @@ func update_ui(character: Character) :
 				1 : 
 					button_skill_2.modulate = Color(1, 1, 1)
 					button_skill_2.show()
-					button_skill_2.disabled = false
+					button_skill_2.disabled = enemy_turn
 					cooldown_skill_2.show()
 					if skill.cooldown > 0 : 
 						cooldown_skill_2.text = str(skill.get_cooldown())
@@ -75,7 +75,7 @@ func update_ui(character: Character) :
 				2 : 
 					button_skill_3.modulate = Color(1, 1, 1)
 					button_skill_3.show()
-					button_skill_3.disabled = false
+					button_skill_3.disabled = enemy_turn
 					cooldown_skill_3.show()
 					if skill.cooldown > 0 : 
 						cooldown_skill_3.text = str(skill.get_cooldown())

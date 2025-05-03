@@ -1,7 +1,7 @@
 # PostFightScreen.gd
 extends Control
 
-@onready var title_label: Label = $background/borders/header/title_label # Adjust path
+@onready var title_label: Label = $background/borders/header/title_label
 @onready var char_1: TextureRect = $background/character_result_display_1
 @onready var char_2: TextureRect = $background/character_result_display_2
 @onready var char_3: TextureRect = $background/character_result_display_3

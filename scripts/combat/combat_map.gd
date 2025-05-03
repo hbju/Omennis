@@ -30,13 +30,13 @@ func _ready():
 	if debug_mode : 
 		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
 		# party[1].skill_list.append(Charge.new())
-		party[1].skill_list.append(DefensiveStance.new())
+		#party[1].skill_list.append(DefensiveStance.new())
 		# party[0].skill_list.append(MoltenBlade.new())
 		# party[0].skill_list.append(FiresparkMage.new())
-		party[0].skill_list.append(ArcaneShield.new())
+		#party[0].skill_list.append(ArcaneShield.new())
 		# party[1].skill_list.append(Decay.new())
 
-		var enemy1 = Character.new("Dark Cultist", 1, 2, 2)
+		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 50, 5)
 		var enemy2 = Character.new("Dark Cultist", 1, 2, 2)
 		var enemies: Array[Character] = [enemy1, enemy2]
 		enemy1.skill_list.append(Charge.new())
@@ -110,7 +110,7 @@ func next_turn() -> void :
 	await get_tree().create_timer(0.5).timeout
 	update_turn_order_ui()
 	characters[turn].take_turn()	
-	skill_bar_ui.update_ui(characters[turn].character)
+	skill_bar_ui.update_ui(characters[turn].character, not characters[turn] is PlayerCombatCharacter)
 
 ### --- UI --- ###
 func update_turn_order_ui():
@@ -134,8 +134,8 @@ func update_turn_order_ui():
 		var portrait_instance = TurnOrderPortraitScene.instantiate()
 		var is_current = (i == 0) # Highlight the first one in the sequence
 		portrait_instance.call_deferred("set_character", character_to_display, is_current)
-		portrait_instance.mouse_entered.connect(character_to_display.set_highlight.bind(true, Color(0xffffffff)))
-		portrait_instance.mouse_exited.connect(character_to_display.set_highlight.bind(false))
+		#portrait_instance.mouse_entered.connect(character_to_display.set_highlight.bind(true, Color(0xffffffff)))
+		#portrait_instance.mouse_exited.connect(character_to_display.set_highlight.bind(false))
 
 		turn_order_container.add_child(portrait_instance)
 
