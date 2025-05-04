@@ -18,6 +18,7 @@ func _ready():
 
 func set_target_position(global_pos: Vector2i):
 	target_position = global_pos
+	rotation = position.direction_to(target_position).angle()
 
 func _physics_process(_delta):
 	if not target_position: 

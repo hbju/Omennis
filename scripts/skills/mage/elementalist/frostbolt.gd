@@ -23,8 +23,8 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	curr_frostbolt = frostbolt_scene.instantiate()
 	from.get_parent().add_child(curr_frostbolt)
 	curr_frostbolt.position = from.position
-	curr_frostbolt.scale = Vector2(1.5, 1.5)
-	curr_frostbolt.speed = 1000.0
+	curr_frostbolt.scale = Vector2(2.5, 2.5)
+	curr_frostbolt.speed = 800.0
 	curr_frostbolt.set_target_position(target.position)
 	curr_frostbolt.target_reached.connect(_on_reached_target)
 
