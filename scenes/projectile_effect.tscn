@@ -327,7 +327,7 @@ script = ExtResource("1_g4f6b")
 [node name="projectile_animation" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fo4ap")
 animation = &"firespark"
-frame_progress = 0.247766
+frame_progress = 0.0363325
 centered = false
 offset = Vector2(-705, -460)
 
