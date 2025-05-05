@@ -149,10 +149,10 @@ func target_allies() -> bool:
 	return false
 
 func target_enemies() -> bool:
-	return false
+	return true
 
 func target_self() -> bool:
-	return true # Activated by targeting self / area around self
+	return false # Activated by targeting self / area around self
 
 func is_melee() -> bool:
 	# Consistent with Whirlwind/Inquisition (AoE centered on self)

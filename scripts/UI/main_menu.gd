@@ -10,9 +10,15 @@ extends Control
 func _ready():
 	# Connect button signals to functions
 	campaign_button.pressed.connect(_on_campaign_button_pressed)
+	campaign_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	arena_button.pressed.connect(_on_arena_button_pressed)
+	arena_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	options_button.pressed.connect(_on_options_button_pressed)
+	options_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	quit_button.pressed.connect(_on_quit_button_pressed)
+	quit_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+
+	AudioManager.play_music(AudioManager.MAIN_MENU_MUSIC) # Play main menu music
 
 	campaign_button.grab_focus()
 

@@ -32,6 +32,7 @@ func update_ui(quest_log: Dictionary) :
 			var quest_title = quest_info.name + (" (Accomplished)" if quest_state == game_state.QUEST_STATE.Accomplished else "") 
 			quest_button.set_text(quest_title)
 			quest_button.pressed.connect(_on_quest_button_pressed.bind(i))
+			quest_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 			quest_button.set_size(Vector2(QUESTS_WIDTH, QUESTS_HEIGHT))
 			quest_button.set_position(Vector2(0, QUESTS_MARGIN + i * (QUESTS_HEIGHT + QUESTS_MARGIN)))
 			quests_control.add_child(quest_button)

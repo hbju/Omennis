@@ -26,7 +26,6 @@ func _ready() :
 
 
 func update_ui(new_member: PartyMember) : 
-	print("Updating UI for ", new_member.character_name)
 	party_member = new_member
 
 	var warrior_skills: Array[Skill] = [Charge.new(), DefensiveStance.new(), ShieldBash.new(), GuardiansAura.new(), HolyStrike.new(), DivineShield.new(), ZealousCharge.new(), Inquisition.new(), Frenzy.new(), RageSlam.new(), WarCry.new(), Whirlwind.new(), BloodFury.new(), RagingBlow.new()]
@@ -99,11 +98,14 @@ func _on_skill_node_activated(skill_node: SkillNode):
 			if not skill_node.is_unlocked.has(party_member) and party_member.skill_points > 0:
 				skill_node.is_unlocked.append(party_member)
 				party_member.spend_skill_point()
+				AudioManager.play_sfx(AudioManager.UI_SKILL_UNLOCK)
 				update_ui(party_member) 
 				_on_skill_hover_exited()
 			elif skill_node.is_unlocked.has(party_member):
 				unlocked_skill_pressed.emit(skill)
+				AudioManager.play_sfx(AudioManager.UI_BUTTON_CLICK)
 
 		HighlightMode.HIGHLIGHT_SELECTABLE_FOR_SLOT, HighlightMode.HIGHLIGHT_PENDING_SKILL:
 			if skill_node.is_unlocked.has(party_member):
 				unlocked_skill_pressed.emit(skill)
+				AudioManager.play_sfx(AudioManager.UI_BUTTON_CLICK)

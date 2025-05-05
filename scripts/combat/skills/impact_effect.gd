@@ -2,7 +2,10 @@ extends Node2D
 class_name ImpactEffect
 
 @onready var animated_sprite: AnimatedSprite2D = $impact_animation
-# @onready var audio_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var impact_player: AudioStreamPlayer2D = $impact_player
+
+const LIGHTNING_STORM_IMPACT = preload("res://audio/sfx/skills/thunder_impact_heavy.mp3")
+const METEOR_IMPACT = preload("res://audio/sfx/skills/explosion_impact_01.wav")
 
 var impact_type: String = "" 
 
@@ -11,9 +14,9 @@ func set_impact_type(type_name: String):
 	match type_name:
 		"thunderstrike":
 			animated_sprite.play("thunderstrike_4")
-			# audio_player.stream = load("res://assets/audio/thunder_impact.wav")
+			impact_player.stream = METEOR_IMPACT
 		"lightning_storm":
 			animated_sprite.play("thunderstrike_1")
-			# audio_player.stream = load("res://assets/audio/meteor_impact.wav")
+			impact_player.stream = LIGHTNING_STORM_IMPACT
 
-	# audio_player.play() # Play the sound effect
+	impact_player.play() # Play the sound effect

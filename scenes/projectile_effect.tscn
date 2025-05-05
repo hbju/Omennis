@@ -327,7 +327,7 @@ script = ExtResource("1_g4f6b")
 [node name="projectile_animation" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fo4ap")
 animation = &"firespark"
-frame_progress = 0.0363325
+frame_progress = 0.247766
 centered = false
 offset = Vector2(-705, -460)
 
@@ -335,3 +335,9 @@ offset = Vector2(-705, -460)
 shape = SubResource("CircleShape2D_ke1pq")
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="travel_player" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[node name="impact_player" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"

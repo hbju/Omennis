@@ -23,8 +23,11 @@ signal choose_target(skill: Skill)
 
 func _ready() -> void : 
 	button_skill_1.pressed.connect(_choose_target.bind(0))
+	button_skill_1.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	button_skill_2.pressed.connect(_choose_target.bind(1))
+	button_skill_2.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	button_skill_3.pressed.connect(_choose_target.bind(2))
+	button_skill_3.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 
 	if skill_tooltip_scene:
 		skill_tooltip_instance = skill_tooltip_scene.instantiate()

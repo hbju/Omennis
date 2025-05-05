@@ -33,8 +33,11 @@ func _ready() :
 			char_display.character_changed.connect(_debug_fight)
 
 	proceed_button.pressed.connect(_on_proceed_button_pressed)
+	proceed_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	fight_button.pressed.connect(_on_fight_button_pressed)
+	fight_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_ENTER_COMBAT))
 	simulation_button.pressed.connect(_on_simulate_button_pressed)
+	simulation_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	
 	
 func update_ui(_party: Array[PartyMember], _enemy_group: EnemyGroup) :

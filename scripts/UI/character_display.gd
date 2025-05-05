@@ -44,7 +44,10 @@ var party_member: PartyMember
 
 func _ready() : 
 	delete_button.pressed.connect(_on_delete_button_pressed)
+	delete_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+
 	class_badge.pressed.connect(_on_class_badge_pressed)
+	class_badge.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 
 func update_values():
 	if Engine.is_editor_hint():
