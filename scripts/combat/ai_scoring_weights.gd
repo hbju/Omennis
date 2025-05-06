@@ -1,6 +1,7 @@
 class_name AIScoringWeights 
 static var WEIGHT_BASE_MELEE = 5.0 # Base score for a possible action
 static var WEIGHT_BASE_RANGED = 10.0
+static var WEIGHT_BASE_MOBILITY = 5.0 # Base score for a possible action
 static var WEIGHT_SKILL_DISTANCE = 1.5 # Bonus for the distance from the target
 static var WEIGHT_DAMAGE = 1.0
 static var WEIGHT_DAMAGE_PER_HP = 0.5 # Bonus for damaging low-health targets
@@ -17,6 +18,7 @@ static var WEIGHT_AOE_TARGET_ALLY_HEAL = 1.0 # Multiplier per ally healed
 static var WEIGHT_AOE_TARGET_ALLY_BUFF = 0.8 # Multiplier per ally buffed
 static var WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY = -30 # Penalty for hitting allies with damage
 static var WEIGHT_POSITIONING_CLOSER = 10.0 # Value per hex closer to primary target
+static var WEIGHT_POSITIONING_SAFETY = 5.0 # Value per hex closer to safety
 static var WEIGHT_HEALTH_COST_PENALTY = -0.5 # Penalty per % max health cost
 static var WEIGHT_SETUP_BONUS = 10.0 # Bonus for applying debuffs like vulnerable/mark
 static var WEIGHT_SKILL_LOW_HEALTH = -5 # Penalty for using a skill when low on health

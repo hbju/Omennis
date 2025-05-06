@@ -10,7 +10,6 @@ var curr_meteor: ImpactEffect
 var targets: Array[CombatCharacter] = []
 var caster: CombatCharacter
 var curr_highlighted_cells: Array[Vector2i] = []
-var curr_aoe_highlight: Array[Vector2i] = []
 
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
@@ -148,7 +147,7 @@ func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: Comba
 	# If mouse is over a valid center point, highlight the AoE
 	if mouse_pos in curr_highlighted_cells:
 		map.set_cell(0, mouse_pos, 22, map.get_cell_atlas_coords(0, mouse_pos), 4) # Hovered target cell
-		curr_aoe_highlight = HexHelper.hex_reachable(mouse_pos, aoe_radius, func(hex): return map.can_walk(hex))
+		var curr_aoe_highlight = HexHelper.hex_reachable(mouse_pos, aoe_radius, func(hex): return map.can_walk(hex))
 
 		for cell in curr_aoe_highlight:
 			var character = map.get_character(cell)

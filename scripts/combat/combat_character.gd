@@ -30,8 +30,8 @@ const ATTACK_SWING_SFX = [
 	preload("res://audio/sfx/combat/swing_melee_03.wav"),
 ]
 const TAKE_DAMAGE_SFX = [ # Use array for variety
-    preload("res://audio/sfx/combat/hit_flesh_01.wav"),
-    preload("res://audio/sfx/combat/hit_flesh_02.wav"),
+	preload("res://audio/sfx/combat/hit_flesh_01.wav"),
+	preload("res://audio/sfx/combat/hit_flesh_02.wav"),
 	preload("res://audio/sfx/combat/hit_flesh_03.wav"),
 ]
 const FOOTSTEP_SFX = [

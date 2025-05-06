@@ -29,9 +29,9 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
 		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
-		# party[1].skill_list.append(Charge.new())
+		party[1].skill_list.append(Blink.new())
 		#party[1].skill_list.append(DefensiveStance.new())
-		# party[0].skill_list.append(MoltenBlade.new())
+		party[0].skill_list.append(BoundingLeap.new())
 		# party[0].skill_list.append(FiresparkMage.new())
 		#party[0].skill_list.append(ArcaneShield.new())
 		# party[1].skill_list.append(Decay.new())
@@ -39,10 +39,10 @@ func _ready():
 		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 50, 5)
 		var enemy2 = Character.new("Dark Cultist", 1, 2, 2)
 		var enemies: Array[Character] = [enemy1, enemy2]
-		enemy1.skill_list.append(Charge.new())
+		enemy1.skill_list.append(BoundingLeap.new())
 		enemy1.skill_list.append(DefensiveStance.new())
 		enemy2.skill_list.append(FiresparkMage.new())
-		enemy2.skill_list.append(ArcaneShield.new())
+		enemy2.skill_list.append(Blink.new())
 		
 		enter_combat(party, enemies)
 
