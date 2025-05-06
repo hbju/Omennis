@@ -101,8 +101,8 @@ func disable_collisions(state: bool) :
 	$whispering_hollow/CollisionShape2D.disabled = state
 	$player/CollisionShape2D.disabled = state
 	
-func _toggle_event_ui(_body, event_id: String): 
-	event_manager.enter_event(event_id)
+func _toggle_event_ui(_body, place_id: String): 
+	event_manager.enter_event(place_id)
 	
 func _toggle_party_ui(): 
 	party_ui.update_ui(game_state.party)

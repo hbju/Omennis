@@ -1,0 +1,87 @@
+{
+	"events": [
+	  {
+		"id": "cauldron_mountains",
+		"name": "The Cauldron Mountains",
+		"description": "The Cauldron Mountains loom, a tortured landscape of jagged, soot-stained peaks beneath a sky thick with volcanic haze. The air reeks of sulphur and burning earth, and a low tremor occasionally rumbles through the unstable ground. Steam hisses from countless fissures in the cracked rock.",
+		"possibilities": [
+		  {
+			"id": "evt_cauldron_drake_ambush",
+			"description": "Follow signs of the missing prospector, Elara Vayne.",
+			"condition" : "quest_001_accepted"
+		  },
+		  {
+			"id": "evt_cauldron_generic_explore_result",
+			"description": "Cautiously survey the immediate, volatile surroundings."
+		  },
+		  {
+			"id": "leave",
+			"description": "The fumes and tremors are unsettling; depart the Cauldron."
+		  }
+		]
+	  },
+	  {
+		"id": "evt_cauldron_drake_ambush",
+		"name": "Drake Ambush!",
+		"description": "Following faint tracks near the steaming Cinder Cones, you find signs of a struggle – a broken pickaxe, scattered supplies. Before you can react, a piercing screech echoes from the smoky sky. Two Ash-Scaled Drakes, their hides like cooling magma and eyes burning with predatory fire, plummet towards you!",
+		"possibilities": [
+		  {
+			"id": "fight_drake_ambush",
+			"description": "Defend yourselves!"
+		  }
+		]
+	  },
+	  {
+		"id": "fight_drake_ambush_victory",
+		"name": "Aftermath of the Ambush",
+		"description": "The drakes lie slain, their unnatural heat already dissipating into the sulphurous air. The clearing is now eerily quiet, save for the moaning wind through the crags. It's time to discover the prospector's fate.",
+		"possibilities": [
+		  {
+			"id": "evt_cauldron_prospector_found",
+			"description": "Search the drakes' nesting site for Elara Vayne."
+		  }
+		]
+	  },
+	  {
+		"id": "fight_drake_ambush_defeat",
+		"name": "Drake's Fury",
+		"description": "The drakes are relentless, their fiery breath searing the air. You fight valiantly, but the heat and ferocity of the creatures overwhelm you. As darkness closes in, you feel the ground tremble beneath you, a reminder of the mountains' volatile nature.",
+		"possibilities": [
+		  {
+			"id": "leave",
+			"description": "Flee the Cauldron Mountains. The drakes are too powerful."
+		  }
+		]  
+	  },
+	  {
+		"id": "evt_cauldron_prospector_found",
+		"name": "Elara's Fate",
+		"description": "Amidst a crude nest of scorched bones and sharp volcanic glass within the drakes' territory, you find the remains of Elara Vayne. Her satchel is torn, but her distinctive geological hammer and a soot-stained journal are clutched nearby. The drakes were clearly her end.\n (Quest 'Lost Spark in the Soot' updated)",
+		"possibilities": [
+		  {
+			"id": "leave",
+			"description": "Recover the hammer and journal. Depart the Cauldron Mountains."
+		  },
+		  {
+			"id": "cauldron_mountains",
+			"description": "Recover the items and continue to explore the mountains."
+		  }
+		]
+	  },
+	  {
+		"id": "evt_cauldron_generic_explore_result",
+		"name": "Volcanic Instability",
+		"description": "You cautiously explore a stretch of cracked obsidian. A sudden, violent tremor shakes the ground, and a fissure groans open nearby, spewing a brief but intense gout of superheated steam and acrid smoke. This place is actively hostile.",
+		"possibilities": [
+		  {
+			"id": "cauldron_mountains",
+			"description": "Carefully make your way back to the main approach of the Cauldron."
+		  },
+		  {
+			"id": "leave",
+			"description": "The risks outweigh any potential reward. Leave this treacherous place."
+		  }
+		]
+	  }
+	]
+  }

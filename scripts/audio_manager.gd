@@ -58,7 +58,6 @@ func play_music(music_resource: Variant, random_from_list: bool = false):
 		music_player.play()
 
 func stop_music():
-	print("AudioManager: Stopping music")
 	music_player.stop()
 	current_music = null # Clear current track
 

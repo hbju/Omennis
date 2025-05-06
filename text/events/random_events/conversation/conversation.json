@@ -1,19 +1,23 @@
 {
-	"id": "campfire_shared_hope",
-	"name": "A Glimmer of Hope",
-	"description": "Around the crackling campfire, [Name 0] and [Name 1] share tales of the harsh road. Despite the grim talk, a quiet understanding forms. 'It's... less lonely, traveling with others,' [Name 1] admits softly.",
-	"possibilities": [
+	"events" : [
 		{
-			"id": "leave",
-			"description": "Offer [Name 1] the last piece of your dried fruit.",
-		},
-		{
-			"id": "leave",
-			"description": "Share a genuinely hopeful story from before the hard times.",
-		},
-		{
-			"id": "leave",
-			"description": "Nod quietly and retreat into your own thoughts.",
+			"id": "campfire_shared_hope",
+			"name": "A Glimmer of Hope",
+			"description": "Around the crackling campfire, [Name 0] and [Name 1] share tales of the harsh road. Despite the grim talk, a quiet understanding forms. 'It's... less lonely, traveling with others,' [Name 1] admits softly.",
+			"possibilities": [
+				{
+					"id": "leave",
+					"description": "Offer [Name 1] the last piece of your dried fruit."
+				},
+				{
+					"id": "leave",
+					"description": "Share a genuinely hopeful story from before the hard times."
+				},
+				{
+					"id": "leave",
+					"description": "Nod quietly and retreat into your own thoughts."
+				}
+			]
 		}
 	]
 }
