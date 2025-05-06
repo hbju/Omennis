@@ -19,6 +19,25 @@ signal hover_exited(character)
 @onready var shield_label = $shield_bar/curr_shield
 @onready var status_effects_container: BoxContainer = $status_effects_container
 @onready var character_highlight = $character_portrait_bg/character_background
+@onready var attack_swing_player: AudioStreamPlayer2D = $attack_swing_player
+@onready var take_damage_player: AudioStreamPlayer2D = $take_damage_player
+@onready var death_player: AudioStreamPlayer2D = $death_player
+@onready var footstep_player: AudioStreamPlayer2D = $footstep_player
+
+const ATTACK_SWING_SFX = [
+	preload("res://audio/sfx/combat/swing_melee_01.wav"),
+	preload("res://audio/sfx/combat/swing_melee_02.wav"),
+	preload("res://audio/sfx/combat/swing_melee_03.wav"),
+]
+const TAKE_DAMAGE_SFX = [ # Use array for variety
+    preload("res://audio/sfx/combat/hit_flesh_01.wav"),
+    preload("res://audio/sfx/combat/hit_flesh_02.wav"),
+	preload("res://audio/sfx/combat/hit_flesh_03.wav"),
+]
+const FOOTSTEP_SFX = [
+	preload("res://audio/sfx/combat/footstep_dirt_01.wav"),
+	preload("res://audio/sfx/combat/footstep_dirt_02.wav")
+]
 
 const StatusIconScene = preload("res://scenes/status_icon.tscn")
 const STATUS_ICON_MAP = {
@@ -74,6 +93,9 @@ func _ready() :
 ##
 func move_to(new_target) : 
 	if not move_target :
+		if not FOOTSTEP_SFX.is_empty() :
+			footstep_player.stream = FOOTSTEP_SFX[randi() % FOOTSTEP_SFX.size()]
+			footstep_player.play()
 		move_target = new_target
 
 ##
@@ -135,6 +157,9 @@ func move_to_attack_target() :
 	else :
 		position = attack_target
 		if init_pos :
+			if not ATTACK_SWING_SFX.is_empty() :
+				footstep_player.stream = ATTACK_SWING_SFX[randi() % ATTACK_SWING_SFX.size()]
+				footstep_player.play()
 			attack_target = init_pos
 			init_pos = null
 		else :
@@ -159,6 +184,10 @@ func take_damage(damage_taken: float) -> float :
 		else : 
 			damage_taken -= shield
 			shield = 0
+
+	if damage_taken > 0 and not TAKE_DAMAGE_SFX.is_empty() :
+		take_damage_player.stream = TAKE_DAMAGE_SFX[randi() % TAKE_DAMAGE_SFX.size()]
+		take_damage_player.play()
 
 	health -= damage_taken
 

@@ -56,6 +56,7 @@ func show_event(event_id, characters: Array[PartyMember] = [], random: bool = fa
 			possibility_button.set_position(Vector2(-possibilities_width/2.0, possibilities_margin + number_of_possibilities * (possibilities_margin + possibilities_height)))
 			
 			possibility_button.pressed.connect(on_possibilities_buttons_pressed.bind(possibility_id))
+			possibility_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 			
 			card_choice_buttons_control.add_child(possibility_button)
 			

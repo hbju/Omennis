@@ -125,5 +125,17 @@ offset_bottom = -145.0
 [node name="status_icon" parent="status_effects_container" instance=ExtResource("4_hrprm")]
 layout_mode = 2
 
+[node name="attack_swing_player" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[node name="take_damage_player" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[node name="death_player" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[node name="footstep_player" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

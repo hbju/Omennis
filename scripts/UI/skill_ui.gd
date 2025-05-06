@@ -39,13 +39,18 @@ func _ready():
 		printerr("SkillTree: Skill Tooltip Scene not assigned!")
 
 	close_button.pressed.connect(_on_close_button_pressed)
+	close_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	confirm_button.pressed.connect(_on_confirm_button_pressed)
+	confirm_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	skill_tree.skill_tooltip_needed.connect(_on_skill_tooltip_needed)
 	skill_tree.skill_tooltip_not_needed.connect(_on_skill_tooltip_not_needed)
 
 	equipped_slot_1.pressed.connect(_on_equipped_slot_pressed.bind(0))
+	equipped_slot_1.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	equipped_slot_2.pressed.connect(_on_equipped_slot_pressed.bind(1))
+	equipped_slot_2.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	equipped_slot_3.pressed.connect(_on_equipped_slot_pressed.bind(2))
+	equipped_slot_3.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 
 	equipped_slot_1.mouse_entered.connect(_on_slot_hovered.bind(0))
 	equipped_slot_2.mouse_entered.connect(_on_slot_hovered.bind(1))

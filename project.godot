@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Omennis"
-run/main_scene="res://scenes/main_scene.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 game_state="*res://scripts/utilities/game_state.gd"
 content_generator="*res://scripts/content_generation/content_generator.gd"
+AudioManager="*res://scripts/audio_manager.gd"
 
 [display]
 

@@ -1,12 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://cje0ll6pwd5yp"]
+[gd_scene load_steps=16 format=3 uid="uid://cje0ll6pwd5yp"]
 
 [ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="1_p5af0"]
 [ext_resource type="Script" path="res://scripts/UI/character_display.gd" id="2_5ghbd"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="3_fa86o"]
 [ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="4_dgf6y"]
 [ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="5_j8110"]
-[ext_resource type="Texture2D" uid="uid://cykdlhnuv3jbh" path="res://assets/ui/icons/close_button_h.png" id="6_0scqc"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_u4r2h"]
+[ext_resource type="Texture2D" uid="uid://cqoog8jnypwmi" path="res://assets/ui/buttons/close_button/close_button_n.png" id="7_nl268"]
+[ext_resource type="Texture2D" uid="uid://b2vp8sx5lstxj" path="res://assets/ui/buttons/close_button/close_button_p.png" id="8_541ib"]
+[ext_resource type="Texture2D" uid="uid://d25w1yfqu88j2" path="res://assets/ui/buttons/close_button/close_button_h.png" id="9_jskip"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_r0k1a"]
 font = ExtResource("3_fa86o")
@@ -167,5 +169,7 @@ offset_bottom = 616.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.1, 0.1)
-texture_normal = ExtResource("6_0scqc")
+texture_normal = ExtResource("7_nl268")
+texture_pressed = ExtResource("8_541ib")
+texture_hover = ExtResource("9_jskip")
 stretch_mode = 0

@@ -18,3 +18,5 @@ texture = ExtResource("1_mguoo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ek470")
+
+[node name="footstep_player" type="AudioStreamPlayer2D" parent="."]

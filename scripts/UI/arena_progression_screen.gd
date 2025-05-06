@@ -24,5 +24,8 @@ func setup(character_before: PartyMember, character_after: PartyMember, xp_gaine
 
 func _ready():
 	view_skills_button.pressed.connect(func (): view_skills_pressed.emit())
+	view_skills_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+
 	next_wave_button.pressed.connect(func (): next_wave_pressed.emit())
+	next_wave_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	hide() 

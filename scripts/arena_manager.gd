@@ -62,6 +62,7 @@ func _prepare_next_wave():
 
 	# 4. Start Combat
 	print("Starting combat for Wave ", current_wave)
+	AudioManager.play_music(AudioManager.BATTLE_MUSIC, true) # Play battle music
 	is_in_combat = true
 	combat_scene.visible = true
 	combat_scene.toggle_ui(true) # Turn combat UI on
@@ -115,6 +116,8 @@ func _configure_combat_map():
 
 func _on_combat_ended(victory: bool):
 	if not is_in_combat: return # Prevent double calls
+
+	AudioManager.play_music(AudioManager.VICTORY_STINGER if victory else AudioManager.DEFEAT_STINGER)
 
 	print("Combat Ended! Victory: ", victory)
 	is_in_combat = false

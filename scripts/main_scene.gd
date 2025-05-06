@@ -19,6 +19,8 @@ func _ready():
 	overworld.event_manager.fight_ui.resolve_fight.connect(_end_combat)
 	combat_scene.combat_ended.connect(_end_combat)
 
+	AudioManager.play_music(AudioManager.OVERWORLD_MUSIC[0]) # Play overworld music
+
 
 func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
 	combat_scene.visible = true
@@ -29,6 +31,7 @@ func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
 	overworld.disable_collisions(true)
 
 	combat_scene.enter_combat(party, enemies.enemies)
+	AudioManager.play_music(AudioManager.BATTLE_MUSIC, true) 
 
 
 func _end_combat(victory: bool):
@@ -67,6 +70,7 @@ func _end_combat(victory: bool):
 			post_fight_screen_instance.get_node("background/proceed_button").pressed.connect(_on_post_fight_proceed.bind(victory)) # Connect button
 
 		# Pass data to the screen's script (needs a function like setup())
+		AudioManager.play_music(AudioManager.VICTORY_STINGER if victory else AudioManager.DEFEAT_STINGER)
 		post_fight_screen_instance.setup(party_before, game_state.party, xp_reward, victory)
 		post_fight_screen_instance.show()
 	else:
@@ -75,6 +79,8 @@ func _end_combat(victory: bool):
 		_on_post_fight_proceed(victory)
 
 func _on_post_fight_proceed(victory: bool):
+	AudioManager.play_music(AudioManager.OVERWORLD_MUSIC[0]) # Resume overworld music
+
 	if post_fight_screen_instance and is_instance_valid(post_fight_screen_instance):
 		post_fight_screen_instance.hide()
 

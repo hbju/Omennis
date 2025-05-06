@@ -96,7 +96,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 	characters.shuffle()
 
 	_setup_astar()
-
+	
 	next_turn()
 
 
