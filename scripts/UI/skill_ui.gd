@@ -64,7 +64,7 @@ func _ready():
 	await get_tree().process_frame
 
 	if debugging:
-		curr_party_member = PartyMember.new("DebugWarrior", Character.CLASSES.Mage, 1, 5, PartyMember.SEX.Male)
+		curr_party_member = PartyMember.new("DebugWarrior", Character.CLASSES.Warrior, 1, 5, PartyMember.SEX.Male)
 		curr_party_member.skill_points = 10
 		update_ui(curr_party_member)
 
