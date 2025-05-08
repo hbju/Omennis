@@ -20,6 +20,7 @@ static func new_character(_char: Character) -> PlayerCombatCharacter:
 	new_char.character = _char
 	for skill in _char.skill_list : 
 		skill.skill_finished.connect(new_char.finish_turn)
+	_char.base_skill.skill_finished.connect(new_char.finish_turn)
 	return new_char
 
 
@@ -35,6 +36,7 @@ func _ready():
 func take_turn() : 
 	for skill in character.skill_list : 
 		skill.decrease_cooldown()
+	character.base_skill.decrease_cooldown()
 
 	action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
 	action_cells.erase(map.get_cell_coords(global_position))

@@ -8,6 +8,7 @@ var character_level: int
 var max_health: int
 var base_damage: float
 
+var base_skill: Skill
 var skill_list: Array[Skill] = []
 
 enum CLASSES {Warrior, Mage, Rogue, None}
@@ -20,6 +21,15 @@ func _init(name, _class, portrait, level, health: int = 100, damage: float = 10)
 	self.max_health = health
 	self.base_damage = damage
 
+	if _class == CLASSES.Warrior:
+		self.base_skill = BoundingLeap.new()
+	elif _class == CLASSES.Mage:
+		self.base_skill = FiresparkMage.new()
+
+func reset_skills(): 
+	for skill in skill_list:
+		skill.cooldown = 0
+	base_skill.cooldown = 0
 
 func get_char_class() -> String : 
 	return CLASSES.keys()[character_class]

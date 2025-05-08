@@ -19,6 +19,52 @@ texture = ExtResource("1_ge7uk")
 expand_mode = 1
 script = ExtResource("2_vqerd")
 
+[node name="base_skill_button" type="TextureButton" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 700.0
+offset_top = 45.0
+offset_right = 850.0
+offset_bottom = 195.0
+texture_normal = ExtResource("3_7ni60")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="base_skill_button"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -65.0
+offset_right = 65.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_yn2gs")
+expand_mode = 1
+
+[node name="skill_cooldown" type="Label" parent="base_skill_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -68.5
+offset_right = 56.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "5"
+label_settings = SubResource("LabelSettings_g6dxs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="skill_button_1" type="TextureButton" parent="."]
 z_index = 1
 layout_mode = 0

@@ -2,8 +2,8 @@
 extends Skill
 class_name Blink
 
-var max_cooldown: int = 4
-var blink_range: int = 4
+var max_cooldown: int = 5
+var blink_range: int = 3
 var next_spell_damage_bonus: int = 10 # +10 damage
 
 func use_skill(caster: CombatCharacter, target_cell: Vector2i, map: CombatMap) -> bool:
@@ -12,8 +12,6 @@ func use_skill(caster: CombatCharacter, target_cell: Vector2i, map: CombatMap) -
 	if HexHelper.distance(caster_pos, target_cell) > blink_range or \
 	   not map.can_walk(target_cell) or map.cell_occupied(target_cell):
 		return false # Invalid target cell
-	print("Blinking to cell: ", target_cell)
-	print("global target cell position: ", map.map_to_local(target_cell))
 	caster.position = map.map_to_local(target_cell) # Actual instant position update
 	caster.gain_status("imbue", 2, next_spell_damage_bonus)
 

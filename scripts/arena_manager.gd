@@ -4,6 +4,7 @@ extends Node # Or Control/Node2D depending on your root
 @onready var combat_scene: CombatMap = $combat_scene
 @onready var skill_ui: SkillUI = $skill_ui
 @onready var progression_screen: Control = $arena_progression_screen
+@onready var class_selection_screen: Control = $arena_class_selection
 
 var current_wave: int = 0
 var player_character: PartyMember = null # The single character for the arena
@@ -17,6 +18,8 @@ func _ready():
 	skill_ui.visible = false
 	skill_ui.skills_confirmed.connect(_on_progression_continue_pressed)
 
+	class_selection_screen.class_selected.connect(_on_arena_class_chosen)
+
 	progression_screen.view_skills_pressed.connect(_on_view_skills_pressed)
 	progression_screen.next_wave_pressed.connect(_on_progression_continue_pressed)
 	
@@ -24,21 +27,15 @@ func _ready():
 	combat_scene.combat_ended.connect(_on_combat_ended)
 
 	# Start the arena when ready
-	call_deferred("start_arena") # Use call_deferred ensure everything is ready
+	call_deferred("show_class_selection") # Use call_deferred ensure everything is ready
 
-func start_arena():
-	print("Starting Endless Arena!")
-	current_wave = 0
-	# --- Character Creation/Selection (Simple V1) ---
-	# For now, create a default Level 1 Warrior
-	# TODO: Add character selection later
-	player_character = PartyMember.new("Arena Champion", Character.CLASSES.Mage, 0, 1, PartyMember.SEX.Male)
-	# Give some starting skills? Or let player pick first? Let's give default for now.
-	player_character.skill_list = [FiresparkMage.new()] # Example starting skills
-	print("Player Character Created: ", player_character.character_name)
+func show_class_selection():
+	combat_scene.visible = false
+	combat_scene.toggle_ui(false)
+	skill_ui.visible = false
+	progression_screen.hide()
 
-	# Start the first wave
-	_prepare_next_wave()
+	class_selection_screen.prompt_class_selection()
 
 func _prepare_next_wave():
 	is_in_combat = false
@@ -48,7 +45,7 @@ func _prepare_next_wave():
 
 	# 1. Hide Progression/Skill UI (if they were visible)
 	skill_ui.visible = false
-	# progression_screen.hide() # Add later
+	progression_screen.hide() # Add later
 
 	# 2. Generate Enemies for the wave
 	var enemies_for_wave: Array[Character] = _generate_enemies(current_wave)
@@ -74,37 +71,38 @@ func _generate_enemies(wave_num: int) -> Array[Character]:
 	# --- Enemy Generation Logic ---
 	# Simple V1: Increase count and level slightly each wave
 	var enemy_count = 1 + floori(wave_num / 3.0)
-	var enemy_level = 1 + floori(wave_num / 4.0)
+	var enemy_level = 1 + floori(wave_num / 3.0)
 
 	print("Wave %d: %d enemies, Level %d" % [wave_num, enemy_count, enemy_level])
 
-	var possible_classes = [Character.CLASSES.Warrior, Character.CLASSES.Mage]
-	# TODO: Expand enemy variety, add skills based on wave
-	var available_skills = {
-		 Character.CLASSES.Warrior: [Charge.new(), ShieldBash.new()],
-		 Character.CLASSES.Mage: [FiresparkMage.new(), Frostbolt.new()]
-	}
-
+	var class_keys = EnemyData.ENEMY_CLASS_DEFINITIONS.keys()
 
 	for i in range(enemy_count):
-		
-		var enemy_base_hp = (40 + enemy_level * 10) * randf_range(0.8, 1.2)
-		var enemy_base_damage = 5 + enemy_level * 2 * randf_range(0.8, 1.2)
-		var chosen_class = possible_classes[randi() % possible_classes.size()]
-		var portrait_idx = randi() % 10 # Use first 10 monster portraits
-		var enemy_name = Character.CLASSES.keys()[chosen_class] + " Grunt " + str(i+1)
-		print("Enemy %s: HP %d, Damage %.2f" % [enemy_name, enemy_base_hp, enemy_base_damage])
+		var chosen_class_key = class_keys[randi() % class_keys.size()]
+		var class_data = EnemyData.ENEMY_CLASS_DEFINITIONS[chosen_class_key]
 
-		var new_enemy = Character.new(enemy_name, chosen_class, portrait_idx, enemy_level, enemy_base_hp, enemy_base_damage)
+		var enemy_actual_level = max(1, enemy_level + randi_range(-1, 1)) # +/- 1 level variance
 
-		# --- Assign Skills to Enemy (Simple V1) ---
-		if available_skills.has(chosen_class):
-			# Give one random skill from the basic pool for their class
-			var skill_pool = available_skills[chosen_class]
-			if not skill_pool.is_empty():
-				new_enemy.skill_list.append(skill_pool[randi() % skill_pool.size()])
+		var max_hp = class_data.base_hp + (enemy_actual_level - 1) * class_data.hp_per_level
+		var damage_stat = class_data.base_damage_stat + (enemy_actual_level - 1) * class_data.damage_stat_per_level
 
-		enemies.append(new_enemy)
+		var portrait_idx = class_data.portraits[randi() % class_data.portraits.size()]
+		var enemy_name = chosen_class_key + " Mk." + str(enemy_actual_level) # Simple name
+
+		var new_char_def = Character.new(
+			enemy_name,
+			class_data.class_enum, 
+			portrait_idx,
+			enemy_actual_level,
+			max_hp,
+			damage_stat,
+		)
+
+		for skill_entry in class_data.skill_pool_config:
+			if enemy_actual_level >= skill_entry.min_level:
+				new_char_def.skill_list.append(skill_entry.skill.new())
+
+		enemies.append(new_char_def) # Add the Character definition
 
 	return enemies
 
@@ -113,6 +111,27 @@ func _configure_combat_map():
 	# Placeholder: Later, load different layouts or place obstacles
 	print("Configuring combat map layout (Placeholder)")
 	# combat_scene.load_layout(current_wave % 3) # Example
+
+func _on_arena_class_chosen(selected_class_enum: Character.CLASSES):
+	print("ArenaManager: Class chosen - ", Character.CLASSES.keys()[selected_class_enum])
+	current_wave = 0 # Reset wave count for a new run
+
+	var sex = PartyMember.SEX.Male if randi() % 2 == 0 else PartyMember.SEX.Female
+	var portrait_idx = randi() % (PartyMember.NB_MALE_PORTRAIT if sex == PartyMember.SEX.Male else PartyMember.NB_FEMALE_PORTRAIT)
+
+	player_character = PartyMember.new(
+		"Arena Champion",
+		selected_class_enum,
+		portrait_idx, # Example random portrait
+		1,            # Start at level 1
+		sex           # Example random sex
+	)
+
+	print("Player Character Created: ", player_character.character_name, " as ", player_character.get_char_class())
+
+	# Proceed to the first wave
+	_prepare_next_wave() # This will show combat scene, etc.
+
 
 func _on_combat_ended(victory: bool):
 	if not is_in_combat: return # Prevent double calls
@@ -138,7 +157,7 @@ func _show_progression_screen():
 
 	# 1. Calculate XP
 	# Simple V1: Fixed XP per wave + bonus
-	var xp_reward = 500 + current_wave * 150
+	var xp_reward = 500 + current_wave **2 * 50
 	xp_reward = roundi(xp_reward * randf_range(0.9, 1.1))
 	print("XP Reward: ", xp_reward)
 

@@ -1,9 +1,9 @@
 extends Skill
 class_name DefensiveStance
 
-var max_cooldown := 4
+var max_cooldown := 5
 var curr_highlighted_cells: Array[Vector2i] = []
-var duration := 4
+var duration := 5
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)

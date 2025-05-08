@@ -19,7 +19,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 
 func score_action(caster: CombatCharacter, _potential_targets: Array[CombatCharacter], _target_cell: Vector2i, map: CombatMap) -> float:
 	# Self buff (Strong + Vulnerable)
-	var score = AIScoringWeights.WEIGHT_BUFF_POSITIVE * 0.5 # Base value, offset by risk
+	var score = AIScoringWeights.WEIGHT_BUFF_POSITIVE # Base value, offset by risk
 
 	# Calculate potential damage increase value
 	var enemies_nearby = 0
@@ -29,10 +29,10 @@ func score_action(caster: CombatCharacter, _potential_targets: Array[CombatChara
 			enemies_nearby += 1
 	# Rough estimate: Value based on potential extra damage over duration vs nearby enemies
 	var potential_extra_damage = caster.get_damage() * 1.5 # Damage increase per attack
-	score += enemies_nearby * potential_extra_damage * min(duration, 2) * 0.6 # Estimate 2 attacks over duration
+	score += enemies_nearby * potential_extra_damage * min(duration, 2) # Estimate 2 attacks over duration
 
 	# Penalize for Vulnerable status
-	score -= AIScoringWeights.WEIGHT_BUFF_NEGATIVE  # Vulnerable is very risky
+	score -= AIScoringWeights.WEIGHT_BUFF_NEGATIVE * 0.5  # Vulnerable is very risky
 	# Penalize more if low health or already defensive (overrides defensive)
 	if caster.health < caster.max_health * 0.6:
 		score -= 20.0

@@ -22,7 +22,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	from.get_parent().add_child(curr_firespark)
 	curr_firespark.position = from.position
 	curr_firespark.scale = Vector2(1.5, 1.5)
-	curr_firespark.speed = 1000.0
+	curr_firespark.speed = 1500.0
 	curr_firespark.set_target_position(target.position)
 	curr_firespark.target_reached.connect(_on_reached_target)
 

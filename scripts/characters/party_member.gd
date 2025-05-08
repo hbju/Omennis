@@ -22,17 +22,8 @@ static func new_rand() -> PartyMember:
 	var char_name = names[randi() % names.size()]
 	var portrait = randi() % (NB_FEMALE_PORTRAIT if sex == 1 else NB_MALE_PORTRAIT)
 	var char_class: CLASSES = CLASSES.values()[randi_range(0, CLASSES.size() - 3)]
-	var char_init_skill: Array[Skill] = []
-	match char_class:
-		CLASSES.Warrior:
-			char_init_skill.append(BoundingLeap.new())
-			# char_init_skill.append(DefensiveStance.new())
-		CLASSES.Mage:
-			char_init_skill.append(FiresparkMage.new())
-			# char_init_skill.append(ArcaneShield.new())
 
 	var new_char = PartyMember.new(char_name, char_class, portrait, 1, sex)
-	new_char.skill_list = char_init_skill
 	
 	return new_char
 	
@@ -42,6 +33,8 @@ func receive_experience(experience: int) :
 	while character_experience > threshold : 
 		character_level += 1
 		skill_points += 1
+		max_health += round(0.2 * max_health * randf_range(0.9, 1.1))
+		base_damage += round(0.1 * base_damage * randf_range(0.9, 1.1))
 		character_experience -= threshold
 		threshold = next_level()
 

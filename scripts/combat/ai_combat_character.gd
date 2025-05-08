@@ -17,6 +17,7 @@ static func new_character(_char: Character) -> AICombatCharacter:
 	new_char.character = _char
 	for skill in _char.skill_list : 
 		skill.skill_finished.connect(new_char.finish_turn)
+	_char.base_skill.skill_finished.connect(new_char.finish_turn)
 	return new_char
 
 
@@ -32,6 +33,7 @@ func _ready():
 func take_turn():
 	for skill in character.skill_list : 
 		skill.decrease_cooldown()
+	character.base_skill.decrease_cooldown()
 
 	if char_statuses["stunned"] > 0 :
 		char_statuses["stunned"] -= 1
@@ -98,6 +100,8 @@ func get_lowest_health_player_path(party: Array[PlayerCombatCharacter]) -> Array
 
 func get_usable_skills() -> Array[Skill]:
 	var usable_skills: Array[Skill] = []
+	if character.base_skill.cooldown == 0:
+		usable_skills.append(character.base_skill)
 	for skill in character.skill_list:
 		if skill.cooldown == 0:
 			usable_skills.append(skill)
@@ -138,13 +142,7 @@ func evaluate_potential_actions(current_pos: Vector2i, alive_players: Array[Play
 			# print("Added Skill Action: ", skill.get_skill_name(), " based on ", initiation_info._to_string())
 
 
-	var can_act_now = false
-	for action in possible_actions:
-		if action.type == "attack" or action.type == "skill":
-			can_act_now = true
-			break
-
-	if not can_act_now and not alive_players.is_empty() and not char_statuses["rooted"] > 0:
+	if not alive_players.is_empty() and not char_statuses["rooted"] > 0:
 		for player in alive_players:
 			var path = _calculate_path_to_character(map.get_cell_coords(player.global_position))
 			if path.size() > 1: 

@@ -6,7 +6,7 @@ var max_cooldown := 4
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var target = map.get_character(skill_pos)
-	if is_valid_target_type(from, target) and skill_pos in curr_highlighted_cells:
+	if is_valid_target_type(from, target) and HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) <= get_skill_range():
 		var actual_damage_mult = damage_mult
 		if target.health < target.max_health * 3/10:
 			actual_damage_mult *= 2

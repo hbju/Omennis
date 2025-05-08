@@ -10,7 +10,7 @@ const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
 @export var debug_mode: bool = false
 
 const PLAYER_STARTING_POS = [Vector2i(0, 3), Vector2i(1, 3), Vector2i(1, 2), Vector2i(2, 2)]
-const ENEMY_STARTING_POS = [Vector2i(6, 1), Vector2i(7, 1), Vector2i(7, 2), Vector2i(6, 2), Vector2i(9, 3), Vector2i(10, 3)]
+const ENEMY_STARTING_POS = [Vector2i(7, 1), Vector2i(6, 1), Vector2i(7, 2), Vector2i(6, 2), Vector2i(7, 3), Vector2i(6, 3)]
 
 var astar: AStar2D = AStar2D.new()
 var cell_ids: Dictionary = {}
@@ -29,12 +29,6 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	if debug_mode : 
 		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
-		party[1].skill_list.append(Blink.new())
-		#party[1].skill_list.append(DefensiveStance.new())
-		party[0].skill_list.append(BoundingLeap.new())
-		# party[0].skill_list.append(FiresparkMage.new())
-		#party[0].skill_list.append(ArcaneShield.new())
-		# party[1].skill_list.append(Decay.new())
 
 		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 50, 5)
 		var enemy2 = Character.new("Dark Cultist", 1, 2, 2)
@@ -42,7 +36,7 @@ func _ready():
 		enemy1.skill_list.append(BoundingLeap.new())
 		enemy1.skill_list.append(DefensiveStance.new())
 		enemy2.skill_list.append(FiresparkMage.new())
-		enemy2.skill_list.append(Blink.new())
+		enemy2.skill_list.append(ArcaneShield.new())
 		
 		enter_combat(party, enemies)
 
@@ -72,6 +66,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 
 	for i in range(0, max(party.size(), enemies.size())) : 
 		if i < party.size() : 
+			party[i].reset_skills()
 			var player: CombatCharacter = PlayerCombatCharacter.new_character(party[i])
 			get_node("characters/player_characters").add_child(player)
 			player.position = map_to_local(PLAYER_STARTING_POS[i])
@@ -81,6 +76,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			player.character_died.connect(_on_character_died)
 
 		if i < enemies.size() : 
+			enemies[i].reset_skills()
 			var enemy: CombatCharacter = AICombatCharacter.new_character(enemies[i])
 			get_node("characters/enemies").add_child(enemy)
 			enemy.position = map_to_local(ENEMY_STARTING_POS[i])
@@ -106,6 +102,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##  
 func next_turn() -> void :
 	reset_map()
+	skill_bar_ui.reset_ui()
 	turn = (turn + 1) % characters.size()
 	await get_tree().create_timer(0.5).timeout
 	update_turn_order_ui()

@@ -2,7 +2,7 @@ extends MeleeSkill # Inherits range 1, is_melee, basic highlighting
 class_name ArcaneSlash
 
 var damage_mult := 3
-var shield_gain_percent := 50 # Gain half of damage_mult dealt
+var shield_gain_percent := 0.5 # Gain half of damage_mult dealt
 var max_cooldown := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:

@@ -4,17 +4,25 @@ class_name SkillBarUI
 const skill_tooltip_scene: PackedScene = preload("res://scenes/skill_tooltip.tscn")
 var skill_tooltip_instance: PanelContainer
 
-@onready var button_skill_1 = $skill_button_1
-@onready var cooldown_skill_1 = $skill_button_1/skill_cooldown_1
-@onready var icon_skill_1 = $skill_button_1/skill_icon_1
+@onready var button_base_skill = $base_skill_button
+@onready var cooldown_base_skill = $base_skill_button/skill_cooldown
+@onready var icon_base_skill = $base_skill_button/skill_icon
 
-@onready var button_skill_2 = $skill_button_2
-@onready var cooldown_skill_2 = $skill_button_2/skill_cooldown_2
-@onready var icon_skill_2 = $skill_button_2/skill_icon_2
-
-@onready var button_skill_3 = $skill_button_3
-@onready var cooldown_skill_3 = $skill_button_3/skill_cooldown_3
-@onready var icon_skill_3 = $skill_button_3/skill_icon_3
+@onready var button_skills = [
+	$skill_button_1,
+	$skill_button_2,
+	$skill_button_3
+]
+@onready var cooldown_skills = [
+	$skill_button_1/skill_cooldown_1,
+	$skill_button_2/skill_cooldown_2,
+	$skill_button_3/skill_cooldown_3
+]
+@onready var icon_skills = [
+	$skill_button_1/skill_icon_1,
+	$skill_button_2/skill_icon_2,
+	$skill_button_3/skill_icon_3
+]
 
 var targeting_skill: int = -1
 var skill_list: Array[Skill] = []
@@ -22,12 +30,11 @@ var skill_list: Array[Skill] = []
 signal choose_target(skill: Skill)
 
 func _ready() -> void : 
-	button_skill_1.pressed.connect(_choose_target.bind(0))
-	button_skill_1.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
-	button_skill_2.pressed.connect(_choose_target.bind(1))
-	button_skill_2.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
-	button_skill_3.pressed.connect(_choose_target.bind(2))
-	button_skill_3.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	button_base_skill.pressed.connect(_choose_target.bind(0))
+	button_base_skill.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	for i in range(3):
+		button_skills[i].pressed.connect(_choose_target.bind(i))
+		button_skills[i].pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 
 	if skill_tooltip_scene:
 		skill_tooltip_instance = skill_tooltip_scene.instantiate()
@@ -37,73 +44,66 @@ func _ready() -> void :
 	else:
 		printerr("Skill Tooltip Scene not assigned to SkillBarUI!")
 
-	button_skill_1.mouse_entered.connect(_on_skill_button_mouse_entered.bind(0))
-	button_skill_1.mouse_exited.connect(_on_skill_button_mouse_exited)
-	button_skill_2.mouse_entered.connect(_on_skill_button_mouse_entered.bind(1))
-	button_skill_2.mouse_exited.connect(_on_skill_button_mouse_exited)
-	button_skill_3.mouse_entered.connect(_on_skill_button_mouse_entered.bind(2))
-	button_skill_3.mouse_exited.connect(_on_skill_button_mouse_exited)
+	button_base_skill.mouse_entered.connect(_on_skill_button_mouse_entered.bind(0))
+	button_base_skill.mouse_exited.connect(_on_skill_button_mouse_exited)
+	for i in range(3):
+		button_skills[i].mouse_entered.connect(_on_skill_button_mouse_entered.bind(i+1))
+		button_skills[i].mouse_exited.connect(_on_skill_button_mouse_exited)
 
 
 
 func update_ui(character: Character, enemy_turn: bool= false ) : 
-	self.skill_list = character.skill_list
+	self.skill_list = [character.base_skill]
+	for skill in character.skill_list : 
+		self.skill_list.append(skill)
+
+	var base_skill = character.base_skill
+	if base_skill : 
+		button_base_skill.modulate = Color(1, 1, 1)
+		button_base_skill.show()
+		button_base_skill.disabled = enemy_turn
+		cooldown_base_skill.show()
+		if base_skill.cooldown > 0 : 
+			cooldown_base_skill.text = str(base_skill.get_cooldown())
+		else : 
+			cooldown_base_skill.text = ""
+		icon_base_skill.show()
+		icon_base_skill.texture = base_skill.get_skill_icon()
+	else : 
+		button_base_skill.modulate = Color(0.7, 0.7, 0.7)
+		button_base_skill.disabled = true
+		cooldown_base_skill.hide()
+		icon_base_skill.hide()
 
 	for i in range(0, 3) : 
 		if i < character.skill_list.size() : 
 			var skill = character.skill_list[i]
-			match i : 
-				0 : 
-					button_skill_1.modulate = Color(1, 1, 1)
-					button_skill_1.show()
-					button_skill_1.disabled = enemy_turn
-					cooldown_skill_1.show()
-					if skill.cooldown > 0 : 
-						cooldown_skill_1.text = str(skill.get_cooldown())
-					else : 
-						cooldown_skill_1.text = ""
-					icon_skill_1.show()
-					icon_skill_1.texture = skill.get_skill_icon()
-				1 : 
-					button_skill_2.modulate = Color(1, 1, 1)
-					button_skill_2.show()
-					button_skill_2.disabled = enemy_turn
-					cooldown_skill_2.show()
-					if skill.cooldown > 0 : 
-						cooldown_skill_2.text = str(skill.get_cooldown())
-					else : 
-						cooldown_skill_2.text = ""
-					icon_skill_2.show()
-					icon_skill_2.texture = skill.get_skill_icon()
-				2 : 
-					button_skill_3.modulate = Color(1, 1, 1)
-					button_skill_3.show()
-					button_skill_3.disabled = enemy_turn
-					cooldown_skill_3.show()
-					if skill.cooldown > 0 : 
-						cooldown_skill_3.text = str(skill.get_cooldown())
-					else : 
-						cooldown_skill_3.text = ""
-					icon_skill_3.show()
-					icon_skill_3.texture = skill.get_skill_icon()
+			button_skills[i].modulate = Color(1, 1, 1)
+			button_skills[i].show()
+			button_skills[i].disabled = enemy_turn
+			cooldown_skills[i].show()
+			if skill.cooldown > 0 : 
+				cooldown_skills[i].text = str(skill.get_cooldown())
+			else : 
+				cooldown_skills[i].text = ""
+			icon_skills[i].show()
+			icon_skills[i].texture = skill.get_skill_icon()
 		else : 
-			match i : 
-				0 : 
-					button_skill_1.modulate = Color(0.7, 0.7, 0.7)
-					button_skill_1.disabled = true
-					cooldown_skill_1.hide()
-					icon_skill_1.hide()
-				1 : 
-					button_skill_2.modulate = Color(0.7, 0.7, 0.7)
-					button_skill_2.disabled = true	
-					cooldown_skill_2.hide()
-					icon_skill_2.hide()
-				2 : 
-					button_skill_3.modulate = Color(0.7, 0.7, 0.7)
-					button_skill_3.disabled = true
-					cooldown_skill_3.hide()
-					icon_skill_3.hide()
+			button_skills[i].modulate = Color(0.7, 0.7, 0.7)
+			button_skills[i].disabled = true
+			cooldown_skills[i].hide()
+			icon_skills[i].hide()
 
+func reset_ui() : 
+	for i in range(0, 3) : 
+		button_skills[i].modulate = Color(0.7, 0.7, 0.7)
+		button_skills[i].disabled = true
+		cooldown_skills[i].hide()
+		icon_skills[i].hide()
+	button_base_skill.modulate = Color(0.7, 0.7, 0.7)
+	button_base_skill.disabled = true
+	cooldown_base_skill.hide()
+	icon_base_skill.hide()
 
 func _choose_target(index: int) : 
 	if skill_list[index].get_cooldown() == 0 : 
@@ -116,9 +116,8 @@ func _on_skill_button_mouse_entered(skill_index: int):
 
 	skill_tooltip_instance.reset_size()
 
-
 	var skill: Skill = skill_list[skill_index]
-	var button: TextureButton = get_node("skill_button_" + str(skill_index + 1)) # Get the specific button
+	var button: TextureButton = button_base_skill if skill_index == 0 else button_skills[skill_index - 1]
 
 	skill_tooltip_instance.update_content(skill)
 	var cd_text = "CD: %d/%d" % [skill.cooldown, skill.max_cooldown]
