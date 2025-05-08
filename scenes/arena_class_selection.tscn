@@ -1,0 +1,233 @@
+[gd_scene load_steps=18 format=3 uid="uid://cehdjqrvkxicd"]
+
+[ext_resource type="Script" path="res://scripts/ui/arena_class_selection.gd" id="1_7pt7w"]
+[ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_cixhl"]
+[ext_resource type="Texture2D" uid="uid://duq2x2rxbv2m0" path="res://assets/ui/buttons/red/square_red_normal.png" id="2_aqjqd"]
+[ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="2_tyu74"]
+[ext_resource type="Texture2D" uid="uid://bop8bk140baxb" path="res://assets/ui/buttons/red/square_red_pressed.png" id="3_6lrj4"]
+[ext_resource type="Texture2D" uid="uid://bl4uj1vo5jgf0" path="res://assets/ui/buttons/circle_button/special_ability_frame_n.png" id="3_kxhc2"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="4_3ggid"]
+[ext_resource type="Texture2D" uid="uid://0oew1uuyn6mv" path="res://assets/ui/buttons/circle_button/special_ability_frame_p.png" id="4_cftyi"]
+[ext_resource type="Texture2D" uid="uid://csymekdp54xcs" path="res://assets/ui/buttons/circle_button/special_ability_frame_h.png" id="5_8e11n"]
+[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="5_qnn3m"]
+[ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="6_g6eq2"]
+[ext_resource type="LabelSettings" uid="uid://0ssaijcssqa4" path="res://assets/fonts/normal_text.tres" id="6_oraeg"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="7_45mfw"]
+[ext_resource type="Texture2D" uid="uid://b7kbnk04701ot" path="res://assets/ui/classes_icons/mage.png" id="7_t1xvm"]
+[ext_resource type="FontFile" uid="uid://cmqc3xpvl6rqt" path="res://assets/fonts/trocchi/Trocchi.otf" id="8_s15g8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_l6w4x"]
+font = ExtResource("2_tyu74")
+font_size = 42
+
+[sub_resource type="LabelSettings" id="LabelSettings_ta4x1"]
+font = ExtResource("8_s15g8")
+font_size = 24
+font_color = Color(0.641934, 0.641934, 0.641934, 1)
+
+[node name="arena_class_selection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7pt7w")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_cixhl")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="content_vbox" type="VBoxContainer" parent="background/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 150
+
+[node name="title_label_bg" type="TextureRect" parent="background/CenterContainer/content_vbox"]
+layout_mode = 2
+texture = ExtResource("7_45mfw")
+
+[node name="title_label" type="Label" parent="background/CenterContainer/content_vbox/title_label_bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -28.5
+offset_right = 275.0
+offset_bottom = 28.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Choose your Class"
+label_settings = SubResource("LabelSettings_l6w4x")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="class_options_hbox" type="HBoxContainer" parent="background/CenterContainer/content_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="warrior_button" type="TextureButton" parent="background/CenterContainer/content_vbox/class_options_hbox"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("3_kxhc2")
+texture_pressed = ExtResource("4_cftyi")
+texture_hover = ExtResource("5_8e11n")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="class_icon" type="TextureRect" parent="background/CenterContainer/content_vbox/class_options_hbox/warrior_button"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_g6eq2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="class_name_bg" type="TextureRect" parent="background/CenterContainer/content_vbox/class_options_hbox/warrior_button"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -65.0
+offset_top = -31.0
+offset_right = 65.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_45mfw")
+expand_mode = 1
+
+[node name="class_name" type="Label" parent="background/CenterContainer/content_vbox/class_options_hbox/warrior_button/class_name_bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -11.5
+offset_right = 30.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Warrior"
+label_settings = SubResource("LabelSettings_ta4x1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="mage_button" type="TextureButton" parent="background/CenterContainer/content_vbox/class_options_hbox"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("3_kxhc2")
+texture_pressed = ExtResource("4_cftyi")
+texture_hover = ExtResource("5_8e11n")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="class_icon" type="TextureRect" parent="background/CenterContainer/content_vbox/class_options_hbox/mage_button"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_t1xvm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="class_name_bg" type="TextureRect" parent="background/CenterContainer/content_vbox/class_options_hbox/mage_button"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -65.0
+offset_top = -31.0
+offset_right = 65.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_45mfw")
+expand_mode = 1
+
+[node name="class_name" type="Label" parent="background/CenterContainer/content_vbox/class_options_hbox/mage_button/class_name_bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -11.5
+offset_right = 30.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Mage"
+label_settings = SubResource("LabelSettings_ta4x1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="proceed_button" type="TextureButton" parent="background/CenterContainer/content_vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+disabled = true
+texture_normal = ExtResource("2_aqjqd")
+texture_pressed = ExtResource("3_6lrj4")
+texture_hover = ExtResource("4_3ggid")
+texture_disabled = ExtResource("5_qnn3m")
+
+[node name="Label" type="Label" parent="background/CenterContainer/content_vbox/proceed_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -40.0
+offset_right = 101.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Begin the Arena"
+label_settings = ExtResource("6_oraeg")
+horizontal_alignment = 1
+vertical_alignment = 1
