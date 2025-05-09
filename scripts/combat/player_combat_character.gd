@@ -84,7 +84,6 @@ func _input(event):
 			action_cells = current_skill.highlight_mouse_pos(self, mouse_cell, map)
 		
 
-
 	if event is InputEventMouseButton :
 		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
 			var click_pos = map.get_cell_coords(get_global_mouse_position())
@@ -105,8 +104,8 @@ func _input(event):
 				if click_pos in action_cells :
 					current_skill.use_skill(self, click_pos, map)
 
-		if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
-			map.reset_map()
-			action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
-			action_cells.erase(map.get_cell_coords(global_position))
-			current_skill = null
+	if event.is_action_pressed("combat_cancel_action") :
+		map.reset_map()
+		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
+		action_cells.erase(map.get_cell_coords(global_position))
+		current_skill = null

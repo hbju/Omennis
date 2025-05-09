@@ -105,10 +105,19 @@ func reset_ui() :
 	cooldown_base_skill.hide()
 	icon_base_skill.hide()
 
+func _unhandled_input(event):
+	if event.is_action_pressed("combat_base_skill") :
+		_choose_target(0)
+	if event.is_action_pressed("combat_skill_1") && skill_list.size() > 1 :
+		_choose_target(1)
+	if event.is_action_pressed("combat_skill_2") && skill_list.size() > 2 :
+		_choose_target(2)
+	if event.is_action_pressed("combat_skill_3") && skill_list.size() > 3 :
+		_choose_target(3)
+
 func _choose_target(index: int) : 
 	if skill_list[index].get_cooldown() == 0 : 
 		choose_target.emit(skill_list[index])
-
 
 func _on_skill_button_mouse_entered(skill_index: int):
 	if not skill_tooltip_instance: return # Tooltip doesn't exist
