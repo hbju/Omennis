@@ -29,7 +29,8 @@ func _init(name, _class, portrait, level, health: int = 100, damage: float = 10)
 func reset_skills(): 
 	for skill in skill_list:
 		skill.cooldown = 0
-	base_skill.cooldown = 0
+	if base_skill:
+		base_skill.cooldown = 0
 
 func get_char_class() -> String : 
 	return CLASSES.keys()[character_class]

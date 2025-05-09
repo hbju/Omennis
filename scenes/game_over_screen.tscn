@@ -1,0 +1,222 @@
+[gd_scene load_steps=15 format=3 uid="uid://c6oren4htby5f"]
+
+[ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_8lp76"]
+[ext_resource type="Script" path="res://scripts/ui/game_over_screen.gd" id="1_ceoar"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="2_qccwh"]
+[ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="3_ivi6u"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="5_j7q21"]
+[ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="6_2g041"]
+[ext_resource type="FontFile" uid="uid://cmqc3xpvl6rqt" path="res://assets/fonts/trocchi/Trocchi.otf" id="8_y5sf7"]
+[ext_resource type="Texture2D" uid="uid://duq2x2rxbv2m0" path="res://assets/ui/buttons/red/square_red_normal.png" id="10_dk5vp"]
+[ext_resource type="Texture2D" uid="uid://bop8bk140baxb" path="res://assets/ui/buttons/red/square_red_pressed.png" id="11_t01w1"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="12_3ndy0"]
+[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="13_wfr7y"]
+[ext_resource type="LabelSettings" uid="uid://0ssaijcssqa4" path="res://assets/fonts/normal_text.tres" id="14_8fol5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rpj3e"]
+font = ExtResource("3_ivi6u")
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_e14h3"]
+font = ExtResource("8_y5sf7")
+font_size = 48
+
+[node name="game_over_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ceoar")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("1_8lp76")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="content_vbox" type="VBoxContainer" parent="background/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 150
+
+[node name="title_label_bg" type="TextureRect" parent="background/CenterContainer/content_vbox"]
+layout_mode = 2
+texture = ExtResource("2_qccwh")
+
+[node name="title_label" type="Label" parent="background/CenterContainer/content_vbox/title_label_bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -28.5
+offset_right = 275.0
+offset_bottom = 28.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_rpj3e")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stats_vbox" type="VBoxContainer" parent="background/CenterContainer/content_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="stats_label" type="Label" parent="background/CenterContainer/content_vbox/stats_vbox"]
+layout_mode = 2
+text = "Wave Reached : 12
+Final Skills :"
+label_settings = SubResource("LabelSettings_e14h3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="final_skills" type="HBoxContainer" parent="background/CenterContainer/content_vbox/stats_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="skill_1" type="TextureRect" parent="background/CenterContainer/content_vbox/stats_vbox/final_skills"]
+z_index = 1
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture = ExtResource("5_j7q21")
+expand_mode = 1
+
+[node name="skill_icon" type="TextureRect" parent="background/CenterContainer/content_vbox/stats_vbox/final_skills/skill_1"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -90.0
+offset_right = 90.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_2g041")
+expand_mode = 1
+
+[node name="skill_2" type="TextureRect" parent="background/CenterContainer/content_vbox/stats_vbox/final_skills"]
+z_index = 1
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture = ExtResource("5_j7q21")
+expand_mode = 1
+
+[node name="skill_icon" type="TextureRect" parent="background/CenterContainer/content_vbox/stats_vbox/final_skills/skill_2"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -90.0
+offset_right = 90.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_2g041")
+expand_mode = 1
+
+[node name="skill_3" type="TextureRect" parent="background/CenterContainer/content_vbox/stats_vbox/final_skills"]
+z_index = 1
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture = ExtResource("5_j7q21")
+expand_mode = 1
+
+[node name="skill_icon" type="TextureRect" parent="background/CenterContainer/content_vbox/stats_vbox/final_skills/skill_3"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -90.0
+offset_right = 90.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_2g041")
+expand_mode = 1
+
+[node name="actions_hbox" type="HBoxContainer" parent="background/CenterContainer/content_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="retry_button" type="TextureButton" parent="background/CenterContainer/content_vbox/actions_hbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("10_dk5vp")
+texture_pressed = ExtResource("11_t01w1")
+texture_hover = ExtResource("12_3ndy0")
+texture_disabled = ExtResource("13_wfr7y")
+
+[node name="Label" type="Label" parent="background/CenterContainer/content_vbox/actions_hbox/retry_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -40.0
+offset_right = 101.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Retry the Arena"
+label_settings = ExtResource("14_8fol5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="main_menu_button" type="TextureButton" parent="background/CenterContainer/content_vbox/actions_hbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("10_dk5vp")
+texture_pressed = ExtResource("11_t01w1")
+texture_hover = ExtResource("12_3ndy0")
+texture_disabled = ExtResource("13_wfr7y")
+
+[node name="Label" type="Label" parent="background/CenterContainer/content_vbox/actions_hbox/main_menu_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -40.0
+offset_right = 101.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Main Menu"
+label_settings = ExtResource("14_8fol5")
+horizontal_alignment = 1
+vertical_alignment = 1

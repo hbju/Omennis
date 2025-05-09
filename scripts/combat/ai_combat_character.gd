@@ -17,7 +17,10 @@ static func new_character(_char: Character) -> AICombatCharacter:
 	new_char.character = _char
 	for skill in _char.skill_list : 
 		skill.skill_finished.connect(new_char.finish_turn)
-	_char.base_skill.skill_finished.connect(new_char.finish_turn)
+	
+	if _char.base_skill:
+		_char.base_skill.skill_finished.connect(new_char.finish_turn)
+	
 	return new_char
 
 
@@ -34,7 +37,8 @@ func take_turn():
 	await get_tree().create_timer(0.25).timeout
 	for skill in character.skill_list : 
 		skill.decrease_cooldown()
-	character.base_skill.decrease_cooldown()
+	if character.base_skill:
+		character.base_skill.decrease_cooldown()
 
 	if char_statuses["stunned"] > 0 :
 		char_statuses["stunned"] -= 1
@@ -101,7 +105,7 @@ func get_lowest_health_player_path(party: Array[PlayerCombatCharacter]) -> Array
 
 func get_usable_skills() -> Array[Skill]:
 	var usable_skills: Array[Skill] = []
-	if character.base_skill.cooldown == 0:
+	if character.base_skill && character.base_skill.cooldown == 0:
 		usable_skills.append(character.base_skill)
 	for skill in character.skill_list:
 		if skill.cooldown == 0:

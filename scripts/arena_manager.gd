@@ -5,6 +5,7 @@ extends Node # Or Control/Node2D depending on your root
 @onready var skill_ui: SkillUI = $skill_ui
 @onready var progression_screen: Control = $arena_progression_screen
 @onready var class_selection_screen: Control = $arena_class_selection
+@onready var game_over_screen: Control = $game_over_screen
 
 var current_wave: int = 0
 var player_character: PartyMember = null # The single character for the arena
@@ -22,6 +23,9 @@ func _ready():
 
 	progression_screen.view_skills_pressed.connect(_on_view_skills_pressed)
 	progression_screen.next_wave_pressed.connect(_on_progression_continue_pressed)
+
+	game_over_screen.retry_arena_pressed.connect(_on_retry_arena)
+	game_over_screen.main_menu_pressed.connect(_on_return_to_main_menu)
 	
 	# Connect combat end signal
 	combat_scene.combat_ended.connect(_on_combat_ended)
@@ -51,7 +55,7 @@ func _prepare_next_wave():
 	var enemies_for_wave: Array[Character] = _generate_enemies(current_wave)
 	if enemies_for_wave.is_empty():
 		printerr("Failed to generate enemies for wave ", current_wave)
-		_game_over("Error") # Or handle differently
+		_game_over() # Or handle differently
 		return
 
 	# 3. Configure Combat Map (Layout, Obstacles - Placeholder for now)
@@ -149,7 +153,7 @@ func _on_combat_ended(victory: bool):
 		_show_progression_screen()
 	else :
 		# Game Over
-		_game_over("Defeated")
+		_game_over()
 
 func _show_progression_screen():
 	is_in_progression = true
@@ -188,10 +192,20 @@ func _on_view_skills_pressed():
 	skill_ui.update_ui(player_character) # Update skill UI with current char
 	skill_ui.visible = true # Show skill UI
 
-func _game_over(reason: String):
-	print("--- GAME OVER ---")
-	print("Reason: ", reason)
-	print("Reached Wave: ", current_wave)
-	# TODO: Show a game over screen with score
-	# TODO: Add button to return to main menu
-	get_tree().quit() # Simple exit for now
+func _on_retry_arena():
+	show_class_selection() # Go back to class selection for a fresh start
+
+func _on_return_to_main_menu():
+	var err = get_tree().change_scene_to_file("res://scenes/main_menu.tscn") # Adjust path
+	if err != OK:
+		printerr("Error changing scene to Main Menu: ", err)
+
+func _game_over():
+	is_in_combat = false # Ensure flags are reset
+	is_in_progression = false
+	combat_scene.visible = false
+	if combat_scene.has_method("toggle_ui"): combat_scene.toggle_ui(false)
+	if skill_ui: skill_ui.visible = false
+	if progression_screen and progression_screen.is_visible_in_tree(): progression_screen.hide()
+
+	game_over_screen.show_screen(current_wave, player_character)
