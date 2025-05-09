@@ -100,10 +100,12 @@ func _process(delta):
 		if not disabled and not is_unlocked.has(curr_char) and curr_char.skill_points > 0:
 			if glowing:
 				self_modulate.b -= clamp(delta * 2, 0, 1)
+				skill_icon.modulate = self_modulate
 				if self_modulate.b <= 0:
 					glowing = false
 			else:
 				self_modulate.b += clamp(delta * 2, 0, 1)
+				skill_icon.modulate = self_modulate
 				if self_modulate.b >= 1:
 					glowing = true
 

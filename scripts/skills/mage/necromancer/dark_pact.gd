@@ -1,8 +1,8 @@
 extends Skill
 class_name DarkPact
 
-var damage_mult := 4
-var health_cost_percent := 0.10
+var damage_mult := 3
+var health_cost_percent := 0.15
 var max_cooldown := 1
 
 const dark_pact_projectile = preload("res://scenes/projectile_effect.tscn")
@@ -99,7 +99,7 @@ func get_skill_icon() -> Texture:
 	return load("res://assets/ui/skills/dark_pact.png") 
 
 func get_skill_range() -> int:
-	return 4
+	return 3
 
 func target_allies() -> bool:
 	return false

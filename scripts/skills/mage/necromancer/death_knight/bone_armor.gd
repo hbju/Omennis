@@ -1,9 +1,9 @@
 extends Skill
 class_name BoneArmor
 
-var shield_amount := 50
+var shield_amount_percentage := 0.25
 var retaliate_damage := 20
-var duration := 2
+var duration := 3
 var max_cooldown := 5
 var curr_highlighted_cells: Array[Vector2i] = []
 
@@ -12,7 +12,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	if not is_valid_target_type(from, target):
 		return false
 
-	from.gain_shield(shield_amount)
+	from.gain_shield(shield_amount_percentage)
 	from.gain_status("thorns", duration+1, retaliate_damage)
 
 	cooldown = max_cooldown
@@ -24,7 +24,7 @@ func score_action(caster: CombatCharacter, _potential_targets: Array[CombatChara
 	var score = AIScoringWeights.WEIGHT_BUFF_POSITIVE * 1.2 # Base for strong defensive buff
 
 	# Score shield
-	var shield_value = shield_amount * AIScoringWeights.WEIGHT_SHIELD
+	var shield_value = shield_amount_percentage * AIScoringWeights.WEIGHT_SHIELD
 	shield_value *= (1.0 + (1.0 - caster.health / caster.max_health) * 0.5) # More valuable when low hp
 	score += shield_value
 
@@ -54,7 +54,7 @@ func get_skill_name() -> String:
 	return "Bone Armor"
 
 func get_skill_description() -> String:
-	return "Create a shield that absorbs " + str(shield_amount) + " damage and deals " + str(retaliate_damage) + " damage to any enemy that attacks you for " + str(duration) + " turns.\n" + \
+	return "Create a shield that absorbs " + str(shield_amount_percentage) + "%% of your max HP and deals " + str(retaliate_damage) + " damage to any enemy that attacks you for " + str(duration) + " turns.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: yourself.\n"
 

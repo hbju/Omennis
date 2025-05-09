@@ -327,6 +327,7 @@ func finish_turn() :
 		take_damage(char_statuses["decay"][1] * max_health / 100.0)
 
 	update_status_icons()
+	await get_tree().create_timer(0.25).timeout
 	turn_finished.emit()
 
 ##

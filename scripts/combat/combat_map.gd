@@ -104,7 +104,6 @@ func next_turn() -> void :
 	reset_map()
 	skill_bar_ui.reset_ui()
 	turn = (turn + 1) % characters.size()
-	await get_tree().create_timer(0.5).timeout
 	update_turn_order_ui()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn].character, not characters[turn] is PlayerCombatCharacter)

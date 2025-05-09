@@ -34,6 +34,7 @@ func _ready():
 	if SkillTooltipScene:
 		skill_tooltip_instance = SkillTooltipScene.instantiate()
 		add_child(skill_tooltip_instance) 
+		skill_tooltip_instance.z_index = 1000 # Ensure it's on top
 		skill_tooltip_instance.hide()
 	else:
 		printerr("SkillTree: Skill Tooltip Scene not assigned!")

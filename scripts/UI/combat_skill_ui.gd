@@ -33,7 +33,7 @@ func _ready() -> void :
 	button_base_skill.pressed.connect(_choose_target.bind(0))
 	button_base_skill.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	for i in range(3):
-		button_skills[i].pressed.connect(_choose_target.bind(i))
+		button_skills[i].pressed.connect(_choose_target.bind(i+1))
 		button_skills[i].pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 
 	if skill_tooltip_scene:
@@ -76,8 +76,8 @@ func update_ui(character: Character, enemy_turn: bool= false ) :
 		icon_base_skill.hide()
 
 	for i in range(0, 3) : 
-		if i < character.skill_list.size() : 
-			var skill = character.skill_list[i]
+		if i < skill_list.size() - 1 : 
+			var skill = skill_list[i+1]
 			button_skills[i].modulate = Color(1, 1, 1)
 			button_skills[i].show()
 			button_skills[i].disabled = enemy_turn

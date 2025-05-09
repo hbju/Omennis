@@ -31,6 +31,7 @@ func _ready():
 ## If no player is in range, the AI will move to a random walkable cell
 ##
 func take_turn():
+	await get_tree().create_timer(0.25).timeout
 	for skill in character.skill_list : 
 		skill.decrease_cooldown()
 	character.base_skill.decrease_cooldown()

@@ -31,11 +31,14 @@ func _on_class_button_pressed(class_enum_value: Character.CLASSES, button_node: 
 func _highlight_selected_button(button_to_highlight: TextureButton):
 	# Reset previous highlights (simple modulation example)
 	warrior_button.modulate = Color.WHITE
+	warrior_button.disabled = false
 	mage_button.modulate = Color.WHITE
+	mage_button.disabled = false
 	# rogue_button.modulate = Color.WHITE
 
 	if button_to_highlight:
 		button_to_highlight.modulate = Color.DIM_GRAY # Highlight the selected button
+		button_to_highlight.disabled = true
 
 func _on_confirm_button_pressed():
 	if chosen_class != Character.CLASSES.None:

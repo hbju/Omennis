@@ -22,7 +22,9 @@ script = ExtResource("1_1lmge")
 layout_mode = 1
 
 [node name="arena_progression_screen" parent="." instance=ExtResource("4_eyg3n")]
+visible = false
 layout_mode = 1
 
 [node name="arena_class_selection" parent="." instance=ExtResource("5_jbg8n")]
+visible = false
 layout_mode = 1
