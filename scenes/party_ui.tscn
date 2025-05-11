@@ -99,6 +99,9 @@ texture = ExtResource("5_qj0u8")
 visible = false
 disabled = true
 
+[node name="class_badge" parent="bg/displays/main_character_display" index="3"]
+layout_mode = 0
+
 [node name="character_display2" parent="bg/displays" instance=ExtResource("2_pdnay")]
 layout_mode = 1
 offset_left = 30.0

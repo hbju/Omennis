@@ -6,8 +6,8 @@ class_name Character_Display
 @onready var avatar_portrait = $avatar_background/avatar_portrait
 @onready var delete_button = $delete_button
 @onready var xp_bar = $infos/xp_bar
-@onready var class_badge: TextureButton = $infos/class_badge
-@onready var class_label: Label = $infos/class_badge/class_label
+@onready var class_badge: TextureButton = $class_badge
+@onready var class_badge_icon: TextureRect = $class_badge/class_icon
 
 signal character_changed
 signal fire_character
@@ -80,6 +80,5 @@ func _update_infos():
 
 	avatar_portrait.texture = load(party_member.get_portrait_path())
 
-	class_label.text = party_member.get_char_class()
-	class_badge.texture_normal = load("res://assets/ui/classes_icons/" + party_member.get_char_class().to_lower() + ".png")
+	class_badge_icon.texture = load("res://assets/ui/classes_icons/" + party_member.get_char_class().to_lower() + ".png")
 
