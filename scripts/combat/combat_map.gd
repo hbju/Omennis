@@ -424,4 +424,14 @@ func _setup_astar():
 
 func _on_skill_selected(skill) : 
 	if characters[turn] is PlayerCombatCharacter : 
-		(characters[turn] as PlayerCombatCharacter).highlight_skill(skill)
+		var player = (characters[turn] as PlayerCombatCharacter)
+
+		if player.current_skill == skill :
+			reset_map()
+			player.action_cells = highlight_neighbours(get_cell_coords(player.global_position), 1, 1, 4)
+			player.action_cells.erase(get_cell_coords(player.global_position))
+			player.current_skill = null 
+		else :
+			player.highlight_skill(skill)
+			var mouse_cell = get_cell_coords(get_global_mouse_position())
+			player.action_cells = skill.highlight_mouse_pos(player, mouse_cell, self)
