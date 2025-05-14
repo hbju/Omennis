@@ -9,7 +9,6 @@ const dark_pact_projectile = preload("res://scenes/projectile_effect.tscn")
 var curr_projectile: ProjectileEffect
 var caster: CombatCharacter
 var target: CombatCharacter
-var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)
@@ -118,15 +117,15 @@ func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2
 	return []
 
 func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
-	curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
+	var curr_highlighted_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk) 
 	for cell in curr_highlighted_cells: 
 		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
 			curr_highlighted_cells.erase(cell)
 			continue
 		var cell_char = map.get_character(cell)
-		if cell_char and cell_char is AICombatCharacter:
+		if cell == mouse_pos and is_valid_target_type(from, cell_char):
 			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
-		else :
+		else:
 			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
 		
 
