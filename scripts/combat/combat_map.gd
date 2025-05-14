@@ -19,6 +19,7 @@ var characters: Array[CombatCharacter]
 var turn = -1
 var player_count = 0
 var enemy_count = 0
+var dead_chars : Array[CombatCharacter] = []
 
 const CombatCharacterTooltipScene = preload("res://scenes/character_tooltip.tscn")
 var character_tooltip_instance: CombatCharacterTooltipUI
@@ -30,8 +31,8 @@ func _ready():
 	if debug_mode : 
 		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
 
-		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 50, 5)
-		var enemy2 = Character.new("Dark Cultist", 1, 2, 2)
+		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 10, 5)
+		var enemy2 = Character.new("Dark Cultist", 1, 2, 2, 10)
 		var enemies: Array[Character] = [enemy1, enemy2]
 		enemy1.skill_list.append(BoundingLeap.new())
 		enemy1.skill_list.append(DefensiveStance.new())
@@ -72,7 +73,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			player.position = map_to_local(PLAYER_STARTING_POS[i])
 
 			characters.append(player)
-			player.turn_finished.connect(_on_target_reached)
+			player.turn_finished.connect(_on_finished_turn)
 			player.character_died.connect(_on_character_died)
 
 		if i < enemies.size() : 
@@ -82,7 +83,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			enemy.position = map_to_local(ENEMY_STARTING_POS[i])
 
 			characters.append(enemy)
-			enemy.turn_finished.connect(_on_target_reached)
+			enemy.turn_finished.connect(_on_finished_turn)
 			enemy.character_died.connect(_on_character_died)	
 
 	for character in characters : 
@@ -101,6 +102,11 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 ##  Advances the turn to the next character.
 ##  
 func next_turn() -> void :
+	if not dead_chars.is_empty() :
+		char_died()
+		if player_count == 0 or enemy_count == 0 : 
+			return
+
 	reset_map()
 	skill_bar_ui.reset_ui()
 	turn = (turn + 1) % characters.size()
@@ -110,7 +116,7 @@ func next_turn() -> void :
 
 ### --- UI --- ###
 func update_turn_order_ui():
-	if not turn_order_container or not TurnOrderPortraitScene: return # Safety checks
+	if not turn_order_container or not TurnOrderPortraitScene: return 
 
 	# Clear existing portraits
 	for child in turn_order_container.get_children():
@@ -119,7 +125,7 @@ func update_turn_order_ui():
 	# wait for next frame to ensure the UI is ready
 	await get_tree().process_frame
 
-	if characters.is_empty(): return # No characters left
+	if characters.is_empty(): return
 
 	# Display portraits for the next N turns (e.g., 8 or characters.size())
 	var num_to_display = min(8, characters.size())
@@ -358,27 +364,45 @@ func _on_character_hover_exited(_character: CombatCharacter):
 		character_tooltip_instance.hide()
 
 
-func _on_target_reached() :
+func _on_finished_turn() :
 	next_turn()
 
 func _on_character_died(character) : 
-	var char_index = characters.find(character)
-	characters.erase(character)
+	if character_tooltip_instance :
+		character_tooltip_instance.hide()
 
-	if character is PlayerCombatCharacter : 
-		player_count -= 1
-	else : 
-		enemy_count -= 1
+	if not character in dead_chars :
+		dead_chars.append(character)
 
-	if turn > char_index :
-		turn -= 1
+func char_died() :
+	print(dead_chars)
+	for character in dead_chars : 
+		if character is PlayerCombatCharacter : 
+			player_count -= 1
+		else : 
+			enemy_count -= 1
+
+		var char_index = characters.find(character)
+		characters.erase(character)
+
+		if turn > char_index :
+			turn -= 1
+
+		character.queue_free()
 	
+	dead_chars.clear()
 	if player_count == 0 :
+		await get_tree().create_timer(0.5).timeout
 		for enemy in characters : 
-			character.queue_free()
+			enemy.queue_free()
+		characters.clear()
 		emit_signal("combat_ended", false)
 
 	elif enemy_count == 0 : 
+		await get_tree().create_timer(0.5).timeout
+		for player in characters : 
+			player.queue_free()
+		characters.clear()
 		emit_signal("combat_ended", true)
 
 func _setup_astar():

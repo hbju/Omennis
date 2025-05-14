@@ -12,8 +12,9 @@ var currently_equipped_skills: Array[Skill] = []
 var pending_skill_selection: Skill = null
 
 signal unlocked_skill_pressed(skill: Skill)
-signal skill_tooltip_needed(hovered_node: SkillNode, skill_data: Skill)
-signal skill_tooltip_not_needed(skill_data: Skill)
+signal skill_tooltip_needed(hovered_node: SkillNode, skill: Skill)
+signal skill_tooltip_not_needed(skill: Skill)
+signal skill_unlocked(skill: Skill)
 
 func _ready() :
 	_get_skills($background, skills)
@@ -98,6 +99,7 @@ func _on_skill_node_activated(skill_node: SkillNode):
 			if not skill_node.is_unlocked.has(party_member) and party_member.skill_points > 0:
 				skill_node.is_unlocked.append(party_member)
 				party_member.spend_skill_point()
+				skill_unlocked.emit(skill)
 				AudioManager.play_sfx(AudioManager.UI_SKILL_UNLOCK)
 				update_ui(party_member) 
 				_on_skill_hover_exited()

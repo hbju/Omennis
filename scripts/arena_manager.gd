@@ -161,7 +161,7 @@ func _show_progression_screen():
 
 	# 1. Calculate XP
 	# Simple V1: Fixed XP per wave + bonus
-	var xp_reward = 500 + current_wave **2 * 50
+	var xp_reward = 1000 + current_wave **2 * 50
 	xp_reward = roundi(xp_reward * randf_range(0.9, 1.1))
 	print("XP Reward: ", xp_reward)
 

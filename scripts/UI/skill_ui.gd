@@ -45,6 +45,7 @@ func _ready():
 	confirm_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	skill_tree.skill_tooltip_needed.connect(_on_skill_tooltip_needed)
 	skill_tree.skill_tooltip_not_needed.connect(_on_skill_tooltip_not_needed)
+	skill_tree.skill_unlocked.connect(_on_skill_unlocked)
 
 	equipped_slot_1.pressed.connect(_on_equipped_slot_pressed.bind(0))
 	equipped_slot_1.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
@@ -148,7 +149,16 @@ func _update_equipped_slots():
 			slots[i].texture = null
 			slots[i].hide()
 
+func _on_skill_unlocked(skill: Skill):
+	if not curr_party_member: return
 
+	# Check if the skill is already in the list
+	if curr_party_member.skill_list.has(skill):
+		printerr("Skill already unlocked!")
+		return
+	if curr_party_member.skill_list.size() < 3:
+		curr_party_member.skill_list.append(skill)
+		_update_equipped_slots()
 
 func _on_equipped_slot_pressed(slot_index: int):
 	match current_selection_mode:

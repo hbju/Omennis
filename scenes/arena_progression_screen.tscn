@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cb72gthtfkeba"]
+[gd_scene load_steps=35 format=3 uid="uid://cb72gthtfkeba"]
 
 [ext_resource type="Script" path="res://scripts/ui/arena_progression_screen.gd" id="1_n14a6"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_321p8"]
@@ -13,8 +13,11 @@
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="7_l4vfj"]
 [ext_resource type="LabelSettings" uid="uid://0ssaijcssqa4" path="res://assets/fonts/normal_text.tres" id="8_4kh8c"]
 [ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="8_ita55"]
+[ext_resource type="Texture2D" uid="uid://bl4uj1vo5jgf0" path="res://assets/ui/buttons/circle_button/special_ability_frame_n.png" id="8_s07di"]
 [ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="9_aobc2"]
+[ext_resource type="Texture2D" uid="uid://0oew1uuyn6mv" path="res://assets/ui/buttons/circle_button/special_ability_frame_p.png" id="9_dkes7"]
 [ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="10_1akyf"]
+[ext_resource type="Texture2D" uid="uid://csymekdp54xcs" path="res://assets/ui/buttons/circle_button/special_ability_frame_h.png" id="10_k65wd"]
 [ext_resource type="Texture2D" uid="uid://bif1amwq6bxy7" path="res://assets/ui/menu_ui/box_heading_midsec_repeat.png" id="11_2dcym"]
 [ext_resource type="Texture2D" uid="uid://ctbvwknltdyh6" path="res://assets/ui/menu_ui/box_head_pattern_repeatable.png" id="12_phrp1"]
 [ext_resource type="Texture2D" uid="uid://c4winy4h5qjb5" path="res://assets/ui/menu_ui/Box Borders/bottom_border_left_cap.png" id="13_p0q8p"]
@@ -169,8 +172,28 @@ label_settings = SubResource("LabelSettings_eglbp")
 [node name="skill_button" type="TextureButton" parent="background/character_result_display/hbox"]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-texture_normal = ExtResource("8_ita55")
+texture_normal = ExtResource("8_s07di")
+texture_pressed = ExtResource("9_dkes7")
+texture_hover = ExtResource("10_k65wd")
 ignore_texture_size = true
+stretch_mode = 5
+
+[node name="class_icon" type="TextureRect" parent="background/character_result_display/hbox/skill_button"]
+custom_minimum_size = Vector2(125, 125)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_ita55")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="proceed_button" type="TextureButton" parent="background"]

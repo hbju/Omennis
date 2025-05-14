@@ -59,6 +59,7 @@ func update_visual_state(new_highlight_mode, equipped_skills: Array[Skill], pend
 					icon_modulate = Color(0.6, 0.6, 0.6)
 				else:
 					base_modulate = Color.GOLD # Highlight selectable
+					icon_modulate = Color.GOLD
 			else: # Not unlocked
 				disabled = true
 				base_modulate = Color(0.5, 0.5, 0.5) # Dim non-selectable
@@ -68,6 +69,7 @@ func update_visual_state(new_highlight_mode, equipped_skills: Array[Skill], pend
 			disabled = true
 			if is_unlocked_by_current and skill == pending_skill:
 				base_modulate = Color.GOLD # Highlight the pending skill
+				icon_modulate = Color.GOLD
 				disabled = false
 			elif is_unlocked_by_current:
 				base_modulate = Color(0.6, 0.6, 0.6) # Dim other unlocked

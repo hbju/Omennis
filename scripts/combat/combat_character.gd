@@ -10,6 +10,7 @@ var init_pos = null
 @export var speed: int = 1000
 
 signal turn_finished
+signal character_died(character)
 signal hover_entered(character)
 signal hover_exited(character)
 
@@ -55,7 +56,6 @@ const STATUS_ICON_MAP = {
 }
 
 @onready var character_portrait = $character_portrait_bg/character_portrait
-signal character_died(character)
 
 var char_statuses: Dictionary = {"stunned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "leech" : [], "imbue" : [0,0], "thorns" : [0,0], "decay" : [0,0]}
 
@@ -195,7 +195,6 @@ func take_damage(damage_taken: float) -> float :
 	_update_shield_bar()
 
 	if health <= 0 :
-		queue_free()
 		character_died.emit(self)
 	
 	return damage_taken
@@ -211,7 +210,6 @@ func spend_health(health_spent: float) :
 	_update_health_bar()
 
 	if health <= 0 :
-		queue_free()
 		character_died.emit(self)
 
 ##
@@ -253,7 +251,7 @@ func gain_shield_flat(shield_amount: float) -> float:
 ##
 func _update_health_bar() : 
 	health_bar.value = (health / max_health) * health_bar.max_value
-	health_label.text = str(roundi(health)) + "/" + str(max_health)
+	health_label.text = str(max(0,roundi(health))) + "/" + str(max_health)
 
 func _update_shield_bar() : 
 	if shield <= 0 : 
@@ -308,6 +306,10 @@ func finish_turn() :
 	z_index = 0
 	attack_target = null
 	move_target = null
+	char_statuses["stunned"] = max(0, char_statuses["stunned"] - 1)
+	if char_statuses["stunned"] == 0 && curr_stun_animation :
+		curr_stun_animation.queue_free()
+		curr_stun_animation = null
 	char_statuses["defensive"] = max(0, char_statuses["defensive"] - 1)
 	char_statuses["vulnerable"] = max(0, char_statuses["vulnerable"] - 1)
 	char_statuses["rooted"] = max(0, char_statuses["rooted"] - 1)

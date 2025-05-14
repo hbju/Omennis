@@ -4,6 +4,7 @@ class_name PlayerCombatCharacter
 const player_character = preload("res://scenes/player_combat_character.tscn")
 
 var is_turn = false
+var action_in_progress = false
 
 var action_cells: Array[Vector2i] = []
 
@@ -42,11 +43,14 @@ func take_turn() :
 	action_cells.erase(map.get_cell_coords(global_position))
 	current_skill = null
 	is_turn = true
+	action_in_progress = false
 
 func finish_turn() : 
 	map.reset_neighbours(action_cells)
 	action_cells = []
 	current_skill = null
+	is_turn = false
+	action_in_progress = false
 	super()
 
 
@@ -73,7 +77,7 @@ func highlight_skill(skill: Skill) :
 ## [code] return [/code]: void
 ##
 func _input(event):
-	if not is_turn: 
+	if not is_turn or action_in_progress: 
 		return
 	
 	if event is InputEventMouseMotion :
@@ -90,19 +94,20 @@ func _input(event):
 			if not current_skill :
 				if click_pos in action_cells && map.can_walk(click_pos) && !map.cell_occupied(click_pos): 
 					move_to(map.map_to_local(click_pos))
-					is_turn = false
+					action_in_progress = true
 					map.reset_neighbours(action_cells)
 
 				var enemy = map.enemy_in_cell(click_pos)
 				if click_pos in action_cells && enemy : 
 					deal_damage(enemy, 1)
 					attack(map.to_local(enemy.global_position))
-					is_turn = false
+					action_in_progress = true
 					map.reset_neighbours(action_cells)
 
 			else : 
 				if click_pos in action_cells :
-					current_skill.use_skill(self, click_pos, map)
+					if (current_skill.use_skill(self, click_pos, map)) :
+						action_in_progress = true
 
 	if event.is_action_pressed("combat_cancel_action") :
 		map.reset_map()

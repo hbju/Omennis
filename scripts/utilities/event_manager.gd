@@ -63,7 +63,7 @@ func event_manager(event_id: String) :
 			event_ui.show_event(curr_place, event_id)
 
 func random_event_manager(_event_content: Dictionary) : 
-	var party = game_state.party
+	var _party = game_state.party
 	#TODO change party to whatever
 	# event_ui.show_event("conversation", "conversation", party, true)
 	# event_ui.visible = true

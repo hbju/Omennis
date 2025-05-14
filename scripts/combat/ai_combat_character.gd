@@ -41,11 +41,7 @@ func take_turn():
 		character.base_skill.decrease_cooldown()
 
 	if char_statuses["stunned"] > 0 :
-		char_statuses["stunned"] -= 1
-		if char_statuses["stunned"] == 0:
-			curr_stun_animation.queue_free()
-			curr_stun_animation = null
-		turn_finished.emit()
+		finish_turn()
 		return
 
 
