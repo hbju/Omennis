@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bg0qabemqt4dy"]
 
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_nnihd"]
-[ext_resource type="Script" path="res://scripts/UI/combat_character_tooltip.gd" id="2_72n14"]
+[ext_resource type="Script" path="res://scripts/ui/combat_character_tooltip.gd" id="2_72n14"]
 [ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="3_j0hk4"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="3_qyt6r"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="4_qlgxy"]

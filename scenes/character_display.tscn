@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://cje0ll6pwd5yp"]
 
 [ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="1_p5af0"]
-[ext_resource type="Script" path="res://scripts/UI/character_display.gd" id="2_5ghbd"]
+[ext_resource type="Script" path="res://scripts/ui/character_display.gd" id="2_5ghbd"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="3_fa86o"]
 [ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="5_j8110"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_u4r2h"]
@@ -147,6 +147,7 @@ stretch_mode = 0
 
 [node name="class_badge" type="TextureButton" parent="."]
 custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
 offset_left = 346.0
 offset_top = 31.0
 offset_right = 446.0

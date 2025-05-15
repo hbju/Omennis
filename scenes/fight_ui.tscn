@@ -1,9 +1,9 @@
 [gd_scene load_steps=34 format=3 uid="uid://d25rdiau8ito5"]
 
-[ext_resource type="Script" path="res://scripts/UI/fight_ui.gd" id="1_fhe66"]
+[ext_resource type="Script" path="res://scripts/ui/fight_ui.gd" id="1_fhe66"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_bcqcl"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
-[ext_resource type="Script" path="res://scripts/UI/enemies_display.gd" id="5_subih"]
+[ext_resource type="Script" path="res://scripts/ui/enemies_display.gd" id="5_subih"]
 [ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="6_e1ypk"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="6_gjri0"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_h7irw"]

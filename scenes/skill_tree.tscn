@@ -1,8 +1,8 @@
 [gd_scene load_steps=18 format=3 uid="uid://pnu8ghovek6s"]
 
-[ext_resource type="Script" path="res://scripts/UI/skill_tree.gd" id="1_obde8"]
+[ext_resource type="Script" path="res://scripts/ui/skill_tree.gd" id="1_obde8"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_2d1qf"]
-[ext_resource type="Script" path="res://scripts/UI/skill_node.gd" id="3_q158y"]
+[ext_resource type="Script" path="res://scripts/ui/skill_node.gd" id="3_q158y"]
 [ext_resource type="Texture2D" uid="uid://cp286ngrg4ejf" path="res://assets/ui/skills/charge.png" id="4_rcxh1"]
 [ext_resource type="Texture2D" uid="uid://dq4f2ix8xq145" path="res://assets/ui/skills/defensive_stance.png" id="5_3xnke"]
 [ext_resource type="Texture2D" uid="uid://2dpx57kq2ew4" path="res://assets/ui/skills/shield_bash.png" id="5_bqh5g"]

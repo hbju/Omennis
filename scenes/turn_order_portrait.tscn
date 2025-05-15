@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://batvfkild3kan"]
 
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="1_imu5m"]
-[ext_resource type="Script" path="res://scripts/UI/turn_order_portrait.gd" id="2_ulgj5"]
+[ext_resource type="Script" path="res://scripts/ui/turn_order_portrait.gd" id="2_ulgj5"]
 [ext_resource type="Texture2D" uid="uid://y763omsm18pl" path="res://assets/chars/male/male_01.png" id="3_4p4gl"]
 
 [node name="background_rect" type="TextureRect"]

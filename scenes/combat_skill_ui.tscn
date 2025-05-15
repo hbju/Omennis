@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyw8duvfrq3mb"]
+[gd_scene load_steps=9 format=3 uid="uid://dyw8duvfrq3mb"]
 
 [ext_resource type="Texture2D" uid="uid://b5iofwi1qo8pt" path="res://assets/ui/fight_ui/skill_bar_ui.png" id="1_ge7uk"]
-[ext_resource type="Script" path="res://scripts/UI/combat_skill_ui.gd" id="2_vqerd"]
+[ext_resource type="Script" path="res://scripts/ui/combat_skill_ui.gd" id="2_vqerd"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_7ni60"]
 [ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="4_yn2gs"]
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="5_0jvpv"]
+[ext_resource type="Texture2D" uid="uid://be7ogfw871edr" path="res://assets/ui/skills/wait.png" id="6_fwmb2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_g6dxs"]
 font_size = 100
@@ -103,6 +104,69 @@ offset_bottom = 18.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Q"
+label_settings = SubResource("LabelSettings_gqye1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="wait_button" type="TextureButton" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 600.0
+offset_top = -75.0
+offset_right = 750.0
+offset_bottom = 75.0
+grow_vertical = 2
+texture_normal = ExtResource("3_7ni60")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="wait_button"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -65.0
+offset_right = 65.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_fwmb2")
+expand_mode = 1
+
+[node name="skill_key" type="TextureRect" parent="wait_button"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -36.0
+offset_right = 36.0
+offset_bottom = 13.0
+grow_vertical = 0
+texture = ExtResource("5_0jvpv")
+expand_mode = 1
+
+[node name="key_label" type="Label" parent="wait_button/skill_key"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -23.5
+offset_right = 20.0
+offset_bottom = 18.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "S"
 label_settings = SubResource("LabelSettings_gqye1")
 horizontal_alignment = 1
 vertical_alignment = 1

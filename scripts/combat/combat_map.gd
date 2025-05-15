@@ -28,6 +28,7 @@ signal combat_ended(victory: bool)
 
 func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
+	skill_bar_ui.wait_pressed.connect(_on_wait_pressed)
 	if debug_mode : 
 		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
 
@@ -435,3 +436,7 @@ func _on_skill_selected(skill) :
 			player.highlight_skill(skill)
 			var mouse_cell = get_cell_coords(get_global_mouse_position())
 			player.action_cells = skill.highlight_mouse_pos(player, mouse_cell, self)
+
+func _on_wait_pressed() :
+	if characters[turn] is PlayerCombatCharacter : 
+		characters[turn].finish_turn()

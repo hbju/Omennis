@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cjyeq8m6odn86"]
 
-[ext_resource type="Script" path="res://scripts/UI/quest_log_ui.gd" id="1_sd1yk"]
+[ext_resource type="Script" path="res://scripts/ui/quest_log_ui.gd" id="1_sd1yk"]
 [ext_resource type="Texture2D" uid="uid://b5cd2renocegd" path="res://assets/ui/questlog_ui/book.png" id="2_mi7bx"]
 [ext_resource type="Texture2D" uid="uid://cp2uekj7hjkcm" path="res://assets/ui/events_ui/card_bg_02.png" id="3_4tm2y"]
 

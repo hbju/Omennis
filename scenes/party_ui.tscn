@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bwx5vgdwyp3rl"]
 
-[ext_resource type="Script" path="res://scripts/UI/party_ui.gd" id="1_cqsal"]
+[ext_resource type="Script" path="res://scripts/ui/party_ui.gd" id="1_cqsal"]
 [ext_resource type="Texture2D" uid="uid://bnel1clkuwbpb" path="res://assets/ui/party_ui/armoury_body_merge.png" id="2_cnifg"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="2_pdnay"]
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="3_jkd3s"]

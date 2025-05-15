@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://mbxnxi53kylh"]
 
-[ext_resource type="Script" path="res://scripts/UI/skill_ui.gd" id="1_2v110"]
+[ext_resource type="Script" path="res://scripts/ui/skill_ui.gd" id="1_2v110"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_rhgbk"]
 [ext_resource type="PackedScene" uid="uid://pnu8ghovek6s" path="res://scenes/skill_tree.tscn" id="3_abr10"]
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="3_ukkso"]

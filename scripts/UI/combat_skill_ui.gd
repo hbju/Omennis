@@ -8,6 +8,8 @@ var skill_tooltip_instance: PanelContainer
 @onready var cooldown_base_skill = $base_skill_button/skill_cooldown
 @onready var icon_base_skill = $base_skill_button/skill_icon
 
+@onready var button_wait = $wait_button
+
 @onready var button_skills = [
 	$skill_button_1,
 	$skill_button_2,
@@ -28,10 +30,13 @@ var targeting_skill: int = -1
 var skill_list: Array[Skill] = []
 
 signal choose_target(skill: Skill)
+signal wait_pressed()
 
 func _ready() -> void : 
 	button_base_skill.pressed.connect(_choose_target.bind(0))
 	button_base_skill.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	button_wait.pressed.connect(func () : wait_pressed.emit())
+	button_wait.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	for i in range(3):
 		button_skills[i].pressed.connect(_choose_target.bind(i+1))
 		button_skills[i].pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
@@ -108,12 +113,19 @@ func reset_ui() :
 func _unhandled_input(event):
 	if event.is_action_pressed("combat_base_skill") :
 		_choose_target(0)
+		return
+	if event.is_action_pressed("combat_wait") :
+		wait_pressed.emit()
+		return
 	if event.is_action_pressed("combat_skill_1") && skill_list.size() > 1 :
 		_choose_target(1)
+		return
 	if event.is_action_pressed("combat_skill_2") && skill_list.size() > 2 :
 		_choose_target(2)
+		return
 	if event.is_action_pressed("combat_skill_3") && skill_list.size() > 3 :
 		_choose_target(3)
+		return
 
 func _choose_target(index: int) : 
 	if skill_list[index].get_cooldown() == 0 : 
