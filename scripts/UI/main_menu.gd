@@ -23,11 +23,19 @@ func _ready():
 	campaign_button.grab_focus()
 
 func _on_campaign_button_pressed():
+	campaign_button.disabled = true
+	arena_button.disabled = true
+	options_button.disabled = true
+	quit_button.disabled = true
 	var err = get_tree().change_scene_to_file("res://scenes/main_scene.tscn")
 	if err != OK:
 		printerr("Error loading main scene: ", err)
 
 func _on_arena_button_pressed():
+	campaign_button.disabled = true
+	arena_button.disabled = true
+	options_button.disabled = true
+	quit_button.disabled = true
 	var err = get_tree().change_scene_to_file("res://scenes/arena_manager.tscn") 
 	if err != OK:
 		printerr("Error loading arena scene: ", err)

@@ -7,7 +7,6 @@ class_name SkillUI
 @onready var skill_tree: SkillTree = $bg/skill_tree_container/skill_tree
 @onready var title = $bg/UI_title/title
 @onready var class_icon = $bg/UI_title/class_icon
-@onready var close_button = $bg/UI_title/close_button
 @onready var confirm_button = $bg/confirm_button
 
 @onready var equipped_slot_1: TextureButton = $bg/equipped_skills_container/equipped_skill_1 # Adjust path
@@ -39,8 +38,6 @@ func _ready():
 	else:
 		printerr("SkillTree: Skill Tooltip Scene not assigned!")
 
-	close_button.pressed.connect(_on_close_button_pressed)
-	close_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	confirm_button.pressed.connect(_on_confirm_button_pressed)
 	confirm_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	skill_tree.skill_tooltip_needed.connect(_on_skill_tooltip_needed)
@@ -75,7 +72,7 @@ func update_ui(party_member: PartyMember) :
 	self.curr_party_member = party_member
 
 	title.text = party_member.get_char_class()
-	class_icon.texture = load("res://assets/ui/classes_icons/" + party_member.get_char_class() + ".png")
+	class_icon.texture = load("res://assets/ui/classes_icons/" + party_member.get_char_class().to_lower() + ".png")
 
 	skill_tree.update_ui(party_member)
 
@@ -86,10 +83,6 @@ func update_ui(party_member: PartyMember) :
 
 	$bg/skill_tree_container.scroll_vertical = 1431
 
-
-func _on_close_button_pressed() : 
-	_cancel_selection()
-	visible = false
 
 func _on_confirm_button_pressed() :
 	_cancel_selection()

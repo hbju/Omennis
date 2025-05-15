@@ -54,6 +54,8 @@ func _ready() -> void :
 	for i in range(3):
 		button_skills[i].mouse_entered.connect(_on_skill_button_mouse_entered.bind(i+1))
 		button_skills[i].mouse_exited.connect(_on_skill_button_mouse_exited)
+	button_wait.mouse_entered.connect(_on_wait_button_mouse_entered)
+	button_wait.mouse_exited.connect(_on_skill_button_mouse_exited)
 
 
 
@@ -158,6 +160,35 @@ func _on_skill_button_mouse_entered(skill_index: int):
 	if target_pos.x < 0: target_pos.x = 0
 	if target_pos.x + tooltip_size.x > viewport_rect.size.x: target_pos.x = viewport_rect.size.x - tooltip_size.x
 	if target_pos.y < 0: target_pos.y = button.global_position.y + button.size.y + offset.y # Put below if no space above
+
+	skill_tooltip_instance.position = target_pos
+	skill_tooltip_instance.show()
+
+func _on_wait_button_mouse_entered():
+	if not skill_tooltip_instance: return # Tooltip doesn't exist
+
+	skill_tooltip_instance.reset_size()
+
+	var skill: Skill = WaitSkill.new()
+
+	skill_tooltip_instance.update_content(skill)
+	var cd_text = "CD: %d/%d" % [skill.cooldown, skill.max_cooldown]
+	if skill_tooltip_instance.has_node("VBoxContainer/CooldownLabel"): # If you add a CD label
+		skill_tooltip_instance.get_node("VBoxContainer/CooldownLabel").text = cd_text
+
+
+	var tooltip_size = skill_tooltip_instance.size
+	var viewport_rect = get_viewport_rect()
+	var offset = Vector2(0, -10) # Position above the button
+
+	# Calculate position (usually above the button)
+	var target_pos = button_wait.global_position + Vector2(button_wait.size.x / 2 - tooltip_size.x / 2, -tooltip_size.y) + offset
+
+
+	# Adjust if off-screen (simplified)
+	if target_pos.x < 0: target_pos.x = 0
+	if target_pos.x + tooltip_size.x > viewport_rect.size.x: target_pos.x = viewport_rect.size.x - tooltip_size.x
+	if target_pos.y < 0: target_pos.y = button_wait.global_position.y + button_wait.size.y + offset.y # Put below if no space above
 
 	skill_tooltip_instance.position = target_pos
 	skill_tooltip_instance.show()

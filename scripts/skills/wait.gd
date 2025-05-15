@@ -1,5 +1,5 @@
 extends Skill
-class_name WaitSKill
+class_name WaitSkill
 
 var max_cooldown := 0
 

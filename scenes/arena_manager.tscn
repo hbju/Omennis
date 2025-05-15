@@ -31,4 +31,7 @@ visible = false
 layout_mode = 1
 
 [node name="game_over_screen" parent="." instance=ExtResource("6_qqa3o")]
+visible = false
 layout_mode = 1
+
+[editable path="skill_ui"]

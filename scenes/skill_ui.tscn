@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://mbxnxi53kylh"]
+[gd_scene load_steps=24 format=3 uid="uid://mbxnxi53kylh"]
 
 [ext_resource type="Script" path="res://scripts/ui/skill_ui.gd" id="1_2v110"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_rhgbk"]
@@ -19,9 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://fl75hrwyp5te" path="res://assets/ui/menu_ui/Box Borders/right_border_top_cap.png" id="14_hckhw"]
 [ext_resource type="Texture2D" uid="uid://b33r0uq86r7wh" path="res://assets/ui/menu_ui/Box Borders/right_border_repeat_vertical.png" id="15_6qsie"]
 [ext_resource type="Texture2D" uid="uid://2vfdpjf4u6dj" path="res://assets/ui/menu_ui/Box Borders/bottom_border_midsec_repeat_horizontal.png" id="16_qq8ey"]
-[ext_resource type="Texture2D" uid="uid://cqoog8jnypwmi" path="res://assets/ui/buttons/close_button/close_button_n.png" id="19_ffywn"]
-[ext_resource type="Texture2D" uid="uid://b2vp8sx5lstxj" path="res://assets/ui/buttons/close_button/close_button_p.png" id="20_kpjkx"]
-[ext_resource type="Texture2D" uid="uid://d25w1yfqu88j2" path="res://assets/ui/buttons/close_button/close_button_h.png" id="21_etrr1"]
 [ext_resource type="Texture2D" uid="uid://cg0wdirug4tyx" path="res://assets/ui/buttons/accept_button/rb_accept_n.png" id="23_dlnp0"]
 [ext_resource type="Texture2D" uid="uid://drupxdj5flv5p" path="res://assets/ui/buttons/accept_button/rb_accept_p.png" id="24_3k1m4"]
 [ext_resource type="Texture2D" uid="uid://cf7amjduw6yu6" path="res://assets/ui/buttons/accept_button/rb_accept_h.png" id="25_t4a20"]
@@ -308,24 +305,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="close_button" type="TextureButton" parent="bg/UI_title"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 444.0
-offset_top = -8.5
-offset_right = 569.0
-offset_bottom = 116.5
-grow_horizontal = 0
-grow_vertical = 2
-texture_normal = ExtResource("19_ffywn")
-texture_pressed = ExtResource("20_kpjkx")
-texture_hover = ExtResource("21_etrr1")
-stretch_mode = 0
-
 [node name="class_icon" type="TextureRect" parent="bg/UI_title"]
 layout_mode = 0
 offset_left = 65.0
@@ -338,9 +317,9 @@ expand_mode = 1
 [node name="confirm_button" type="TextureButton" parent="bg"]
 layout_mode = 0
 offset_left = 1570.0
-offset_top = 900.0
-offset_right = 1695.0
-offset_bottom = 1025.0
+offset_top = 902.0
+offset_right = 1720.0
+offset_bottom = 1052.0
 texture_normal = ExtResource("23_dlnp0")
 texture_pressed = ExtResource("24_3k1m4")
 texture_hover = ExtResource("25_t4a20")
