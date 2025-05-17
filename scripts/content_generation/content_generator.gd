@@ -1,5 +1,4 @@
 extends Node
-class_name ContentGenerator
 
 signal content_received(data: Dictionary)
 signal error_received(error_message: String)

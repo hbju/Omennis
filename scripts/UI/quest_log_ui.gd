@@ -22,14 +22,14 @@ func update_ui(quest_log: Dictionary) :
 	
 	for i in range(0, quest_log.size()):
 		var quest_state = quest_log[quest_log.keys()[i]]
-		if quest_state != game_state.QUEST_STATE.Turned :  
+		if quest_state != GameState.QUEST_STATE.Turned :  
 			var quest_info = load("res://text/quests/" + "%03d" % quest_log.keys()[i] + ".json").data
 			quests_info.append(quest_info)
 			
 			var quest_button = Button.new()
 			quest_button.add_theme_color_override("font_color", Color(0, 0, 0))
 			quest_button.add_theme_font_size_override("font_size", 30)
-			var quest_title = quest_info.name + (" (Accomplished)" if quest_state == game_state.QUEST_STATE.Accomplished else "") 
+			var quest_title = quest_info.name + (" (Accomplished)" if quest_state == GameState.QUEST_STATE.Accomplished else "") 
 			quest_button.set_text(quest_title)
 			quest_button.pressed.connect(_on_quest_button_pressed.bind(i))
 			quest_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))

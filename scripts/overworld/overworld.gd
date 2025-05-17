@@ -12,8 +12,6 @@ class_name Overworld
 @onready var skill_ui: SkillUI = $UI/skill_ui
 @onready var gold_amount = $UI/gold/gold_amount
 
-@onready var game_state: GameState = $"/root/game_state"
-@onready var content_generator: ContentGenerator = $"/root/content_generator"
 @onready var event_manager: EventManager
 @onready var quest_manager: QuestManager
 
@@ -32,7 +30,7 @@ var nature_walkable_cells = [0, 1, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
 var next_random_event: Dictionary
 
 func _ready():
-	event_manager = EventManager.new($UI/event_ui, $UI/fight_ui, game_state)
+	event_manager = EventManager.new($UI/event_ui, $UI/fight_ui)
 	quest_manager = QuestManager.new()
 
 	gall.body_entered.connect(_toggle_event_ui.bind("gall"))
@@ -48,21 +46,21 @@ func _ready():
 	party_ui.fire_character.connect(_on_fire_character)
 	party_ui.show_skill_tree.connect(_on_show_skill_tree)
 
-	content_generator.content_received.connect(_on_content_received)
+	ContentGenerator.content_received.connect(_on_content_received)
 	var initial_random_event_prompt = "Generate a random event for the following party of adventurers : "
-	for i in range(game_state.party.size()) :
-		initial_random_event_prompt += "\n" + game_state.party[i].to_string()
-	content_generator.request_content(initial_random_event_prompt)
+	for i in range(GameState.party.size()) :
+		initial_random_event_prompt += "\n" + GameState.party[i].to_string()
+	ContentGenerator.request_content(initial_random_event_prompt)
 
-	game_state.random_event.connect(_on_random_event)
-	game_state.money_changed.connect(_on_money_changed)
-	game_state.change_gold(100)
+	GameState.random_event.connect(_on_random_event)
+	GameState.money_changed.connect(_on_money_changed)
+	GameState.change_gold(100)
 	
 	if testing :
-		game_state.accept_quest(1)
-		game_state.new_candidate(PartyMember.new_rand())
-		game_state.recruit_candidate()
-		game_state.receive_experience(50000)
+		GameState.accept_quest(1)
+		GameState.new_candidate(PartyMember.new_rand())
+		GameState.recruit_candidate()
+		GameState.receive_experience(50000)
 
 func oddr_offset_neighbor(hex, direction):
 	var parity = hex.y & 1
@@ -81,7 +79,7 @@ func can_walk(hex) :
 	return get_cell_source_id(0, hex) == 22 && get_cell_atlas_coords(0, hex).x in nature_walkable_cells
 	
 func _input(event):
-	if game_state.in_event or game_state.in_ui :
+	if GameState.in_event or GameState.in_ui :
 		return
 	if event is InputEventMouseButton :
 		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
@@ -90,7 +88,7 @@ func _input(event):
 			
 			if is_neighbour(player_pos, click_pos) && can_walk(click_pos): 
 				player.move_to(map_to_local(click_pos))
-				game_state.step_taken()
+				GameState.step_taken()
 
 func toggle_ui(state: bool) : 
 	$UI.visible = state
@@ -105,23 +103,31 @@ func _toggle_event_ui(_body, place_id: String):
 	event_manager.enter_event(place_id)
 	
 func _toggle_party_ui(): 
-	party_ui.update_ui(game_state.party)
-	party_ui.visible = not party_ui.visible
+	party_ui.update_ui(GameState.party)
+	if not party_ui.visible :  
+		party_ui.visible = true
+		GameState.in_ui = true
+	else :
+		party_ui.visible = false
+		GameState.in_ui = false
 	quest_log_ui.visible = false
-	game_state.in_ui = not game_state.in_ui
 	
 func _toggle_questlog_ui() :
-	quest_log_ui.update_ui(game_state.quest_log)
-	quest_log_ui.visible = not quest_log_ui.visible
+	quest_log_ui.update_ui(GameState.quest_log)
+	if not quest_log_ui.visible :  
+		quest_log_ui.visible = true
+		GameState.in_ui = true
+	else :
+		quest_log_ui.visible = false
+		GameState.in_ui = false
 	party_ui.visible = false
-	game_state.in_ui = not game_state.in_ui
 	
 func _on_fire_character(index: int) : 
-	game_state.fire_member(index)
-	party_ui.update_ui(game_state.party)
+	GameState.fire_member(index)
+	party_ui.update_ui(GameState.party)
 
 func _on_show_skill_tree(index: int) : 
-	skill_ui.update_ui(game_state.party[index])
+	skill_ui.update_ui(GameState.party[index])
 	skill_ui.visible = true
 
 func _on_content_received(data: Dictionary) :
@@ -135,7 +141,7 @@ func _on_random_event() :
 	event_manager.random_event_manager(next_random_event)
 	next_random_event = {}
 
-	var party = game_state.party
+	var party = GameState.party
 	var prompt = """
 	You are a creative game event generator for the Party RPG Omennis.
 	Generate a brief but flavorful random event suitable for occurring during travel or at camp.
@@ -157,10 +163,10 @@ func _on_random_event() :
 	for i in range(party.size()) :
 		context_info += "\n" + party[i]._to_string()
 		context_info += "\n\n"
-	context_info += "Current money: " + str(game_state.party_money) + "g"
+	context_info += "Current money: " + str(GameState.party_money) + "g"
 	context_info += "\n\n"
 	context_info += "Current quests: \n"
-	for quest in game_state.quest_log.keys() : 
+	for quest in GameState.quest_log.keys() : 
 		var quest_info = load("res://text/quests/" + "%03d" % quest + ".json").data
 		context_info += "\n" + quest_info.name + "\n"
 		context_info += "Difficulty: {difficulty} \n" + \
@@ -170,7 +176,7 @@ func _on_random_event() :
 			"description": quest_info.description, "reward": quest_info.reward})
 
 
-	content_generator.request_content(prompt, context_info)
+	ContentGenerator.request_content(prompt, context_info)
 	
 func _on_money_changed() : 
-	gold_amount.text = str(game_state.party_money) + "g"
+	gold_amount.text = str(GameState.party_money) + "g"

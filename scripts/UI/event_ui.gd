@@ -49,7 +49,7 @@ func show_event(curr_place: String, event_id: String, characters: Array[PartyMem
 	self.possibilities = event_content.possibilities
 	
 	for i in range(possibilities.size()) :
-		if not possibilities[i].has("condition") or game_state.conditions(possibilities[i].condition) :
+		if not possibilities[i].has("condition") or GameState.conditions(possibilities[i].condition) :
 			var possibility_button: Button = Button.new()
 			card_choice_buttons_control.add_child(possibility_button)
 

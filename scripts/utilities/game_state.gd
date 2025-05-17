@@ -1,5 +1,4 @@
 extends Node
-class_name GameState
 
 var player_coords: Vector2
 var party: Array[PartyMember]

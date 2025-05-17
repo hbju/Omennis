@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-game_state="*res://scripts/utilities/game_state.gd"
-content_generator="*res://scripts/content_generation/content_generator.gd"
+GameState="*res://scripts/utilities/game_state.gd"
+ContentGenerator="*res://scripts/content_generation/content_generator.gd"
 AudioManager="*res://scripts/utilities/audio_manager.gd"
 
 [display]

@@ -1,5 +1,5 @@
-extends TextureRect
 class_name SkillBarUI
+extends TextureRect
 
 const skill_tooltip_scene: PackedScene = preload("res://scenes/skill_tooltip.tscn")
 var skill_tooltip_instance: PanelContainer
