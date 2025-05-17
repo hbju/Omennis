@@ -6,6 +6,8 @@ extends Node2D
 const PostFightScreenScene = preload("res://scenes/post_fight_screen.tscn")
 var post_fight_screen_instance: Control = null
 
+var curr_victory: bool = false
+
 var XP_PER_ENEMY_LEVEL = 250
 
 # Called when the node enters the scene tree for the first time.
@@ -34,7 +36,9 @@ func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
 	AudioManager.play_music(AudioManager.BATTLE_MUSIC, true) 
 
 
-func _end_combat(victory: bool):
+func _end_combat(victory: bool):	
+	curr_victory = victory
+
 	combat_scene.visible = false
 	combat_scene.toggle_ui(false)
 	overworld.visible = true
@@ -67,7 +71,7 @@ func _end_combat(victory: bool):
 		if post_fight_screen_instance == null or not is_instance_valid(post_fight_screen_instance):
 			post_fight_screen_instance = PostFightScreenScene.instantiate()
 			overworld.get_node("UI").add_child(post_fight_screen_instance) # Add to main scene tree
-			post_fight_screen_instance.get_node("background/proceed_button").pressed.connect(_on_post_fight_proceed.bind(victory)) # Connect button
+			post_fight_screen_instance.get_node("background/proceed_button").pressed.connect(_on_post_fight_proceed) # Connect button
 
 		# Pass data to the screen's script (needs a function like setup())
 		AudioManager.play_music(AudioManager.VICTORY_STINGER if victory else AudioManager.DEFEAT_STINGER)
@@ -76,15 +80,15 @@ func _end_combat(victory: bool):
 	else:
 		printerr("PostFightScreenScene not loaded!")
 		# If screen fails, proceed directly
-		_on_post_fight_proceed(victory)
+		_on_post_fight_proceed()
 
-func _on_post_fight_proceed(victory: bool):
+func _on_post_fight_proceed():
 	AudioManager.play_music(AudioManager.OVERWORLD_MUSIC[0]) # Resume overworld music
 
 	if post_fight_screen_instance and is_instance_valid(post_fight_screen_instance):
 		post_fight_screen_instance.hide()
 
-	overworld.event_manager.exit_fight(victory)
+	overworld.event_manager.exit_fight(curr_victory)
 
 
 
