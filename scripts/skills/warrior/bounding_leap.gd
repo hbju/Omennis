@@ -4,7 +4,7 @@ class_name BoundingLeap
 
 var damage_mult: float = 1 # Minor damage
 var max_cooldown: int = 3
-var leap_range: int = 3
+var leap_range: int = 2
 var knockback_strength: int = 1 # Knockback distance
 var aoe_radius_on_land: int = 1 # Affects adjacent cells
 
