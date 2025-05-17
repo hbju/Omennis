@@ -30,7 +30,13 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	skill_bar_ui.wait_pressed.connect(_on_wait_pressed)
 	if debug_mode : 
-		var party: Array[PartyMember] = [PartyMember.new_rand(), PartyMember.new_rand()]
+		var player1 = PartyMember.new_rand()
+		var player2 = PartyMember.new_rand()
+		player1.skill_list.append(Charge.new())
+		player1.skill_list.append(DefensiveStance.new())
+		player2.skill_list.append(FiresparkMage.new())
+		player2.skill_list.append(ArcaneShield.new())	
+		var party: Array[PartyMember] = [player1, player2]
 
 		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 10, 5)
 		var enemy2 = Character.new("Dark Cultist", 1, 2, 2, 10)

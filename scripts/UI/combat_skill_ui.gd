@@ -121,13 +121,13 @@ func _unhandled_input(event):
 	if event.is_action_pressed("combat_wait") :
 		wait_pressed.emit()
 		return
-	if event.is_action_pressed("combat_skill_1") && skill_list.size() > 1 :
+	if event.is_action_pressed("combat_skill_1") && skill_list.size() >= 1 :
 		_choose_target(1)
 		return
-	if event.is_action_pressed("combat_skill_2") && skill_list.size() > 2 :
+	if event.is_action_pressed("combat_skill_2") && skill_list.size() >= 2 :
 		_choose_target(2)
 		return
-	if event.is_action_pressed("combat_skill_3") && skill_list.size() > 3 :
+	if event.is_action_pressed("combat_skill_3") && skill_list.size() >= 3 :
 		_choose_target(3)
 		return
 
@@ -137,11 +137,11 @@ func _choose_target(index: int) :
 		return
 
 	if skill_list[index-1].get_cooldown() == 0 : 
-		choose_target.emit(skill_list[index])
+		choose_target.emit(skill_list[index-1])
 
 func _on_skill_button_mouse_entered(skill_index: int):
 	if not skill_tooltip_instance: return # Tooltip doesn't exist
-	if skill_index < 0 or skill_index >= skill_list.size(): return # Invalid index
+	if skill_index < 0 or skill_index - 1 >= skill_list.size(): return # Invalid index
 
 	skill_tooltip_instance.reset_size()
 

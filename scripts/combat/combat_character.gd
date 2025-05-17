@@ -373,7 +373,7 @@ func gain_status(status_name: String, nb_turns: int = 1, nb_level: int = 0) :
 ## Stun the character, making him skip his next turn [br]
 ##
 func gain_stunned_status(nb_turns: int = 1) : 
-	char_statuses["stunned"] = nb_turns
+	char_statuses["stunned"] += nb_turns
 	curr_stun_animation = stunned_animation.instantiate()
 	add_child(curr_stun_animation)
 	curr_stun_animation.position = Vector2(0, 0)
@@ -381,32 +381,32 @@ func gain_stunned_status(nb_turns: int = 1) :
 	curr_stun_animation.play()
 
 func gain_rooted_status(nb_turns: int = 1) : 
-	char_statuses["rooted"] = max(nb_turns, char_statuses["rooted"])
+	char_statuses["rooted"] += nb_turns
 
 func gain_defensive_status(nb_turns: int = 1) : 
-	char_statuses["defensive"] = nb_turns
+	char_statuses["defensive"] += nb_turns
 	if char_statuses["vulnerable"] > 0 : 
 		char_statuses["vulnerable"] = 0
 
 func gain_weak_status(nb_turns: int = 1) :
-	char_statuses["weak"] = nb_turns
+	char_statuses["weak"] += nb_turns
 	if char_statuses["strong"] > 0 : 
 		char_statuses["strong"] = 0
 
 func gain_blessed_status(nb_level: int = 1) : 
-	char_statuses["blessed"] = nb_level
+	char_statuses["blessed"] += nb_level
 
 func gain_strong_status(nb_turns: int = 1) : 
-	char_statuses["strong"] = nb_turns
+	char_statuses["strong"] += nb_turns
 	if char_statuses["weak"] > 0 : 
 		char_statuses["weak"] = 0
 
 func gain_imbue_status(nb_turns: int = 1, imbue_strength: int = 10) :
-	char_statuses["imbue"][0] = nb_turns
-	char_statuses["imbue"][1] = imbue_strength
+	char_statuses["imbue"][0] += nb_turns
+	char_statuses["imbue"][1] += imbue_strength
 
 func gain_vulnerable_status(nb_turns: int = 1) : 
-	char_statuses["vulnerable"] = nb_turns
+	char_statuses["vulnerable"] += nb_turns
 	if char_statuses["defensive"] > 0 : 
 		char_statuses["defensive"] = 0
 
@@ -414,7 +414,7 @@ func gain_leech_status(nb_turns: int = 1, nb_levels: int = 1) :
 	char_statuses["leech"].append([nb_turns, nb_levels])
 
 func gain_thorn_status(nb_turns: int = 1, nb_levels: int = 1) :
-	char_statuses["thorns"][0] = char_statuses["thorns"][0] + nb_turns
+	char_statuses["thorns"][0] += nb_turns
 	char_statuses["thorns"][1] = max(char_statuses["thorns"][1], nb_levels)
 
 func gain_decay_status(nb_turns: int = 1, decay_percent: int = 10) :
