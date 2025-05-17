@@ -1,10 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://frtrukkat3uk"]
+[gd_scene load_steps=14 format=3 uid="uid://frtrukkat3uk"]
 
 [ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="1_u8uvb"]
 [ext_resource type="Script" path="res://scripts/ui/character_result_display.gd" id="2_16uq0"]
 [ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="2_mddqo"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_y7d1d"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="4_4rfrr"]
+[ext_resource type="Texture2D" uid="uid://bl4uj1vo5jgf0" path="res://assets/ui/buttons/circle_button/special_ability_frame_n.png" id="6_gonj1"]
+[ext_resource type="Texture2D" uid="uid://0oew1uuyn6mv" path="res://assets/ui/buttons/circle_button/special_ability_frame_p.png" id="7_t6n75"]
+[ext_resource type="Texture2D" uid="uid://csymekdp54xcs" path="res://assets/ui/buttons/circle_button/special_ability_frame_h.png" id="8_225fc"]
+[ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="9_0gm4d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5o4xq"]
 font = ExtResource("4_4rfrr")
@@ -35,7 +39,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -364.0
 offset_top = -148.0
-offset_right = 371.0
+offset_right = 370.0
 offset_bottom = 82.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -50,13 +54,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -293.5
+offset_left = -339.0
 offset_top = -75.0
-offset_right = 317.5
+offset_right = 348.0
 offset_bottom = 76.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 10
 
 [node name="portrait" type="ColorRect" parent="hbox"]
 custom_minimum_size = Vector2(150, 150)
@@ -113,3 +117,30 @@ label_settings = SubResource("LabelSettings_ljopw")
 layout_mode = 2
 text = "Skill Points Available: 2 (+1 !)"
 label_settings = SubResource("LabelSettings_eglbp")
+
+[node name="class_badge" type="TextureButton" parent="hbox"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("6_gonj1")
+texture_pressed = ExtResource("7_t6n75")
+texture_hover = ExtResource("8_225fc")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="class_icon" type="TextureRect" parent="hbox/class_badge"]
+custom_minimum_size = Vector2(130, 130)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_0gm4d")
+expand_mode = 1
+stretch_mode = 5

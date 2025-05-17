@@ -64,9 +64,13 @@ func _end_combat(victory: bool):
 	for member in GameState.party:
 		party_before.append(member.duplicate())
 
+	
+	var received_xp = []
 	if xp_reward > 0:
-		GameState.receive_experience(xp_reward)
-
+		received_xp = GameState.receive_experience(xp_reward)
+	else:
+		for member in GameState.party:
+			received_xp.append(0)
 	if PostFightScreenScene:
 		if post_fight_screen_instance == null or not is_instance_valid(post_fight_screen_instance):
 			post_fight_screen_instance = PostFightScreenScene.instantiate()
@@ -75,7 +79,7 @@ func _end_combat(victory: bool):
 
 		# Pass data to the screen's script (needs a function like setup())
 		AudioManager.play_music(AudioManager.VICTORY_STINGER if victory else AudioManager.DEFEAT_STINGER)
-		post_fight_screen_instance.setup(party_before, GameState.party, xp_reward, victory)
+		post_fight_screen_instance.setup(party_before, GameState.party, received_xp, victory)
 		post_fight_screen_instance.show()
 	else:
 		printerr("PostFightScreenScene not loaded!")

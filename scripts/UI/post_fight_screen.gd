@@ -9,7 +9,7 @@ extends Control
 @onready var proceed_button: TextureButton = $background/proceed_button
 
 # Call this function from main_scene.gd to initialize the screen
-func setup(party_before: Array[PartyMember], party_after: Array[PartyMember], xp_gained: int, victory: bool):
+func setup(party_before: Array[PartyMember], party_after: Array[PartyMember], xp_gained: Array[int], victory: bool):
 	# Set Title
 	title_label.text = "Victory!" if victory else "Defeat..." # Or "Combat Over"
 
@@ -22,6 +22,8 @@ func setup(party_before: Array[PartyMember], party_after: Array[PartyMember], xp
 
 		var char_after = party_after[i]
 		var char_before = party_before[i]
+		var xp = xp_gained[i]
 
 		# Update the display using before & after states
-		displays[i].update_display(char_before, char_after, xp_gained)
+		displays[i].update_display(char_before, char_after, xp)
+		displays[i].show() # Show the display

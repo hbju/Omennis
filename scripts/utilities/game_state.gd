@@ -29,9 +29,13 @@ func recruit_candidate() :
 func new_candidate(candidate: PartyMember): 
 	curr_candidate = candidate
 
-func receive_experience(experience: int) : 
+func receive_experience(experience: int) -> Array[int] : 
+	var received_xp: Array[int] = []
 	for character in party : 
-		character.receive_experience(round(experience * randf_range(0.9, 1.1)))
+		var xp: int = round(experience * randf_range(0.9, 1.1))
+		character.receive_experience(xp)
+		received_xp.append(xp)
+	return received_xp
 		
 func fire_member(index: int) : 
 	party.remove_at(index)	
