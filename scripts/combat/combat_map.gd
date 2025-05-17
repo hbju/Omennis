@@ -41,9 +41,9 @@ func _ready():
 		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 10, 5)
 		var enemy2 = Character.new("Dark Cultist", 1, 2, 2, 10)
 		var enemies: Array[Character] = [enemy1, enemy2]
-		enemy1.skill_list.append(BoundingLeap.new())
+		enemy1.skill_list.append(Frostbolt.new())
 		enemy1.skill_list.append(DefensiveStance.new())
-		enemy2.skill_list.append(FiresparkMage.new())
+		enemy2.skill_list.append(Frostbolt.new())
 		enemy2.skill_list.append(ArcaneShield.new())
 		
 		enter_combat(party, enemies)

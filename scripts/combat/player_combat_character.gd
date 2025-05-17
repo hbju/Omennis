@@ -39,9 +39,8 @@ func take_turn() :
 		skill.decrease_cooldown()
 	character.base_skill.decrease_cooldown()
 
-	action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
-	action_cells.erase(map.get_cell_coords(global_position))
-	current_skill = null
+	_get_move_cells()
+
 	is_turn = true
 	action_in_progress = false
 
@@ -63,9 +62,7 @@ func highlight_skill(skill: Skill) :
 	map.reset_map()
 
 	if current_skill == skill : 
-		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
-		action_cells.erase(map.get_cell_coords(global_position))
-		current_skill = null
+		_get_move_cells()
 		return
 
 	current_skill = skill
@@ -111,6 +108,13 @@ func _input(event):
 
 	if event.is_action_pressed("combat_cancel_action") :
 		map.reset_map()
-		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
-		action_cells.erase(map.get_cell_coords(global_position))
+		_get_move_cells()
+
+func _get_move_cells() -> void :
+	if char_statuses["rooted"] > 0 :
+		action_cells = []
 		current_skill = null
+		return
+	action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)
+	action_cells.erase(map.get_cell_coords(global_position))
+	current_skill = null
