@@ -27,6 +27,7 @@ var skill_tooltip_instance: PanelContainer
 ]
 
 var targeting_skill: int = -1
+var base_skill: Skill = null
 var skill_list: Array[Skill] = []
 
 signal choose_target(skill: Skill)
@@ -60,11 +61,12 @@ func _ready() -> void :
 
 
 func update_ui(character: Character, enemy_turn: bool= false ) : 
-	self.skill_list = [character.base_skill]
+
+	base_skill = character.base_skill
+	self.skill_list = []
 	for skill in character.skill_list : 
 		self.skill_list.append(skill)
 
-	var base_skill = character.base_skill
 	if base_skill : 
 		button_base_skill.modulate = Color(1, 1, 1)
 		button_base_skill.show()
@@ -83,8 +85,8 @@ func update_ui(character: Character, enemy_turn: bool= false ) :
 		icon_base_skill.hide()
 
 	for i in range(0, 3) : 
-		if i < skill_list.size() - 1 : 
-			var skill = skill_list[i+1]
+		if i < skill_list.size() : 
+			var skill = skill_list[i]
 			button_skills[i].modulate = Color(1, 1, 1)
 			button_skills[i].show()
 			button_skills[i].disabled = enemy_turn
@@ -130,7 +132,11 @@ func _unhandled_input(event):
 		return
 
 func _choose_target(index: int) : 
-	if skill_list[index].get_cooldown() == 0 : 
+	if index == 0 and base_skill.cooldown == 0 : 
+		choose_target.emit(base_skill)
+		return
+
+	if skill_list[index-1].get_cooldown() == 0 : 
 		choose_target.emit(skill_list[index])
 
 func _on_skill_button_mouse_entered(skill_index: int):
@@ -139,7 +145,7 @@ func _on_skill_button_mouse_entered(skill_index: int):
 
 	skill_tooltip_instance.reset_size()
 
-	var skill: Skill = skill_list[skill_index]
+	var skill: Skill = base_skill if skill_index == 0 else skill_list[skill_index - 1]
 	var button: TextureButton = button_base_skill if skill_index == 0 else button_skills[skill_index - 1]
 
 	skill_tooltip_instance.update_content(skill)
@@ -172,10 +178,6 @@ func _on_wait_button_mouse_entered():
 	var skill: Skill = WaitSkill.new()
 
 	skill_tooltip_instance.update_content(skill)
-	var cd_text = "CD: %d/%d" % [skill.cooldown, skill.max_cooldown]
-	if skill_tooltip_instance.has_node("VBoxContainer/CooldownLabel"): # If you add a CD label
-		skill_tooltip_instance.get_node("VBoxContainer/CooldownLabel").text = cd_text
-
 
 	var tooltip_size = skill_tooltip_instance.size
 	var viewport_rect = get_viewport_rect()

@@ -98,10 +98,6 @@ offset_right = -214.5
 offset_bottom = -183.0
 show_delete_button = false
 
-[node name="class_badge" parent="bg/party_display/main_character_display/infos" index="1"]
-offset_top = -1.67743
-offset_bottom = 88.3226
-
 [node name="delete_button" parent="bg/party_display/main_character_display" index="2"]
 visible = false
 disabled = true

@@ -43,7 +43,7 @@ func event_manager(event_id: String) :
 			
 		# Cauldron Moutains
 		"fight_drake_ambush" : 
-			enter_fight(EnemyGroup.new("Mountain Drakes", Character.CLASSES.Warrior, 1, 2, 2), event_id)
+			enter_fight(EnemyGroup.new("Mountain Drakes", Character.CLASSES.None, 1, 2, 2), event_id)
 		"evt_cauldron_prospector_found" :
 			GameState.accomplish_quest(1)
 			event_ui.show_event(curr_place, event_id)
