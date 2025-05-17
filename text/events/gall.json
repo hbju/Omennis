@@ -26,7 +26,8 @@
 		"possibilities": [
 		  {
 			"id": "evt_tavern_find_potential_companion",
-			"description": "Scan the patrons for a capable, if perhaps desperate, individual."
+			"description": "Scan the patrons for a capable, if perhaps desperate, individual.",
+			"condition" : "not(party_full)"
 		  },
 		  {
 			"id": "gall",
