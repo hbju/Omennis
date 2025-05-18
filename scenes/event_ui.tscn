@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dh861xbgpqjsu"]
+[gd_scene load_steps=11 format=3 uid="uid://dh861xbgpqjsu"]
 
 [ext_resource type="Script" path="res://scripts/ui/event_ui.gd" id="1_vhn48"]
 [ext_resource type="Texture2D" uid="uid://bnel1clkuwbpb" path="res://assets/ui/party_ui/armoury_body_merge.png" id="2_sxwhk"]
@@ -14,12 +14,6 @@
 font = ExtResource("5_v7vpi")
 font_size = 44
 font_color = Color(0.712129, 0.712129, 0.712129, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_2v0bb"]
-line_spacing = 0.0
-font = ExtResource("7_fhrwg")
-font_size = 32
-font_color = Color(0.733005, 0.733005, 0.733005, 1)
 
 [node name="event_ui" type="Control"]
 layout_mode = 3
@@ -134,11 +128,13 @@ custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="description_text" type="Label" parent="bg/event_description/description_container/VBoxContainer"]
-custom_minimum_size = Vector2(550, 0)
+[node name="description_text" type="RichTextLabel" parent="bg/event_description/description_container/VBoxContainer"]
+custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("7_fhrwg")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
 text = "new_card new_card
 new_card new_card
 new_card new_card
@@ -170,12 +166,8 @@ new_card new_card
 new_card new_card
 new_card new_card
 new_card new_card
-new_card new_card
-
-"
-label_settings = SubResource("LabelSettings_2v0bb")
-horizontal_alignment = 3
-autowrap_mode = 3
+new_card new_card"
+fit_content = true
 metadata/_edit_use_anchors_ = true
 
 [node name="Button" type="Button" parent="bg/event_description/description_container/VBoxContainer"]

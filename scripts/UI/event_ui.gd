@@ -5,7 +5,7 @@ class_name EventUI
 @onready var card_name_label = $bg/event_name/name
 @onready var card_illustration = $bg/event_visual_border/event_visual
 @onready var description_container = $bg/event_description/description_container
-@onready var card_description_label = $bg/event_description/description_container/VBoxContainer/description_text
+@onready var card_description_label: RichTextLabel = $bg/event_description/description_container/VBoxContainer/description_text
 @onready var card_choice_buttons_control = $bg/event_description/description_container/VBoxContainer
 
 var id: String
@@ -13,6 +13,7 @@ var event_name: String
 var event_description: String
 var possibilities: Array
 var event_path: Array[String]
+var text_tween: Tween
 
 signal resolve_event(event_ccl)
 
@@ -20,6 +21,7 @@ const possibilities_height = 90
 const possibilities_width = 256
 
 func _ready():
+	text_tween = get_tree().create_tween()
 	show_event("gall", "gall")
 
 		
@@ -39,7 +41,12 @@ func show_event(curr_place: String, event_id: String, characters: Array[PartyMem
 	card_name_label.text = event_content.name
 	
 	card_description_label.text = process_text(event_content.description, characters)
-	card_description_label.set_size(Vector2(550, 0))
+	card_description_label.set_size(Vector2(750, 0))
+	card_description_label.visible_ratio = 0
+	text_tween.kill()
+	text_tween = get_tree().create_tween()
+	text_tween.tween_property(card_description_label, "visible_ratio", 1, 5)
+	text_tween.tween_callback(_show_possibilities).set_delay(0.3)
 	
 	description_container.get_v_scroll_bar().ratio = 0
 	for old_possibility in card_choice_buttons_control.get_children() :
@@ -60,6 +67,8 @@ func show_event(curr_place: String, event_id: String, characters: Array[PartyMem
 			
 			possibility_button.pressed.connect(on_possibilities_buttons_pressed.bind(possibilities[i].id))
 			possibility_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+
+			possibility_button.hide()
 			
 					
 	card_description_label.position.y = 0
@@ -92,6 +101,14 @@ func get_event_data(curr_place: String, random: bool = false) -> Resource :
 		printerr("Event file '%s' not found in event directories." % target_filename)
 		return null
 
+
+func _gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+			AudioManager.play_sfx(AudioManager.UI_BUTTON_CLICK)
+			text_tween.stop()
+			card_description_label.visible_ratio = 1
+			_show_possibilities()
 
 ##
 ## Recursive function to search for a file in a directory and its subdirectories 
@@ -139,4 +156,7 @@ func process_text(raw_text: String, party: Array[PartyMember]) -> String:
 	return new_text
 	
 
-
+func _show_possibilities() :
+	for button in card_choice_buttons_control.get_children() :
+		if button is Button: 
+			button.show()
