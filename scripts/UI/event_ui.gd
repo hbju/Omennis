@@ -45,7 +45,7 @@ func show_event(curr_place: String, event_id: String, characters: Array[PartyMem
 	card_description_label.visible_ratio = 0
 	text_tween.kill()
 	text_tween = get_tree().create_tween()
-	text_tween.tween_property(card_description_label, "visible_ratio", 1, 5)
+	text_tween.tween_property(card_description_label, "visible_ratio", 1, card_description_label.text.length()/100.0)
 	text_tween.tween_callback(_show_possibilities).set_delay(0.3)
 	
 	description_container.get_v_scroll_bar().ratio = 0
