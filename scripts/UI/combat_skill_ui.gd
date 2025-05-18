@@ -33,6 +33,8 @@ var skill_list: Array[Skill] = []
 signal choose_target(skill: Skill)
 signal wait_pressed()
 
+var player_turn: bool = false
+
 func _ready() -> void : 
 	button_base_skill.pressed.connect(_choose_target.bind(0))
 	button_base_skill.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
@@ -61,6 +63,7 @@ func _ready() -> void :
 
 
 func update_ui(character: Character, enemy_turn: bool= false ) : 
+	player_turn = not enemy_turn
 
 	base_skill = character.base_skill
 	self.skill_list = []
@@ -115,20 +118,32 @@ func reset_ui() :
 	icon_base_skill.hide()
 
 func _unhandled_input(event):
+		
 	if event.is_action_pressed("combat_base_skill") :
-		_choose_target(0)
+		if player_turn :
+			_choose_target(0)
+		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("combat_wait") :
-		wait_pressed.emit()
+		if player_turn :
+			player_turn = false
+			wait_pressed.emit()
+		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("combat_skill_1") && skill_list.size() >= 1 :
-		_choose_target(1)
+		if player_turn : 
+			_choose_target(1)
+		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("combat_skill_2") && skill_list.size() >= 2 :
-		_choose_target(2)
+		if player_turn :
+			_choose_target(2)
+		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("combat_skill_3") && skill_list.size() >= 3 :
-		_choose_target(3)
+		if player_turn :
+			_choose_target(3)
+		get_viewport().set_input_as_handled()
 		return
 
 func _choose_target(index: int) : 
