@@ -146,7 +146,8 @@ func _on_target_reached() :
 	player_neighbours = []
 	for i in range(0, 6) :
 		var neighbour = oddr_offset_neighbor(player_cell, i)
-		player_neighbours.append(neighbour)
+		if can_walk(neighbour) :
+			player_neighbours.append(neighbour)
 	highlight_neighbours(1)
 	
 func _on_fire_character(index: int) : 
