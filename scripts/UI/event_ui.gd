@@ -3,7 +3,7 @@ class_name EventUI
 
 @onready var bg_card = $bg
 @onready var card_name_label = $bg/event_name/name
-@onready var card_illustration = $bg/event_visual
+@onready var card_illustration = $bg/event_visual_border/event_visual
 @onready var description_container = $bg/event_description/description_container
 @onready var card_description_label = $bg/event_description/description_container/VBoxContainer/description_text
 @onready var card_choice_buttons_control = $bg/event_description/description_container/VBoxContainer

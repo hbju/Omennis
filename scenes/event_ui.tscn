@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dh861xbgpqjsu"]
+[gd_scene load_steps=12 format=3 uid="uid://dh861xbgpqjsu"]
 
 [ext_resource type="Script" path="res://scripts/ui/event_ui.gd" id="1_vhn48"]
 [ext_resource type="Texture2D" uid="uid://bnel1clkuwbpb" path="res://assets/ui/party_ui/armoury_body_merge.png" id="2_sxwhk"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_t6wy0"]
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="4_baxa8"]
 [ext_resource type="Texture2D" uid="uid://gwydou43ppsm" path="res://assets/ui/events_ui/pictures/gall.png" id="4_it7lx"]
 [ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="5_v7vpi"]
@@ -17,7 +18,7 @@ font_color = Color(0.712129, 0.712129, 0.712129, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_2v0bb"]
 line_spacing = 0.0
 font = ExtResource("7_fhrwg")
-font_size = 24
+font_size = 32
 font_color = Color(0.733005, 0.733005, 0.733005, 1)
 
 [node name="event_ui" type="Control"]
@@ -36,22 +37,32 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -331.0
-offset_top = -520.0
-offset_right = 331.136
-offset_bottom = 520.0
+offset_left = -939.0
+offset_top = -494.0
+offset_right = 953.0
+offset_bottom = 510.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_sxwhk")
-expand_mode = 4
+expand_mode = 3
 
-[node name="event_visual" type="TextureRect" parent="bg"]
+[node name="event_visual_border" type="TextureRect" parent="bg"]
+z_index = 1
+layout_mode = 0
+offset_left = 199.0
+offset_top = 212.0
+offset_right = 859.0
+offset_bottom = 872.0
+texture = ExtResource("3_t6wy0")
+
+[node name="event_visual" type="TextureRect" parent="bg/event_visual_border"]
+z_index = -1
 clip_contents = true
 layout_mode = 0
-offset_left = 99.0
-offset_top = 140.0
-offset_right = 1045.0
-offset_bottom = 1086.0
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 1232.0
+offset_bottom = 1228.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_it7lx")
 expand_mode = 2
@@ -62,9 +73,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -343.068
-offset_top = -3.0
+offset_top = -33.0
 offset_right = 343.932
-offset_bottom = 169.0
+offset_bottom = 139.0
 grow_horizontal = 2
 texture = ExtResource("4_baxa8")
 
@@ -94,10 +105,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -315.068
-offset_top = -434.0
-offset_right = 315.932
-offset_bottom = -65.0
+offset_left = 50.0
+offset_top = -773.0
+offset_right = 869.0
+offset_bottom = -148.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("6_bedjm")
@@ -110,17 +121,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -278.5
-offset_top = -159.5
-offset_right = 279.5
-offset_bottom = 160.5
+offset_left = -373.5
+offset_top = -291.5
+offset_right = 376.5
+offset_bottom = 290.5
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="bg/event_description/description_container"]
-custom_minimum_size = Vector2(550, 0)
+custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 

@@ -102,9 +102,11 @@ visible = false
 
 [node name="party_ui" parent="UI" instance=ExtResource("7_xnlik")]
 visible = false
+z_index = 10
 
 [node name="quest_log_ui" parent="UI" instance=ExtResource("9_kewrd")]
 visible = false
+z_index = 10
 
 [node name="party_button" type="TextureButton" parent="UI"]
 anchors_preset = 1
@@ -120,8 +122,13 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="quest_log_button" type="TextureButton" parent="UI"]
-offset_right = 128.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -257.0
+offset_right = -129.0
 offset_bottom = 128.0
+grow_horizontal = 0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 texture_normal = ExtResource("10_n61bo")
@@ -132,10 +139,13 @@ stretch_mode = 0
 visible = false
 
 [node name="gold" type="TextureRect" parent="UI"]
-offset_left = 1792.0
-offset_top = 952.0
-offset_right = 1920.0
-offset_bottom = 1080.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_top = 140.0
+offset_bottom = 268.0
+grow_horizontal = 0
 texture = ExtResource("13_aixhf")
 expand_mode = 1
 
