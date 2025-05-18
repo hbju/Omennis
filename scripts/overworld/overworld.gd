@@ -36,7 +36,7 @@ func _ready():
 	quest_manager = QuestManager.new()
 
 	player.target_reached.connect(_on_target_reached)
-	player_cell = local_to_map(to_local(player.global_position))
+	_on_target_reached()
 
 	gall.body_entered.connect(_toggle_event_ui.bind("gall"))
 	cauldron_mountains.body_entered.connect(_toggle_event_ui.bind("cauldron_mountains"))
@@ -145,7 +145,6 @@ func _on_target_reached() :
 	for i in range(0, 6) :
 		var neighbour = oddr_offset_neighbor(player_cell, i)
 		player_neighbours.append(neighbour)
-	print(player_neighbours)
 	highlight_neighbours(1)
 	
 func _on_fire_character(index: int) : 
