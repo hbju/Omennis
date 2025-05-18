@@ -2,6 +2,8 @@ extends TileMap
 class_name Overworld
 
 @onready var player = $player
+var player_cell: Vector2i = Vector2i(0, 0)
+var player_neighbours: Array[Vector2i] = []
 
 @onready var gall = $gall
 @onready var cauldron_mountains = $cauldron_mountains
@@ -32,6 +34,9 @@ var next_random_event: Dictionary
 func _ready():
 	event_manager = EventManager.new($UI/event_ui, $UI/fight_ui)
 	quest_manager = QuestManager.new()
+
+	player.target_reached.connect(_on_target_reached)
+	player_cell = local_to_map(to_local(player.global_position))
 
 	gall.body_entered.connect(_toggle_event_ui.bind("gall"))
 	cauldron_mountains.body_entered.connect(_toggle_event_ui.bind("cauldron_mountains"))
@@ -65,7 +70,7 @@ func _ready():
 func oddr_offset_neighbor(hex, direction):
 	var parity = hex.y & 1
 	var diff = oddr_direction_differences[parity][direction]
-	return Vector2(hex.x + diff[0], hex.y + diff[1])
+	return Vector2i(hex.x + diff[0], hex.y + diff[1])
 	
 func is_neighbour(hex, pos) : 
 	var parity = hex.y & 1
@@ -81,13 +86,20 @@ func can_walk(hex) :
 func _input(event):
 	if GameState.in_event or GameState.in_ui :
 		return
+
+	if event is InputEventMouseMotion :
+		var mouse_cell = local_to_map(to_local(get_global_mouse_position()))
+		if mouse_cell in player_neighbours :
+			highlight_neighbours(1)
+			if can_walk(mouse_cell) :
+				set_cell(0, mouse_cell, 22, get_cell_atlas_coords(0, mouse_cell), 2)
+
+
 	if event is InputEventMouseButton :
 		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
-			var click_pos = local_to_map(to_local(get_global_mouse_position()))
-			var player_pos = local_to_map(to_local(player.global_position))
-			
-			if is_neighbour(player_pos, click_pos) && can_walk(click_pos): 
-				player.move_to(map_to_local(click_pos))
+			var click_cell = local_to_map(to_local(get_global_mouse_position()))
+			if is_neighbour(player_cell, click_cell) && can_walk(click_cell): 
+				player.move_to(map_to_local(click_cell))
 				GameState.step_taken()
 
 func toggle_ui(state: bool) : 
@@ -98,7 +110,11 @@ func disable_collisions(state: bool) :
 	$cauldron_mountains/CollisionShape2D.disabled = state
 	$whispering_hollow/CollisionShape2D.disabled = state
 	$player/CollisionShape2D.disabled = state
-	
+
+func highlight_neighbours(empty_cell_alt: int = 0) -> void:
+	for neighbour in player_neighbours :
+		set_cell(0, neighbour, 22, get_cell_atlas_coords(0, neighbour), empty_cell_alt)
+
 func _toggle_event_ui(_body, place_id: String): 
 	event_manager.enter_event(place_id)
 	
@@ -121,6 +137,16 @@ func _toggle_questlog_ui() :
 		quest_log_ui.visible = false
 		GameState.in_ui = false
 	party_ui.visible = false
+
+func _on_target_reached() :
+	highlight_neighbours(0)
+	player_cell = local_to_map(to_local(player.global_position))
+	player_neighbours = []
+	for i in range(0, 6) :
+		var neighbour = oddr_offset_neighbor(player_cell, i)
+		player_neighbours.append(neighbour)
+	print(player_neighbours)
+	highlight_neighbours(1)
 	
 func _on_fire_character(index: int) : 
 	GameState.fire_member(index)
