@@ -67,4 +67,15 @@ static var ENEMY_CLASS_DEFINITIONS = {
         ],
         "portraits": [9]
     },
+    "Mountain Drake" : {
+        "class_enum": Character.CLASSES.None,
+        "base_hp": 40, "hp_per_level": 7,
+        "base_damage_stat": 10, "damage_stat_per_level": 2,
+        "skill_pool_config": [
+            {"skill": Charge, "min_level": 3},
+            {"skill": Frenzy, "min_level": 5},
+            {"skill": WarCry, "min_level": 6}
+        ],
+        "portraits": [1]
+    }
 }

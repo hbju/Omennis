@@ -43,16 +43,16 @@ func event_manager(event_id: String) :
 			
 		# Cauldron Moutains
 		"fight_drake_ambush" : 
-			enter_fight(EnemyGroup.new("Mountain Drakes", Character.CLASSES.None, 1, 2, 2), event_id)
+			enter_fight(EnemyGroup.from_enemy_data("Mountain Drake", 2, 2), event_id)
 		"evt_cauldron_prospector_found" :
 			GameState.accomplish_quest(1)
 			event_ui.show_event(curr_place, event_id)
 			
 		# Whispering Hollow
 		"hollow_fight_first_cultists" : 
-			enter_fight(EnemyGroup.new("Cultists", Character.CLASSES.Mage, 2, 2, 3), event_id)
+			enter_fight(EnemyGroup.from_enemy_data("Necromancer", 3, 3, "Cultists", 2), event_id)
 		"hollow_fight_leader_and_cultists" : 
-			enter_fight(EnemyGroup.new("Cultist Leader", Character.CLASSES.Mage, 2, 7, 1), event_id)
+			enter_fight(EnemyGroup.from_enemy_data("Necromancer", 10, 1, "Cultists", 3), event_id)
 		"hollow_fight_leader_and_cultists_victory" : 
 			GameState.accomplish_quest(2)
 			event_ui.show_event(curr_place, event_id)
