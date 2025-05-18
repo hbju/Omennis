@@ -17,6 +17,8 @@ class_name FightUI
 
 signal launch_fight(party: Array[PartyMember], enemy_group: EnemyGroup)
 signal resolve_fight(fight_ccl: String)
+signal show_skill_tree(index: int)
+
 var fight_result = false
 
 var party: Array[PartyMember]
@@ -29,7 +31,7 @@ func _ready() :
 	if Engine.is_editor_hint() :
 		enemies_display.enemy_group_changed.connect(_debug_fight)
 		for char_display in party_display.get_children() : 
-			char_display = char_display as Character_Display
+			char_display = char_display as CharacterDisplay
 			char_display.character_changed.connect(_debug_fight)
 
 	proceed_button.pressed.connect(_on_proceed_button_pressed)
@@ -38,6 +40,10 @@ func _ready() :
 	fight_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_ENTER_COMBAT))
 	simulation_button.pressed.connect(_on_simulate_button_pressed)
 	simulation_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	for i in range(0, 4) :
+		var display: CharacterDisplay = party_display.get_child(i) as CharacterDisplay
+		display.show_skill_tree.connect(_on_show_skill_tree.bind(i))
+		display.show_skill_tree.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	
 	
 func update_ui(_party: Array[PartyMember], _enemy_group: EnemyGroup) :
@@ -46,7 +52,7 @@ func update_ui(_party: Array[PartyMember], _enemy_group: EnemyGroup) :
 	
 	var displays = party_display.get_children()
 	for i in range(0, _party.size()):
-		var display: Character_Display = displays[i]
+		var display: CharacterDisplay = displays[i]
 		display.update_character(_party[i])
 		display.visible = true
 		display.show_delete_button = false
@@ -132,7 +138,7 @@ func _debug_fight() :
 	if Engine.is_editor_hint():
 		party = []
 		for char_display in party_display.get_children() : 
-			char_display = char_display as Character_Display 
+			char_display = char_display as CharacterDisplay 
 			party.append(char_display.party_member)
 			
 		enemy_group = enemies_display.enemy_group
@@ -143,3 +149,5 @@ func _debug_fight() :
 		var odds: int =  round(_calculate_odds(500000) * 100)
 		chances_label.text = "Victory Chances : " + str(odds) + "%"
 	
+func _on_show_skill_tree(index: int) : 
+	show_skill_tree.emit(index)

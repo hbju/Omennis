@@ -1,6 +1,6 @@
 @tool
 extends TextureRect
-class_name Character_Display
+class_name CharacterDisplay
 
 @onready var infos_label = $infos
 @onready var avatar_portrait = $avatar_background/avatar_portrait

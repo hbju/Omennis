@@ -3,8 +3,7 @@ extends Node2D
 @onready var combat_scene: CombatMap = $combat_scene
 @onready var overworld: Overworld = $overworld
 
-const PostFightScreenScene = preload("res://scenes/post_fight_screen.tscn")
-var post_fight_screen_instance: Control = null
+@onready var post_fight_screen_instance: Control = $overworld/UI/post_fight_screen
 
 var curr_victory: bool = false
 
@@ -19,6 +18,11 @@ func _ready():
 
 	overworld.event_manager.fight_ui.launch_fight.connect(lauch_combat)
 	overworld.event_manager.fight_ui.resolve_fight.connect(_end_combat)
+
+	
+	post_fight_screen_instance.get_node("background/proceed_button").pressed.connect(_on_post_fight_proceed) # Connect button
+	post_fight_screen_instance.show_skill_tree.connect(overworld._on_show_skill_tree) # Connect to skill tree
+
 	combat_scene.combat_ended.connect(_end_combat)
 
 	AudioManager.play_music(AudioManager.OVERWORLD_MUSIC[0]) # Play overworld music
@@ -71,20 +75,12 @@ func _end_combat(victory: bool):
 	else:
 		for member in GameState.party:
 			received_xp.append(0)
-	if PostFightScreenScene:
-		if post_fight_screen_instance == null or not is_instance_valid(post_fight_screen_instance):
-			post_fight_screen_instance = PostFightScreenScene.instantiate()
-			overworld.get_node("UI").add_child(post_fight_screen_instance) # Add to main scene tree
-			post_fight_screen_instance.get_node("background/proceed_button").pressed.connect(_on_post_fight_proceed) # Connect button
+		
+	# Pass data to the screen's script (needs a function like setup())
+	AudioManager.play_music(AudioManager.VICTORY_STINGER if victory else AudioManager.DEFEAT_STINGER)
+	post_fight_screen_instance.setup(party_before, GameState.party, received_xp, victory)
+	post_fight_screen_instance.show()
 
-		# Pass data to the screen's script (needs a function like setup())
-		AudioManager.play_music(AudioManager.VICTORY_STINGER if victory else AudioManager.DEFEAT_STINGER)
-		post_fight_screen_instance.setup(party_before, GameState.party, received_xp, victory)
-		post_fight_screen_instance.show()
-	else:
-		printerr("PostFightScreenScene not loaded!")
-		# If screen fails, proceed directly
-		_on_post_fight_proceed()
 
 func _on_post_fight_proceed():
 	AudioManager.play_music(AudioManager.OVERWORLD_MUSIC[0]) # Resume overworld music

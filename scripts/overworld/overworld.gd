@@ -51,6 +51,8 @@ func _ready():
 	party_ui.fire_character.connect(_on_fire_character)
 	party_ui.show_skill_tree.connect(_on_show_skill_tree)
 
+	event_manager.fight_ui.show_skill_tree.connect(_on_show_skill_tree)
+
 	ContentGenerator.content_received.connect(_on_content_received)
 	var initial_random_event_prompt = "Generate a random event for the following party of adventurers : "
 	for i in range(GameState.party.size()) :

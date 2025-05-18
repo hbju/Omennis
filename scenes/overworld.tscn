@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://oxvk4meh5fi1"]
+[gd_scene load_steps=20 format=3 uid="uid://oxvk4meh5fi1"]
 
 [ext_resource type="Texture2D" uid="uid://c8ag7tlvtsnyu" path="res://assets/terrain/nature_tiles.png" id="1_xfr45"]
 [ext_resource type="Texture2D" uid="uid://y3l42tdnts0v" path="res://assets/terrain/water_tiles.png" id="2_4vdme"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dsdojel6rdhv7" path="res://assets/overworld_elements/cities/b_02.png" id="6_gv85f"]
 [ext_resource type="PackedScene" uid="uid://bwx5vgdwyp3rl" path="res://scenes/party_ui.tscn" id="7_xnlik"]
 [ext_resource type="Texture2D" uid="uid://827rxntnhm3s" path="res://assets/ui/icons/party_button.png" id="8_ulqjd"]
+[ext_resource type="PackedScene" uid="uid://do65us1heocex" path="res://scenes/post_fight_screen.tscn" id="9_55har"]
 [ext_resource type="PackedScene" uid="uid://cjyeq8m6odn86" path="res://scenes/quest_log_ui.tscn" id="9_kewrd"]
 [ext_resource type="PackedScene" uid="uid://d25rdiau8ito5" path="res://scenes/fight_ui.tscn" id="10_14wst"]
 [ext_resource type="Texture2D" uid="uid://b866j1dgfgg0h" path="res://assets/ui/icons/questlog_button.png" id="10_n61bo"]
@@ -121,17 +122,19 @@ position = Vector2(4970, 2560)
 
 [node name="event_ui" parent="UI" instance=ExtResource("6_3cmq8")]
 visible = false
+z_index = -2
 
 [node name="fight_ui" parent="UI" instance=ExtResource("10_14wst")]
 visible = false
 
+[node name="post_fight_screen" parent="UI" instance=ExtResource("9_55har")]
+visible = false
+
 [node name="party_ui" parent="UI" instance=ExtResource("7_xnlik")]
 visible = false
-z_index = 10
 
 [node name="quest_log_ui" parent="UI" instance=ExtResource("9_kewrd")]
 visible = false
-z_index = 10
 
 [node name="party_button" type="TextureButton" parent="UI"]
 anchors_preset = 1
@@ -160,9 +163,6 @@ texture_normal = ExtResource("10_n61bo")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="skill_ui" parent="UI" instance=ExtResource("13_2neqc")]
-visible = false
-
 [node name="gold" type="TextureRect" parent="UI"]
 anchors_preset = 1
 anchor_left = 1.0
@@ -187,6 +187,9 @@ grow_vertical = 2
 text = "99999g"
 label_settings = SubResource("LabelSettings_mrmpd")
 horizontal_alignment = 2
+
+[node name="skill_ui" parent="UI" instance=ExtResource("13_2neqc")]
+visible = false
 
 [node name="Node2D" type="Node2D" parent="."]
 

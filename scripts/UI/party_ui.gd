@@ -1,7 +1,7 @@
 extends Control
 class_name PartyUI
 
-@onready var displays: Array[Character_Display] = [$bg/displays/main_character_display, 
+@onready var displays: Array[CharacterDisplay] = [$bg/displays/main_character_display, 
 	$bg/displays/character_display2, 
 	$bg/displays/character_display3, 
 	$bg/displays/character_display4]
@@ -12,13 +12,9 @@ signal show_skill_tree(index)
 const PARTY_MAX_NUMBER = 4
 
 func _ready() : 
-	displays[0].show_skill_tree.connect(_on_show_skill_tree.bind(0))
-	displays[1].fire_character.connect(_on_fire_character.bind(1))
-	displays[1].show_skill_tree.connect(_on_show_skill_tree.bind(1))
-	displays[2].fire_character.connect(_on_fire_character.bind(2))
-	displays[2].show_skill_tree.connect(_on_show_skill_tree.bind(2))
-	displays[3].fire_character.connect(_on_fire_character.bind(3))
-	displays[3].show_skill_tree.connect(_on_show_skill_tree.bind(3))
+	for i in range(0, PARTY_MAX_NUMBER) :
+		displays[i].fire_character.connect(_on_fire_character.bind(i))
+		displays[i].show_skill_tree.connect(_on_show_skill_tree.bind(i))
 
 # Called when the node enters the scene tree for the first time.
 func update_ui(party: Array[PartyMember]) :

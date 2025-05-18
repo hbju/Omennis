@@ -61,9 +61,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 45.0
-offset_top = 151.0
+offset_top = 139.0
 offset_right = 775.0
-offset_bottom = 381.0
+offset_bottom = 369.0
 
 [node name="character_result_display_2" parent="background" instance=ExtResource("16_6bpis")]
 custom_minimum_size = Vector2(550, 160)
@@ -74,9 +74,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 45.0
-offset_top = 401.0
+offset_top = 426.0
 offset_right = 775.0
-offset_bottom = 631.0
+offset_bottom = 656.0
 
 [node name="character_result_display_3" parent="background" instance=ExtResource("16_6bpis")]
 layout_mode = 2
@@ -86,9 +86,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 871.0
-offset_top = 151.0
+offset_top = 139.0
 offset_right = 1601.0
-offset_bottom = 381.0
+offset_bottom = 369.0
 
 [node name="character_result_display_4" parent="background" instance=ExtResource("16_6bpis")]
 layout_mode = 2
@@ -98,9 +98,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 871.0
-offset_top = 401.0
+offset_top = 426.0
 offset_right = 1601.0
-offset_bottom = 631.0
+offset_bottom = 656.0
 
 [node name="proceed_button" type="TextureButton" parent="background"]
 layout_mode = 1
