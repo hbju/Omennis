@@ -32,14 +32,14 @@ func _ready():
 	if debug_mode : 
 		var player1 = PartyMember.new_rand()
 		var player2 = PartyMember.new_rand()
-		player1.skill_list.append(Charge.new())
-		player1.skill_list.append(DefensiveStance.new())
+		player1.skill_list.append(Blink.new())
+		player1.skill_list.append(LightningStorm.new())
 		player2.skill_list.append(FiresparkMage.new())
 		player2.skill_list.append(ArcaneShield.new())	
 		var party: Array[PartyMember] = [player1, player2]
 
-		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 10, 5)
-		var enemy2 = Character.new("Dark Cultist", 1, 2, 2, 10)
+		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 50, 5)
+		var enemy2 = Character.new("Dark Cultist", 1, 2, 2, 50)
 		var enemies: Array[Character] = [enemy1, enemy2]
 		enemy1.skill_list.append(Frostbolt.new())
 		enemy1.skill_list.append(DefensiveStance.new())
@@ -382,7 +382,6 @@ func _on_character_died(character) :
 		dead_chars.append(character)
 
 func char_died() :
-	print(dead_chars)
 	for character in dead_chars : 
 		if character is PlayerCombatCharacter : 
 			player_count -= 1

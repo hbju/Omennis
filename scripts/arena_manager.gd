@@ -73,8 +73,7 @@ func _generate_enemies(wave_num: int) -> Array[Character]:
 	print("Generating enemies for wave ", wave_num)
 	var enemies: Array[Character] = []
 	# --- Enemy Generation Logic ---
-	# Simple V1: Increase count and level slightly each wave
-	var enemy_count = 1 + floori(wave_num / 3.0)
+	var enemy_count = min(1 + floori(wave_num / 3.0), 5)
 	var enemy_level = 1 + floori(wave_num / 3.0)
 
 	print("Wave %d: %d enemies, Level %d" % [wave_num, enemy_count, enemy_level])

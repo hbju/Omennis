@@ -7,7 +7,6 @@ var targets_number := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	if skill_pos in curr_highlighted_cells:
-		var damage = damage_mult * from.get_damage()
 		var char_list = []
 		for cell in curr_highlighted_cells :
 			var character: CombatCharacter = map.get_character(cell)
@@ -17,7 +16,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 		char_list.shuffle()
 		char_list = char_list.slice(0, targets_number)
 		for character in char_list:
-			from.deal_damage(character, damage)
+			from.deal_damage(character, damage_mult)
 
 
 		cooldown = max_cooldown

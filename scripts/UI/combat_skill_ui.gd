@@ -136,7 +136,7 @@ func _choose_target(index: int) :
 		choose_target.emit(base_skill)
 		return
 
-	if skill_list[index-1].get_cooldown() == 0 : 
+	elif index > 0 and skill_list[index-1].get_cooldown() == 0 : 
 		choose_target.emit(skill_list[index-1])
 
 func _on_skill_button_mouse_entered(skill_index: int):

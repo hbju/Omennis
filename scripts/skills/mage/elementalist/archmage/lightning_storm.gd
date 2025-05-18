@@ -3,7 +3,7 @@ class_name LightningStorm
 
 var damage_mult := 4
 var num_targets := 3
-var stun_chance := 0.4
+var stun_chance := 0.5
 var stun_duration := 1
 var max_cooldown := 6
 var curr_highlighted_cells: Array[Vector2i] = []
@@ -29,13 +29,15 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 		if is_valid_target_type(from, character):
 			potential_targets.append(character)
 
+	print("Potential targets: ", potential_targets)
 
 	if potential_targets.is_empty():
 		return false # No enemies in range
 
 	# Select targets randomly
 	potential_targets.shuffle()
-	var actual_targets = potential_targets.slice(0, min(num_targets, potential_targets.size()))
+	var actual_targets = potential_targets.slice(0, num_targets)
+	print("Actual targets: ", actual_targets)
 
 	caster = from
 
@@ -152,7 +154,7 @@ func target_enemies() -> bool:
 	return true
 
 func target_self() -> bool:
-	return false # Activated by targeting self / area around self
+	return false 
 
 func is_melee() -> bool:
 	# Consistent with Whirlwind/Inquisition (AoE centered on self)
