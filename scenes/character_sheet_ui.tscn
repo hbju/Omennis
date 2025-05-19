@@ -1,0 +1,1007 @@
+[gd_scene load_steps=43 format=3 uid="uid://dvs0op087antk"]
+
+[ext_resource type="Script" path="res://scripts/ui/character_sheet_ui.gd" id="1_10so0"]
+[ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_43w0b"]
+[ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="2_3l7pp"]
+[ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="3_u6rce"]
+[ext_resource type="Texture2D" uid="uid://bif1amwq6bxy7" path="res://assets/ui/menu_ui/box_heading_midsec_repeat.png" id="4_fjx5m"]
+[ext_resource type="Texture2D" uid="uid://ctbvwknltdyh6" path="res://assets/ui/menu_ui/box_head_pattern_repeatable.png" id="5_dfcpp"]
+[ext_resource type="Texture2D" uid="uid://c4winy4h5qjb5" path="res://assets/ui/menu_ui/Box Borders/bottom_border_left_cap.png" id="6_a7qdr"]
+[ext_resource type="Texture2D" uid="uid://dyk3kfoj7vbcu" path="res://assets/ui/menu_ui/Box Borders/left_border_top_cap.png" id="7_tcr5n"]
+[ext_resource type="Texture2D" uid="uid://chv3fk35lrax7" path="res://assets/ui/menu_ui/Box Borders/left_border_repeat_vertical.png" id="8_gp4l7"]
+[ext_resource type="Texture2D" uid="uid://62kll5a67er" path="res://assets/ui/menu_ui/Box Borders/bottom_border_right_cap.png" id="9_60cww"]
+[ext_resource type="Texture2D" uid="uid://fl75hrwyp5te" path="res://assets/ui/menu_ui/Box Borders/right_border_top_cap.png" id="10_uagwq"]
+[ext_resource type="Texture2D" uid="uid://b33r0uq86r7wh" path="res://assets/ui/menu_ui/Box Borders/right_border_repeat_vertical.png" id="11_bvhdp"]
+[ext_resource type="Texture2D" uid="uid://2vfdpjf4u6dj" path="res://assets/ui/menu_ui/Box Borders/bottom_border_midsec_repeat_horizontal.png" id="12_ymrbs"]
+[ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="13_3sd2g"]
+[ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="14_ggg2r"]
+[ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="15_5c8sa"]
+[ext_resource type="Texture2D" uid="uid://duq2x2rxbv2m0" path="res://assets/ui/buttons/red/square_red_normal.png" id="15_u7dp3"]
+[ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="16_npjvp"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="16_npxbw"]
+[ext_resource type="Texture2D" uid="uid://cg0wdirug4tyx" path="res://assets/ui/buttons/accept_button/rb_accept_n.png" id="16_u1qck"]
+[ext_resource type="Texture2D" uid="uid://drupxdj5flv5p" path="res://assets/ui/buttons/accept_button/rb_accept_p.png" id="17_kaltu"]
+[ext_resource type="Texture2D" uid="uid://bl4uj1vo5jgf0" path="res://assets/ui/buttons/circle_button/special_ability_frame_n.png" id="17_pnpwq"]
+[ext_resource type="Texture2D" uid="uid://cf7amjduw6yu6" path="res://assets/ui/buttons/accept_button/rb_accept_h.png" id="18_eds2w"]
+[ext_resource type="Texture2D" uid="uid://0oew1uuyn6mv" path="res://assets/ui/buttons/circle_button/special_ability_frame_p.png" id="18_ltq2e"]
+[ext_resource type="Texture2D" uid="uid://csymekdp54xcs" path="res://assets/ui/buttons/circle_button/special_ability_frame_h.png" id="19_8pxpu"]
+[ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="20_cw1s0"]
+[ext_resource type="Texture2D" uid="uid://bop8bk140baxb" path="res://assets/ui/buttons/red/square_red_pressed.png" id="22_62jlo"]
+[ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="23_p2w7f"]
+[ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="25_4exlp"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="26_bd84x"]
+[ext_resource type="Texture2D" uid="uid://b1h1fbmagipw0" path="res://assets/ui/buttons/plus_button/add_b_n.png" id="26_bgd5n"]
+[ext_resource type="PackedScene" uid="uid://pnu8ghovek6s" path="res://scenes/skill_tree.tscn" id="26_vt3e4"]
+[ext_resource type="Texture2D" uid="uid://cmv3q2wxfdisj" path="res://assets/ui/buttons/plus_button/add_b_p.png" id="27_jxqdf"]
+[ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="27_wex54"]
+[ext_resource type="Texture2D" uid="uid://duqgapa04qxnx" path="res://assets/ui/buttons/plus_button/add_b_h.png" id="28_bsfys"]
+[ext_resource type="Script" path="res://scripts/ui/skill_ui.gd" id="30_cqrxe"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1mw01"]
+font = ExtResource("14_ggg2r")
+font_size = 64
+font_color = Color(0.728822, 0.728822, 0.728822, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_h86xt"]
+font = ExtResource("26_bd84x")
+font_size = 32
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jvlv4"]
+texture = ExtResource("25_4exlp")
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+expand_margin_left = 10.0
+region_rect = Rect2(17.7558, 17.5342, 1360.72, 1574.78)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1k8yb"]
+font = ExtResource("26_bd84x")
+font_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jusud"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t3n5"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="character_sheet_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_10so0")
+debugging = true
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -827.0
+offset_top = -457.0
+offset_right = 828.0
+offset_bottom = 520.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("1_43w0b")
+expand_mode = 1
+
+[node name="borders" type="Control" parent="background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="upper_banner" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -794.5
+offset_top = -452.5
+offset_right = -794.5
+offset_bottom = -452.5
+grow_horizontal = 2
+
+[node name="head_left" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+offset_left = -119.0
+offset_top = -93.0
+offset_right = 95.0
+offset_bottom = 121.0
+texture = ExtResource("2_3l7pp")
+
+[node name="head_right" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1491.0
+offset_top = -93.0
+offset_right = 1705.0
+offset_bottom = 121.0
+grow_horizontal = 0
+texture = ExtResource("3_u6rce")
+
+[node name="borders_up" type="TextureRect" parent="background/borders/upper_banner"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 75.0
+offset_top = -35.0
+offset_right = 1517.0
+offset_bottom = 121.0
+grow_horizontal = 2
+texture = ExtResource("4_fjx5m")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="up" type="TextureRect" parent="background/borders/upper_banner/borders_up"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 12.0
+offset_right = 1445.0
+offset_bottom = 145.0
+texture = ExtResource("5_dfcpp")
+stretch_mode = 1
+
+[node name="left_column" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -794.5
+offset_top = -441.5
+offset_right = -794.5
+offset_bottom = -432.5
+grow_vertical = 2
+
+[node name="left_bottom_corner" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -36.0
+offset_top = 910.0
+offset_right = 219.0
+offset_bottom = 957.0
+texture = ExtResource("6_a7qdr")
+
+[node name="left_up_corner" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 108.0
+offset_right = 18.0
+offset_bottom = 147.0
+texture = ExtResource("7_tcr5n")
+
+[node name="left_part" type="TextureRect" parent="background/borders/left_column"]
+layout_mode = 0
+offset_left = -6.0
+offset_top = 147.0
+offset_right = 18.0
+offset_bottom = 911.0
+texture = ExtResource("8_gp4l7")
+stretch_mode = 1
+
+[node name="right_column" type="Control" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 796.5
+offset_top = -441.5
+offset_right = 796.5
+offset_bottom = -441.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="right_bottom_corner" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -219.0
+offset_top = 910.0
+offset_right = 36.0
+offset_bottom = 957.0
+texture = ExtResource("9_60cww")
+
+[node name="right_up_corner" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = 108.0
+offset_right = 31.0
+offset_bottom = 147.0
+texture = ExtResource("10_uagwq")
+
+[node name="right_part" type="TextureRect" parent="background/borders/right_column"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = 147.0
+offset_right = 5.0
+offset_bottom = 910.0
+texture = ExtResource("11_bvhdp")
+stretch_mode = 1
+
+[node name="bottom_part" type="TextureRect" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -618.0
+offset_top = 428.0
+offset_right = 637.0
+offset_bottom = 475.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("12_ymrbs")
+stretch_mode = 1
+
+[node name="header" type="TextureRect" parent="background/borders"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -285.0
+offset_top = -514.0
+offset_right = 285.0
+offset_bottom = -357.0
+grow_horizontal = 2
+texture = ExtResource("13_3sd2g")
+
+[node name="title_label" type="Label" parent="background/borders/header"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -53.5
+offset_right = 197.5
+offset_bottom = 53.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hbju"
+label_settings = SubResource("LabelSettings_1mw01")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="sheet_hbox" type="HBoxContainer" parent="background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -740.5
+offset_top = -354.5
+offset_right = 734.5
+offset_bottom = 438.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="portrait" type="ColorRect" parent="background/sheet_hbox"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.509804, 0.313726, 0.160784, 1)
+
+[node name="avatar_portrait" type="TextureRect" parent="background/sheet_hbox/portrait"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -75.0
+offset_right = 62.4268
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_5c8sa")
+expand_mode = 3
+
+[node name="frame" type="TextureRect" parent="background/sheet_hbox/portrait"]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -4.0
+offset_right = 155.0
+offset_bottom = 156.0
+texture = ExtResource("16_npxbw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="sheet_vbox" type="VBoxContainer" parent="background/sheet_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="tab_buttons_box" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="stats_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+texture_normal = ExtResource("15_u7dp3")
+texture_pressed = ExtResource("22_62jlo")
+texture_hover = ExtResource("23_p2w7f")
+texture_disabled = ExtResource("16_npjvp")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/stats_tab_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -11.5
+offset_right = 36.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Stats
+"
+label_settings = SubResource("LabelSettings_h86xt")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="traits_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+texture_normal = ExtResource("15_u7dp3")
+texture_pressed = ExtResource("22_62jlo")
+texture_hover = ExtResource("23_p2w7f")
+texture_disabled = ExtResource("16_npjvp")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/traits_tab_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -11.5
+offset_right = 36.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Traits
+"
+label_settings = SubResource("LabelSettings_h86xt")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="skills_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+texture_normal = ExtResource("15_u7dp3")
+texture_pressed = ExtResource("22_62jlo")
+texture_hover = ExtResource("23_p2w7f")
+texture_disabled = ExtResource("16_npjvp")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/skills_tab_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -11.5
+offset_right = 36.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skills
+"
+label_settings = SubResource("LabelSettings_h86xt")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="tab_content_container" type="Control" parent="background/sheet_hbox/sheet_vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="stats_panel" type="PanelContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jvlv4")
+
+[node name="stats_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel"]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="overview_label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox"]
+layout_mode = 2
+text = "Lvl : 5
+XP : 10/1000
+Available Skill Points : 0
+Max HP : 50
+Base damage : 10 "
+label_settings = SubResource("LabelSettings_1k8yb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="non_combat_stats" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox"]
+layout_mode = 2
+text = "Non-Combat Stats (Available points : 3) : "
+label_settings = SubResource("LabelSettings_1k8yb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="non_combat_stats_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="perception_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="stat_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/perception_hbox"]
+layout_mode = 2
+text = "Perception : "
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_value" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/perception_hbox"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_increase" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/perception_hbox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("26_bgd5n")
+texture_pressed = ExtResource("27_jxqdf")
+texture_hover = ExtResource("28_bsfys")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="charisma_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="stat_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/charisma_hbox"]
+layout_mode = 2
+text = "Charisma :     "
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_value" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/charisma_hbox"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_increase" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/charisma_hbox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("26_bgd5n")
+texture_pressed = ExtResource("27_jxqdf")
+texture_hover = ExtResource("28_bsfys")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="lore_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="stat_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/lore_hbox"]
+layout_mode = 2
+text = "Lore :                "
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_value" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/lore_hbox"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_increase" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/lore_hbox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("26_bgd5n")
+texture_pressed = ExtResource("27_jxqdf")
+texture_hover = ExtResource("28_bsfys")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="survival_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="stat_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/survival_hbox"]
+layout_mode = 2
+text = "Survival :        "
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_value" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/survival_hbox"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_increase" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/survival_hbox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("26_bgd5n")
+texture_pressed = ExtResource("27_jxqdf")
+texture_hover = ExtResource("28_bsfys")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="logistics_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="stat_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/logistics_hbox"]
+layout_mode = 2
+text = "Logistics :       "
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_value" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/logistics_hbox"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_1k8yb")
+
+[node name="stat_increase" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/non_combat_stats_vbox/logistics_hbox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("26_bgd5n")
+texture_pressed = ExtResource("27_jxqdf")
+texture_hover = ExtResource("28_bsfys")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="traits_panel" type="PanelContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jvlv4")
+
+[node name="traits_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel"]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="valor_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox"]
+layout_mode = 2
+text = "Valor"
+horizontal_alignment = 1
+
+[node name="trait_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "                             Cautious"
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Brave                              "
+horizontal_alignment = 2
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox"]
+layout_mode = 2
+text = "-5               -4               -3               -2               -1                 0               +1               +2               +3               +4               +5"
+horizontal_alignment = 1
+
+[node name="progress_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="left_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 4.0
+fill_mode = 1
+show_percentage = false
+
+[node name="right_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[node name="temper_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox"]
+layout_mode = 2
+text = "Temper"
+horizontal_alignment = 1
+
+[node name="trait_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "                             Meticulous"
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Impulsive                              "
+horizontal_alignment = 2
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox"]
+layout_mode = 2
+text = "-5               -4               -3               -2               -1                 0               +1               +2               +3               +4               +5"
+horizontal_alignment = 1
+
+[node name="progress_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="left_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 3.0
+fill_mode = 1
+show_percentage = false
+
+[node name="right_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[node name="ethics_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox"]
+layout_mode = 2
+text = "Ethics"
+horizontal_alignment = 1
+
+[node name="trait_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "                             Self-Serving"
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Altruistic                              "
+horizontal_alignment = 2
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox"]
+layout_mode = 2
+text = "-5               -4               -3               -2               -1                 0               +1               +2               +3               +4               +5"
+horizontal_alignment = 1
+
+[node name="progress_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="left_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 3.0
+fill_mode = 1
+show_percentage = false
+
+[node name="right_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[node name="worldview_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox"]
+layout_mode = 2
+text = "Worldview"
+horizontal_alignment = 1
+
+[node name="trait_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "                             Cynical"
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox/trait_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Faithful                              "
+horizontal_alignment = 2
+
+[node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox"]
+layout_mode = 2
+text = "-5               -4               -3               -2               -1                 0               +1               +2               +3               +4               +5"
+horizontal_alignment = 1
+
+[node name="progress_hbox" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="left_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 3.0
+fill_mode = 1
+show_percentage = false
+
+[node name="right_side_trait" type="ProgressBar" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox/progress_hbox"]
+custom_minimum_size = Vector2(400, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jusud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6t3n5")
+max_value = 5.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[node name="skills_panel" type="PanelContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jvlv4")
+
+[node name="skill_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="skill_ui" type="Control" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox"]
+layout_mode = 2
+script = ExtResource("30_cqrxe")
+
+[node name="bg" type="TextureRect" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = 7.0
+offset_bottom = 672.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_43w0b")
+expand_mode = 1
+
+[node name="skill_tree_container" type="ScrollContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -527.5
+offset_top = -339.0
+offset_right = 527.5
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="skill_tree" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/skill_tree_container" instance=ExtResource("26_vt3e4")]
+custom_minimum_size = Vector2(1055, 1300)
+layout_mode = 2
+
+[node name="equipped_skills_container" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -255.0
+offset_top = -158.0
+offset_right = 255.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+
+[node name="equipped_skill_1" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/equipped_skills_container"]
+z_index = 1
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("16_npxbw")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/equipped_skills_container/equipped_skill_1"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -65.0
+offset_right = 65.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("27_wex54")
+expand_mode = 1
+
+[node name="equipped_skill_2" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/equipped_skills_container"]
+z_index = 1
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("16_npxbw")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/equipped_skills_container/equipped_skill_2"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -65.0
+offset_right = 65.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("27_wex54")
+expand_mode = 1
+
+[node name="equipped_skill_3" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/equipped_skills_container"]
+z_index = 1
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture_normal = ExtResource("16_npxbw")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="skill_icon" type="TextureRect" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/equipped_skills_container/equipped_skill_3"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -65.0
+offset_right = 65.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("27_wex54")
+expand_mode = 1
+
+[node name="class_badge" type="TextureButton" parent="background/sheet_hbox"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+disabled = true
+texture_normal = ExtResource("17_pnpwq")
+texture_pressed = ExtResource("18_ltq2e")
+texture_hover = ExtResource("19_8pxpu")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="class_icon" type="TextureRect" parent="background/sheet_hbox/class_badge"]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -70.0
+offset_right = 70.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("20_cw1s0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="close_button" type="TextureButton" parent="background"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -245.0
+offset_top = -232.0
+offset_right = 1255.0
+offset_bottom = 1268.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("16_u1qck")
+texture_pressed = ExtResource("17_kaltu")
+texture_hover = ExtResource("18_eds2w")
+stretch_mode = 0

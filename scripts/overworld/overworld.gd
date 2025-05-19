@@ -49,7 +49,7 @@ func _ready():
 	$UI/quest_log_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_SCREEN_OPEN))
 
 	party_ui.fire_character.connect(_on_fire_character)
-	party_ui.show_skill_tree.connect(_on_show_skill_tree)
+	party_ui.show_character_sheet.connect(_on_show_skill_tree)
 
 	event_manager.fight_ui.show_skill_tree.connect(_on_show_skill_tree)
 

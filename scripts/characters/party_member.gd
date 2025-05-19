@@ -17,7 +17,7 @@ var unspent_non_combat_stat_points: int = 0
 
 var personality_traits: Dictionary = {
 	"Valor": 0,     # -5 (Cautious) to +5 (Brave)
-	"Approach": 0,  # -5 (Meticulous) to +5 (Impulsive)
+	"Temper": 0,    # -5 (Meticulous) to +5 (Impulsive)
 	"Ethics": 0,    # -5 (Self-Serving) to +5 (Altruistic)
 	"Worldview": 0  # -5 (Cynical) to +5 (Faithful)
 }
@@ -104,9 +104,9 @@ func spend_non_combat_stat_point(stat_name: String) -> bool:
 	print("Cannot spend point on %s. Points available: %d" % [stat_name, unspent_non_combat_stat_points])
 	return false
 
-func adjust_personality_trait(trait_name: String, value: int) -> bool:
+func adjust_personality_trait(trait_name: String, amount: int) -> bool:
 	if personality_traits.has(trait_name):
-		personality_traits[trait_name] += value
+		personality_traits[trait_name] += amount
 		personality_traits[trait_name] = clamp(personality_traits[trait_name], -5, 5)
 		return true
 	return false

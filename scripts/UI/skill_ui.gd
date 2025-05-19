@@ -5,17 +5,21 @@ class_name SkillUI
 @export var debugging: bool = false
 
 @onready var skill_tree: SkillTree = $bg/skill_tree_container/skill_tree
-@onready var title = $bg/UI_title/title
-@onready var class_icon = $bg/UI_title/class_icon
-@onready var confirm_button = $bg/confirm_button
+var title: Label
+var class_icon: TextureRect 
+var confirm_button: TextureButton
 
-@onready var equipped_slot_1: TextureButton = $bg/equipped_skills_container/equipped_skill_1 # Adjust path
-@onready var equipped_slot_2: TextureButton = $bg/equipped_skills_container/equipped_skill_2
-@onready var equipped_slot_3: TextureButton = $bg/equipped_skills_container/equipped_skill_3
+@onready var equipped_slots: Array[TextureButton] = [
+	$bg/equipped_skills_container/equipped_skill_1,
+	$bg/equipped_skills_container/equipped_skill_2, 
+	$bg/equipped_skills_container/equipped_skill_3
+	]
 
-@onready var icon_slot_1: TextureRect = $bg/equipped_skills_container/equipped_skill_1/skill_icon
-@onready var icon_slot_2: TextureRect = $bg/equipped_skills_container/equipped_skill_2/skill_icon
-@onready var icon_slot_3: TextureRect = $bg/equipped_skills_container/equipped_skill_3/skill_icon
+@onready var icon_slots: Array[TextureRect] = [
+	$bg/equipped_skills_container/equipped_skill_1/skill_icon,
+	$bg/equipped_skills_container/equipped_skill_2/skill_icon, 
+	$bg/equipped_skills_container/equipped_skill_3/skill_icon
+	]
 
 var curr_party_member: PartyMember = null
 var pending_selection = null # Can hold either slot_index (int) or skill (Skill)
@@ -38,25 +42,24 @@ func _ready():
 	else:
 		printerr("SkillTree: Skill Tooltip Scene not assigned!")
 
-	confirm_button.pressed.connect(_on_confirm_button_pressed)
-	confirm_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	confirm_button = get_node_or_null("confirm_button")
+	if confirm_button :
+		confirm_button.pressed.connect(_on_confirm_button_pressed)
+		confirm_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	
+	title = get_node_or_null("bg/UI_title/title")
+	class_icon = get_node_or_null("bg/UI_title/class_icon")
+	
 	skill_tree.skill_tooltip_needed.connect(_on_skill_tooltip_needed)
 	skill_tree.skill_tooltip_not_needed.connect(_on_skill_tooltip_not_needed)
 	skill_tree.skill_unlocked.connect(_on_skill_unlocked)
 
-	equipped_slot_1.pressed.connect(_on_equipped_slot_pressed.bind(0))
-	equipped_slot_1.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
-	equipped_slot_2.pressed.connect(_on_equipped_slot_pressed.bind(1))
-	equipped_slot_2.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
-	equipped_slot_3.pressed.connect(_on_equipped_slot_pressed.bind(2))
-	equipped_slot_3.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
-
-	equipped_slot_1.mouse_entered.connect(_on_slot_hovered.bind(0))
-	equipped_slot_2.mouse_entered.connect(_on_slot_hovered.bind(1))
-	equipped_slot_3.mouse_entered.connect(_on_slot_hovered.bind(2))
-	equipped_slot_1.mouse_exited.connect(_on_skill_tooltip_not_needed)
-	equipped_slot_2.mouse_exited.connect(_on_skill_tooltip_not_needed)
-	equipped_slot_3.mouse_exited.connect(_on_skill_tooltip_not_needed)
+	for i in range(3):
+		var equipped_slot = equipped_slots[i]
+		equipped_slot.pressed.connect(_on_equipped_slot_pressed.bind(i))
+		equipped_slot.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+		equipped_slot.mouse_entered.connect(_on_skill_tooltip_not_needed)
+		equipped_slot.mouse_exited.connect(_on_skill_tooltip_not_needed)
 
 	skill_tree.unlocked_skill_pressed.connect(_on_skill_selected_from_tree)
 	
@@ -71,8 +74,10 @@ func _ready():
 func update_ui(party_member: PartyMember) : 
 	self.curr_party_member = party_member
 
-	title.text = party_member.get_char_class()
-	class_icon.texture = load("res://assets/ui/classes_icons/" + party_member.get_char_class().to_lower() + ".png")
+	if title :
+		title.text = party_member.get_char_class()
+	if class_icon :
+		class_icon.texture = load("res://assets/ui/classes_icons/" + party_member.get_char_class().to_lower() + ".png")
 
 	skill_tree.update_ui(party_member)
 
@@ -92,7 +97,7 @@ func _on_confirm_button_pressed() :
 func _on_slot_hovered(slot_index: int):
 	if not curr_party_member or curr_party_member.skill_list.size() <= slot_index : return
 	if current_selection_mode == SelectionMode.NONE:
-		var button = [equipped_slot_1, equipped_slot_2, equipped_slot_3][slot_index]
+		var button = equipped_slots[slot_index]
 		var skill_data = curr_party_member.skill_list[slot_index]
 		if skill_data:
 			_on_skill_tooltip_needed(button, skill_data)
@@ -132,7 +137,7 @@ func _update_equipped_slots():
 	if not curr_party_member: return
 
 	var equipped_skills = curr_party_member.skill_list
-	var slots = [icon_slot_1, icon_slot_2, icon_slot_3]
+	var slots = icon_slots
 
 	for i in range(3):
 		if i < equipped_skills.size() and equipped_skills[i]:
@@ -238,7 +243,7 @@ func _cancel_selection():
 
 
 func _update_slot_highlights():
-	var slots = [equipped_slot_1, equipped_slot_2, equipped_slot_3]
+	var slots = equipped_slots
 	for i in range(slots.size()):
 		var button = slots[i]
 		match current_selection_mode:
