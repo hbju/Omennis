@@ -84,7 +84,25 @@ func gold_check(condition_id: String) -> String :
 	if regex_match : 
 		return regex_match.get_string(1)
 	return ""
+
+func stat_check(condition_id: String, comparison: String) -> Array: # Returns [stat_name, value] or empty
+	var regex = RegEx.new()
+	# Matches "stat_STATNAME_gte_VALUE" or "stat_STATNAME_lte_VALUE" or "stat_STATNAME_eq_VALUE"
+	regex.compile(r"stat_([A-Za-z]+)_(gte|lte|eq)_(\d+)")
+	var regex_match = regex.search(condition_id)
+	if regex_match:
+		return [regex_match.get_string(1), comparison, int(regex_match.get_string(3))]
+	return []
 		
+func trait_check(condition_id: String, comparison: String) -> Array: # Returns [trait_name, value] or empty
+	var regex = RegEx.new()
+	# Matches "trait_TRAITNAME_gte_VALUE" or "trait_TRAITNAME_lte_VALUE" or "trait_TRAITNAME_eq_VALUE"
+	regex.compile(r"trait_([A-Za-z]+)_(gte|lte|eq)_([+-]?\d+)")
+	var regex_match = regex.search(condition_id)
+	if regex_match:
+		return [regex_match.get_string(1), comparison, int(regex_match.get_string(3))]
+	return []
+
 func evaluate_expression(condition_id: String) -> bool:
 	var quest_accepted_id = quest_check(condition_id, "_accepted")
 	if quest_accepted_id != "" :
@@ -101,6 +119,48 @@ func evaluate_expression(condition_id: String) -> bool:
 	var gold_amount = gold_check(condition_id)
 	if gold_amount != "" : 
 		return party_money >= int(gold_amount)
+
+	var stat_gte = stat_check(condition_id, "gte")
+	if not stat_gte.is_empty():
+		for member in party:
+			if member.non_combat_stats.has(stat_gte[0]) and member.non_combat_stats[stat_gte[0]] >= stat_gte[2]:
+				return true
+		return false
+
+	var stat_lte = stat_check(condition_id, "lte")
+	if not stat_lte.is_empty():
+		for member in party:
+			if member.non_combat_stats.has(stat_lte[0]) and member.non_combat_stats[stat_lte[0]] <= stat_lte[2]:
+				return true
+		return false
+
+	var stat_eq = stat_check(condition_id, "eq")
+	if not stat_eq.is_empty():
+		for member in party:
+			if member.non_combat_stats.has(stat_eq[0]) and member.non_combat_stats[stat_eq[0]] == stat_eq[2]:
+				return true
+		return false
+
+	var trait_gte = trait_check(condition_id, "gte")
+	if not trait_gte.is_empty():
+		for member in party: 
+			if member.personality_traits.has(trait_gte[0]) and member.personality_traits[trait_gte[0]] >= trait_gte[2]:
+				return true
+		return false
+	
+	var trait_lte = trait_check(condition_id, "lte")
+	if not trait_lte.is_empty():
+		for member in party: 
+			if member.personality_traits.has(trait_lte[0]) and member.personality_traits[trait_lte[0]] <= trait_lte[2]:
+				return true
+		return false
+
+	var trait_eq = trait_check(condition_id, "eq")
+	if not trait_eq.is_empty():
+		for member in party: 
+			if member.personality_traits.has(trait_eq[0]) and member.personality_traits[trait_eq[0]] == trait_eq[2]:
+				return true
+		return false
 		
 	match condition_id :
 		"quest_accepted" :
