@@ -27,7 +27,7 @@ var oddr_direction_differences = [
 	 [-1,  0], [ 0, +1], [+1, +1]],
 ]
 
-var nature_walkable_cells = [0, 1, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
+var nature_walkable_cells = [0, 1, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16, 19]
 
 var next_random_event: Dictionary
 

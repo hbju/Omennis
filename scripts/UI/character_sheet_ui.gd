@@ -11,17 +11,19 @@ signal non_combat_stat_increased(stat_name: String)
 # Header
 @onready var title: Label = $background/borders/header/title_label
 @onready var large_portrait: TextureRect = $background/sheet_hbox/portrait/avatar_portrait
-@onready var class_icon    : TextureRect = $background/sheet_hbox/class_badge/class_icon
+@onready var class_icon    : TextureRect = $background/sheet_hbox/right_part/class_badge/class_icon
 
 # Tab Buttons
-@onready var stats_tab_button : TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/stats_tab_button
-@onready var traits_tab_button: TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/traits_tab_button
-@onready var skills_tab_button: TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/skills_tab_button
+@onready var stats_tab_button        : TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/stats_tab_button
+@onready var traits_tab_button       : TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/traits_tab_button
+@onready var skills_tab_button       : TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/skills_tab_button
+@onready var relationships_tab_button: TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/relationships_tab_button
 
 # Tab Content Panels
-@onready var stats_panel : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel
-@onready var traits_panel: Control = $background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel
-@onready var skills_panel: Control = $background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel
+@onready var stats_panel        : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel
+@onready var traits_panel       : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel
+@onready var skills_panel       : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel
+@onready var relationships_panel: Control = $background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel
 
 # Stats Panel Content
 @onready var stats_label:            Label = $background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/overview_label
@@ -58,7 +60,11 @@ signal non_combat_stat_increased(stat_name: String)
 # Skills Panel Content
 @onready var skill_ui: SkillUI = $background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui
 
-@onready var close_button: TextureButton = $background/close_button
+# Relationship Panel Content
+const RelationshipEntryScene = preload("res://scenes/relationship_entry.tscn")
+@onready var relationship_list_vbox: VBoxContainer = $background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel/ScrollContainer/relationships_vbox
+
+@onready var close_button: TextureButton = $background/sheet_hbox/right_part/close_button
 
 var current_party_member: PartyMember = null
 var active_panel: Control = null
@@ -67,6 +73,7 @@ func _ready():
 	stats_tab_button.pressed.connect(_on_tab_button_pressed.bind(stats_panel, stats_tab_button))
 	traits_tab_button.pressed.connect(_on_tab_button_pressed.bind(traits_panel, traits_tab_button))
 	skills_tab_button.pressed.connect(_on_tab_button_pressed.bind(skills_panel, skills_tab_button))
+	relationships_tab_button.pressed.connect(_on_tab_button_pressed.bind(relationships_panel, relationships_tab_button))
 
 	close_button.pressed.connect(_on_close_button_pressed)
 
@@ -92,7 +99,7 @@ func _on_tab_button_pressed(panel_to_show: Control, button_pressed: TextureButto
 	active_panel = panel_to_show
 
 	button_pressed.disabled = true
-	for button in [stats_tab_button, traits_tab_button, skills_tab_button]:
+	for button in [stats_tab_button, traits_tab_button, skills_tab_button, relationships_tab_button]:
 		if button != button_pressed:
 			button.disabled = false
 
@@ -116,7 +123,8 @@ func show_sheet(party_member: PartyMember):
 	# Populate all tabs
 	_update_stats_panel()
 	_update_traits_panel()
-	_update_skills_panel() 
+	_update_skills_panel()
+	_update_relationships_panel() 
 
 	# Default to showing the stats tab
 	_on_tab_button_pressed(stats_panel, stats_tab_button)
@@ -200,6 +208,52 @@ func _update_skills_panel():
 	if not current_party_member or not skills_panel: return
 	if skill_ui:
 		skill_ui.update_ui(current_party_member)
+
+func _update_relationships_panel():
+	if not current_party_member or not relationship_list_vbox: return
+
+	for child in relationship_list_vbox.get_children(): child.queue_free()
+
+	  # Iterate through ALL party members in GameState to find others
+	for other_member in GameState.party: # Assuming game_state is accessible
+		if other_member.character_unique_id == current_party_member.character_unique_id:
+			continue
+
+		var entry_instance = RelationshipEntryScene.instantiate()
+		entry_instance.get_node("relation_hbox/other_char_avatar/avatar_portrait").texture = load(other_member.get_portrait_path()) 
+		entry_instance.get_node("relation_hbox/char_label").text = other_member.character_name + "\n" + current_party_member.get_derived_relationship_name(other_member)
+		  
+		var r_tracks = current_party_member.relationships.get(other_member.character_unique_id, {})
+		var friendship = r_tracks.get(PartyMember.RELATIONSHIP_TRACK.FRIENDSHIP, 50)
+		var respect = r_tracks.get(PartyMember.RELATIONSHIP_TRACK.RESPECT, 50)
+		var trust = r_tracks.get(PartyMember.RELATIONSHIP_TRACK.TRUST, 50)
+		var rivalry = r_tracks.get(PartyMember.RELATIONSHIP_TRACK.RIVALRY, 0)
+		var attraction = r_tracks.get(PartyMember.RELATIONSHIP_TRACK.ATTRACTION, 0)
+		var fear = r_tracks.get(PartyMember.RELATIONSHIP_TRACK.FEAR, 0)
+
+		if friendship > 0:
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/friendship_vbox/progress_hbox/left_side_rel").value = 0
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/friendship_vbox/progress_hbox/right_side_rel").value = friendship - 50
+		else:
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/friendship_vbox/progress_hbox/left_side_rel").value = 50-friendship
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/friendship_vbox/progress_hbox/right_side_rel").value = 0
+		if respect > 0:
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/respect_vbox/progress_hbox/left_side_rel").value = 0
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/respect_vbox/progress_hbox/right_side_rel").value = respect - 50
+		else:
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/respect_vbox/progress_hbox/left_side_rel").value = 50 - respect
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/respect_vbox/progress_hbox/right_side_rel").value = 0
+		if trust > 0:
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/trust_vbox/progress_hbox/left_side_rel").value = 0
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/trust_vbox/progress_hbox/right_side_rel").value = trust - 50
+		else:
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/trust_vbox/progress_hbox/left_side_rel").value = 50 - trust
+			entry_instance.get_node("relation_hbox/relation_tracks_vbox/trust_vbox/progress_hbox/right_side_rel").value = 0
+		entry_instance.get_node("relation_hbox/relation_tracks_vbox/rivalry_vbox/progress_hbox/right_side_rel").value = rivalry
+		entry_instance.get_node("relation_hbox/relation_tracks_vbox/attraction_vbox/progress_hbox/right_side_rel").value = attraction
+		entry_instance.get_node("relation_hbox/relation_tracks_vbox/fear_vbox/progress_hbox/right_side_rel").value = fear
+
+		relationship_list_vbox.add_child(entry_instance)
 
 func _on_increase_stat_pressed(stat_name: String):
 	if current_party_member and current_party_member.spend_non_combat_stat_point(stat_name):

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsdojel6rdhv7"
-path="res://.godot/imported/b_02.png-f7549dca2fc449aaa3bbf815e0766b5f.ctex"
+uid="uid://chusgxost6jkt"
+path="res://.godot/imported/nea.png-5b8e24cbe68b78993371d218850a2971.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/overworld_elements/cities/b_02.png"
-dest_files=["res://.godot/imported/b_02.png-f7549dca2fc449aaa3bbf815e0766b5f.ctex"]
+source_file="res://assets/overworld_elements/cities/nea.png"
+dest_files=["res://.godot/imported/nea.png-5b8e24cbe68b78993371d218850a2971.ctex"]
 
 [params]
 

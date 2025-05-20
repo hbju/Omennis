@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://dvs0op087antk"]
+[gd_scene load_steps=44 format=3 uid="uid://dvs0op087antk"]
 
 [ext_resource type="Script" path="res://scripts/ui/character_sheet_ui.gd" id="1_10so0"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_43w0b"]
@@ -36,6 +36,7 @@
 [ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="27_wex54"]
 [ext_resource type="Texture2D" uid="uid://duqgapa04qxnx" path="res://assets/ui/buttons/plus_button/add_b_h.png" id="28_bsfys"]
 [ext_resource type="Script" path="res://scripts/ui/skill_ui.gd" id="30_cqrxe"]
+[ext_resource type="PackedScene" uid="uid://ds8wb1udg56mq" path="res://scenes/relationship_entry.tscn" id="30_kv4ir"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1mw01"]
 font = ExtResource("14_ggg2r")
@@ -284,9 +285,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -740.5
+offset_left = -789.5
 offset_top = -354.5
-offset_right = 734.5
+offset_right = 799.5
 offset_bottom = 438.5
 grow_horizontal = 2
 grow_vertical = 2
@@ -335,7 +336,7 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="stats_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
-custom_minimum_size = Vector2(300, 100)
+custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 texture_normal = ExtResource("15_u7dp3")
 texture_pressed = ExtResource("22_62jlo")
@@ -345,6 +346,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/stats_tab_button"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -364,7 +366,7 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="traits_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
-custom_minimum_size = Vector2(300, 100)
+custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 texture_normal = ExtResource("15_u7dp3")
 texture_pressed = ExtResource("22_62jlo")
@@ -374,6 +376,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/traits_tab_button"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -393,7 +396,7 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="skills_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
-custom_minimum_size = Vector2(300, 100)
+custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 texture_normal = ExtResource("15_u7dp3")
 texture_pressed = ExtResource("22_62jlo")
@@ -403,6 +406,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/skills_tab_button"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -421,11 +425,40 @@ label_settings = SubResource("LabelSettings_h86xt")
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="relationships_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+texture_normal = ExtResource("15_u7dp3")
+texture_pressed = ExtResource("22_62jlo")
+texture_hover = ExtResource("23_p2w7f")
+texture_disabled = ExtResource("16_npjvp")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/relationships_tab_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -11.5
+offset_right = 36.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Relationships"
+label_settings = SubResource("LabelSettings_h86xt")
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [node name="tab_content_container" type="Control" parent="background/sheet_hbox/sheet_vbox"]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="stats_panel" type="PanelContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -612,12 +645,12 @@ alignment = 1
 [node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "                             Cautious"
+text = "                                         Timid"
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Brave                              "
+text = "Brave                                       "
 horizontal_alignment = 2
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/valor_vbox"]
@@ -668,12 +701,12 @@ alignment = 1
 [node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "                             Meticulous"
+text = "                                         Cautious"
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Impulsive                              "
+text = "Impulsive                                       "
 horizontal_alignment = 2
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/temper_vbox"]
@@ -724,12 +757,12 @@ alignment = 1
 [node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "                             Self-Serving"
+text = "                                         Self-Serving"
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Altruistic                              "
+text = "Altruistic                                       "
 horizontal_alignment = 2
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/ethics_vbox"]
@@ -780,12 +813,12 @@ alignment = 1
 [node name="left_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "                             Cynical"
+text = "                                         Cynical"
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox/trait_hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Faithful                              "
+text = "Faithful                                       "
 horizontal_alignment = 2
 
 [node name="right_trait_name" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel/traits_vbox/worldview_vbox"]
@@ -959,9 +992,79 @@ grow_vertical = 2
 texture = ExtResource("27_wex54")
 expand_mode = 1
 
-[node name="class_badge" type="TextureButton" parent="background/sheet_hbox"]
-custom_minimum_size = Vector2(150, 150)
+[node name="relationships_panel" type="PanelContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jvlv4")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel"]
 layout_mode = 2
+
+[node name="relationships_vbox" type="VBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel/ScrollContainer"]
+custom_minimum_size = Vector2(1140, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="relationship_entry" parent="background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel/ScrollContainer/relationships_vbox" instance=ExtResource("30_kv4ir")]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="relationship_entry2" parent="background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel/ScrollContainer/relationships_vbox" instance=ExtResource("30_kv4ir")]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="relationship_entry3" parent="background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel/ScrollContainer/relationships_vbox" instance=ExtResource("30_kv4ir")]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="relationship_entry4" parent="background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel/ScrollContainer/relationships_vbox" instance=ExtResource("30_kv4ir")]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="right_part" type="Control" parent="background/sheet_hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="close_button" type="TextureButton" parent="background/sheet_hbox/right_part"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -173.0
+offset_right = 1425.0
+offset_bottom = 1327.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("16_u1qck")
+texture_pressed = ExtResource("17_kaltu")
+texture_hover = ExtResource("18_eds2w")
+stretch_mode = 0
+
+[node name="class_badge" type="TextureButton" parent="background/sheet_hbox/right_part"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -75.0
+offset_right = 75.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
 disabled = true
 texture_normal = ExtResource("17_pnpwq")
 texture_pressed = ExtResource("18_ltq2e")
@@ -969,7 +1072,7 @@ texture_hover = ExtResource("19_8pxpu")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="class_icon" type="TextureRect" parent="background/sheet_hbox/class_badge"]
+[node name="class_icon" type="TextureRect" parent="background/sheet_hbox/right_part/class_badge"]
 custom_minimum_size = Vector2(140, 140)
 layout_mode = 1
 anchors_preset = 8
@@ -986,22 +1089,3 @@ grow_vertical = 2
 texture = ExtResource("20_cw1s0")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="close_button" type="TextureButton" parent="background"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -245.0
-offset_top = -232.0
-offset_right = 1255.0
-offset_bottom = 1268.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.1, 0.1)
-texture_normal = ExtResource("16_u1qck")
-texture_pressed = ExtResource("17_kaltu")
-texture_hover = ExtResource("18_eds2w")
-stretch_mode = 0

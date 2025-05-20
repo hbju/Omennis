@@ -1,6 +1,7 @@
 extends Character
 class_name PartyMember
 
+var character_unique_id: String
 var character_sex: SEX
 var character_experience: int
 var skill_points: int
@@ -16,11 +17,14 @@ var non_combat_stats: Dictionary = {
 var unspent_non_combat_stat_points: int = 0
 
 var personality_traits: Dictionary = {
-	"Valor": 0,     # -5 (Cautious) to +5 (Brave)
-	"Temper": 0,    # -5 (Meticulous) to +5 (Impulsive)
+	"Valor": 0,     # -5 (Timid) to +5 (Brave)
+	"Temper": 0,    # -5 (Cautious) to +5 (Impulsive)
 	"Ethics": 0,    # -5 (Self-Serving) to +5 (Altruistic)
 	"Worldview": 0  # -5 (Cynical) to +5 (Faithful)
 }
+
+enum RELATIONSHIP_TRACK { FRIENDSHIP, RIVALRY, RESPECT, TRUST, ATTRACTION, FEAR }
+var relationships: Dictionary = {} 
 
 const NB_FEMALE_PORTRAIT = 36
 const NB_MALE_PORTRAIT = 21
@@ -33,6 +37,8 @@ func _init(char_name, _class, portrait, level, sex,
 		initial_non_combat_stats: Dictionary = {},
 		initial_trait_scores: Dictionary = {}):
 	super(char_name, _class, portrait, level, health, damage)
+
+	character_unique_id = char_name + str(Time.get_unix_time_from_system()) + str(randi())	
 
 	self.character_sex = sex
 	
@@ -110,7 +116,69 @@ func adjust_personality_trait(trait_name: String, amount: int) -> bool:
 		personality_traits[trait_name] = clamp(personality_traits[trait_name], -5, 5)
 		return true
 	return false
+
+func get_relationship_track_score(other_char_id: String, track: RELATIONSHIP_TRACK) -> float:
+	if relationships.has(other_char_id) and relationships[other_char_id].has(track):
+		return relationships[other_char_id][track]
+	return 0.0
 	
+func adjust_relationship_track_score(other_char_id: String, track: RELATIONSHIP_TRACK, amount: float):
+	if not relationships.has(other_char_id):
+		relationships[other_char_id] = {
+			  RELATIONSHIP_TRACK.FRIENDSHIP: 50.0,
+			  RELATIONSHIP_TRACK.RIVALRY: 0.0,
+			  RELATIONSHIP_TRACK.RESPECT: 50.0,
+			  RELATIONSHIP_TRACK.TRUST: 50.0,
+			  RELATIONSHIP_TRACK.ATTRACTION: 0.0,
+			  RELATIONSHIP_TRACK.FEAR: 0.0
+		}
+	  
+	var current_score = relationships[other_char_id].get(track, 0.0)
+	var max_score = 100.0 if track in [RELATIONSHIP_TRACK.FRIENDSHIP, RELATIONSHIP_TRACK.RESPECT, RELATIONSHIP_TRACK.TRUST] else 50.0
+	var new_score = clamp(current_score + amount, 0, max_score) # Clamp between 0 and 100 for these tracks
+	relationships[other_char_id][track] = new_score
+	print("%s's %s with %s changed by %s to %s" % [character_name, RELATIONSHIP_TRACK.keys()[track], other_char_id, amount, new_score])
+	
+func get_derived_relationship_name(other_member: PartyMember) -> String:
+	var relationship_tracks = relationships.get(other_member.character_unique_id, {
+		RELATIONSHIP_TRACK.FRIENDSHIP: 50.0,
+		RELATIONSHIP_TRACK.RIVALRY: 0.0,
+		RELATIONSHIP_TRACK.RESPECT: 50.0,
+		RELATIONSHIP_TRACK.TRUST: 50.0,
+		RELATIONSHIP_TRACK.ATTRACTION: 0.0,
+		RELATIONSHIP_TRACK.FEAR: 0.0
+	})
+	var friend = relationship_tracks.get(PartyMember.RELATIONSHIP_TRACK.FRIENDSHIP, 50)
+	var respect = relationship_tracks.get(PartyMember.RELATIONSHIP_TRACK.RESPECT, 50)
+	var trust = relationship_tracks.get(PartyMember.RELATIONSHIP_TRACK.TRUST, 50)
+	var rival = relationship_tracks.get(PartyMember.RELATIONSHIP_TRACK.RIVALRY, 0)
+	var attract = relationship_tracks.get(PartyMember.RELATIONSHIP_TRACK.ATTRACTION, 0)
+	var fear = relationship_tracks.get(PartyMember.RELATIONSHIP_TRACK.FEAR, 0)
+
+	var _other_friend = other_member.get_relationship_track_score(character_unique_id, PartyMember.RELATIONSHIP_TRACK.FRIENDSHIP)
+	var _other_rival = other_member.get_relationship_track_score(character_unique_id, PartyMember.RELATIONSHIP_TRACK.RIVALRY)
+	var other_respect = other_member.get_relationship_track_score(character_unique_id, PartyMember.RELATIONSHIP_TRACK.RESPECT)
+	var other_trust = other_member.get_relationship_track_score(character_unique_id, PartyMember.RELATIONSHIP_TRACK.TRUST)
+	var _other_attract = other_member.get_relationship_track_score(character_unique_id, PartyMember.RELATIONSHIP_TRACK.ATTRACTION)
+	var other_fear = other_member.get_relationship_track_score(character_unique_id, PartyMember.RELATIONSHIP_TRACK.FEAR)
+
+	if friend >= 80 and attract >= 35 and respect >= 60 and trust >= 60: return "Soulmates"
+	if friend >= 70 and respect >= 60 and trust >= 60: return "Trusted Comrades"
+	if friend >= 75 and rival >= 20: return "Friendly Rivals"
+	if friend <= 30 and rival >= 25 and trust <= 25: return "Bitter Rivals"
+	if fear >= 25 and respect >= 65 and other_member.level > character_level : return "Feared Leader"
+	if other_fear >= 25 and other_respect >= 65 and character_level > other_member.character_level : return "Subordinate"
+	if fear >= 25 and trust <= 25 and respect <= 25 : return "Bully"
+	if other_fear >= 25 and other_trust <= 25 and other_respect <= 25 : return "Victim"
+	if respect >= 70 and other_member.level > character_level + 1: return "Mentor"
+	if respect >= 70 and other_member.level < character_level - 1: return "Protégé"
+	if respect <= 25 and trust <= 25 : return "Contempt"
+	if friend >= 70 and attract >= 35 : return "Lovers"
+	if friend >= 75: return "Friends"
+	if rival >= 20: return "Rivals"
+	if trust <= 20: return "Distrusted"
+	return "Acquaintances"	
+
 func next_level() : 
 	return floor(1000 * pow(character_level, 1.5))
 
@@ -133,6 +201,7 @@ func duplicate() -> PartyMember:
 		non_combat_stats.duplicate(true),
 		personality_traits.duplicate(true)
 	)
+	new_character.character_unique_id = character_unique_id
 	new_character.skill_list = skill_list.duplicate(true)
 	new_character.character_experience = character_experience
 	new_character.skill_points = skill_points
