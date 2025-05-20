@@ -854,7 +854,6 @@ value = 3.0
 show_percentage = false
 
 [node name="skills_panel" type="PanelContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -891,9 +890,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -527.5
+offset_left = -570.0
 offset_top = -339.0
-offset_right = 527.5
+offset_right = 572.0
 offset_bottom = 165.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -901,6 +900,7 @@ grow_vertical = 2
 [node name="skill_tree" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg/skill_tree_container" instance=ExtResource("26_vt3e4")]
 custom_minimum_size = Vector2(1055, 1300)
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="equipped_skills_container" type="HBoxContainer" parent="background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel/skill_vbox/skill_ui/bg"]
 layout_mode = 1

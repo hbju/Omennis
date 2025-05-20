@@ -42,7 +42,7 @@ func _ready():
 	else:
 		printerr("SkillTree: Skill Tooltip Scene not assigned!")
 
-	confirm_button = get_node_or_null("confirm_button")
+	confirm_button = get_node_or_null("bg/confirm_button")
 	if confirm_button :
 		confirm_button.pressed.connect(_on_confirm_button_pressed)
 		confirm_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
