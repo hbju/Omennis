@@ -169,7 +169,7 @@ layout_mode = 2
 text = "Skill Points Available: 2 (+1 !)"
 label_settings = SubResource("LabelSettings_eglbp")
 
-[node name="skill_button" type="TextureButton" parent="background/character_result_display/hbox"]
+[node name="class_badge" type="TextureButton" parent="background/character_result_display/hbox"]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 texture_normal = ExtResource("8_s07di")
@@ -178,7 +178,7 @@ texture_hover = ExtResource("10_k65wd")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="class_icon" type="TextureRect" parent="background/character_result_display/hbox/skill_button"]
+[node name="class_icon" type="TextureRect" parent="background/character_result_display/hbox/class_badge"]
 custom_minimum_size = Vector2(125, 125)
 layout_mode = 1
 anchors_preset = 8

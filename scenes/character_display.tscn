@@ -18,18 +18,18 @@ font = ExtResource("3_fa86o")
 font_size = 20
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_76707"]
+[sub_resource type="Gradient" id="Gradient_v8bif"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_m6uat"]
-gradient = SubResource("Gradient_76707")
+gradient = SubResource("Gradient_v8bif")
 width = 128
 
-[sub_resource type="Gradient" id="Gradient_5hgs1"]
+[sub_resource type="Gradient" id="Gradient_6rka7"]
 colors = PackedColorArray(0.1547, 0.382346, 0.973716, 1, 0.152941, 0.380392, 0.972549, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qxm63"]
-gradient = SubResource("Gradient_5hgs1")
+gradient = SubResource("Gradient_6rka7")
 width = 128
 
 [node name="background" type="TextureRect"]

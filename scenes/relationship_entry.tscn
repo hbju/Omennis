@@ -1,0 +1,353 @@
+[gd_scene load_steps=21 format=3 uid="uid://ds8wb1udg56mq"]
+
+[ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="1_u5vwu"]
+[ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="2_1s3it"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_gmrqi"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="4_mkgca"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ha6pu"]
+font = ExtResource("4_mkgca")
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_3e3os"]
+font = ExtResource("4_mkgca")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_ivpv1"]
+font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_63h8n"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gasn8"]
+bg_color = Color(1, 0.0705882, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tshn2"]
+bg_color = Color(0.188235, 0.87451, 0.984314, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1pe0u"]
+font = ExtResource("4_mkgca")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_fwcta"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_gsy0l"]
+font = ExtResource("4_mkgca")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_2g4v7"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_68beg"]
+font = ExtResource("4_mkgca")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_e4apa"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_gsmko"]
+font = ExtResource("4_mkgca")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_lxhmx"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_l3gui"]
+font = ExtResource("4_mkgca")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_0hoxo"]
+font_size = 12
+
+[node name="relationship_entry" type="TextureRect"]
+custom_minimum_size = Vector2(730, 260)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -364.0
+offset_top = -167.0
+offset_right = 366.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_u5vwu")
+
+[node name="relation_hbox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.5
+offset_top = -95.5
+offset_right = 336.5
+offset_bottom = 95.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="other_char_avatar" type="ColorRect" parent="relation_hbox"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.509804, 0.313726, 0.160784, 1)
+
+[node name="avatar_portrait" type="TextureRect" parent="relation_hbox/other_char_avatar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.213
+offset_top = -75.0
+offset_right = 62.2137
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_1s3it")
+expand_mode = 3
+
+[node name="frame" type="TextureRect" parent="relation_hbox/other_char_avatar"]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 160.0
+offset_bottom = 160.0
+texture = ExtResource("3_gmrqi")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="char_label" type="Label" parent="relation_hbox"]
+layout_mode = 2
+text = "Halfai
+Bitter Rival"
+label_settings = SubResource("LabelSettings_ha6pu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="relation_tracks_vbox" type="GridContainer" parent="relation_hbox"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 7
+columns = 2
+
+[node name="friendship_name" type="Label" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+text = "Friendship"
+label_settings = SubResource("LabelSettings_3e3os")
+horizontal_alignment = 1
+
+[node name="friendship_vbox" type="VBoxContainer" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+
+[node name="relationship_progression_label" type="Label" parent="relation_hbox/relation_tracks_vbox/friendship_vbox"]
+layout_mode = 2
+text = "-50   -40    -30    -20    -10     0   +10   +20   +30   +40   +50"
+label_settings = SubResource("LabelSettings_ivpv1")
+horizontal_alignment = 1
+
+[node name="progress_hbox" type="HBoxContainer" parent="relation_hbox/relation_tracks_vbox/friendship_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="left_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/friendship_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gasn8")
+max_value = 50.0
+step = 1.0
+value = 1.0
+fill_mode = 1
+show_percentage = false
+
+[node name="right_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/friendship_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tshn2")
+max_value = 50.0
+step = 1.0
+show_percentage = false
+
+[node name="respect_name" type="Label" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+text = "Respect"
+label_settings = SubResource("LabelSettings_1pe0u")
+horizontal_alignment = 1
+
+[node name="respect_vbox" type="VBoxContainer" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="relationship_progression_label" type="Label" parent="relation_hbox/relation_tracks_vbox/respect_vbox"]
+layout_mode = 2
+text = "-50   -40    -30    -20    -10     0   +10   +20   +30   +40   +50"
+label_settings = SubResource("LabelSettings_fwcta")
+horizontal_alignment = 1
+
+[node name="progress_hbox" type="HBoxContainer" parent="relation_hbox/relation_tracks_vbox/respect_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="left_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/respect_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gasn8")
+max_value = 50.0
+step = 1.0
+value = 1.0
+fill_mode = 1
+show_percentage = false
+
+[node name="right_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/respect_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tshn2")
+max_value = 50.0
+step = 1.0
+value = 4.0
+show_percentage = false
+
+[node name="trust_name" type="Label" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+text = "Trust"
+label_settings = SubResource("LabelSettings_gsy0l")
+horizontal_alignment = 1
+
+[node name="trust_vbox" type="VBoxContainer" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="relationship_progression_label" type="Label" parent="relation_hbox/relation_tracks_vbox/trust_vbox"]
+layout_mode = 2
+text = "-50   -40    -30    -20    -10     0   +10   +20   +30   +40   +50"
+label_settings = SubResource("LabelSettings_2g4v7")
+horizontal_alignment = 1
+
+[node name="progress_hbox" type="HBoxContainer" parent="relation_hbox/relation_tracks_vbox/trust_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="left_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/trust_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gasn8")
+max_value = 50.0
+step = 1.0
+value = 1.0
+fill_mode = 1
+show_percentage = false
+
+[node name="right_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/trust_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tshn2")
+max_value = 50.0
+step = 1.0
+value = 4.0
+show_percentage = false
+
+[node name="rivalry_name" type="Label" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+text = "Rivalry"
+label_settings = SubResource("LabelSettings_68beg")
+horizontal_alignment = 1
+
+[node name="rivalry_vbox" type="VBoxContainer" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+
+[node name="relationship_progression_label" type="Label" parent="relation_hbox/relation_tracks_vbox/rivalry_vbox"]
+layout_mode = 2
+text = "0   +10   +20   +30   +40   +50"
+label_settings = SubResource("LabelSettings_e4apa")
+horizontal_alignment = 2
+
+[node name="progress_hbox" type="HBoxContainer" parent="relation_hbox/relation_tracks_vbox/rivalry_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="right_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/rivalry_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tshn2")
+max_value = 50.0
+step = 1.0
+value = 4.0
+show_percentage = false
+
+[node name="attraction_name" type="Label" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+text = "Attraction"
+label_settings = SubResource("LabelSettings_gsmko")
+horizontal_alignment = 1
+
+[node name="attraction_vbox" type="VBoxContainer" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="relationship_progression_label" type="Label" parent="relation_hbox/relation_tracks_vbox/attraction_vbox"]
+layout_mode = 2
+text = "0   +10   +20   +30   +40   +50"
+label_settings = SubResource("LabelSettings_lxhmx")
+horizontal_alignment = 2
+
+[node name="progress_hbox" type="HBoxContainer" parent="relation_hbox/relation_tracks_vbox/attraction_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="right_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/attraction_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tshn2")
+max_value = 50.0
+step = 1.0
+value = 4.0
+show_percentage = false
+
+[node name="fear_name" type="Label" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+text = "Fear"
+label_settings = SubResource("LabelSettings_l3gui")
+horizontal_alignment = 1
+
+[node name="fear_vbox" type="VBoxContainer" parent="relation_hbox/relation_tracks_vbox"]
+layout_mode = 2
+alignment = 1
+
+[node name="relationship_progression_label" type="Label" parent="relation_hbox/relation_tracks_vbox/fear_vbox"]
+layout_mode = 2
+text = "0   +10   +20   +30   +40   +50"
+label_settings = SubResource("LabelSettings_0hoxo")
+horizontal_alignment = 2
+
+[node name="progress_hbox" type="HBoxContainer" parent="relation_hbox/relation_tracks_vbox/fear_vbox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="right_side_rel" type="ProgressBar" parent="relation_hbox/relation_tracks_vbox/fear_vbox/progress_hbox"]
+custom_minimum_size = Vector2(150, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_63h8n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tshn2")
+max_value = 50.0
+step = 1.0
+value = 4.0
+show_percentage = false

@@ -6,8 +6,8 @@ signal next_wave_pressed
 
 @onready var title_label: Label = $background/borders/header/title_label
 @onready var display: TextureRect = $background/character_result_display
-@onready var display_class_icon: TextureRect = $background/character_result_display/hbox/skill_button/class_icon
-@onready var view_skills_button: TextureButton = $background/character_result_display/hbox/skill_button
+@onready var display_class_icon: TextureRect = $background/character_result_display/hbox/class_badge/class_icon
+@onready var view_skills_button: TextureButton = $background/character_result_display/hbox/class_badge
 @onready var next_wave_button: TextureButton = $background/proceed_button
 
 var class_button_glowing: bool = false
