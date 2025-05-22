@@ -8,6 +8,18 @@ const PARTY_MAX_NUMBER = 4
 enum QUEST_STATE {Accepted, Accomplished, Turned}
 var quest_log: Dictionary
 
+var _condition_evaluators = {
+	"party_full": func(): return party.size() == PARTY_MAX_NUMBER,
+	"has_unspent_non_combat_points": func():
+		for member in party:
+			if member.unspent_non_combat_stat_points > 0: return true
+		return false,
+	"has_unspent_skill_points": func():
+		for member in party:
+			if member.skill_points > 0: return true
+		return false,
+}
+
 var party_money : int
 signal money_changed
 
@@ -211,86 +223,531 @@ func trait_check(condition_id: String, comparison: String) -> Array: # Returns [
 		return [regex_match.get_string(1), comparison, int(regex_match.get_string(3))]
 	return []
 
-func evaluate_expression(condition_id: String) -> bool:
-	var quest_accepted_id = quest_check(condition_id, "_accepted")
-	if quest_accepted_id != "" :
-		return quest_log.has(int(quest_accepted_id)) && quest_log[int(quest_accepted_id)] == QUEST_STATE.Accepted
-		
-	var quest_accomplished_id = quest_check(condition_id, "_accomplished")
-	if quest_accomplished_id != "" :
-		return quest_log.has(int(quest_accomplished_id)) && quest_log[int(quest_accomplished_id)] == QUEST_STATE.Accomplished
+func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember] = []) -> bool:
+	atom = atom.strip_edges()
+
+	if _condition_evaluators.has(atom):
+		return _condition_evaluators[atom].call()
+
+	# Quest checks : accomplished or turned means accepted, turned means accomplished as well
+	for state_name in ["accepted", "accomplished", "turned"]:
+		var quest_id_str = quest_check(atom, "_" + state_name)
+		if not quest_id_str.is_empty():
+			var quest_id = int(quest_id_str)
+			var expected_state = QUEST_STATE.get(state_name.capitalize()) 
+			return quest_log.has(quest_id) and quest_log[quest_id] >= expected_state
 	
-	var quest_turned_id = quest_check(condition_id, "_turned")
-	if quest_turned_id != "" :
-		return quest_log.has(int(quest_turned_id)) && quest_log[int(quest_turned_id)] == QUEST_STATE.Turned
-		
-	var gold_amount = gold_check(condition_id)
-	if gold_amount != "" : 
-		return party_money >= int(gold_amount)
+	var gold_amount_str = gold_check(atom) # gold_X
+	if not gold_amount_str.is_empty():
+		return party_money >= int(gold_amount_str)
 
-	var stat_gte = stat_check(condition_id, "gte")
-	if not stat_gte.is_empty():
-		for member in party:
-			if member.non_combat_stats.has(stat_gte[0]) and member.non_combat_stats[stat_gte[0]] >= stat_gte[2]:
-				return true
+	# --- Stat, Trait, and Relationship Checks ---
+	# Example patterns:
+	# "stat_Perception_party_highest_gte_5"
+	# "stat_Influence_char0_lte_3" (if context_characters[0] exists)
+	# "trait_Valor_any_gte_2"
+	# "rel_Friendship_char0_char1_gte_50"
+
+	var parts = atom.split("_")
+	if parts.size() < 4: 
+		printerr("Malformed condition atom: ", atom)
 		return false
 
-	var stat_lte = stat_check(condition_id, "lte")
-	if not stat_lte.is_empty():
-		for member in party:
-			if member.non_combat_stats.has(stat_lte[0]) and member.non_combat_stats[stat_lte[0]] <= stat_lte[2]:
-				return true
-		return false
-
-	var stat_eq = stat_check(condition_id, "eq")
-	if not stat_eq.is_empty():
-		for member in party:
-			if member.non_combat_stats.has(stat_eq[0]) and member.non_combat_stats[stat_eq[0]] == stat_eq[2]:
-				return true
-		return false
-
-	var trait_gte = trait_check(condition_id, "gte")
-	if not trait_gte.is_empty():
-		for member in party: 
-			if member.personality_traits.has(trait_gte[0]) and member.personality_traits[trait_gte[0]] >= trait_gte[2]:
-				return true
-		return false
+	var type = parts[0] # "stat", "trait", "rel"
+	var subject_field = parts[1] # e.g., "Perception", "Valor", "Friendship"
 	
-	var trait_lte = trait_check(condition_id, "lte")
-	if not trait_lte.is_empty():
-		for member in party: 
-			if member.personality_traits.has(trait_lte[0]) and member.personality_traits[trait_lte[0]] <= trait_lte[2]:
-				return true
+	var target_specifier = ""
+	var operator_str = ""
+	var value_str = ""
+
+	# Heuristic to find operator and value, accommodating multi-part subjects
+	# e.g. "stat_NonCombatLogistics_party_avg_gte_5"
+	# We need to robustly find the operator (gte, lte, eq)
+	var op_idx = -1
+	for i in range(parts.size()-1, 1, -1): # Search backwards for operator
+		if parts[i] in ["gte", "lte", "eq"]:
+			op_idx = i
+			break
+	
+	if op_idx == -1:
+		printerr("Operator (gte, lte, eq) not found in condition: ", atom)
 		return false
 
-	var trait_eq = trait_check(condition_id, "eq")
-	if not trait_eq.is_empty():
-		for member in party: 
-			if member.personality_traits.has(trait_eq[0]) and member.personality_traits[trait_eq[0]] == trait_eq[2]:
-				return true
-		return false
-		
-	match condition_id :
-		"quest_accepted" :
-			for quest in quest_log : 
-				if quest_log[quest] == QUEST_STATE.Accepted : 
-					return true
-			return false
-		"quest_accomplished" :
-			for quest in quest_log : 
-				if quest_log[quest] == QUEST_STATE.Accomplished : 
-					return true
-			return false
-		"quest_turned" :
-			for quest in quest_log : 
-				if quest_log[quest] == QUEST_STATE.Turned : 
-					return true
-			return false
-		"party_full" :
-			return party.size() == PARTY_MAX_NUMBER
+	operator_str = parts[op_idx]
+	value_str = parts[op_idx + 1]
+	target_specifier = "_".join(parts.slice(2, op_idx)) # Everything between field and operator
 
-	push_error("unknown condition " + condition_id)
+	var value = int(value_str)
+
+	# --- Resolve Target Characters ---
+	var characters_to_check: Array[PartyMember] = []
+	if target_specifier.begins_with("char"): # char0, char1
+		var char_idx = int(target_specifier.replace("char", ""))
+		if char_idx < context_characters.size():
+			characters_to_check.append(context_characters[char_idx])
+		else:
+			printerr("Invalid character index in condition: ", atom, " context size: ", context_characters.size())
+			return false
+	elif target_specifier == "any" or target_specifier == "party_highest" or target_specifier == "party_lowest" or target_specifier == "party_average":
+		characters_to_check = party 
+	else: # Default to checking current character if context available and no specifier
+		if not context_characters.is_empty():
+			characters_to_check.append(context_characters[0]) 
+		else: # Or all party members if no specific context
+			characters_to_check = party
+	
+	if characters_to_check.is_empty(): return false
+
+
+	# --- Perform Evaluation ---
+	match type:
+		"stat":
+			if target_specifier == "party_highest":
+				var max_val = -INF
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						max_val = max(max_val, member.non_combat_stats[subject_field])
+				return _compare(max_val, operator_str, value)
+			elif target_specifier == "party_lowest":
+				var min_val = INF
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						min_val = min(min_val, member.non_combat_stats[subject_field])
+				return _compare(min_val, operator_str, value)
+			elif target_specifier == "party_average":
+				var total = 0
+				var count = 0
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						total += member.non_combat_stats[subject_field]
+						count += 1
+				if count == 0: return false 
+				var average = total / count
+				return _compare(average, operator_str, value)
+			else: # "any" or specific character(s)
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						if _compare(member.non_combat_stats[subject_field], operator_str, value):
+							return true # "any" logic
+				return false
+
+		"trait":
+			# Similar logic to stats, using member.personality_traits
+			if target_specifier == "party_highest": # Max absolute value or just highest positive?
+				var max_val = -INF 
+				for member in characters_to_check:
+					if member.personality_traits.has(subject_field):
+						max_val = max(max_val, member.personality_traits[subject_field])
+				return _compare(max_val, operator_str, value)
+			elif target_specifier == "party_lowest":
+				var min_val = INF
+				for member in characters_to_check:
+					if member.personality_traits.has(subject_field):
+						min_val = min(min_val, member.personality_traits[subject_field])
+				return _compare(min_val, operator_str, value)
+			elif target_specifier == "party_average":
+				var total = 0
+				var count = 0
+				for member in characters_to_check:
+					if member.personality_traits.has(subject_field):
+						total += member.personality_traits[subject_field]
+						count += 1
+				if count == 0: return false 
+				var average = total / count
+				return _compare(average, operator_str, value)
+			else:
+				for member in characters_to_check:
+					if member.personality_traits.has(subject_field):
+						if _compare(member.personality_traits[subject_field], operator_str, value):
+							return true
+				return false
+
+		"rel": # e.g., "rel_Friendship_char0_char1_gte_50"
+			if target_specifier == "party_highest":
+				var max_val = -INF
+				for member1 in characters_to_check:
+					for member2 in characters_to_check:
+						if member1 == member2: continue # Skip self-comparison
+						var rel_score = member1.get_relationship_track_score(member2.character_unique_id, PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1))
+						max_val = max(max_val, rel_score)
+				return _compare(max_val, operator_str, value)
+			elif target_specifier == "party_lowest":
+				var min_val = INF
+				for member1 in characters_to_check:
+					for member2 in characters_to_check:
+						if member1 == member2: continue # Skip self-comparison
+						var rel_score = member1.get_relationship_track_score(member2.character_unique_id, PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1))
+						min_val = min(min_val, rel_score)
+				return _compare(min_val, operator_str, value)
+			elif target_specifier == "party_average":
+				var total = 0
+				var count = 0
+				for member1 in characters_to_check:
+					for member2 in characters_to_check:
+						if member1 == member2: continue # Skip self-comparison
+						var rel_score = member1.get_relationship_track_score(member2.character_unique_id, PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1))
+						total += rel_score
+						count += 1
+				if count == 0: return false 
+				var average = total / count
+				return _compare(average, operator_str, value)
+			else :
+				if parts.size() < 5 : printerr("Malformed relationship condition: ", atom); return false
+				var char_a_spec = parts[2]
+				var char_b_spec = parts[3]
+				operator_str = parts[4]
+				value_str = parts[5]
+				value = int(value_str)
+
+				var char_a: PartyMember = null
+				var char_b: PartyMember = null
+
+				if char_a_spec.begins_with("char"):
+					var char_a_idx = int(char_a_spec.replace("char",""))
+					if char_a_idx < context_characters.size(): char_a = context_characters[char_a_idx]
+				if char_b_spec.begins_with("char"):
+					var char_b_idx = int(char_b_spec.replace("char",""))
+					if char_b_idx < context_characters.size(): char_b = context_characters[char_b_idx]
+				
+				if not char_a or not char_b: 
+					printerr("Could not find characters for relationship check: ", atom); return false
+				
+				var track_enum = PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1)
+				if track_enum == -1: printerr("Invalid relationship track: ", subject_field); return false
+				
+				var rel_score = char_a.get_relationship_track_score(char_b.character_unique_id, track_enum)
+				return _compare(rel_score, operator_str, value)
+			
+	printerr("Unhandled condition atom type: ", atom)
 	return false
+
+func get_character_by_cond(condition: String) -> Array[PartyMember]:
+	# Assuming condition is a string like "stat_Perception_party_highest_gte_50"
+	var parts = condition.split("_")
+
+	if parts.size() < 4: 
+		printerr("Malformed condition: ", condition)
+		return []
+
+	var type = parts[0] # "stat", "trait", "rel"
+	var subject_field = parts[1] # e.g., "Perception", "Valor", "Friendship"
+	
+	var target_specifier = ""
+	var operator_str = ""
+	var value_str = ""
+
+	var op_idx = -1
+	for i in range(parts.size()-1, 1, -1): # Search backwards for operator
+		if parts[i] in ["gte", "lte", "eq"]:
+			op_idx = i
+			break
+	
+	if op_idx == -1:
+		printerr("Operator (gte, lte, eq) not found in condition: ", condition)
+		return []
+
+	operator_str = parts[op_idx]
+	value_str = parts[op_idx + 1]
+	target_specifier = "_".join(parts.slice(2, op_idx)) # Everything between field and operator
+
+	var value = int(value_str)
+
+	# --- Resolve Target Characters ---
+	var characters_to_check: Array[PartyMember] = []
+	var context_characters: Array[PartyMember] = GameState.party 
+
+	if target_specifier.begins_with("char"): # char0, char1
+		var char_idx = int(target_specifier.replace("char", ""))
+		if char_idx < context_characters.size():
+			characters_to_check.append(context_characters[char_idx])
+		else:
+			printerr("Invalid character index in condition: ", condition, " context size: ", context_characters.size())
+			return []
+	elif target_specifier == "any" or target_specifier == "party_highest" or target_specifier == "party_lowest" or target_specifier == "party_average":
+		characters_to_check = context_characters 
+	else: # Default to checking current character if context available and no specifier
+		if not context_characters.is_empty():
+			characters_to_check.append(context_characters[0]) 
+		else: # Or all party members if no specific context
+			characters_to_check = context_characters
+	
+	if characters_to_check.is_empty(): return []
+
+
+	# --- Perform Evaluation ---
+	match type:
+		"stat":
+			if target_specifier == "party_highest":
+				var max_val = -INF
+				var max_member: PartyMember = null
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						max_val = max(max_val, member.non_combat_stats[subject_field])
+						if max_val == member.non_combat_stats[subject_field]:
+							max_member = member
+				if (_compare(max_val, operator_str, value)) :
+					return [max_member]
+
+			elif target_specifier == "party_lowest":
+				var min_val = INF
+				var min_member: PartyMember = null
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						min_val = min(min_val, member.non_combat_stats[subject_field])
+						if min_val == member.non_combat_stats[subject_field]:
+							min_member = member
+				if (_compare(min_val, operator_str, value)) :
+					return [min_member]
+
+			else: # "any" or specific character(s)
+				var characters = []
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						if _compare(member.non_combat_stats[subject_field], operator_str, value):
+							characters.append(member)
+				return characters
+
+		"trait":
+			# Similar logic to stats, using member.personality_traits
+			if target_specifier == "party_highest": # Max absolute value or just highest positive?
+				var max_val = -INF
+				var max_member: PartyMember = null
+				for member in characters_to_check:
+					if member.personality_traits.has(subject_field):
+						max_val = max(max_val, member.personality_traits[subject_field])
+						if max_val == member.personality_traits[subject_field]:
+							max_member = member
+				if (_compare(max_val, operator_str, value)) :
+					return [max_member]
+
+			elif target_specifier == "party_lowest":
+				var min_val = INF
+				var min_member: PartyMember = null
+				for member in characters_to_check:
+					if member.personality_traits.has(subject_field):
+						min_val = min(min_val, member.personality_traits[subject_field])
+						if min_val == member.personality_traits[subject_field]:
+							min_member = member
+				if (_compare(min_val, operator_str, value)) :
+					return [min_member]
+
+			else: # "any" or specific character(s)
+				var characters = []
+				for member in characters_to_check:
+					if member.personality_traits.has(subject_field):
+						if _compare(member.personality_traits[subject_field], operator_str, value):
+							characters.append(member)
+				return characters
+
+		"rel": # e.g., "rel_Friendship_char0_char1_gte_50"
+			if target_specifier == "party_highest":
+				var max_val = -INF
+				var target_member1: PartyMember = null
+				var target_member2: PartyMember = null
+				for member1 in characters_to_check:
+					for member2 in characters_to_check:
+						if member1 == member2: continue # Skip self-comparison
+						var rel_score = member1.get_relationship_track_score(member2.character_unique_id, PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1))
+						max_val = max(max_val, rel_score)
+						if max_val == rel_score:
+							target_member1 = member1
+							target_member2 = member2
+				if (_compare(max_val, operator_str, value)) :
+					return [target_member1, target_member2]
+			
+			elif target_specifier == "party_lowest":
+				var min_val = INF
+				var target_member1: PartyMember = null
+				var target_member2: PartyMember = null
+				for member1 in characters_to_check:
+					for member2 in characters_to_check:
+						if member1 == member2: continue # Skip self-comparison
+						var rel_score = member1.get_relationship_track_score(member2.character_unique_id, PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1))
+						min_val = min(min_val, rel_score)
+						if min_val == rel_score:
+							target_member1 = member1
+							target_member2 = member2
+				if (_compare(min_val, operator_str, value)) :
+					return [target_member1, target_member2]
+
+			else :
+				if parts.size() < 5 : printerr("Malformed relationship condition: ", condition); return []
+				var char_a_spec = parts[2]
+				var char_b_spec = parts[3]
+				operator_str = parts[4]
+				value = int(parts[5])
+
+				var char_a: PartyMember = null
+				var char_b: PartyMember = null
+
+				if char_a_spec.begins_with("char"):
+					var char_a_idx = int(char_a_spec.replace("char",""))
+					if char_a_idx < context_characters.size(): char_a = context_characters[char_a_idx]
+				if char_b_spec.begins_with("char"):
+					var char_b_idx = int(char_b_spec.replace("char",""))
+					if char_b_idx < context_characters.size(): char_b = context_characters[char_b_idx]
+				
+				if not char_a or not char_b: 
+					printerr("Could not find characters for relationship check: ", condition); return []
+				
+				var track_enum = PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1)
+				if track_enum == -1: printerr("Invalid relationship track: ", subject_field); return []
+				
+				var rel_score = char_a.get_relationship_track_score(char_b.character_unique_id, track_enum)
+				if (_compare(rel_score, operator_str, value)) :
+					return [char_a, char_b]
+				else:
+					return [] # No characters met the condition
+	printerr("Unhandled condition atom type: ", condition)
+	return []
+
+
+func _compare(val1, operator_str: String, val2) -> bool:
+	match operator_str:
+		"gte": return val1 >= val2
+		"lte": return val1 <= val2
+		"eq": return val1 == val2
+	return false
+
+const OPERATORS = {
+	"OR": {"precedence": 1, "associativity": "Left"},
+	"AND": {"precedence": 2, "associativity": "Left"},
+	"NOT": {"precedence": 3, "associativity": "Right"} # Unary operator
+}
+
+func _tokenize_expression(expression: String) -> Array:
+	var tokens: Array = []
+
+	# Add spaces around parentheses and operators to make splitting easier
+	var spaced_expression = expression
+	spaced_expression = spaced_expression.replace("(", " ( ")
+	spaced_expression = spaced_expression.replace(")", " ) ")
+
+	# Case-insensitive replacement for operators
+	var re_and = RegEx.new()
+	re_and.compile("\\bAND\\b")
+	spaced_expression = re_and.sub(spaced_expression, " AND ", true)
+	
+	var re_or = RegEx.new()
+	re_or.compile("\\bOR\\b")
+	spaced_expression = re_or.sub(spaced_expression, " OR ", true)
+
+	var re_not = RegEx.new()
+	re_not.compile("\\bNOT\\b")
+	spaced_expression = re_not.sub(spaced_expression, " NOT ", true)
+	
+	var raw_tokens = spaced_expression.split(" ", false)
+
+	for token_str in raw_tokens:
+		if token_str.is_empty():
+			continue
+		tokens.append(token_str.strip_edges().to_upper() if token_str.to_upper() in ["AND", "OR", "NOT", "(", ")"] else token_str.strip_edges())
+	
+	print("Tokenized: ", tokens)
+	return tokens
+
+func _infix_to_rpn(tokens: Array) -> Array:
+	var output_queue: Array = []
+	var operator_stack: Array = []
+
+	for token in tokens:
+		if token == "(":
+			operator_stack.push_back(token)
+		elif token == ")":
+			while not operator_stack.is_empty() and operator_stack.back() != "(":
+				output_queue.push_back(operator_stack.pop_back())
+			if operator_stack.is_empty(): # Mismatched parentheses
+				printerr("Error: Mismatched parentheses in expression (missing '(').")
+				return []
+			operator_stack.pop_back() # Pop the "("
+		elif token in OPERATORS: # Is an operator
+			var op1 = token
+			while not operator_stack.is_empty() and operator_stack.back() != "(":
+				var op2_token = operator_stack.back()
+				if not op2_token in OPERATORS: break # Not an operator, stop
+
+				var op1_data = OPERATORS[op1]
+				var op2_data = OPERATORS[op2_token]
+
+				if (op1_data.associativity == "Left" and op1_data.precedence <= op2_data.precedence) or \
+				   (op1_data.associativity == "Right" and op1_data.precedence < op2_data.precedence):
+					output_queue.push_back(operator_stack.pop_back())
+				else:
+					break
+			operator_stack.push_back(op1)
+		else: # Is an operand (our condition atom)
+			output_queue.push_back(token)
+
+	while not operator_stack.is_empty():
+		var op = operator_stack.pop_back()
+		if op == "(" : # Mismatched parentheses
+			printerr("Error: Mismatched parentheses in expression (extra '(').")
+			return [] # Error
+		output_queue.push_back(op)
+	
+	print("RPN: ", output_queue)
+	return output_queue
+
+func _evaluate_rpn(rpn_tokens: Array, context_characters: Array[PartyMember] = []) -> bool:
+	var operand_stack: Array = []
+
+	for token in rpn_tokens:
+		if token in OPERATORS: # Is an operator
+			if token == "NOT":
+				if operand_stack.is_empty():
+					printerr("RPN Error: Insufficient operands for NOT.")
+					return false 
+				var operand = operand_stack.pop_back()
+				if not typeof(operand) == TYPE_BOOL: printerr("RPN Error: Operand for NOT not a bool."); return false
+				operand_stack.push_back(not operand)
+			else: # AND, OR (binary operators)
+				if operand_stack.size() < 2:
+					printerr("RPN Error: Insufficient operands for ", token)
+					return false 
+				var op2 = operand_stack.pop_back()
+				var op1 = operand_stack.pop_back()
+				if not typeof(op1) == TYPE_BOOL or not typeof(op2) == TYPE_BOOL:
+					printerr("RPN Error: Operands for ", token, " not booleans.")
+					return false
+
+				if token == "AND":
+					operand_stack.push_back(op1 and op2)
+				elif token == "OR":
+					operand_stack.push_back(op1 or op2)
+		else: # Is an operand 
+			var result = evaluate_condition_atom(token, context_characters) 
+			operand_stack.push_back(result)
+
+	if operand_stack.size() == 1 and typeof(operand_stack[0]) == TYPE_BOOL:
+		return operand_stack[0]
+	else:
+		printerr("RPN Evaluation Error: Stack did not resolve to a single boolean. Stack: ", operand_stack)
+		return false # Error
+
+func check_complex_condition(expression: String, context_characters: Array[PartyMember] = []) -> bool:
+	if expression.is_empty():
+		return true
+
+	var tokens = _tokenize_expression(expression)
+	if tokens.is_empty() and not expression.is_empty(): # Tokenization failed for non-empty string
+		printerr("Condition tokenization failed for: '", expression, "'")
+		return false
+	
+	if tokens.is_empty() and expression.is_empty(): # Empty expression might mean always true
+		return true
+
+	var rpn_expression = _infix_to_rpn(tokens)
+	if rpn_expression.is_empty() and not tokens.is_empty(): # RPN conversion failed
+		printerr("RPN conversion failed for tokens: ", tokens)
+		return false
+
+	if rpn_expression.is_empty() and tokens.is_empty() and expression.is_empty():
+		return true
+	
+	return _evaluate_rpn(rpn_expression, context_characters)
+
+func evaluate_expression(condition_id: String) -> bool:
+	return check_complex_condition(condition_id)
 
 
 func step_taken() : 

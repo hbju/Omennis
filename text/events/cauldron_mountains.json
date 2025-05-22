@@ -6,13 +6,19 @@
 		"description": "The Cauldron Mountains loom, a tortured landscape of jagged, soot-stained peaks beneath a sky thick with volcanic haze. The air reeks of sulphur and burning earth, and a low tremor occasionally rumbles through the unstable ground. Steam hisses from countless fissures in the cracked rock.",
 		"possibilities": [
 		  {
-			"id": "evt_cauldron_drake_ambush",
+			"id": "opt_cauldron_drake_ambush",
 			"description": "Follow signs of the missing prospector, Elara Vayne.",
-			"condition" : "quest_001_accepted"
+			"condition" : "quest_001_accepted",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_cauldron_drake_ambush"}
+			]
 		  },
 		  {
-			"id": "evt_cauldron_generic_explore_result",
-			"description": "Cautiously survey the immediate, volatile surroundings."
+			"id": "opt_cauldron_generic_explore_result",
+			"description": "Cautiously survey the immediate, volatile surroundings.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_cauldron_generic_explore_result"}
+			]
 		  },
 		  {
 			"id": "leave",
@@ -27,7 +33,10 @@
 		"possibilities": [
 		  {
 			"id": "fight_drake_ambush",
-			"description": "Defend yourselves!"
+			"description": "Defend yourselves!",
+			"outcomes" : [
+				{"type": "start_fight", "enemy_archetype": "Mountain Drake", "enemy_count": 2, "enemy_level": 2, "event_id_victory": "fight_drake_ambush_victory", "event_id_defeat": "fight_drake_ambush_defeat"}
+			]
 		  }
 		]
 	  },
@@ -37,8 +46,11 @@
 		"description": "The drakes lie slain, their unnatural heat already dissipating into the sulphurous air. The clearing is now eerily quiet, save for the moaning wind through the crags. It's time to discover the prospector's fate.",
 		"possibilities": [
 		  {
-			"id": "evt_cauldron_prospector_found",
-			"description": "Search the drakes' nesting site for Elara Vayne."
+			"id": "opt_cauldron_prospector_found",
+			"description": "Search the drakes' nesting site for Elara Vayne.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_cauldron_prospector_found"}
+			]
 		  }
 		]
 	  },
@@ -59,12 +71,20 @@
 		"description": "Amidst a crude nest of scorched bones and sharp volcanic glass within the drakes' territory, you find the remains of Elara Vayne. Her satchel is torn, but her distinctive geological hammer and a soot-stained journal are clutched nearby. The drakes were clearly her end.\n (Quest 'Lost Spark in the Soot' updated)",
 		"possibilities": [
 		  {
-			"id": "leave",
-			"description": "Recover the hammer and journal. Depart the Cauldron Mountains."
+			"id": "opt_cauldron_recover_items",
+			"description": "Recover the hammer and journal. Depart the Cauldron Mountains.",
+			"outcomes" : [
+				{"type": "quest_update", "quest_id": 1, "action": "accomplish"},
+				{"type": "next_event", "event_id": "leave"}
+			]
 		  },
 		  {
-			"id": "cauldron_mountains",
-			"description": "Recover the items and continue to explore the mountains."
+			"id": "opt_return_to_cauldron",
+			"description": "Recover the items and continue to explore the mountains.",
+			"outcomes" : [
+				{"type": "quest_update", "quest_id": 1, "action": "accomplish"},
+				{"type": "next_event", "event_id": "cauldron_mountains"}
+			]
 		  }
 		]
 	  },
@@ -74,8 +94,11 @@
 		"description": "You cautiously explore a stretch of cracked obsidian. A sudden, violent tremor shakes the ground, and a fissure groans open nearby, spewing a brief but intense gout of superheated steam and acrid smoke. This place is actively hostile.",
 		"possibilities": [
 		  {
-			"id": "cauldron_mountains",
-			"description": "Carefully make your way back to the main approach of the Cauldron."
+			"id": "opt_return_to_cauldron",
+			"description": "Carefully make your way back to the main approach of the Cauldron.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "cauldron_mountains"}
+			]
 		  },
 		  {
 			"id": "leave",

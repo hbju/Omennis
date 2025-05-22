@@ -6,13 +6,19 @@
 		"description": "The entrance to the Whispering Hollow is a shadowed cleft in a gnarled, ancient forest, the trees themselves twisted and unnaturally silent. A faint, unsettling murmur, like a thousand hushed voices, seems to emanate from the depths. The air is cold, carrying the scent of damp earth and something subtly corrupt.",
 		"possibilities": [
 		  {
-			"id": "evt_hollow_first_cultist_encounter",
+			"id": "opt_hollow_first_cultist_encounter",
 			"description": "Delve deeper to uncover the suspected cult activity.",
-			"condition": "quest_002_accepted"
+			"condition": "quest_002_accepted",
+			"outcomes": [
+			  {"type": "next_event", "event_id": "evt_hollow_first_cultist_encounter"}
+			]
 		  },
 		  {
-			"id": "evt_hollow_generic_explore_result",
-			"description": "Cautiously explore the unsettling periphery of the Hollow."
+			"id": "opt_hollow_generic_explore_result",
+			"description": "Cautiously explore the unsettling periphery of the Hollow.",
+			"outcomes": [
+			  {"type": "next_event", "event_id": "evt_hollow_generic_explore_result"}
+			]
 		  },
 		  {
 			"id": "leave",
@@ -27,7 +33,10 @@
 		"possibilities": [
 		  {
 			"id": "hollow_fight_first_cultists",
-			"description": "Confront the cultists!"
+			"description": "Confront the cultists!",
+			"outcomes": [
+			  {"type": "start_fight", "enemy_archetype": "Necromancer", "enemy_count": 3, "enemy_level": 3, "enemy_name":"Cultist", "enemy_portrait": 2, "event_id_victory": "hollow_fight_first_cultists_victory", "event_id_defeat": "hollow_fight_first_cultists_defeat"}
+			]
 		  }
 		]
 	  },
@@ -37,12 +46,18 @@
 		"description": "The first cultists lie defeated. Their profane chanting silenced, the Hollow feels momentarily less oppressive, but a narrow, well-trodden path leads further into the darkness, towards the source of the pervasive whispers. The main threat likely still lurks ahead.",
 		"possibilities": [
 		  {
-			"id": "evt_hollow_leader_encounter",
-			"description": "Follow the path to the cult's heart."
+			"id": "opt_hollow_leader_encounter",
+			"description": "Follow the path to the cult's heart.",
+			"outcomes": [
+			  {"type": "next_event", "event_id": "evt_hollow_leader_encounter"}
+			]
 		  },
 		  {
-			"id": "whispering_hollow",
-			"description": "Fall back to reconsider your approach."
+			"id": "opt_return_to_whispering_hollow",
+			"description": "Fall back to reconsider your approach.",
+			"outcomes": [
+			  {"type": "next_event", "event_id": "whispering_hollow"}
+			]
 		  }
 		]
 	  },
@@ -64,7 +79,10 @@
 		"possibilities": [
 		  {
 			"id": "hollow_fight_leader_and_cultists",
-			"description": "End this corruption!"
+			"description": "End this corruption!",
+			"outcomes": [
+			  {"type": "start_fight", "enemy_archetype": "Necromancer", "enemy_count": 1, "enemy_level": 10, "enemy_name": "Cultist Leader", "enemy_portrait":13, "event_id_victory": "hollow_fight_leader_and_cultists_victory", "event_id_defeat": "hollow_fight_leader_and_cultists_defeat"}
+			]
 		  }
 		]
 	  },
@@ -74,12 +92,21 @@
 		"description": "The Cult Leader and their acolytes are vanquished. The pulsating shard cracks and dims, its malevolent energy dissipating. The oppressive whispers fade, replaced by the natural sounds of the ancient forest slowly seeping back into the Hollow. The immediate threat has been neutralized. (Quest 'Whispering Hollow Eradication' updated)",
 		"possibilities": [
 		  {
-			"id": "leave",
-			"description": "Leave the now-quieted Whispering Hollow."
+			"id": "opt_depart_hollow",
+			"description": "Leave the now-quieted Whispering Hollow.",
+			"outcomes": [
+			  {"type": "quest_update", "quest_id": 2, "action": "accomplish"},
+			  {"type": "next_event", "event_id": "leave"}
+			]
 		  },
 		  {
-			"id": "evt_hollow_sanctum_search_result",
-			"description": "Briefly search the sanctum for anything of note before departing."
+			"id": "opt_hollow_sanctum_search_result",
+			"description": "Briefly search the sanctum for anything of note before departing.",
+			"outcomes": [
+			  {"type": "next_event", "event_id": "evt_hollow_sanctum_search_result"},
+			  {"type": "quest_update", "quest_id": 2, "action": "accomplish"},
+			  {"type": "gold", "change": 50}
+			]
 		  }
 		]
 	  },
@@ -100,8 +127,11 @@
 		"description": "A quick search of the cult's sanctum reveals some discarded profane texts and a small offering of tarnished silver coins. Nothing of significant power remains now that the leader is gone.",
 		"possibilities": [
 		  {
-			"id": "leave",
-			"description": "Depart the Whispering Hollow."
+			"id": "opt_depart_hollow",
+			"description": "Depart the Whispering Hollow.",
+			"outcomes": [
+			  {"type": "next_event", "event_id": "leave"}
+			]
 		  }
 		]
 	  },
@@ -111,8 +141,11 @@
 		"description": "You scout the edges of the Whispering Hollow. The gnarled trees seem to watch you, and strange, unidentifiable animal sounds echo from deeper within. The place feels ancient and tainted, but no immediate threat presents itself in this outer ring.",
 		"possibilities": [
 		  {
-			"id": "whispering_hollow",
-			"description": "Return to the Hollow's main entrance point."
+			"id": "opt_return_to_whispering_hollow",
+			"description": "Return to the Hollow's main entrance point.",
+			"outcomes": [
+			  {"type": "next_event", "event_id": "whispering_hollow"}
+			]
 		  },
 		  {
 			"id": "leave",
