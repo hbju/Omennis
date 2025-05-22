@@ -15,6 +15,9 @@ var possibilities: Array
 var event_path: Array[String]
 var text_tween: Tween
 
+var current_event_json_data : Dictionary
+var current_context_characters: Array[PartyMember] = []
+
 signal resolve_event(event_ccl)
 
 const possibilities_height = 90
@@ -26,16 +29,24 @@ func _ready():
 
 		
 func show_event(curr_place: String, event_id: String, characters: Array[PartyMember] = [], random: bool = false) :
+	print("EventUI: Showing event '%s' in place '%s'" % [event_id, curr_place])
 	if ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + event_id + ".png") :
 		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + event_id + ".png")
-	var place_content = get_event_data(curr_place, random).data 
-
+	
+	var place_json_data = get_event_data(curr_place, random).data 
+	current_context_characters = characters
 
 	var event_content = null
-	for content in place_content.events:
+	for content in place_json_data.events:
 		if content.id == event_id:
 			event_content = content
 			break
+
+	if event_content == null:
+		printerr("EventUI: Event ID '%s' not found in JSON data." % event_id)
+		return
+
+	current_event_json_data = event_content
 	self.id = event_id
 	
 	card_name_label.text = event_content.name
