@@ -7,6 +7,8 @@ var character_experience: int
 var skill_points: int
 var spent_skill_points: int
 
+var unlocked_skills: Array[String] = []
+
 var non_combat_stats: Dictionary = {
 	"Perception": 1,
 	"Charisma": 1,
