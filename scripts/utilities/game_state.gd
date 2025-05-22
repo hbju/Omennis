@@ -8,6 +8,8 @@ const PARTY_MAX_NUMBER = 4
 enum QUEST_STATE {Accepted, Accomplished, Turned}
 var quest_log: Dictionary
 
+var event_flags: Dictionary
+
 var _condition_evaluators = {
 	"party_full": func(): return party.size() == PARTY_MAX_NUMBER,
 	"has_unspent_non_combat_points": func():
@@ -162,14 +164,22 @@ func fire_member(index: int) :
 	
 ## QUEST LOGIC
 	
-func accept_quest(quest_id: int):
+func accept_quest(quest_id: String):
 	quest_log[quest_id] = QUEST_STATE.Accepted
 
-func accomplish_quest(quest_id: int):
+func accomplish_quest(quest_id: String):
 	quest_log[quest_id] = QUEST_STATE.Accomplished
 	
-func turn_quest(quest_id: int) :
+func turn_quest(quest_id: String) :
 	quest_log[quest_id] = QUEST_STATE.Turned
+
+## FLAG LOGIC
+
+func set_flag(flag_id: String, value: int) : 
+	if not event_flags.has(flag_id):
+		event_flags[flag_id] = 0
+	event_flags[flag_id] += value
+	print("Flag %s set to %s" % [flag_id, value])
 	
 ## MONEY LOGIC	
 	
@@ -196,6 +206,15 @@ func quest_check(condition_id: String, quest_condition: String) -> String :
 	if regex_match : 
 		return regex_match.get_string(1)
 	return ""
+
+func flag_check(condition_id: String) -> Array : # Returns [flag_name, comparison, value] or empty
+	var regex = RegEx.new()
+	# Matches "flag_x_gte_y"
+	regex.compile(r"flag_(.+)_(gte|lte|eq)_(\d+)")
+	var regex_match = regex.search(condition_id)
+	if regex_match : 
+		return [regex_match.get_string(1), regex_match.get_string(2), int(regex_match.get_string(3))]
+	return []
 		
 func gold_check(condition_id: String) -> String : 
 	var regex = RegEx.new()
@@ -231,14 +250,23 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 
 	# Quest checks : accomplished or turned means accepted, turned means accomplished as well
 	for state_name in ["accepted", "accomplished", "turned"]:
-		var quest_id_str = quest_check(atom, "_" + state_name)
-		if not quest_id_str.is_empty():
-			var quest_id = int(quest_id_str)
+		var quest_id = quest_check(atom, "_" + state_name)
+		if not quest_id.is_empty():
+			print("quest_check: ", quest_id)
 			var expected_state = QUEST_STATE.get(state_name.capitalize()) 
 			return quest_log.has(quest_id) and quest_log[quest_id] >= expected_state
 	
+	# Flag checks : flag_x_gte_y
+	var flag_check_result = flag_check(atom)
+	if flag_check_result.size() == 3:
+		print("flag_check: ", flag_check_result)
+		var flag_name = flag_check_result[0]
+		var comparison = flag_check_result[1]
+		return event_flags.has(flag_name) and _compare(event_flags[flag_name], comparison, flag_check_result[2])
+
 	var gold_amount_str = gold_check(atom) # gold_X
 	if not gold_amount_str.is_empty():
+		print("gold_check: ", gold_amount_str)
 		return party_money >= int(gold_amount_str)
 
 	# --- Stat, Trait, and Relationship Checks ---
@@ -254,7 +282,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 		return false
 
 	var type = parts[0] # "stat", "trait", "rel"
-	var subject_field = parts[1] # e.g., "Perception", "Valor", "Friendship"
+	var subject_field = parts[1].capitalize() # e.g., "Perception", "Valor", "Friendship"
 	
 	var target_specifier = ""
 	var operator_str = ""
@@ -303,18 +331,22 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 	match type:
 		"stat":
 			if target_specifier == "party_highest":
+				print("checking party highest for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var max_val = -INF
 				for member in characters_to_check:
 					if member.non_combat_stats.has(subject_field):
 						max_val = max(max_val, member.non_combat_stats[subject_field])
+				print("max_val: ", max_val)
 				return _compare(max_val, operator_str, value)
 			elif target_specifier == "party_lowest":
+				print("checking party lowest for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var min_val = INF
 				for member in characters_to_check:
 					if member.non_combat_stats.has(subject_field):
 						min_val = min(min_val, member.non_combat_stats[subject_field])
 				return _compare(min_val, operator_str, value)
 			elif target_specifier == "party_average":
+				print("checking party average for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var total = 0
 				var count = 0
 				for member in characters_to_check:
@@ -325,6 +357,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 				var average = total / count
 				return _compare(average, operator_str, value)
 			else: # "any" or specific character(s)
+				print("checking any for ", subject_field, " with value ", value, " and operator ", operator_str)
 				for member in characters_to_check:
 					if member.non_combat_stats.has(subject_field):
 						if _compare(member.non_combat_stats[subject_field], operator_str, value):
@@ -334,18 +367,21 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 		"trait":
 			# Similar logic to stats, using member.personality_traits
 			if target_specifier == "party_highest": # Max absolute value or just highest positive?
+				print("checking party highest for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var max_val = -INF 
 				for member in characters_to_check:
 					if member.personality_traits.has(subject_field):
 						max_val = max(max_val, member.personality_traits[subject_field])
 				return _compare(max_val, operator_str, value)
 			elif target_specifier == "party_lowest":
+				print("checking party lowest for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var min_val = INF
 				for member in characters_to_check:
 					if member.personality_traits.has(subject_field):
 						min_val = min(min_val, member.personality_traits[subject_field])
 				return _compare(min_val, operator_str, value)
 			elif target_specifier == "party_average":
+				print("checking party average for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var total = 0
 				var count = 0
 				for member in characters_to_check:
@@ -356,6 +392,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 				var average = total / count
 				return _compare(average, operator_str, value)
 			else:
+				print("checking any for ", subject_field, " with value ", value, " and operator ", operator_str)
 				for member in characters_to_check:
 					if member.personality_traits.has(subject_field):
 						if _compare(member.personality_traits[subject_field], operator_str, value):
@@ -364,6 +401,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 
 		"rel": # e.g., "rel_Friendship_char0_char1_gte_50"
 			if target_specifier == "party_highest":
+				print("checking party highest relation for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var max_val = -INF
 				for member1 in characters_to_check:
 					for member2 in characters_to_check:
@@ -372,6 +410,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 						max_val = max(max_val, rel_score)
 				return _compare(max_val, operator_str, value)
 			elif target_specifier == "party_lowest":
+				print("checking party lowest relation for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var min_val = INF
 				for member1 in characters_to_check:
 					for member2 in characters_to_check:
@@ -380,6 +419,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 						min_val = min(min_val, rel_score)
 				return _compare(min_val, operator_str, value)
 			elif target_specifier == "party_average":
+				print("checking party average relation for ", subject_field, " with value ", value, " and operator ", operator_str)
 				var total = 0
 				var count = 0
 				for member1 in characters_to_check:
@@ -411,6 +451,8 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 				
 				if not char_a or not char_b: 
 					printerr("Could not find characters for relationship check: ", atom); return false
+
+				print("checking relationship for ", subject_field, " between ", char_a.character_unique_id, " and ", char_b.character_unique_id, " with value ", value, " and operator ", operator_str)
 				
 				var track_enum = PartyMember.RELATIONSHIP_TRACK.get(subject_field.to_upper(), -1)
 				if track_enum == -1: printerr("Invalid relationship track: ", subject_field); return false
@@ -420,6 +462,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 			
 	printerr("Unhandled condition atom type: ", atom)
 	return false
+
 
 func get_character_by_cond(condition: String) -> Array[PartyMember]:
 	# Assuming condition is a string like "stat_Perception_party_highest_gte_50"
@@ -498,6 +541,18 @@ func get_character_by_cond(condition: String) -> Array[PartyMember]:
 							min_member = member
 				if (_compare(min_val, operator_str, value)) :
 					return [min_member]
+
+			elif target_specifier == "party_average":
+				var total = 0
+				var count = 0
+				for member in characters_to_check:
+					if member.non_combat_stats.has(subject_field):
+						total += member.non_combat_stats[subject_field]
+						count += 1
+				if count == 0: return [] 
+				var average = total / count
+				if (_compare(average, operator_str, value)) :
+					return characters_to_check
 
 			else: # "any" or specific character(s)
 				var characters = []

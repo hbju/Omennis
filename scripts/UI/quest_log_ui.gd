@@ -23,7 +23,7 @@ func update_ui(quest_log: Dictionary) :
 	for i in range(0, quest_log.size()):
 		var quest_state = quest_log[quest_log.keys()[i]]
 		if quest_state != GameState.QUEST_STATE.Turned :  
-			var quest_info = load("res://text/quests/" + "%03d" % quest_log.keys()[i] + ".json").data
+			var quest_info = load("res://text/quests/" + "%s" % quest_log.keys()[i] + ".json").data
 			quests_info.append(quest_info)
 			
 			var quest_button = Button.new()

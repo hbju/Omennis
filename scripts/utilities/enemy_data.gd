@@ -77,5 +77,16 @@ static var ENEMY_CLASS_DEFINITIONS = {
             {"skill": WarCry, "min_level": 6}
         ],
         "portraits": [1]
+    },
+    "Kaelen Vane" : {
+        "class_enum": Character.CLASSES.Warrior,
+        "base_hp": 50, "hp_per_level": 20,
+        "base_damage_stat": 10, "damage_stat_per_level": 2,
+        "skill_pool_config": [
+            {"skill": Blink, "min_level": 3},
+            {"skill": ArcaneSlash, "min_level": 5},
+            {"skill": BloodFury, "min_level": 6}
+        ],
+        "portraits": [14]
     }
 }

@@ -203,6 +203,9 @@ position = Vector2(3833.33, -1293.33)
 [node name="whispering_hollow" parent="." instance=ExtResource("5_p7rx4")]
 position = Vector2(4970, 2560)
 
+[node name="sunken_mire" parent="." instance=ExtResource("5_p7rx4")]
+position = Vector2(1626.67, 4446.67)
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="event_ui" parent="UI" instance=ExtResource("6_3cmq8")]

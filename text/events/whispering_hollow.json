@@ -8,7 +8,7 @@
 		  {
 			"id": "opt_hollow_first_cultist_encounter",
 			"description": "Delve deeper to uncover the suspected cult activity.",
-			"condition": "quest_002_accepted",
+			"condition": "quest_holloweradication_accepted",
 			"outcomes": [
 			  {"type": "next_event", "event_id": "evt_hollow_first_cultist_encounter"}
 			]
@@ -95,7 +95,7 @@
 			"id": "opt_depart_hollow",
 			"description": "Leave the now-quieted Whispering Hollow.",
 			"outcomes": [
-			  {"type": "quest_update", "quest_id": 2, "action": "accomplish"},
+			  {"type": "quest_update", "quest_id": "holloweradication", "action": "accomplish"},
 			  {"type": "next_event", "event_id": "leave"}
 			]
 		  },
@@ -104,7 +104,7 @@
 			"description": "Briefly search the sanctum for anything of note before departing.",
 			"outcomes": [
 			  {"type": "next_event", "event_id": "evt_hollow_sanctum_search_result"},
-			  {"type": "quest_update", "quest_id": 2, "action": "accomplish"},
+			  {"type": "quest_update", "quest_id": "holloweradication", "action": "accomplish"},
 			  {"type": "gold", "change": 50}
 			]
 		  }

@@ -8,7 +8,7 @@
 		  {
 			"id": "opt_cauldron_drake_ambush",
 			"description": "Follow signs of the missing prospector, Elara Vayne.",
-			"condition" : "quest_001_accepted",
+			"condition" : "quest_sparksoot_accepted",
 			"outcomes" : [
 				{"type": "next_event", "event_id": "evt_cauldron_drake_ambush"}
 			]
@@ -74,7 +74,7 @@
 			"id": "opt_cauldron_recover_items",
 			"description": "Recover the hammer and journal. Depart the Cauldron Mountains.",
 			"outcomes" : [
-				{"type": "quest_update", "quest_id": 1, "action": "accomplish"},
+				{"type": "quest_update", "quest_id": "sparksoot", "action": "accomplish"},
 				{"type": "next_event", "event_id": "leave"}
 			]
 		  },
@@ -82,7 +82,7 @@
 			"id": "opt_return_to_cauldron",
 			"description": "Recover the items and continue to explore the mountains.",
 			"outcomes" : [
-				{"type": "quest_update", "quest_id": 1, "action": "accomplish"},
+				{"type": "quest_update", "quest_id": "sparksoot", "action": "accomplish"},
 				{"type": "next_event", "event_id": "cauldron_mountains"}
 			]
 		  }

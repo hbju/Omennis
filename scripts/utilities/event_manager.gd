@@ -64,9 +64,12 @@ func process_outcomes(outcomes: Array):
 					"accept": GameState.accept_quest(quest_id)
 					"accomplish": GameState.accomplish_quest(quest_id)
 					"turn": GameState.turn_quest(quest_id)
+			"flag_set": # E.g., {"type": "flag_set", "flag": "some_flag", "value": true}
+				GameState.set_flag(outcome.flag, outcome.value)
 			"trait_change": # {"type": "trait_change", "char_cond":"stat_Perception_party_highest_gte_50", "trait": "Valor", "change": 1}
-				var char_to_affect = GameState.get_character_by_cond(outcome.char_cond)[0]
-				char_to_affect.adjust_personality_trait(outcome.trait, outcome.change)
+				var chars_to_affect = GameState.party if not outcome.has("char_cond") else GameState.get_character_by_cond(outcome.char_cond)
+				for char_to_affect in chars_to_affect:
+					char_to_affect.adjust_personality_trait(outcome.trait, outcome.change)
 			"relationship_change":
 				# {"type": "relationship", "char_cond":"rel_Friendship_praty_highest_lte_30" , "track": "FRIENDSHIP", "change": 10}
 				var chars = GameState.get_character_by_cond(outcome.char_cond)
