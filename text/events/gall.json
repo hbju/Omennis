@@ -6,12 +6,18 @@
 		"description": "The heavy gates of Gall groan aside, revealing a city built of stern grey stone and weathered timber. Worn cobbles pave streets that wind between tightly packed buildings, their upper stories often leaning close, casting long shadows. The air is sharp with the tang of coal smoke and the distant clang of a smithy, mingled with the everyday scents of a populous, if somewhat grim, settlement. Guards in practical, scuffed armor observe your passage with a practiced, neutral gaze. Gall is a place of pragmatism, not pleasantries.",
 		"possibilities": [
 		  {
-			"id": "evt_gall_tavern_interior",
-			"description": "Seek respite and potential allies at 'The Bent Mug' tavern."
+			"id": "opt_gall_tavern_interior",
+			"description": "Seek respite and potential allies at 'The Bent Mug' tavern.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_gall_tavern_interior"}
+			]
 		  },
 		  {
-			"id": "evt_gall_guildhall_entry",
-			"description": "Look for paid work at the Mercenaries' Guild."
+			"id": "opt_gall_guildhall_entry",
+			"description": "Look for paid work at the Mercenaries' Guild.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_gall_guildhall_entry"}
+			]
 		  },
 		  {
 			"id": "leave",
@@ -25,13 +31,20 @@
 		"description": "The air inside 'The Bent Mug' is thick with the aroma of stale ale, cheap stew, and damp wool. Low wooden beams hang overhead, scarred by years of careless tankards. A mix of dour locals and hard-bitten travelers occupy the rough-hewn tables, their conversations a low, rumbling murmur beneath the clatter of mugs and the occasional coarse laugh. A single, overworked server navigates the crowded floor.",
 		"possibilities": [
 		  {
-			"id": "evt_tavern_find_potential_companion",
+			"id": "opt_tavern_find_potential_companion",
 			"description": "Scan the patrons for a capable, if perhaps desperate, individual.",
-			"condition" : "not(party_full)"
+			"condition" : "NOT party_full",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_tavern_find_potential_companion"},
+				{"type": "display_new_candidate"}
+			]
 		  },
 		  {
-			"id": "gall",
-			"description": "Decide the ale isn't worth the atmosphere and depart."
+			"id": "opt_depart_tavern",
+			"description": "Decide the ale isn't worth the atmosphere and depart.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "gall"}
+			]
 		  }
 		]
 	  },
@@ -41,19 +54,30 @@
 		"description": "Your gaze settles on a figure nursing a drink alone in a shadowed corner – [Name 0], a seasoned-looking [Class 0], judging by their worn gear. They meet your eye with a guarded, appraising look. Opportunity, or trouble?",
 		"possibilities": [
 		  {
-			"id": "recruit_member",
+			"id": "opt_gall_tavern_recruit",
 			"description": "Offer 100 gold for their blade and loyalty.",
-			"condition" : "gold_100"
+			"condition" : "gold_100",
+			"outcomes" : [
+				{"type": "gold", "change": -100},
+				{"type": "recruit_pending_candidate"},
+				{"type": "next_event", "event_id": "evt_gall_tavern_interior"}
+			]
 		  },
 		  {
-			"id": "evt_gall_tavern_interior",
+			"id": "opt_tavern_reconsider",
 			"description": "Reconsider and return to observing the tavern's patrons.",
-			"condition" : "gold_100"
+			"condition" : "gold_100",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_gall_tavern_interior"}
+			]
 		  },
 		  {
-			"id": "evt_gall_tavern_interior",
+			"id": "opt_tavern_no_gold",
 			"description": "Not having enough gold, you return to the tavern.",
-			"condition" : "not(gold_100)"
+			"condition" : "NOT gold_100",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_gall_tavern_interior"}
+		  	]
 		  }
 		]
 	  },
@@ -63,16 +87,25 @@
 		"description": "The Guild Hall is a cavernous, echoing space built for function over comfort. The air smells faintly of old parchment, oiled leather, and nervous sweat. Rough-looking individuals study a large, crowded noticeboard plastered with contracts, while others wait on worn benches, sharpening blades or exchanging hushed words. A stern-faced clerk presides over a heavy oak counter, ready to deal in coin and contracts.",
 		"possibilities": [
 		  {
-			"id": "evt_guild_noticeboard",
-			"description": "Examine the noticeboard for available contracts."
+			"id": "opt_guild_noticeboard",
+			"description": "Examine the noticeboard for available contracts.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_guild_noticeboard"}
+			]
 		  },
 		  {
-			"id": "evt_guild_clerk_interaction",
-			"description": "Report to the clerk about a completed task."
+			"id": "opt_guild_clerk_interaction",
+			"description": "Report to the clerk about a completed task.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_guild_clerk_interaction"}
+			]
 		  },
 		  {
-			"id": "gall",
-			"description": "Leave the Guild Hall and return to the city streets."
+			"id": "opt_guildhall_exit",
+			"description": "Leave the Guild Hall and return to the city streets.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "gall"}
+			]
 		  }
 		]
 	  },
@@ -82,18 +115,71 @@
 		"description": "The noticeboard is a chaotic tapestry of handwritten pleas, official-looking bounties, and desperate missives, all vying for attention. Amidst the usual requests for rat extermination and debt collection, two particular postings stand out, promising greater risk and reward.",
 		"possibilities": [
 		  {
-			"id": "opt_quest_accept_cauldron_easy",
-			"description": "Take contract: 'Lost Spark in the Soot' (Cauldron Mountains).",
-			"condition": "not(quest_001_accepted)"
+			"id": "opt_quest_read_cauldron_easy",
+			"description": "Read the contract: 'Lost Spark in the Soot'.",
+			"condition": "NOT (quest_001_accepted)",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_read_cauldron_easy"}
+			]
 		  },
+		  {
+			"id": "opt_quest_read_hollow_hard",
+			"description": "Read the contract: 'Whispering Hollow Eradication'.",
+			"condition": "NOT (quest_002_accepted)",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_read_hollow_hard"}
+			]
+		  },
+		  {
+			"id": "opt_gall_guildhall_entry",
+			"description": "Step back from the board and return to the Guild Hall's main floor.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_gall_guildhall_entry"}
+			]
+		  }
+		]
+	  },
+	  {
+		"id": "evt_read_cauldron_easy",
+		"name": "Lost Spark in the Soot",
+		"description": "A contract seeking assistance in the Cauldron Mountains. The prospector Elara Vayne has gone missing, and her last known location is near a drake's nest. The Guild offers 100 gold for any information about her fate, and 200 gold for the recovery of her safe return.",
+		"possibilities": [
+		  {
+			"id": "opt_quest_accept_cauldron_easy",
+			"description": "Accept the contract and return to the noticeboard.",
+			"outcomes" : [
+				{"type": "quest_update", "quest_id": 1, "action": "accept"},
+				{"type": "next_event", "event_id": "evt_guild_noticeboard"}
+			]
+		  },
+		  {
+			"id": "opt_guild_noticeboard",
+			"description": "Return to the noticeboard.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_guild_noticeboard"}
+			]
+		  }
+		]
+	  },
+	  {
+		"id": "evt_read_hollow_hard",
+		"name": "Whispering Hollow Eradication",
+		"description": "A contract seeking assistance in the Whispering Hollow. The Guild has received reports of a growing cult in the area, and they are offering 200 gold for the head of their leader. The task is marked as dangerous, with a warning about the potential for ambushes.",
+		"possibilities": [
 		  {
 			"id": "opt_quest_accept_hollow_hard",
-			"description": "Take contract: 'Whispering Hollow Eradication' (Whispering Hollow).",
-			"condition": "not(quest_002_accepted)"
+			"description": "Accept the contract and return to the noticeboard.",
+			"outcomes" : [
+				{"type": "quest_update", "quest_id": 2, "action": "accept"},
+				{"type": "next_event", "event_id": "evt_guild_noticeboard"}
+			]
 		  },
 		  {
-			"id": "evt_gall_guildhall_entry",
-			"description": "Step back from the board and return to the Guild Hall's main floor."
+			"id": "opt_guild_noticeboard",
+			"description": "Return to the noticeboard.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_guild_noticeboard"}
+			]
 		  }
 		]
 	  },
@@ -105,16 +191,31 @@
 		  {
 			"id": "opt_turn_in_quest_cauldron",
 			"description": "Report completion of 'Lost Spark in the Soot'.\n Receive your reward (100 gold, 1500 XP).",
-			"condition": "quest_001_accomplished"
+			"condition": "quest_001_accomplished AND NOT quest_001_turned",
+			"outcomes" : [
+				{"type": "quest_update", "quest_id": 1, "action": "turn"},
+				{"type": "gold", "change": 100},
+				{"type": "xp", "amount": 1500},
+				{"type": "next_event", "event_id": "evt_guild_clerk_interaction"}
+			]
 		  },
 		  {
 			"id": "opt_turn_in_quest_hollow",
 			"description": "Report completion of 'Whispering Hollow Eradication'.\n Receive your reward (200 gold, 4000 XP).",
-			"condition": "quest_002_accomplished"
+			"condition": "quest_002_accomplished AND NOT quest_002_turned",
+			"outcomes" : [
+				{"type": "quest_update", "quest_id": 2, "action": "turn"},
+				{"type": "gold", "change": 200},
+				{"type": "xp", "amount": 4000},
+				{"type": "next_event", "event_id": "evt_guild_clerk_interaction"}
+			]
 		  },
 		  {
-			"id": "evt_gall_guildhall_entry",
-			"description": "State you have nothing to report at this time."
+			"id": "opt_gall_guildhall_entry",
+			"description": "State you have nothing to report at this time.",
+			"outcomes" : [
+				{"type": "next_event", "event_id": "evt_gall_guildhall_entry"}
+			]
 		  }
 		]
 	  }
