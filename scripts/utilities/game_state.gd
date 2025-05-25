@@ -555,7 +555,7 @@ func get_character_by_cond(condition: String) -> Array[PartyMember]:
 					return characters_to_check
 
 			else: # "any" or specific character(s)
-				var characters = []
+				var characters: Array[PartyMember] = []
 				for member in characters_to_check:
 					if member.non_combat_stats.has(subject_field):
 						if _compare(member.non_combat_stats[subject_field], operator_str, value):
@@ -587,7 +587,7 @@ func get_character_by_cond(condition: String) -> Array[PartyMember]:
 					return [min_member]
 
 			else: # "any" or specific character(s)
-				var characters = []
+				var characters: Array[PartyMember] = []
 				for member in characters_to_check:
 					if member.personality_traits.has(subject_field):
 						if _compare(member.personality_traits[subject_field], operator_str, value):

@@ -87,10 +87,10 @@ func process_outcomes(outcomes: Array):
 
 				for enemy_data in outcome.enemies:
 					var enemy_archetype = enemy_data.get("archetype", "Mountain Drake")
-					var enemy_count = enemy_data.get("enemy_count", 1)
-					var enemy_level = enemy_data.get("enemy_level", 1)
-					var enemy_name = enemy_data.get("enemy_name", "")
-					var enemy_portrait = enemy_data.get("enemy_portrait", -1)
+					var enemy_count = enemy_data.get("count", 1)
+					var enemy_level = enemy_data.get("level", 1)
+					var enemy_name = enemy_data.get("name", "")
+					var enemy_portrait = enemy_data.get("portrait", -1)
 					
 					# Create the EnemyGroup from the data
 					var new_enemy_group = EnemyGroup.from_enemy_data(enemy_archetype, enemy_level, enemy_count, enemy_name, enemy_portrait)

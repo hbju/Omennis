@@ -46,10 +46,10 @@
 							"enemies": [
 								{
 									"archetype": "Necromancer",
-									"enemy_count": 3,
-									"enemy_level": 3,
-									"enemy_name": "Cultist Acolyte",
-									"enemy_portrait": 2
+									"count": 3,
+									"level": 3,
+									"name": "Cultist Acolyte",
+									"portrait": 2
 								}
 							],
 							"event_id_victory": "hollow_fight_first_cultists_victory",
@@ -111,17 +111,17 @@
 							"enemies": [
 								{
 									"archetype": "Necromancer",
-									"enemy_count": 1,
-									"enemy_level": 10,
-									"enemy_name": "Cultist Leader",
-									"enemy_portrait": 13
+									"count": 1,
+									"level": 10,
+									"name": "Cultist Leader",
+									"portrait": 13
 								},
 								{
 									"archetype": "Necromancer",
-									"enemy_count": 2,
-									"enemy_level": 7,
-									"enemy_name": "Cultist Acolyte",
-									"enemy_portrait": 2
+									"count": 2,
+									"level": 7,
+									"name": "Cultist Acolyte",
+									"portrait": 2
 								}
 							],
 							"event_id_victory": "hollow_fight_leader_and_cultists_victory",

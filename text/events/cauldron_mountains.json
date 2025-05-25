@@ -210,7 +210,7 @@
 				{
 					"id": "opt_kill_kaelen_cauldron",
 					"description": "[Self-Serving 2] Finish her off before she can report.",
-					"condition": "trait_ethics_any_lte_2",
+					"condition": "trait_ethics_any_lte_-2",
 					"outcomes": [
 						{
 							"type": "next_event",

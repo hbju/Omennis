@@ -88,5 +88,16 @@ static var ENEMY_CLASS_DEFINITIONS = {
             {"skill": BloodFury, "min_level": 6}
         ],
         "portraits": [14]
+    },
+    "Ash-Chitterer Queen" : {
+        "class_enum": Character.CLASSES.Warrior,
+        "base_hp": 60, "hp_per_level": 10,
+        "base_damage_stat": 12, "damage_stat_per_level": 3,
+        "skill_pool_config": [
+            {"skill": Charge, "min_level": 3},
+            {"skill": Frenzy, "min_level": 5},
+            {"skill": Decay, "min_level": 6}
+        ],
+        "portraits": [15]
     }
 }
