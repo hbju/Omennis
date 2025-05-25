@@ -61,7 +61,7 @@ texture = SubResource("GradientTexture1D_rs2ri")
 
 [node name="character_portrait" type="Sprite2D" parent="character_portrait_bg"]
 z_index = -1
-scale = Vector2(0.7, 0.714062)
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("3_vmbuy")
 
 [node name="collision" type="CollisionShape2D" parent="."]

@@ -175,6 +175,7 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_e1ypk")
+expand_mode = 1
 flip_h = true
 
 [node name="frame" type="TextureRect" parent="bg/enemies_display/avatar_background"]

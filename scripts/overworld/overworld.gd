@@ -67,9 +67,11 @@ func _ready():
 	
 	if testing :
 		GameState.accept_quest("obsidianwhispermire")
+		GameState.turn_quest("obsidianwhispercauldron")
+		GameState.turn_quest("obsidianwhisperhollow")
 		GameState.new_candidate(PartyMember.new_rand())
 		GameState.recruit_candidate()
-		GameState.receive_experience(50000)
+		GameState.receive_experience(10000)
 
 func oddr_offset_neighbor(hex, direction):
 	var parity = hex.y & 1

@@ -71,7 +71,7 @@
         {
             "id": "opt_kill_kaelen",
             "description": "[Self-Serving 2] Kill the woman to prevent her from reporting your actions.",
-            "condition": "trait_ethics_any_lte_2",
+            "condition": "trait_ethics_any_lte_-2",
             "outcomes": [
               {"type": "next_event", "event_id": "evt_mire_kaelen_killed"}
             ]
@@ -105,7 +105,7 @@
     },
     {
         "id": "evt_mire_kaelen_recalled",
-        "name": "",
+        "name": "Kaelen's Disappearance",
         "description": "Suddenly, Kaelen disappears into thin air, leaving only a faint shimmer in the air. [stat_lore_party_highest_gte_0] recognizes this as a recalling spell, that must have been cast by a mage in the area. \"So that's why she was trying to buy time,\" [char0] says. \"She was waiting for her allies to come and rescue her.\"",
         "possibilities": [
             {
@@ -130,14 +130,14 @@
           "outcomes": [
             {"type": "next_event", "event_id": "evt_accomplish_mire_relic"},
             {"type": "quest_update", "quest_id": "obsidianwhispermire", "action": "accomplish"},
-            {"type": "trait_change", "trait": "Ethics", "char_cond": "trait_ethics_party_any_lte_2" ,"change": 1},
+            {"type": "trait_change", "trait": "Ethics", "char_cond": "trait_ethics_party_any_lte_-2" ,"change": -1},
             {"type": "flag_set", "flag": "kaelen_alive", "value": 0}
           ]
         }
       ]
     },
     {
-        "id": "event_accomplish_mire_relic",
+        "id": "evt_accomplish_mire_relic",
         "name": "The Sky-Shard Spear-Tip",
         "description": "You now have the at least one part of the staff in your possession. It is a powerful artifact, and you can feel its energy coursing through you. Even though you couldn't acquire the first two parts, you may return to Silas to present what you've discovered...",
         "possibilities": [

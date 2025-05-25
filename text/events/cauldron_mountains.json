@@ -1,110 +1,559 @@
 {
 	"events": [
-	  {
-		"id": "cauldron_mountains",
-		"name": "The Cauldron Mountains",
-		"description": "The Cauldron Mountains loom, a tortured landscape of jagged, soot-stained peaks beneath a sky thick with volcanic haze. The air reeks of sulphur and burning earth, and a low tremor occasionally rumbles through the unstable ground. Steam hisses from countless fissures in the cracked rock.",
-		"possibilities": [
-		  {
-			"id": "opt_cauldron_drake_ambush",
-			"description": "Follow signs of the missing prospector, Elara Vayne.",
-			"condition" : "quest_sparksoot_accepted",
-			"outcomes" : [
-				{"type": "next_event", "event_id": "evt_cauldron_drake_ambush"}
+		{
+			"id": "cauldron_mountains",
+			"name": "The Cauldron Mountains",
+			"description": "The Cauldron Mountains loom, a tortured landscape of jagged, soot-stained peaks beneath a sky thick with volcanic haze. The air reeks of sulphur and burning earth, and a low tremor occasionally rumbles through the unstable ground. Steam hisses from countless fissures in the cracked rock.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_drake_ambush",
+					"description": "Follow signs of the missing prospector, Elara Vayne.",
+					"condition": "quest_sparksoot_accepted",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_drake_ambush"
+						}
+					]
+				},
+				{
+					"id": "opt_cauldron_pursue_relic",
+					"description": "Follow Silas's clues towards the Ash-Chitterer Hive to find the relic.",
+					"condition": "quest_obsidianwhispercauldron_accepted AND NOT quest_obsidianwhispercauldron_accomplished",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_pursue_relic"
+						}
+					]
+				},
+				{
+					"id": "opt_cauldron_generic_explore_result",
+					"description": "Cautiously survey the immediate, volatile surroundings.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_generic_explore_result"
+						}
+					]
+				},
+				{
+					"id": "leave",
+					"description": "The fumes and tremors are unsettling; depart the Cauldron."
+				}
 			]
-		  },
-		  {
-			"id": "opt_cauldron_generic_explore_result",
-			"description": "Cautiously survey the immediate, volatile surroundings.",
-			"outcomes" : [
-				{"type": "next_event", "event_id": "evt_cauldron_generic_explore_result"}
+		},
+		{
+			"id": "evt_cauldron_drake_ambush",
+			"name": "Drake Ambush!",
+			"description": "Following faint tracks near the steaming Cinder Cones, you find signs of a struggle – a broken pickaxe, scattered supplies. Before you can react, a piercing screech echoes from the smoky sky. Two Ash-Scaled Drakes, their hides like cooling magma and eyes burning with predatory fire, plummet towards you!",
+			"possibilities": [
+				{
+					"id": "fight_drake_ambush",
+					"description": "Defend yourselves!",
+					"outcomes": [
+						{
+							"type": "start_fight",
+							"enemy_archetype": "Mountain Drake",
+							"enemy_count": 2,
+							"enemy_level": 2,
+							"event_id_victory": "fight_drake_ambush_victory",
+							"event_id_defeat": "fight_drake_ambush_defeat"
+						}
+					]
+				}
 			]
-		  },
-		  {
-			"id": "leave",
-			"description": "The fumes and tremors are unsettling; depart the Cauldron."
-		  }
-		]
-	  },
-	  {
-		"id": "evt_cauldron_drake_ambush",
-		"name": "Drake Ambush!",
-		"description": "Following faint tracks near the steaming Cinder Cones, you find signs of a struggle – a broken pickaxe, scattered supplies. Before you can react, a piercing screech echoes from the smoky sky. Two Ash-Scaled Drakes, their hides like cooling magma and eyes burning with predatory fire, plummet towards you!",
-		"possibilities": [
-		  {
-			"id": "fight_drake_ambush",
-			"description": "Defend yourselves!",
-			"outcomes" : [
-				{"type": "start_fight", "enemy_archetype": "Mountain Drake", "enemy_count": 2, "enemy_level": 2, "event_id_victory": "fight_drake_ambush_victory", "event_id_defeat": "fight_drake_ambush_defeat"}
+		},
+		{
+			"id": "fight_drake_ambush_victory",
+			"name": "Aftermath of the Ambush",
+			"description": "The drakes lie slain, their unnatural heat already dissipating into the sulphurous air. The clearing is now eerily quiet, save for the moaning wind through the crags. It's time to discover the prospector's fate.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_prospector_found",
+					"description": "Search the drakes' nesting site for Elara Vayne.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_prospector_found"
+						}
+					]
+				}
 			]
-		  }
-		]
-	  },
-	  {
-		"id": "fight_drake_ambush_victory",
-		"name": "Aftermath of the Ambush",
-		"description": "The drakes lie slain, their unnatural heat already dissipating into the sulphurous air. The clearing is now eerily quiet, save for the moaning wind through the crags. It's time to discover the prospector's fate.",
-		"possibilities": [
-		  {
-			"id": "opt_cauldron_prospector_found",
-			"description": "Search the drakes' nesting site for Elara Vayne.",
-			"outcomes" : [
-				{"type": "next_event", "event_id": "evt_cauldron_prospector_found"}
+		},
+		{
+			"id": "fight_drake_ambush_defeat",
+			"name": "Drake's Fury",
+			"description": "The drakes are relentless, their fiery breath searing the air. You fight valiantly, but the heat and ferocity of the creatures overwhelm you. As darkness closes in, you feel the ground tremble beneath you, a reminder of the mountains' volatile nature.",
+			"possibilities": [
+				{
+					"id": "leave",
+					"description": "Flee the Cauldron Mountains. The drakes are too powerful."
+				}
 			]
-		  }
-		]
-	  },
-	  {
-		"id": "fight_drake_ambush_defeat",
-		"name": "Drake's Fury",
-		"description": "The drakes are relentless, their fiery breath searing the air. You fight valiantly, but the heat and ferocity of the creatures overwhelm you. As darkness closes in, you feel the ground tremble beneath you, a reminder of the mountains' volatile nature.",
-		"possibilities": [
-		  {
-			"id": "leave",
-			"description": "Flee the Cauldron Mountains. The drakes are too powerful."
-		  }
-		]  
-	  },
-	  {
-		"id": "evt_cauldron_prospector_found",
-		"name": "Elara's Fate",
-		"description": "Amidst a crude nest of scorched bones and sharp volcanic glass within the drakes' territory, you find the remains of Elara Vayne. Her satchel is torn, but her distinctive geological hammer and a soot-stained journal are clutched nearby. The drakes were clearly her end.\n (Quest 'Lost Spark in the Soot' updated)",
-		"possibilities": [
-		  {
-			"id": "opt_cauldron_recover_items",
-			"description": "Recover the hammer and journal. Depart the Cauldron Mountains.",
-			"outcomes" : [
-				{"type": "quest_update", "quest_id": "sparksoot", "action": "accomplish"},
-				{"type": "next_event", "event_id": "leave"}
+		},
+		{
+			"id": "evt_cauldron_prospector_found",
+			"name": "Elara's Fate",
+			"description": "Amidst a crude nest of scorched bones and sharp volcanic glass within the drakes' territory, you find the remains of Elara Vayne. Her satchel is torn, but her distinctive geological hammer and a soot-stained journal are clutched nearby. The drakes were clearly her end.\n (Quest 'Lost Spark in the Soot' updated)",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_recover_items",
+					"description": "Recover the hammer and journal. Depart the Cauldron Mountains.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "sparksoot",
+							"action": "accomplish"
+						},
+						{
+							"type": "next_event",
+							"event_id": "leave"
+						}
+					]
+				},
+				{
+					"id": "opt_return_to_cauldron",
+					"description": "Recover the items and continue to explore the mountains.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "sparksoot",
+							"action": "accomplish"
+						},
+						{
+							"type": "next_event",
+							"event_id": "cauldron_mountains"
+						}
+					]
+				}
 			]
-		  },
-		  {
-			"id": "opt_return_to_cauldron",
-			"description": "Recover the items and continue to explore the mountains.",
-			"outcomes" : [
-				{"type": "quest_update", "quest_id": "sparksoot", "action": "accomplish"},
-				{"type": "next_event", "event_id": "cauldron_mountains"}
+		},
+		{
+			"id": "evt_cauldron_pursue_relic",
+			"name": "Volcanic Trail",
+			"description": "You follow Silas's directions deeper into the Cauldron Mountains, towards a massive Ash-Chitterer Hive rumored to hold the 'Obsidian Core'. The ground grows hotter, and the air is thick with the scent of brimstone and the sound of insectoid chittering.",
+			"possibilities": [
+				{
+					"id": "opt_core_act1",
+					"description": "Continue towards the Hive Queen's chamber.",
+					"condition": "NOT (quest_obsidianwhispermire_turned AND quest_obsidianwhisperhollow_turned)",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_hive_plundered_discovery"
+						}
+					]
+				},
+				{
+					"id": "opt_core_act2",
+					"description": "Continue towards the Hive Queen's chamber.",
+					"condition": "(quest_obsidianwhispermire_turned AND quest_obsidianwhisperhollow_turned)",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_kaelen_vs_queen_battle"
+						}
+					]
+				}
 			]
-		  }
-		]
-	  },
-	  {
-		"id": "evt_cauldron_generic_explore_result",
-		"name": "Volcanic Instability",
-		"description": "You cautiously explore a stretch of cracked obsidian. A sudden, violent tremor shakes the ground, and a fissure groans open nearby, spewing a brief but intense gout of superheated steam and acrid smoke. This place is actively hostile.",
-		"possibilities": [
-		  {
-			"id": "opt_return_to_cauldron",
-			"description": "Carefully make your way back to the main approach of the Cauldron.",
-			"outcomes" : [
-				{"type": "next_event", "event_id": "cauldron_mountains"}
+		},
+		{
+			"id": "evt_cauldron_kaelen_vs_queen_battle",
+			"name": "Queen's Chamber Confrontation",
+			"description": "You burst into the vast, magma-lit Hive Queen's chamber. A pale woman is locked in a tense standoff or skirmish with the monstrous Ash-Chitterer Hive Queen. The Obsidian Core, a fist-sized piece of jet-black rock, pulses faintly on a rocky shelf nearby. As she spots you, her face turns into a mask of cold fury. 'More pests!' she snarls, as the enraged Queen also turns its attention towards the new arrivals.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_fight_kaelen_and_queen",
+					"description": "Attack the woman and the Hive Queen!",
+					"outcomes": [
+						{
+							"type": "start_fight",
+							"enemies": [
+								{
+									"archetype": "Kaelen Vane",
+									"count": 1,
+									"level": 5
+								},
+								{
+									"archetype": "Ash-Chitterer Queen",
+									"count": 1,
+									"level": 6
+								}
+							],
+							"event_id_victory": "evt_cauldron_kaelen_defeated_get_core",
+							"event_id_defeat": "evt_cauldron_kaelen_won_lost_core"
+						}
+					]
+				}
 			]
-		  },
-		  {
-			"id": "leave",
-			"description": "The risks outweigh any potential reward. Leave this treacherous place."
-		  }
-		]
-	  }
+		},
+		{
+			"id": "evt_cauldron_kaelen_defeated_get_core",
+			"name": "Core Secured",
+			"description": "Kaelen Vane and the monstrous Hive Queen lie defeated amidst shattered chitin and cooling rock. You retrieve the 'Obsidian Core' from its shelf. It is unnaturally cold to the touch and thrums with a subtle, dark energy.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_interrogate_kaelen",
+					"description": "Interrogate the woman for information.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_kaelen_interrogation"
+						}
+					]
+				},
+				{
+					"id": "opt_kill_kaelen_cauldron",
+					"description": "[Self-Serving 2] Finish her off before she can report.",
+					"condition": "trait_ethics_any_lte_2",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_kaelen_killed"
+						}
+					]
+				},
+				{
+					"id": "opt_cauldron_leave_kaelen",
+					"description": "Leave her alone and return to the entrance. You have what you came for.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_accomplish_cauldron_relic"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accomplish"
+						},
+						{
+							"type": "trait_change",
+							"trait": "Ethics",
+							"change": 1
+						},
+						{
+							"type": "flag_set",
+							"flag": "kaelen_alive",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_kaelen_interrogation",
+			"name": "Kaelen's Defiance",
+			"description": "Kaelen Vane, as she presents herself, glares at you, wounded but unbroken. She offers cryptic warnings about powers beyond your understanding, the ritual that the staff will be used for and the master she serves, but reveals little concrete, clearly stalling for time.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_ask_kaelen_master",
+					"description": "Demand to know who her master is.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_kaelen_recalled"
+						},
+						{
+							"type": "flag_set",
+							"flag": "obsidian_whisper_hints",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_kaelen_recalled",
+			"name": "Vanishing Act",
+			"description": "Suddenly, Kaelen shimmers and vanishes in a wisp of acrid smoke, leaving only a faint echo of her mocking laughter. [stat_lore_party_highest_gte_0] recognizes this as a recalling spell. '[char0] mutters, 'She had allies ready to get her out nearby. Clever girl.'",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_leave_after_recall",
+					"description": "You take the Obsidian Core and go back to the entrance of the Cauldron.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_accomplish_cauldron_relic"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accomplish"
+						},
+						{
+							"type": "flag_set",
+							"flag": "kaelen_alive",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_kaelen_killed",
+			"name": "Kaelen Silenced",
+			"description": "Taking no chances, [trait_ethics_any_lte_2] delivers a final blow to Kaelen Vane. A few moments later, her corpse disappears in a shimmering light. She probably had allies waiting nearby to pull her out if she took too much time : at least they have only pulled out a corpse. The 'Obsidian Core' is now yours. The chittering of the hive seems to quieten in the aftermath.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_leave_kaelen_killed",
+					"description": "Leave the Cauldron Mountains with the 'Obsidian Core'.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_accomplish_cauldron_relic"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accomplish"
+						},
+						{
+							"type": "trait_change",
+							"trait": "Ethics",
+							"char_cond": "trait_ethics_party_any_lte_2",
+							"change": 1
+						},
+						{
+							"type": "flag_set",
+							"flag": "kaelen_alive",
+							"value": 0
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_accomplish_cauldron_relic",
+			"name": "The Obsidian Core",
+			"description": "You now possess the Obsidian Core, a significant part of the staff. Its cold energy seems to absorb the light around it. You may return to Silas to present what you've discovered...",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_finish_relic",
+					"description": "Go back to the entrance of the Cauldron Mountains.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "cauldron_mountains"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "accept"
+						},
+						{
+							"type": "flag_set",
+							"flag": "staff_part_recovered",
+							"value": 1
+						},
+						{
+							"type": "xp",
+							"amount": 1000
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_kaelen_won_lost_core",
+			"name": "Core Lost to the Spy",
+			"description": "Despite your efforts, battling the woman AND the queen proved too much. Battered but triumphant, the pale soldier seizes the Obsidian Core and makes her escape amidst the chaos of the hive, leaving you to lick your wounds.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_flee_mountains",
+					"description": "Regroup and escape the enraged hive.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_failed_artifact"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accomplish"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_failed_artifact",
+			"name": "Core Unclaimed",
+			"description": "The Obsidian Core remains out of your grasp. Perhaps the information you've gathered about the situation will still be of use to Silas, and you still may claim a reward...",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_flee_mountains_failed_artifact",
+					"description": "Go back to the entrance of the Cauldron Mountains.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "cauldron_mountains"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "accept"
+						},
+						{
+							"type": "flag_set",
+							"flag": "staff_part_recovered",
+							"value": 0
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_hive_plundered_discovery",
+			"name": "Empty Nest",
+			"description": "You reach the Hive Queen's chamber. The massive Queen is highly agitated, screeching and thrashing, and the chamber shows signs of a subtle, skilled intrusion rather than a large battle. The Obsidian Core, which should be embedded in a central rock formation, is gone. A master thief was here.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_search_plundered_hive_for_clues",
+					"description": "[Perception 6][Survival (average) 5]Carefully search the chamber for clues, avoiding the enraged Queen.",
+					"condition": "stat_Perception_party_highest_gte_6 AND stat_Survival_party_average_gte_3",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_clues_found_at_hive"
+						}
+					]
+				},
+				{
+					"id": "opt_cauldron_leave_plundered_hive_no_clues",
+					"description": "The Core is gone, and the Queen is too dangerous. Leave and plan your next move.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_what_next"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accomplish"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_clues_found_at_hive",
+			"name": "Spy's Traces",
+			"description": "Despite the Hive Queen's fury, your keen eyes spot subtle traces left by the thief: a faint, almost invisible silken thread snagged on a sharp rock near an escape tunnel, a tiny scuff mark from a fine leather boot, and a microscopic fleck of lapis lazuli dust – a pigment favored by Gall's elite.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_leave_with_valerius_clues",
+					"description": "Leave the hive with these valuable clues and decide your next step.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_cauldron_what_next"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accomplish"
+						},
+						{
+							"type": "flag_set",
+							"flag": "obsidian_whisper_hints",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_what_next",
+			"name": "Next Target",
+			"description": "The Obsidian Core has already been stolen. You must now decide which of the remaining rumored locations for the staff parts to investigate next.",
+			"possibilities": [
+				{
+					"id": "opt_cauldron_search_mire",
+					"description": "Go find the part hidden in the Sunken Mire.",
+					"condition": "NOT quest_obsidianwhispermire_turned",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "cauldron_mountains"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermire",
+							"action": "accept"
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				},
+				{
+					"id": "opt_cauldron_search_hollow",
+					"description": "Go find the part hidden in the Whispering Hollow.",
+					"condition": "NOT quest_obsidianwhisperhollow_turned",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "cauldron_mountains"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accept"
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_cauldron_generic_explore_result",
+			"name": "Volcanic Instability",
+			"description": "You cautiously explore a stretch of cracked obsidian. A sudden, violent tremor shakes the ground, and a fissure groans open nearby, spewing a brief but intense gout of superheated steam and acrid smoke. This place is actively hostile.",
+			"possibilities": [
+				{
+					"id": "opt_return_to_cauldron",
+					"description": "Carefully make your way back to the main approach of the Cauldron.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "cauldron_mountains"
+						}
+					]
+				},
+				{
+					"id": "leave",
+					"description": "The risks outweigh any potential reward. Leave this treacherous place."
+				}
+			]
+		}
 	]
-  }
+}
