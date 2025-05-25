@@ -45,7 +45,7 @@ func event_manager(event_id_or_choice_id: String):
 
 func process_outcomes(outcomes: Array):
 	var next_event_id_from_outcomes = ""
-	var fight_to_start: EnemyGroup = null
+	var fight_to_start: Array[EnemyGroup] = []
 
 	for outcome in outcomes:
 		var outcome_type = outcome.get("type", "")
@@ -83,14 +83,19 @@ func process_outcomes(outcomes: Array):
 					char_a.adjust_relationship_track_score(char_b.character_unique_id, track_enum, outcome.change)
 					if outcome.get("symmetrical", true): # Assume symmetrical unless specified
 						char_b.adjust_relationship_track_score(char_a.character_unique_id, track_enum, outcome.change)
-			"start_fight": # {"type": "start_fight", "enemy_archetype": "Mountain Drake", "enemy_count": 3, "enemy_level": 2, "event_id_victory": "fight_drake_ambush_victory", "event_id_defeat": "fight_drake_ambush_defeat"}
-				var enemy_name = ""
-				var enemy_portrait = -1
-				if outcome.has("enemy_name") :
-					enemy_name = outcome.enemy_name
-				if outcome.has("enemy_portrait") :
-					enemy_portrait = outcome.enemy_portrait
-				fight_to_start = EnemyGroup.from_enemy_data(outcome.enemy_archetype, outcome.enemy_level, outcome.enemy_count, enemy_name, enemy_portrait)
+			"start_fight": # {"type": "start_fight", "enemies": [{"archetype":"Mountain Drake", "enemy_count": 3, "enemy_level": 2, "enemy_name": "Drakes", "enemy_portrait":2}], "event_id_victory": "fight_drake_ambush_victory", "event_id_defeat": "fight_drake_ambush_defeat"}
+
+				for enemy_data in outcome.enemies:
+					var enemy_archetype = enemy_data.get("archetype", "Mountain Drake")
+					var enemy_count = enemy_data.get("enemy_count", 1)
+					var enemy_level = enemy_data.get("enemy_level", 1)
+					var enemy_name = enemy_data.get("enemy_name", "")
+					var enemy_portrait = enemy_data.get("enemy_portrait", -1)
+					
+					# Create the EnemyGroup from the data
+					var new_enemy_group = EnemyGroup.from_enemy_data(enemy_archetype, enemy_level, enemy_count, enemy_name, enemy_portrait)
+					fight_to_start.append(new_enemy_group) # Add the main enemy character to the list
+
 				fight_victory_event_id = outcome.event_id_victory
 				fight_defeat_event_id = outcome.event_id_defeat
 			"next_event":
@@ -152,7 +157,7 @@ func leave_event() :
 	event_ui.visible = false
 	GameState.in_event = false
 	
-func enter_fight(enemy_group: EnemyGroup) :
+func enter_fight(enemy_group: Array[EnemyGroup]) :
 	fight_ui.visible = true
 	fight_ui.update_ui(GameState.party, enemy_group)
 	event_ui.visible = false

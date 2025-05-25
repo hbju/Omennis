@@ -54,9 +54,13 @@
 					"outcomes": [
 						{
 							"type": "start_fight",
-							"enemy_archetype": "Mountain Drake",
-							"enemy_count": 2,
-							"enemy_level": 2,
+							"enemies": [
+							{
+								"archetype": "Mountain Drake",
+								"count": 2,
+								"level": 2
+							}
+							],
 							"event_id_victory": "fight_drake_ambush_victory",
 							"event_id_defeat": "fight_drake_ambush_defeat"
 						}

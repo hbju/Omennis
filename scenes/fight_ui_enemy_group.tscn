@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://d7xhco1lda27"]
+
+[ext_resource type="Script" path="res://scripts/ui/enemies_display.gd" id="1_m2qt4"]
+[ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="2_fww1i"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_15ga6"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="4_p62yv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qsvt1"]
+font = ExtResource("4_p62yv")
+font_size = 24
+font_color = Color(0.717647, 0.678431, 0.662745, 1)
+
+[node name="enemy" type="VBoxContainer"]
+script = ExtResource("1_m2qt4")
+
+[node name="avatar_background" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+color = Color(0.509804, 0.313726, 0.160784, 1)
+
+[node name="avatar_portrait" type="TextureRect" parent="avatar_background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fww1i")
+expand_mode = 1
+flip_h = true
+
+[node name="frame" type="TextureRect" parent="avatar_background"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = -10.0
+offset_right = 278.0
+offset_bottom = 269.0
+texture = ExtResource("3_15ga6")
+
+[node name="enemy_description" type="Label" parent="."]
+layout_mode = 2
+text = "2 Mountain Drake
+ Lvl : 1"
+label_settings = SubResource("LabelSettings_qsvt1")
+horizontal_alignment = 1
+vertical_alignment = 1

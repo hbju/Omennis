@@ -1,12 +1,10 @@
-[gd_scene load_steps=34 format=3 uid="uid://d25rdiau8ito5"]
+[gd_scene load_steps=31 format=3 uid="uid://d25rdiau8ito5"]
 
 [ext_resource type="Script" path="res://scripts/ui/fight_ui.gd" id="1_fhe66"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_bcqcl"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
-[ext_resource type="Script" path="res://scripts/ui/enemies_display.gd" id="5_subih"]
-[ext_resource type="Texture2D" uid="uid://24c2etikrbk5" path="res://assets/enemies/monster_01.png" id="6_e1ypk"]
+[ext_resource type="PackedScene" uid="uid://d7xhco1lda27" path="res://scenes/fight_ui_enemy_group.tscn" id="4_udwmr"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="6_gjri0"]
-[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_h7irw"]
 [ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="7_uhvgr"]
 [ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="8_7tis8"]
 [ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="8_saijr"]
@@ -30,11 +28,6 @@
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="18_bkmp0"]
 [ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="29_5tlg3"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_qsvt1"]
-font = ExtResource("6_gjri0")
-font_size = 24
-font_color = Color(0.717647, 0.678431, 0.662745, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_nyj1x"]
 font = ExtResource("6_gjri0")
 font_size = 24
@@ -54,8 +47,6 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fhe66")
@@ -133,77 +124,23 @@ character_class = "Mage"
 character_xp = 600
 character_portrait = 19
 
-[node name="enemies_display" type="Control" parent="bg"]
+[node name="enemies_display" type="VBoxContainer" parent="bg"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = 364.0
+offset_top = -295.0
+offset_right = 620.0
+offset_bottom = 355.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("5_subih")
-enemy_class = "None"
+alignment = 1
 
-[node name="avatar_background" type="ColorRect" parent="bg/enemies_display"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 256.0
-offset_top = -123.0
-offset_right = 512.0
-offset_bottom = 133.0
-grow_vertical = 2
-color = Color(0.509804, 0.313726, 0.160784, 1)
-
-[node name="avatar_portrait" type="TextureRect" parent="bg/enemies_display/avatar_background"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -128.0
-offset_top = -128.0
-offset_right = 128.0
-offset_bottom = 128.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_e1ypk")
-expand_mode = 1
-flip_h = true
-
-[node name="frame" type="TextureRect" parent="bg/enemies_display/avatar_background"]
-layout_mode = 0
-offset_left = -11.0
-offset_top = -10.0
-offset_right = 278.0
-offset_bottom = 269.0
-texture = ExtResource("6_h7irw")
-
-[node name="enemy_description" type="Label" parent="bg/enemies_display"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 480.0
-offset_top = -59.0
-offset_right = 760.0
-offset_bottom = 91.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "2 Mountain Drake
- Lvl : 1"
-label_settings = SubResource("LabelSettings_qsvt1")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="enemy1" parent="bg/enemies_display" instance=ExtResource("4_udwmr")]
+layout_mode = 2
 
 [node name="fight_button" type="TextureButton" parent="bg"]
 layout_mode = 1

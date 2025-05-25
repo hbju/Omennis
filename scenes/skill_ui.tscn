@@ -36,6 +36,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2v110")
+debugging = true
 
 [node name="bg" type="TextureRect" parent="."]
 layout_mode = 1
@@ -164,12 +165,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="upper_banner" type="Control" parent="bg/border"]
 layout_mode = 1
@@ -184,6 +182,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="head_left" type="TextureRect" parent="bg/border/upper_banner"]
 layout_mode = 0
@@ -229,28 +228,29 @@ offset_top = -20.0
 offset_right = 40.0
 offset_bottom = 20.0
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="left_bottom_corner" type="TextureRect" parent="bg/border/left_column"]
 layout_mode = 0
-offset_left = -807.0
+offset_left = -831.0
 offset_top = 309.0
-offset_right = -552.0
+offset_right = -576.0
 offset_bottom = 356.0
 texture = ExtResource("10_060g3")
 
 [node name="left_up_corner" type="TextureRect" parent="bg/border/left_column"]
 layout_mode = 0
-offset_left = -803.0
+offset_left = -827.0
 offset_top = -283.0
-offset_right = -753.0
+offset_right = -777.0
 offset_bottom = -244.0
 texture = ExtResource("11_52ilr")
 
 [node name="left_part" type="TextureRect" parent="bg/border/left_column"]
 layout_mode = 0
-offset_left = -777.0
+offset_left = -801.0
 offset_top = -245.0
-offset_right = -753.0
+offset_right = -777.0
 offset_bottom = 310.0
 texture = ExtResource("10_lk06t")
 stretch_mode = 1
@@ -267,6 +267,7 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="right_bottom_corner" type="TextureRect" parent="bg/border/right_column"]
 layout_mode = 0
@@ -301,9 +302,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -599.0
-offset_top = 269.0
+offset_top = 289.0
 offset_right = 599.0
-offset_bottom = 316.0
+offset_bottom = 336.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("16_qq8ey")

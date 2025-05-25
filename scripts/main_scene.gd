@@ -28,7 +28,7 @@ func _ready():
 	AudioManager.play_music(AudioManager.OVERWORLD_MUSIC[0]) # Play overworld music
 
 
-func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
+func lauch_combat(party: Array[PartyMember], enemies: Array[EnemyGroup]):
 	combat_scene.visible = true
 	combat_scene.toggle_ui(true)
 	overworld.visible = false
@@ -36,7 +36,13 @@ func lauch_combat(party: Array[PartyMember], enemies: EnemyGroup):
 	overworld.player.toggle_camera(false)
 	overworld.disable_collisions(true)
 
-	combat_scene.enter_combat(party, enemies.enemies)
+	var all_enemies: Array[Character] = []
+	for enemy_group in enemies:
+		for enemy_char in enemy_group.enemies:
+			all_enemies.append(enemy_char)
+
+
+	combat_scene.enter_combat(party, all_enemies)
 	AudioManager.play_music(AudioManager.BATTLE_MUSIC, true) 
 
 
@@ -51,17 +57,18 @@ func _end_combat(victory: bool):
 	overworld.player.toggle_camera(true)
 	overworld.disable_collisions(false)
 
-	var last_enemy_group: EnemyGroup = overworld.event_manager.fight_ui.enemy_group
+	var last_enemy_groups: Array[EnemyGroup] = overworld.event_manager.fight_ui.all_enemies
 
 	var xp_reward = 0
-	if last_enemy_group:
-		for enemy_char in last_enemy_group.enemies:
+	if last_enemy_groups:
+		for enemy_group in last_enemy_groups:
+			for enemy_char in enemy_group.enemies:
 			# Base XP per enemy level, modify as needed
-			xp_reward += enemy_char.character_level * XP_PER_ENEMY_LEVEL
+				xp_reward += enemy_char.character_level * XP_PER_ENEMY_LEVEL
 		if not victory:
 			xp_reward *= 0.3 # Penalty for losing (or set to 0?)
 	else:
-		printerr("Cannot calculate XP, last_enemy_group is null!")
+		printerr("Cannot calculate XP, last_enemy_groups is null!")
 
 
 	var party_before: Array[PartyMember] = []
