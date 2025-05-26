@@ -215,6 +215,12 @@
 						{
 							"type": "next_event",
 							"event_id": "evt_cauldron_kaelen_killed"
+						},
+						{
+							"type": "trait_change",
+							"trait": "Ethics",
+							"char_cond": "trait_ethics_party_any_lte_-2",
+							"change": -1
 						}
 					]
 				},
@@ -311,12 +317,6 @@
 							"type": "quest_update",
 							"quest_id": "obsidianwhispercauldron",
 							"action": "accomplish"
-						},
-						{
-							"type": "trait_change",
-							"trait": "Ethics",
-							"char_cond": "trait_ethics_party_any_lte_2",
-							"change": 1
 						},
 						{
 							"type": "flag_set",

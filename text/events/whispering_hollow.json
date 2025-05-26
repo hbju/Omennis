@@ -6,13 +6,24 @@
 			"description": "The entrance to the Whispering Hollow is a shadowed cleft in a gnarled, ancient forest, the trees themselves twisted and unnaturally silent. A faint, unsettling murmur, like a thousand hushed voices, seems to emanate from the depths. The air is cold, carrying the scent of damp earth and something subtly corrupt.",
 			"possibilities": [
 				{
-					"id": "opt_hollow_first_cultist_encounter",
+					"id": "opt_hollow_cult_eradication",
 					"description": "Delve deeper to uncover the suspected cult activity.",
-					"condition": "quest_holloweradication_accepted",
+					"condition": "quest_whisperingholloweradication_accepted",
 					"outcomes": [
 						{
 							"type": "next_event",
 							"event_id": "evt_hollow_first_cultist_encounter"
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_pursue_relic",
+					"description": "Follow Silas's clues towards the Mad Hermit's dwelling to find the relic.",
+					"condition": "quest_obsidianwhisperhollow_accepted AND NOT quest_obsidianwhisperhollow_accomplished",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_pursue_relic"
 						}
 					]
 				},
@@ -38,34 +49,32 @@
 			"description": "As you venture into the oppressive gloom, the whispers grow more distinct, laced with insidious promises. Rounding a moss-covered boulder, you surprise two figures in dark, hooded robes, muttering over a crudely drawn sigil on the ground. They draw wicked-looking, curved daggers, their eyes gleaming with fanaticism.",
 			"possibilities": [
 				{
-					"id": "hollow_fight_first_cultists",
+					"id": "fight_cultist_sentinels",
 					"description": "Confront the cultists!",
 					"outcomes": [
 						{
 							"type": "start_fight",
 							"enemies": [
 								{
-									"archetype": "Necromancer",
-									"count": 3,
-									"level": 3,
-									"name": "Cultist Acolyte",
-									"portrait": 2
+									"archetype": "Hollow Cultist",
+									"count": 2,
+									"level": 3
 								}
 							],
-							"event_id_victory": "hollow_fight_first_cultists_victory",
-							"event_id_defeat": "hollow_fight_first_cultists_defeat"
+							"event_id_victory": "fight_cultist_sentinels_victory",
+							"event_id_defeat": "fight_cultist_sentinels_defeat"
 						}
 					]
 				}
 			]
 		},
 		{
-			"id": "hollow_fight_first_cultists_victory",
+			"id": "fight_cultist_sentinels_victory",
 			"name": "A Dark Path Revealed",
 			"description": "The first cultists lie defeated. Their profane chanting silenced, the Hollow feels momentarily less oppressive, but a narrow, well-trodden path leads further into the darkness, towards the source of the pervasive whispers. The main threat likely still lurks ahead.",
 			"possibilities": [
 				{
-					"id": "opt_hollow_leader_encounter",
+					"id": "opt_hollow_press_on_to_leader",
 					"description": "Follow the path to the cult's heart.",
 					"outcomes": [
 						{
@@ -75,7 +84,7 @@
 					]
 				},
 				{
-					"id": "opt_return_to_whispering_hollow",
+					"id": "opt_hollow_retreat_after_first_fight",
 					"description": "Fall back to reconsider your approach.",
 					"outcomes": [
 						{
@@ -87,13 +96,13 @@
 			]
 		},
 		{
-			"id": "hollow_fight_first_cultists_defeat",
-			"name": "A Bitter Defeat",
-			"description": "The cultists prove more formidable than expected. You are overwhelmed by their numbers and the dark energy that seems to empower them. You take the first opportunity to flee the Hollow, the whispers now a mocking echo in your mind.",
+			"id": "fight_cultist_sentinels_defeat",
+			"name": "Overwhelmed by Shadows",
+			"description": "The cultists fight with a desperate fervor, their blades striking true. The whispers intensify, clouding your judgment. You are forced to retreat, the darkness of the Hollow claiming a small victory.",
 			"possibilities": [
 				{
 					"id": "leave",
-					"description": "Flee the Whispering Hollow, vowing to return stronger."
+					"description": "Flee the Whispering Hollow. The cult is stronger than anticipated."
 				}
 			]
 		},
@@ -103,46 +112,42 @@
 			"description": "The path opens into a hidden grotto, lit by flickering, foul-smelling braziers. A gaunt figure in ornate, dark vestments – the Cult Leader – stands before a pulsating, obsidian shard embedded in the earth, chanting in a guttural tongue. Two more robed cultists flank them, their weapons ready. The whispers here are a cacophony, clawing at your sanity.",
 			"possibilities": [
 				{
-					"id": "hollow_fight_leader_and_cultists",
+					"id": "fight_cult_leader",
 					"description": "End this corruption!",
 					"outcomes": [
 						{
 							"type": "start_fight",
 							"enemies": [
 								{
-									"archetype": "Necromancer",
+									"archetype": "Hollow Cult Leader",
 									"count": 1,
-									"level": 10,
-									"name": "Cultist Leader",
-									"portrait": 13
+									"level": 5
 								},
 								{
-									"archetype": "Necromancer",
+									"archetype": "Hollow Cultist",
 									"count": 2,
-									"level": 7,
-									"name": "Cultist Acolyte",
-									"portrait": 2
+									"level": 3
 								}
 							],
-							"event_id_victory": "hollow_fight_leader_and_cultists_victory",
-							"event_id_defeat": "hollow_fight_leader_and_cultists_defeat"
+							"event_id_victory": "evt_hollow_cult_defeated",
+							"event_id_defeat": "evt_hollow_cult_leader_defeat"
 						}
 					]
 				}
 			]
 		},
 		{
-			"id": "hollow_fight_leader_and_cultists_victory",
+			"id": "evt_hollow_cult_defeated",
 			"name": "The Silence of Corruption",
-			"description": "The Cult Leader and their acolytes are vanquished. The pulsating shard cracks and dims, its malevolent energy dissipating. The oppressive whispers fade, replaced by the natural sounds of the ancient forest slowly seeping back into the Hollow. The immediate threat has been neutralized. (Quest 'Whispering Hollow Eradication' updated)",
+			"description": "The Cult Leader and their acolytes are vanquished. The pulsating shard cracks and dims, its malevolent energy dissipating. The oppressive whispers fade, replaced by the natural sounds of the ancient forest slowly seeping back into the Hollow. The immediate threat has been neutralized.\n(Quest 'Whispering Hollow Eradication' updated)",
 			"possibilities": [
 				{
-					"id": "opt_depart_hollow",
+					"id": "opt_hollow_leave_after_victory",
 					"description": "Leave the now-quieted Whispering Hollow.",
 					"outcomes": [
 						{
 							"type": "quest_update",
-							"quest_id": "holloweradication",
+							"quest_id": "whisperingholloweradication",
 							"action": "accomplish"
 						},
 						{
@@ -152,34 +157,19 @@
 					]
 				},
 				{
-					"id": "opt_hollow_sanctum_search_result",
+					"id": "opt_hollow_search_sanctum_briefly",
 					"description": "Briefly search the sanctum for anything of note before departing.",
 					"outcomes": [
 						{
-							"type": "next_event",
-							"event_id": "evt_hollow_sanctum_search_result"
-						},
-						{
 							"type": "quest_update",
-							"quest_id": "holloweradication",
+							"quest_id": "whisperingholloweradication",
 							"action": "accomplish"
 						},
 						{
-							"type": "gold",
-							"change": 50
+							"type": "next_event",
+							"event_id": "evt_hollow_sanctum_search_result"
 						}
 					]
-				}
-			]
-		},
-		{
-			"id": "hollow_fight_leader_and_cultists_defeat",
-			"name": "A Desperate Retreat",
-			"description": "The Cult Leader's power is overwhelming. You are forced to retreat, the whispers now a haunting echo in your mind. The cult remains a threat, and the Hollow's darkness lingers.",
-			"possibilities": [
-				{
-					"id": "leave",
-					"description": "Flee the Whispering Hollow, vowing to return stronger."
 				}
 			]
 		},
@@ -189,7 +179,7 @@
 			"description": "A quick search of the cult's sanctum reveals some discarded profane texts and a small offering of tarnished silver coins. Nothing of significant power remains now that the leader is gone.",
 			"possibilities": [
 				{
-					"id": "opt_depart_hollow",
+					"id": "opt_hollow_leave_after_search",
 					"description": "Depart the Whispering Hollow.",
 					"outcomes": [
 						{
@@ -201,12 +191,596 @@
 			]
 		},
 		{
-			"id": "evt_hollow_generic_explore_result",
-			"name": "Eerie Silence",
-			"description": "You scout the edges of the Whispering Hollow. The gnarled trees seem to watch you, and strange, unidentifiable animal sounds echo from deeper within. The place feels ancient and tainted, but no immediate threat presents itself in this outer ring.",
+			"id": "evt_hollow_cult_leader_defeat",
+			"name": "Consumed by Whispers",
+			"description": "The Cult Leader's dark magic and the overwhelming whispers prove too potent. Your minds reel, and your defenses falter. The cultists drive you back, their victory echoing in the maddening chorus of the Hollow.",
 			"possibilities": [
 				{
-					"id": "opt_return_to_whispering_hollow",
+					"id": "leave",
+					"description": "Flee the Hollow. The cult's power is beyond you for now."
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_pursue_relic",
+			"name": "Murmuring Trail",
+			"description": "You follow Silas's cryptic directions deeper into the Whispering Hollow, towards the secluded dwelling of the Mad Hermit Lorian, who is said to guard the 'Whispering Hilt'. The incessant murmurs of the forest seem to guide and mislead in equal measure.",
+			"possibilities": [
+				{
+					"id": "opt_hilt_act1",
+					"description": "Continue towards the Hermit's dwelling.",
+					"condition": "NOT (quest_obsidianwhispermire_turned AND quest_obsidianwhispercauldron_turned)",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_hermit_approach_traps"
+						}
+					]
+				},
+				{
+					"id": "opt_hilt_act2",
+					"description": "Continue towards the Hermit's dwelling.",
+					"condition": "(quest_obsidianwhispermire_turned AND quest_obsidianwhispercauldron_turned)",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_kaelen_vs_hermit_encounter"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_kaelen_vs_hermit_encounter",
+			"name": "Hermit's Peril",
+			"description": "As you approach a dilapidated, moss-covered hovel, you hear raised voices. Peeking through the gnarled roots, you see a pale woman and two of her soldiers cornering a terrified, wild-eyed old man – the Mad Hermit Lorian. 'The Whispering Hilt, old fool. Now!' their leader demands, her hand resting on her weapon. Lorian babbles about 'voices' and 'guardians'.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_fight_kaelen_and_guards",
+					"description": "Intervene and attack the woman's group!",
+					"outcomes": [
+						{
+							"type": "start_fight",
+							"enemies": [
+								{
+									"archetype": "Kaelen Vane",
+									"count": 1,
+									"level": 5
+								},
+								{
+									"archetype": "Mercenary Guard",
+									"count": 2,
+									"level": 4
+								}
+							],
+							"event_id_victory": "evt_hollow_kaelen_defeated_get_hilt",
+							"event_id_defeat": "evt_hollow_kaelen_won_lost_hilt"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_kaelen_defeated_get_hilt",
+			"name": "Hilt Secured",
+			"description": "The woman and her guards lie defeated. The Mad Hermit Lorian, though shaken, points a trembling finger towards a loose floorboard. Beneath it, wrapped in oilskin, is the 'Whispering Hilt' – a cold, bleached bone hilt that emits faint, disturbing whispers.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_interrogate_kaelen",
+					"description": "Interrogate the woman for information.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_kaelen_interrogation"
+						}
+					]
+				},
+				{
+					"id": "opt_kill_kaelen_hollow",
+					"description": "[Self-Serving 2] Silence her permanently.",
+					"condition": "trait_ethics_any_lte_-2",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_kaelen_killed"
+						},
+						{
+							"type": "trait_change",
+							"trait": "Ethics",
+							"char_cond": "trait_ethics_party_any_lte_-2",
+							"change": -1
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_leave_kaelen",
+					"description": "Leave her be. You have the Hilt. Return to the Hollow's entrance.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_accomplish_hollow_relic"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accomplish"
+						},
+						{
+							"type": "trait_change",
+							"trait": "Ethics",
+							"change": 1
+						},
+						{
+							"type": "flag_set",
+							"flag": "kaelen_alive",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_kaelen_interrogation",
+			"name": "Kaelen's Whispers",
+			"description": "Kaelen Vane, as she is named, defiant even in defeat, speaks of a grand design and the power the complete Staff will unleash. She mentions a 'ritual of ascension' and her employer's inevitable rise, but refuses to name him, clearly trying to buy time.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_press_kaelen_for_name",
+					"description": "Press her for her employer's name.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_kaelen_recalled"
+						},
+						{
+							"type": "flag_set",
+							"flag": "obsidian_whisper_hints",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_kaelen_recalled",
+			"name": "Gone Like Smoke",
+			"description": "Before you can get more from her, Kaelen Vane shimmers and vanishes in a puff of shadowy smoke. [stat_lore_party_highest_gte_0] states, '[char0]: A recall spell. Her allies pulled her out. She was stalling.'",
+			"possibilities": [
+				{
+					"id": "opt_hollow_leave_after_recall_hilt",
+					"description": "You take the Whispering Hilt and return to the Hollow's entrance.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_accomplish_hollow_relic"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accomplish"
+						},
+						{
+							"type": "flag_set",
+							"flag": "kaelen_alive",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_kaelen_killed",
+			"name": "Kaelen's Final Whisper",
+			"description": "[trait_ethics_any_lte_-2] ends the woman's threat permanently. Moments later, her body disappears in a puff of shadowy smoke. She probably had allies waiting nearby to pull her out if she took too much time : the only thing they will find is her corpse. The 'Whispering Hilt' is yours. Lorian watches, muttering about 'silenced voices'.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_leave_kaelen_killed_hilt",
+					"description": "Leave the Whispering Hollow with the 'Whispering Hilt'.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_accomplish_hollow_relic"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accomplish"
+						},
+						{
+							"type": "flag_set",
+							"flag": "kaelen_alive",
+							"value": 0
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_accomplish_hollow_relic",
+			"name": "The Whispering Hilt",
+			"description": "You now hold the Whispering Hilt, a crucial component of the staff. Its faint murmurs seem to burrow into your thoughts. You may return to Silas to present what you've discovered...",
+			"possibilities": [
+				{
+					"id": "opt_hollow_finish_relic",
+					"description": "Go back to the entrance of the Whispering Hollow.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "whispering_hollow"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "accept"
+						},
+						{
+							"type": "flag_set",
+							"flag": "staff_part_recovered",
+							"value": 1
+						},
+						{
+							"type": "xp",
+							"amount": 1000
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_kaelen_won_lost_hilt",
+			"name": "Hilt Claimed by Darkness",
+			"description": "The woman and her guards overpower you. The Mad Hermit Lorian, though shaken, points a trembling finger towards a loose floorboard. She wrests the Whispering Hilt from it and, with a cold smile, her group melts back into the shadowy depths of the Hollow.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_flee_hollow_lost",
+					"description": "Retreat from the Hollow, defeated.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_failed_artifact"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accomplish"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_failed_artifact",
+			"name": "Hilt Unrecovered",
+			"description": "The Whispering Hilt eludes you, as have the other parts of the artifact. Silas will be disappointed, but perhaps the clues you've gathered will suffice for a lesser reward.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_flee_hollow_failed_artifact",
+					"description": "Go back to the entrance of the Whispering Hollow.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "whispering_hollow"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "accept"
+						},
+						{
+							"type": "flag_set",
+							"flag": "staff_part_recovered",
+							"value": 0
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_hermit_approach_traps",
+			"name": "Warded Path",
+			"description": "The path to what must be Lorian's dwelling is eerily silent, save for the constant whispers. Strange, faintly glowing glyphs are etched into the packed earth and ancient stones. A sudden chill fills the air, and you notice the frost clinging to nearby foliage despite the Hollow's usual dampness.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_proceed_cautiously_traps",
+					"description": "[Perception 6]\nProceed with caution, wary of traps.",
+					"condition": "stat_Perception_any_gte_6",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_glyphs_disabled_success"
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_disable_glyphs",
+					"description": "[Lore 6]\nAttempt to disable the glyphs.",
+					"condition": "stat_Lore_any_gte_6",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_glyphs_disabled_success"
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_brute_force_traps",
+					"description": "Advance regardless of potential wards.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_glyph_trap_triggered"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_glyph_trap_triggered",
+			"name": "Frozen Sentinels",
+			"description": "As you step forward, one of the glyphs flares with an icy blue light! The ground trembles, and with a sound like cracking glaciers, two vaguely humanoid figures formed of jagged ice and swirling frost coalesce from the air, their eyes glowing with cold malevolence. Lorian's wards are active!",
+			"possibilities": [
+				{
+					"id": "opt_hollow_fight_ice_elementals",
+					"description": "Fight the elementals!",
+					"outcomes": [
+						{
+							"type": "start_fight",
+							"enemies": [
+								{
+									"archetype": "Frost Guardian",
+									"count": 2,
+									"level": 4
+								}
+							],
+							"event_id_victory": "evt_hollow_elementals_defeated_find_corpse",
+							"event_id_defeat": "evt_hollow_elementals_defeat_retreat"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_glyphs_disabled_success",
+			"name": "Wards Bypassed",
+			"description": "With careful examination and knowledge of such wardings, you manage to disrupt the flow of energy to the glyphs. They dim and fade, the oppressive chill in the air lessening slightly. The path ahead seems safer, for now. On your way, you notice something else – the frozen, contorted corpse of a man in Gall city guard attire, half-buried in a drift of unnatural frost near a triggered glyph. He clearly fell victim to Lorian's defenses before you.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_examine_corpse_for_clues",
+					"description": "Examine the agent's corpse for clues.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_agent_corpse_clue"
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_ignore_corpse_to_hermitage",
+					"description": "Press on to the hermitage; the corpse is not your concern.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_hermitage_plundered_discovery"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_elementals_defeated_find_corpse",
+			"name": "Icy Aftermath & Grim Finding",
+			"description": "The Ice Elementals shatter into shards of rapidly melting ice. As the last of their chill dissipates, you notice something else – the frozen, contorted corpse of a man in Gall city guard attire, half-buried in a drift of unnatural frost near a triggered glyph. He clearly fell victim to Lorian's defenses before you.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_examine_corpse_for_clues",
+					"description": "Examine the agent's corpse for clues.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_agent_corpse_clue"
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_ignore_corpse_to_hermitage",
+					"description": "Press on to the hermitage; the corpse is not your concern.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_hermitage_plundered_discovery"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_agent_corpse_clue",
+			"name": "Singed Orders",
+			"description": "You carefully search the frozen corpse. Tucked into a belt pouch is a dispatch order, partially singed and frozen stiff. Though damaged, a Coiled Serpent and Tower sigil is just visible at the bottom. It seems someone has already come recently and met resistance.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_proceed_to_hermitage_with_clue",
+					"description": "With this new clue, continue to Lorian's hermitage.",
+					"outcomes": [
+						{
+							"type": "flag_set",
+							"flag": "obsidian_whisper_hints",
+							"value": 1
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_hermitage_plundered_discovery"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_elementals_defeat_retreat",
+			"name": "Frozen Rebuke",
+			"description": "The Ice Elementals are relentless, their chilling aura and sharp icy shards driving you back. The Hollow itself seems to reject your intrusion. You are forced to retreat from Lorian's warded path.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_retreat_from_traps",
+					"description": "Fall back to the main Hollow path.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_pursue_relic"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_hermitage_plundered_discovery",
+			"name": "Desecrated Hermitage",
+			"description": "You find the Mad Hermit Lorian's hovel. It's been ransacked. Lorian himself is bound and gagged. You free him, but it's already too late : the 'Whispering Hilt' is clearly gone. The Hermit is babbling about voices being gone, and is way too delirious to bring you any clue about whom may have done this to him.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_search_plundered_hermitage_for_clues_charisma",
+					"description": "[Charisma 5]\nYou persuade the Hermit to tell you who may have taken the Hilt from him.",
+					"condition": "stat_Charisma_party_highest_gte_5",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_clues_found_at_hermitage"
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_search_plundered_hermitage_for_clues_altruistic",
+					"description": "[Altruistic 2]\nYou calm the hermit down and ask him the information you need.",
+					"condition": "trait_Ethics_party_highest_gte_2",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_clues_found_at_hermitage"
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_leave_plundered_hermitage_no_clues",
+					"description": "The Hilt is gone. Decide your next course of action.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_what_next"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accomplish"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_clues_found_at_hermitage",
+			"name": "Hermit's Testimony",
+			"description": "Lorian babble about 'the pale woman with winter eyes' who forced him to reveal the Hilt's hiding place. He starts to repeat, on and on, about how the town's Councilman will pay, though you don't really know what town or councilman he is talking about.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_leave_with_valerius_clues_hermit",
+					"description": "Leave the hermitage with these new clues and decide your next move.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_hollow_what_next"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accomplish"
+						},
+						{
+							"type": "flag_set",
+							"flag": "obsidian_whisper_hints",
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_what_next",
+			"name": "Continuing the Hunt",
+			"description": "The Whispering Hilt has been taken by unknown agents. You must choose which of the remaining rumored locations to investigate for the other staff parts.",
+			"possibilities": [
+				{
+					"id": "opt_hollow_search_mire",
+					"description": "Go find the part hidden in the Sunken Mire.",
+					"condition": "NOT quest_obsidianwhispermire_turned",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "whispering_hollow"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermire",
+							"action": "accept"
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				},
+				{
+					"id": "opt_hollow_search_cauldron",
+					"description": "Go find the part hidden in the Cauldron Mountains.",
+					"condition": "NOT quest_obsidianwhispercauldron_turned",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "whispering_hollow"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accept"
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_hollow_generic_explore_result",
+			"name": "Eerie Silence",
+			"description": "You scout the edges of the Whispering Hollow. The gnarled trees seem to watch you, and strange, unidentifiable animal sounds echo from deeper within. The place feels ancient and tainted, but no immediate threat presents itself in this outer ring. An unsettling whisper brushes past your ear, gone before you can place it.",
+			"possibilities": [
+				{
+					"id": "opt_return_to_hollow",
 					"description": "Return to the Hollow's main entrance point.",
 					"outcomes": [
 						{

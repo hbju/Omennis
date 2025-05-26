@@ -99,5 +99,16 @@ static var ENEMY_CLASS_DEFINITIONS = {
             {"skill": Decay, "min_level": 6}
         ],
         "portraits": [15]
-    }
+    },
+    "Mercenary Guard" : {
+        "class_enum": Character.CLASSES.Warrior,
+        "base_hp": 45, "hp_per_level": 8,
+        "base_damage_stat": 8, "damage_stat_per_level": 1.5,
+        "skill_pool_config": [
+            {"skill": ShieldBash, "min_level": 3},
+            {"skill": WarCry, "min_level": 5},
+            {"skill": Whirlwind, "min_level": 6}
+        ],
+        "portraits": [16]
+    },
 }
