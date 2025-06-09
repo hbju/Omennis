@@ -129,7 +129,7 @@
             },
             {
               "type": "flag_set",
-              "flag": "kaelen_alive",
+              "flag": "kaelen-alive",
               "value": 1
             }
           ]
@@ -151,7 +151,7 @@
             },
             {
               "type": "flag_set",
-              "flag": "obsidian_whisper_hints",
+              "flag": "obsidian-whisper-hints",
               "value": 1
             }
           ]
@@ -178,7 +178,7 @@
             },
             {
               "type": "flag_set",
-              "flag": "kaelen_alive",
+              "flag": "kaelen-alive",
               "value": 1
             }
           ]
@@ -205,7 +205,7 @@
             },
             {
               "type": "flag_set",
-              "flag": "kaelen_alive",
+              "flag": "kaelen-alive",
               "value": 0
             }
           ]
@@ -232,12 +232,12 @@
             },
             {
               "type": "quest_update",
-              "quest_id": "obsidianwhispermireact3",
+              "quest_id": "obsidianwhisperact3",
               "action": "accept"
             },
             {
               "type": "flag_set",
-              "flag": "staff_part_recovered",
+              "flag": "obsidian-whisper-part-recovered",
               "value": 1
             },
             {
@@ -295,7 +295,7 @@
             },
             {
               "type": "flag_set",
-              "flag": "staff_part_recovered",
+              "flag": "obsidian-whisper-part-recovered",
               "value": 0
             },
             {
@@ -313,7 +313,7 @@
       "possibilities": [
         {
           "id": "opt_mire_search_plundered_shrine_for_clues",
-          "description": "Search the area for clues to the attackers' identity.",
+          "description": "[Perception 4]\nSearch the area for clues to the attackers' identity.",
           "condition": "stat_perception_party_highest_gte_4",
           "outcomes": [
             {
@@ -359,7 +359,7 @@
             },
             {
               "type": "flag_set",
-              "flag": "obsidian_whisper_hints",
+              "flag": "obsidian-whisper-hints",
               "value": 1
             }
           ]

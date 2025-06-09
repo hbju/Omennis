@@ -233,7 +233,7 @@ func stat_check(condition_id: String, comparison: String) -> Array: # Returns [s
 		return [regex_match.get_string(1), comparison, int(regex_match.get_string(3))]
 	return []
 		
-func trait_check(condition_id: String, comparison: String) -> Array: # Returns [trait_name, value] or empty
+func trait_check(condition_id: String, comparison) -> Array: # Returns [trait_name, value] or empty
 	var regex = RegEx.new()
 	# Matches "trait_TRAITNAME_gte_VALUE" or "trait_TRAITNAME_lte_VALUE" or "trait_TRAITNAME_eq_VALUE"
 	regex.compile(r"trait_([A-Za-z]+)_(gte|lte|eq)_([+-]?\d+)")
@@ -281,7 +281,7 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 		printerr("Malformed condition atom: ", atom)
 		return false
 
-	var type = parts[0] # "stat", "trait", "rel"
+	var type = parts[0] # "stat", "trait", "rel", "lvl"
 	var subject_field = parts[1].capitalize() # e.g., "Perception", "Valor", "Friendship"
 	
 	var target_specifier = ""
@@ -303,7 +303,8 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 
 	operator_str = parts[op_idx]
 	value_str = parts[op_idx + 1]
-	target_specifier = "_".join(parts.slice(2, op_idx)) # Everything between field and operator
+	var target_begin = 1 if type == "lvl" else 2 # Skip "stat_" or "trait_" for level checks
+	target_specifier = "_".join(parts.slice(target_begin, op_idx)) # Everything between field and operator
 
 	var value = int(value_str)
 
@@ -329,6 +330,36 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 
 	# --- Perform Evaluation ---
 	match type:
+		"lvl" :
+			print("Evaluating level condition: ", atom)
+			if target_specifier == "party_highest":
+				print("checking party highest level with value ", value, " and operator ", operator_str)
+				var max_level = -INF
+				for member in characters_to_check:
+					max_level = max(max_level, member.character_level)
+				return _compare(max_level, operator_str, value)
+			elif target_specifier == "party_lowest":
+				print("checking party lowest level with value ", value, " and operator ", operator_str)
+				var min_level = INF
+				for member in characters_to_check:
+					min_level = min(min_level, member.character_level)
+				return _compare(min_level, operator_str, value)
+			elif target_specifier == "party_average":
+				print("checking party average level with value ", value, " and operator ", operator_str)
+				var total = 0
+				var count = 0.0
+				for member in characters_to_check:
+					total += member.character_level
+					count += 1
+				if count == 0: return false 
+				var average = total / count
+				return _compare(average, operator_str, value)
+			else: # "any" or specific character(s)
+				print("checking any for level with value ", value, " and operator ", operator_str)
+				for member in characters_to_check:
+					if _compare(member.character_level, operator_str, value):
+						return true # "any" logic
+				return false
 		"stat":
 			if target_specifier == "party_highest":
 				print("checking party highest for ", subject_field, " with value ", value, " and operator ", operator_str)

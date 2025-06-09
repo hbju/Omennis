@@ -61,17 +61,21 @@ func _ready():
 		initial_random_event_prompt += "\n" + GameState.party[i].to_string()
 	ContentGenerator.request_content(initial_random_event_prompt)
 
-	GameState.random_event.connect(_on_random_event)
+	# GameState.random_event.connect(_on_random_event)
 	GameState.money_changed.connect(_on_money_changed)
 	GameState.change_gold(1000)
 	
 	if testing :
-		GameState.accept_quest("obsidianwhisperhollow")
-		GameState.turn_quest("obsidianwhispermire")
-		GameState.turn_quest("obsidianwhispercauldron")
+		#GameState.accept_quest("obsidianwhisperhollow")
+		#GameState.turn_quest("obsidianwhispermire")
+		#GameState.turn_quest("obsidianwhispercauldron")
 		GameState.new_candidate(PartyMember.new_rand())
 		GameState.recruit_candidate()
-		GameState.receive_experience(10000)
+		GameState.new_candidate(PartyMember.new_rand())
+		GameState.recruit_candidate()
+		GameState.new_candidate(PartyMember.new_rand())
+		GameState.recruit_candidate()
+		GameState.receive_experience(50000)
 
 func oddr_offset_neighbor(hex, direction):
 	var parity = hex.y & 1

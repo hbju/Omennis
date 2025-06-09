@@ -8,7 +8,7 @@
 				{
 					"id": "opt_cauldron_drake_ambush",
 					"description": "Follow signs of the missing prospector, Elara Vayne.",
-					"condition": "quest_sparksoot_accepted",
+					"condition": "quest_sparksoot_accepted AND NOT quest_sparksoot_accomplished",
 					"outcomes": [
 						{
 							"type": "next_event",
@@ -244,7 +244,7 @@
 						},
 						{
 							"type": "flag_set",
-							"flag": "kaelen_alive",
+							"flag": "kaelen-alive",
 							"value": 1
 						}
 					]
@@ -266,7 +266,7 @@
 						},
 						{
 							"type": "flag_set",
-							"flag": "obsidian_whisper_hints",
+							"flag": "obsidian-whisper-hints",
 							"value": 1
 						}
 					]
@@ -293,7 +293,7 @@
 						},
 						{
 							"type": "flag_set",
-							"flag": "kaelen_alive",
+							"flag": "kaelen-alive",
 							"value": 1
 						}
 					]
@@ -320,7 +320,7 @@
 						},
 						{
 							"type": "flag_set",
-							"flag": "kaelen_alive",
+							"flag": "kaelen-alive",
 							"value": 0
 						}
 					]
@@ -352,7 +352,7 @@
 						},
 						{
 							"type": "flag_set",
-							"flag": "staff_part_recovered",
+							"flag": "obsidian-whisper-part-recovered",
 							"value": 1
 						},
 						{
@@ -410,7 +410,7 @@
 						},
 						{
 							"type": "flag_set",
-							"flag": "staff_part_recovered",
+							"flag": "obsidian-whisper-part-recovered",
 							"value": 0
 						},
 						{
@@ -428,7 +428,7 @@
 			"possibilities": [
 				{
 					"id": "opt_cauldron_search_plundered_hive_for_clues",
-					"description": "[Perception 6][Survival (average) 5]Carefully search the chamber for clues, avoiding the enraged Queen.",
+					"description": "[Perception 6 + Survival (average) 3]\nCarefully search the chamber for clues, avoiding the enraged Queen.",
 					"condition": "stat_Perception_party_highest_gte_6 AND stat_Survival_party_average_gte_3",
 					"outcomes": [
 						{
@@ -474,7 +474,7 @@
 						},
 						{
 							"type": "flag_set",
-							"flag": "obsidian_whisper_hints",
+							"flag": "obsidian-whisper-hints",
 							"value": 1
 						}
 					]
