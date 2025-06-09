@@ -159,7 +159,9 @@ func on_possibilities_buttons_pressed(event_conclusion: String) :
 func process_text(raw_text: String, party: Array[PartyMember]) -> String:
 	var new_text: String = raw_text
 	for i  in range(0, party.size()):
-		new_text = new_text.replace("[Name " + str(i) + "]", party[i].character_name)
+
+
+		new_text = new_text.replace("[char" + str(i) + "]", party[i].character_name)
 		new_text = new_text.replace("[Class " + str(i) + "]", party[i].get_char_class())
 		new_text = new_text.replace("[he/she/they " + str(i) + "]", "he" if party[i].character_sex == PartyMember.SEX.Male else "she" if party[i].character_sex == PartyMember.SEX.Female else "they")
 		new_text = new_text.replace("[his/her/their " + str(i) + "]", "his" if party[i].character_sex == PartyMember.SEX.Male else "her" if party[i].character_sex == PartyMember.SEX.Female else "their")

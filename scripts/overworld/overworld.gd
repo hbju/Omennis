@@ -8,6 +8,7 @@ var player_neighbours: Array[Vector2i] = []
 @onready var gall = $gall
 @onready var cauldron_mountains = $cauldron_mountains
 @onready var whispering_hollow = $whispering_hollow
+@onready var sunken_mire = $sunken_mire
 
 @onready var party_ui: PartyUI = $UI/party_ui
 @onready var quest_log_ui: QuestLogUI = $UI/quest_log_ui
@@ -41,6 +42,7 @@ func _ready():
 	gall.body_entered.connect(_toggle_event_ui.bind("gall"))
 	cauldron_mountains.body_entered.connect(_toggle_event_ui.bind("cauldron_mountains"))
 	whispering_hollow.body_entered.connect(_toggle_event_ui.bind("whispering_hollow"))
+	sunken_mire.body_entered.connect(_toggle_event_ui.bind("sunken_mire"))
 
 	$UI/party_button.pressed.connect(_toggle_party_ui)
 	$UI/party_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_SCREEN_OPEN))
@@ -59,12 +61,18 @@ func _ready():
 		initial_random_event_prompt += "\n" + GameState.party[i].to_string()
 	ContentGenerator.request_content(initial_random_event_prompt)
 
-	GameState.random_event.connect(_on_random_event)
+	# GameState.random_event.connect(_on_random_event)
 	GameState.money_changed.connect(_on_money_changed)
 	GameState.change_gold(1000)
 	
 	if testing :
-		GameState.accept_quest(1)
+		#GameState.accept_quest("obsidianwhisperhollow")
+		#GameState.turn_quest("obsidianwhispermire")
+		#GameState.turn_quest("obsidianwhispercauldron")
+		GameState.new_candidate(PartyMember.new_rand())
+		GameState.recruit_candidate()
+		GameState.new_candidate(PartyMember.new_rand())
+		GameState.recruit_candidate()
 		GameState.new_candidate(PartyMember.new_rand())
 		GameState.recruit_candidate()
 		GameState.receive_experience(50000)

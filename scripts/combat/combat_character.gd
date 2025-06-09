@@ -112,6 +112,7 @@ func attack(new_target: Vector2i, ranged: bool = false) :
 			init_pos = position
 		else : 
 			var path = _calculate_path_to_character(map.local_to_map(new_target))
+			print("path: ", path)
 			init_pos = map.map_to_local(path[path.size() - 2])
 
 func _physics_process(_delta):

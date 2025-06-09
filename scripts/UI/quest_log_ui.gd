@@ -20,10 +20,11 @@ func update_ui(quest_log: Dictionary) :
 		quest_button.queue_free()
 	displayed_quest.visible = false
 	
+	curr_quest = 0
 	for i in range(0, quest_log.size()):
 		var quest_state = quest_log[quest_log.keys()[i]]
 		if quest_state != GameState.QUEST_STATE.Turned :  
-			var quest_info = load("res://text/quests/" + "%03d" % quest_log.keys()[i] + ".json").data
+			var quest_info = load("res://text/quests/" + "%s" % quest_log.keys()[i] + ".json").data
 			quests_info.append(quest_info)
 			
 			var quest_button = Button.new()
@@ -31,11 +32,12 @@ func update_ui(quest_log: Dictionary) :
 			quest_button.add_theme_font_size_override("font_size", 30)
 			var quest_title = quest_info.name + (" (Accomplished)" if quest_state == GameState.QUEST_STATE.Accomplished else "") 
 			quest_button.set_text(quest_title)
-			quest_button.pressed.connect(_on_quest_button_pressed.bind(i))
+			quest_button.pressed.connect(_on_quest_button_pressed.bind(curr_quest))
 			quest_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 			quest_button.set_size(Vector2(QUESTS_WIDTH, QUESTS_HEIGHT))
-			quest_button.set_position(Vector2(0, QUESTS_MARGIN + i * (QUESTS_HEIGHT + QUESTS_MARGIN)))
+			quest_button.set_position(Vector2(0, QUESTS_MARGIN + curr_quest * (QUESTS_HEIGHT + QUESTS_MARGIN)))
 			quests_control.add_child(quest_button)
+			curr_quest += 1
 
 func _on_quest_button_pressed(index: int) :
 	var quest_info = quests_info[index]

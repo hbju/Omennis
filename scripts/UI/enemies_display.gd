@@ -1,5 +1,5 @@
 @tool
-extends Control
+extends VBoxContainer
 class_name EnemiesDisplay
 
 @onready var portrait = $avatar_background/avatar_portrait
@@ -42,6 +42,12 @@ func update_values():
 
 
 func update_group(new_group: EnemyGroup):
+	if not description :
+		description = $enemy_description
+	if not portrait :
+		portrait = $avatar_background/avatar_portrait
 	self.enemy_group = new_group
-	description.text = str(new_group.enemies.size()) + " " + new_group.enemy.character_name + "\n Lvl : " + str(new_group.enemy.character_level)
+	var group_size = "" if new_group.enemies.size() == 1 else str(new_group.enemies.size())
+	description.text = group_size + " " + new_group.enemy.character_name + "\n Lvl : " + str(new_group.enemy.character_level)
+	print("Updating group: ", new_group.enemy.character_name, " Level: ", new_group.enemy.character_level, " Count: ", new_group.enemies.size())
 	portrait.texture = load(enemy_group.enemy.get_portrait_path())
