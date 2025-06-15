@@ -78,11 +78,11 @@ func _generate_enemies(wave_num: int) -> Array[Character]:
 
 	print("Wave %d: %d enemies, Level %d" % [wave_num, enemy_count, enemy_level])
 
-	var class_keys = EnemyData.ENEMY_CLASS_DEFINITIONS.keys()
+	var class_keys = ArenaEnemyData.ENEMY_CLASS_DEFINITIONS.keys()
 
 	for i in range(enemy_count):
 		var chosen_class_key = class_keys[randi() % class_keys.size()]
-		var class_data = EnemyData.ENEMY_CLASS_DEFINITIONS[chosen_class_key]
+		var class_data = ArenaEnemyData.ENEMY_CLASS_DEFINITIONS[chosen_class_key]
 
 		var enemy_actual_level = max(1, enemy_level + randi_range(-1, 1)) # +/- 1 level variance
 

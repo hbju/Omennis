@@ -1,0 +1,50 @@
+{
+    "events": [
+        {
+            "id": "cran",
+            "name": "The City of Cran",
+            "description": "You pass through the heavily barricaded gates of Cran. The city's bones are those of a giant; wide avenues and grand stone buildings, monuments to a time when the mountain's riches flowed freely. Now, that grandeur is tarnished. The air is thick with the smell of coal smoke and damp rock, and the once-booming sounds of industry have been replaced by a tense, watchful quiet. Many buildings are shuttered, their windows dark and empty, a testament to the city's slow strangulation by the goblin hordes in the surrounding mountains.",
+            "possibilities": [
+                {
+                    "id": "evt_cran_guild",
+                    "description": "Find the Mercenaries' Guild, likely the busiest place in town."
+                },
+                {
+                    "id": "leave",
+                    "description": "Leave the beleaguered city."
+                }
+            ]
+        },
+        {
+            "id": "evt_cran_guild",
+            "name": "Cran Mercenaries' Guild",
+            "description": "The Guild operates out of what was once the city's Mining Exchange — a sturdy, defensible building of black stone. The interior is sparse and grimly functional. The contract board is almost exclusively covered in goblin-related bounties: 'Clear the Upper Tunnels,' 'Reclaim the West Spire,' 'Escort Ore Cart.' Mercenaries, covered in grime and scars, sharpen their weapons with a grim sense of purpose. The guild clerk looks perpetually exhausted.",
+            "possibilities": [
+                {
+                    "id": "evt_cran_get_quest",
+                    "description": "See what work is on offer.",
+                    "condition": "NOT radiant_quest_active",
+                    "outcomes": [
+                        {
+                            "type": "new_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "evt_cran_turn_in",
+                    "description": "Turn in a completed contract.",
+                    "condition": "radiant_quest_can_turn_in_cran",
+                    "outcomes": [
+                        {
+                            "type": "turn_in_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "cran",
+                    "description": "Return to the city streets."
+                }
+            ]
+        }
+    ]
+}

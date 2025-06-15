@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "tolleaters_pass",
+            "name": "The Toll-Eater's Pass",
+            "description": "The road to Cran narrows as it enters the Toll-Eater's Pass, a treacherous stretch of broken hills and rocky outcrops. The terrain is a bandit's dream, offering countless hiding places and a clear view of the muddy road below. The ground is littered with the detritus of past ambushes – splintered arrow shafts, a discarded shield, and the skeletal remains of a burnt-out merchant wagon half-swallowed by a ditch.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "This road is too dangerous. Find another way."
+                }
+            ]
+        }
+    ]
+}

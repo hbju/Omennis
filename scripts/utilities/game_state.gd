@@ -20,6 +20,10 @@ var _condition_evaluators = {
 		for member in party:
 			if member.skill_points > 0: return true
 		return false,
+	"radiant_quest_active": func(): 
+		return RadiantQuestManager and not RadiantQuestManager.get_active_quest().is_empty(),
+	"radiant_quest_accomplished": func():
+		return RadiantQuestManager and RadiantQuestManager.get_active_quest().state == "Accomplished",
 }
 
 var party_money : int
@@ -242,6 +246,27 @@ func trait_check(condition_id: String, comparison) -> Array: # Returns [trait_na
 		return [regex_match.get_string(1), comparison, int(regex_match.get_string(3))]
 	return []
 
+func radiant_quest_can_turn_in_check(condition_id: String) -> bool:
+	var regex = RegEx.new()
+	regex.compile(r"radiant_quest_can_turn_in_(.+)")
+	var regex_match = regex.search(condition_id)
+	if regex_match:
+		var quest_id = regex_match.get_string(1)
+		if RadiantQuestManager and not RadiantQuestManager.get_active_quest().is_empty() and RadiantQuestManager.get_active_quest().region_id == quest_id:
+			return RadiantQuestManager.get_active_quest().state == "Accomplished"
+	return false
+
+func radiant_quest_target_is_check(condition_id: String) -> bool:
+	var regex = RegEx.new()
+	regex.compile(r"radiant_quest_target_is_(.+)")
+	var regex_match = regex.search(condition_id)
+	if regex_match:
+		var quest_id = regex_match.get_string(1)
+		if RadiantQuestManager and not RadiantQuestManager.get_active_quest().is_empty() and RadiantQuestManager.get_active_quest().poi_event_id == quest_id:
+			return RadiantQuestManager.get_active_quest().state == "Accepted"
+	return false
+
+
 func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember] = []) -> bool:
 	atom = atom.strip_edges()
 
@@ -255,6 +280,15 @@ func evaluate_condition_atom(atom: String, context_characters: Array[PartyMember
 			print("quest_check: ", quest_id)
 			var expected_state = QUEST_STATE.get(state_name.capitalize()) 
 			return quest_log.has(quest_id) and quest_log[quest_id] >= expected_state
+
+	# Radiant quest checks
+	if radiant_quest_can_turn_in_check(atom):
+		print("radiant_quest_can_turn_in_check: ", atom)
+		return RadiantQuestManager and RadiantQuestManager.get_active_quest().state == "Accomplished"
+
+	if radiant_quest_target_is_check(atom):
+		print("radiant_quest_target_is_check: ", atom)
+		return RadiantQuestManager and RadiantQuestManager.get_active_quest().state == "Accepted"
 	
 	# Flag checks : flag_x_gte_y
 	var flag_check_result = flag_check(atom)
@@ -841,3 +875,26 @@ func step_taken() :
 	if steps_until_event == 0 : 
 		steps_until_event = randi_range(12, 20)
 		random_event.emit()
+
+func get_distance_and_orientation_to_location(city: String, location: PointOfInterest) -> String : 
+
+	var distance = player_coords.distance_to(location.position)
+	var orientation = player_coords.angle_to(location.position)
+	print(orientation, " ", distance)
+	if orientation < -PI/4 or orientation > PI/4:
+		orientation = "North"
+	elif orientation < 3*PI/4:
+		orientation = "East"
+	elif orientation < 5*PI/4:
+		orientation = "South"
+	else:
+		orientation = "West"
+
+	if distance < 10 * 900:
+		return "%s is near %s to the %s." % [location.poi_name, city, orientation]
+	elif distance < 15 * 900:
+		return "%s is a short distance from %s to the %s." % [location.poi_name, city, orientation]
+	elif distance < 20 * 900:
+		return "%s is a moderate distance from %s to the %s." % [location.poi_name.capitalize(), city, orientation]
+	else:
+		return "%s is far away from %s to the %s." % [location.poi_name.capitalize(), city, orientation]

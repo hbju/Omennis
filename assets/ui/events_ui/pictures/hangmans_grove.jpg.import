@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctp4px84f2s0f"
-path="res://.godot/imported/grotor.png-330900496a7fc7b13affeb33f3a44061.ctex"
+uid="uid://fmwa8gucdv3t"
+path="res://.godot/imported/hangmans_grove.jpg-30267028b9d711466a7bd926c1a76e3c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/overworld_elements/cities/grotor.png"
-dest_files=["res://.godot/imported/grotor.png-330900496a7fc7b13affeb33f3a44061.ctex"]
+source_file="res://assets/ui/events_ui/pictures/hangmans_grove.jpg"
+dest_files=["res://.godot/imported/hangmans_grove.jpg-30267028b9d711466a7bd926c1a76e3c.ctex"]
 
 [params]
 

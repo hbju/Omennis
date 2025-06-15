@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "forgotten_ferry_post",
+            "name": "The Forgotten Ferry Post",
+            "description": "On a quiet bend of the Logauc river, you find the Forgotten Ferry Post. All that remains is a small, collapsed stone building, its roof long gone, and the rotting stumps of an old wooden pier disappearing into the muddy water. A single, half-sunken rowboat is tangled in the reeds nearby. This place was once a vital crossing, but with Oldbridge's new bridges and industry, it has been left to be slowly consumed by the river and time.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "There is nothing here but ghosts of the past."
+                }
+            ]
+        }
+    ]
+}

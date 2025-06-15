@@ -21,7 +21,7 @@
 					"outcomes": [
 						{
 							"type": "next_event",
-							"event_id": "evt_gall_guildhall_entry"
+							"event_id": "evt_gall_guild"
 						}
 					]
 				},
@@ -638,7 +638,7 @@
 			]
 		},
 		{
-			"id": "evt_gall_guildhall_entry",
+			"id": "evt_gall_guild",
 			"name": "Mercenaries' Guild Hall",
 			"description": "The Guild Hall is a cavernous, echoing space built for function over comfort. The air smells faintly of old parchment, oiled leather, and nervous sweat. Rough-looking individuals study a large, crowded noticeboard plastered with contracts, while others wait on worn benches, sharpening blades or exchanging hushed words. A stern-faced clerk presides over a heavy oak counter, ready to deal in coin and contracts.",
 			"possibilities": [
@@ -677,8 +677,18 @@
 		{
 			"id": "evt_guild_noticeboard",
 			"name": "The Contract Board",
-			"description": "The noticeboard is a chaotic tapestry of handwritten pleas, official-looking bounties, and desperate missives, all vying for attention. Amidst the usual requests for rat extermination and debt collection, two particular postings stand out, promising greater risk and reward.",
+			"description": "The noticeboard is a chaotic tapestry of handwritten pleas, official-looking bounties, and desperate missives, all vying for attention. You find a few generic missions that you could take, low risk, low reward. Amidst the usual requests for rat extermination and debt collection, some particular postings stand out, promising greater risk and reward.",
 			"possibilities": [
+				{
+                    "id": "opt_gall_get_radiant_quest",
+                    "description": "Take a look at some of the generic contracts available.",
+                    "condition": "NOT radiant_quest_active",
+                    "outcomes": [
+                        {
+                            "type": "new_radiant_quest"
+                        }
+                    ]
+                },
 				{
 					"id": "opt_quest_read_cauldron_easy",
 					"description": "Read the contract: 'Lost Spark in the Soot'.",
@@ -707,7 +717,7 @@
 					"outcomes": [
 						{
 							"type": "next_event",
-							"event_id": "evt_gall_guildhall_entry"
+							"event_id": "evt_gall_guild"
 						}
 					]
 				}
@@ -782,6 +792,16 @@
 			"name": "Reporting to the Guild Clerk",
 			"description": "You approach the heavy oak counter. The Guild Clerk, a man with eyes that seem to have tallied countless grim bargains, looks up from his ledger, quill poised. 'Report?' he asks, his voice flat and devoid of warmth.",
 			"possibilities": [
+                {
+                    "id": "evt_gall_turn_in",
+                    "description": "Report a completed task.",
+                    "condition": "radiant_quest_can_turn_in_gall",
+                    "outcomes": [
+                        {
+                            "type": "turn_in_radiant_quest"
+                        }
+                    ]
+                },
 				{
 					"id": "opt_turn_in_quest_cauldron",
 					"description": "Report completion of 'Lost Spark in the Soot'.\n Receive your reward (100 gold, 1500 XP).",
@@ -836,7 +856,7 @@
 					"outcomes": [
 						{
 							"type": "next_event",
-							"event_id": "evt_gall_guildhall_entry"
+							"event_id": "evt_gall_guild"
 						}
 					]
 				}

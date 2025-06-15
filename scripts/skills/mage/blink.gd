@@ -78,7 +78,7 @@ func get_skill_name() -> String: return "Blink"
 func get_skill_description() -> String:
 	return "Instantly teleport to an empty cell (Range: %d). Next turn, your base damage is increased by %d." % [blink_range, next_spell_damage_bonus] + \
 		   "\nCooldown: %d turns." % max_cooldown
-func get_skill_icon() -> Texture: return load("res://assets/ui/skills/blink.png") # Placeholder
+func get_skill_icon() -> Texture: return load("res://assets/ui/skills/blink.png") 
 func get_skill_range() -> int: return blink_range
 
 func target_allies() -> bool: return false

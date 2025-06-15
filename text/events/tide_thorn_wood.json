@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "tide_thorn_wood",
+            "name": "The Tide-Thorn Wood",
+            "description": "South of Longshore lies the Tide-Thorn Wood. This is no grand forest, but a grim, hardy woodland locked in a constant battle with the sea. The trees are stunted and bent, their branches permanently twisted away from the coast by the salt-laden winds. The ground is a mix of sandy soil and tough, sharp-edged grasses. The air is filled with the sound of the wind whipping through the hardy pines and the distant roar of the ocean.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "There is little shelter here. Turn back."
+                }
+            ]
+        }
+    ]
+}
