@@ -46,6 +46,14 @@ func generate_quest(region_id: String) -> Dictionary:
 	var chosen_template: RadiantQuestTemplate = null
 	var chosen_poi: PointOfInterest = null
 
+	var party = GameState.party
+	var min_level = -1
+	for member in party:
+		if member.character_level > min_level:
+			min_level = member.character_level
+
+	template_candidates = template_candidates.filter(func(t): return t.min_player_level <= min_level)
+
 	while (not valid_template_found) and not template_candidates.is_empty():
 		chosen_template = template_candidates.pop_front() 
 		print("Trying template: ", chosen_template.quest_id_prefix)
@@ -84,11 +92,13 @@ func generate_quest(region_id: String) -> Dictionary:
 	var description = chosen_template.description_template\
 			.replace("[LocationName]", chosen_poi.poi_name)\
 			.replace("[CityName]", chosen_poi.region_id.capitalize())\
+			.replace("[RewardGold]", str(chosen_template.reward_gold))\
 			.replace("[LocationDistance]", str(GameState.get_distance_and_orientation_to_location(region_id.replace("_", " ").capitalize(), chosen_poi)))
 
 	var offer_description = chosen_template.offer_description\
 		.replace("[LocationName]", chosen_poi.poi_name)\
 		.replace("[CityName]", chosen_poi.region_id.replace("_", " ").capitalize())\
+		.replace("[RewardGold]", str(chosen_template.reward_gold))\
 		.replace("[LocationDistance]", str(GameState.get_distance_and_orientation_to_location(region_id.replace("_", " ").capitalize(), chosen_poi)))
 
 	pending_radiant_quest = {

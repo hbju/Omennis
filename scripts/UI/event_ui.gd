@@ -89,7 +89,8 @@ func show_dynamic_quest_turn_in(quest_data: Dictionary):
 
 	var post_text = template.turn_in_description\
 		.replace("[LocationName]", quest_data.poi_name)\
-		.replace("[CityName]", quest_data.region_id.replace("_", " ").capitalize())
+		.replace("[CityName]", quest_data.region_id.replace("_", " ").capitalize())\
+		.replace("[RewardGold]", str(quest_data.template.reward_gold))
 
 	var event_content: Dictionary = {
 		"name": quest_data.poi_name,
@@ -119,8 +120,10 @@ func show_dynamic_quest_location_event(quest_data: Dictionary, post_fight: bool 
 
 	if not post_fight:
 		var pre_text = template.location_entry_description\
-			.replace("[LocationName]", quest_data.poi_name)
-			
+			.replace("[LocationName]", quest_data.poi_name)\
+			.replace("[CityName]", quest_data.region_id.replace("_", " ").capitalize())\
+			.replace("[RewardGold]", str(quest_data.template.reward_gold))
+
 		var event_content: Dictionary = {
 			"name": quest_data.poi_name,
 			"description": pre_text,
@@ -144,7 +147,8 @@ func show_dynamic_quest_location_event(quest_data: Dictionary, post_fight: bool 
 		# --- POST-OBJECTIVE STATE, VICTORY ---
 		var post_text = template.location_post_objective_victory_description\
 			.replace("[LocationName]", quest_data.poi_name)\
-			.replace("[CityName]", quest_data.region_id.capitalize())
+			.replace("[CityName]", quest_data.region_id.capitalize())\
+			.replace("[RewardGold]", str(quest_data.template.reward_gold))
 
 		var event_content: Dictionary = {
 			"name": quest_data.poi_name,
@@ -162,7 +166,8 @@ func show_dynamic_quest_location_event(quest_data: Dictionary, post_fight: bool 
 		# --- POST-OBJECTIVE STATE, FAILURE ---
 		var post_text = template.location_post_objective_failure_description\
 			.replace("[LocationName]", quest_data.poi_name)\
-			.replace("[CityName]", quest_data.region_id.capitalize())
+			.replace("[CityName]", quest_data.region_id.capitalize())\
+			.replace("[RewardGold]", str(quest_data.template.reward_gold))
 
 		var event_content: Dictionary = {
 			"name": quest_data.poi_name,

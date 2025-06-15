@@ -8,7 +8,7 @@
 script = ExtResource("1_vjedo")
 
 [node name="combat_scene" parent="." instance=ExtResource("14_k6hqc")]
-debug_mode = false
+debug_mode = null
 
 [node name="overworld" parent="." instance=ExtResource("2_4cta6")]
 z_index = -100

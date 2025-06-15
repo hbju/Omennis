@@ -321,12 +321,12 @@ region_id = "baul"
 tags = Array[String](["cave"])
 event_id_on_enter = "gloomfang_fissure"
 
-[node name="upper_levels" parent="." groups=["points_of_interest"] instance=ExtResource("5_p7rx4")]
+[node name="upper_tunnels" parent="." groups=["points_of_interest"] instance=ExtResource("5_p7rx4")]
 position = Vector2(22493.3, -3226.67)
-poi_name = "The Upper Levels"
+poi_name = "The Upper Tunnels"
 region_id = "cran"
 tags = Array[String](["cave"])
-event_id_on_enter = "upper_levels"
+event_id_on_enter = "upper_tunnels"
 
 [node name="echoing_shaft" parent="." groups=["points_of_interest"] instance=ExtResource("5_p7rx4")]
 position = Vector2(15893.3, -7013.33)
@@ -366,7 +366,7 @@ position = Vector2(11533.3, -7033.33)
 poi_name = "the Toll-Eater's Pass"
 region_id = "oldbridge"
 tags = Array[String](["mountains"])
-event_id_on_enter = "tolleaters_passgqgfqg"
+event_id_on_enter = "tolleaters_pass"
 
 [node name="hangmans_grove" parent="." groups=["points_of_interest"] instance=ExtResource("5_p7rx4")]
 position = Vector2(5473.33, -11853.3)

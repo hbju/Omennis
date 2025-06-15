@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://bskmnob462jdd"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_mr8sp"]
+
+[resource]
+script = ExtResource("1_mr8sp")
+quest_type = 0
+quest_id_prefix = "rad_kill_orc_warchief"
+title_template = "Eliminate the Orc Warchief from [LocationName]"
+description_template = "The Orc Warchief from a notable Orc tribe has settled in [LocationName]. This Warchief is a threat to the surrounding areas and must be eliminated. [LocationDistance]"
+offer_description = "One quest offer catches your eye.
+ 'An Orc Warchief has taken up residence in [LocationName]. We need someone to take care of this problem, before it becomes a bigger issue. The Warchief is known to be a formidable opponent, so be prepared for a tough fight. [RewardGold] will be offered upon its elimination.'
+
+ [LocationDistance]"
+location_entry_description = "You enter [LocationName]. The air is thick with tension, and you can feel the weight of the Warchief's presence looming over the area."
+location_post_objective_victory_description = "With the Orc Warchief defeated, [LocationName] is safe once more. You should return to the guild for your reward."
+location_post_objective_failure_description = "The Warchief proved too powerful. You barely escaped with your life. Regroup and try again later."
+turn_in_description = "You return to the guild and report your success in dealing with the Orc Warchief. The guild master thanks you profusely and rewards you with [RewardGold] gold."
+location_tag_required = "mountains"
+min_player_level = 6
+enemies = Array[Dictionary]([{
+"archetype": "Orc Warchief",
+"count": 1,
+"level": 8
+}, {
+"archetype": "Orc Warrior",
+"count": 3,
+"level": 5
+}, {
+"archetype": "Orc Shaman",
+"count": 2,
+"level": 6
+}])
+reward_gold = 500
+reward_xp = 2000

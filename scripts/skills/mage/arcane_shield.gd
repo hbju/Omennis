@@ -1,8 +1,8 @@
 extends Skill
 class_name ArcaneShield
 
-var duration := 2
-var max_cooldown := 3
+var duration := 3
+var max_cooldown := 4
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:

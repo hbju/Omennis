@@ -6,11 +6,13 @@ var max_cooldown := 4
 var targets_number := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
-	if skill_pos in curr_highlighted_cells:
+	print("Rage Slam used by ", from.get_name(), " at position ", skill_pos)
+	var cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), map.can_walk)
+	if skill_pos in cells:
 		var char_list = []
-		for cell in curr_highlighted_cells :
+		for cell in cells:
 			var character: CombatCharacter = map.get_character(cell)
-			if character:
+			if is_valid_target_type(from, character):
 				char_list.append(character)
 
 		char_list.shuffle()
@@ -55,7 +57,7 @@ func score_action(caster: CombatCharacter, potential_targets: Array[CombatCharac
 					enemy_damage_score += AIScoringWeights.WEIGHT_KILL_BONUS
 				else :
 					enemy_damage_score += potential_damage * (1 - target.health / target.max_health) * AIScoringWeights.WEIGHT_DAMAGE_PER_HP # Scale damage based on target health
-			elif target and target.is_ally(caster):
+			elif target and target is AICombatCharacter:
 				expected_ally_hits += 1
 
 	# Penalize expected damage to allies
@@ -100,7 +102,7 @@ func get_skill_range() -> int:
 	return 1
 
 func target_allies() -> bool:
-	return false
+	return true
 
 func target_enemies() -> bool:
 	return true

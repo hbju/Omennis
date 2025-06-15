@@ -2,8 +2,8 @@ extends Skill
 class_name WarCry
 
 var damage := 0
-var max_cooldown := 4
-var duration := 2
+var max_cooldown := 5
+var duration := 3
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
@@ -13,7 +13,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 		for cell in curr_highlighted_cells :
 			var character: CombatCharacter = map.get_character(cell)
 			if is_valid_target_type(from, character): # Is Ally?
-				character.gain_status("strong", duration+1 if character == from else duration)
+				character.gain_status("strong", duration)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
