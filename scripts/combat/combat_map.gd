@@ -44,13 +44,13 @@ func _ready():
 		player4.skill_list.append(Blink.new())
 		player4.skill_list.append(ArcaneShield.new())
 		player2.skill_list.append(Charge.new())
-		player2.skill_list.append(DefensiveStance.new())
+		player2.skill_list.append(WarCry.new())
 		player3.skill_list.append(Charge.new())
 		player3.skill_list.append(DefensiveStance.new())
 		var party: Array[PartyMember] = [player1, player2, player3, player4]
 
 		var enemies: Array[EnemyGroup] = []
-		enemies.append(EnemyGroup.from_enemy_data("Bear", 4, 2))
+		enemies.append(EnemyGroup.from_enemy_data("Mercenary Guard", 4, 3))
 
 		var all_enemies: Array[Character] = []
 		for enemy_char in enemies:
