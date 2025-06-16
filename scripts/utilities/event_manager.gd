@@ -230,7 +230,7 @@ func exit_fight(victory: bool):
 	
 	var radiant_quest: Dictionary = RadiantQuestManager.get_active_quest()
 
-	if radiant_quest.poi_event_id == curr_place and radiant_quest.state == "Accepted" :
+	if not radiant_quest.is_empty() and radiant_quest.poi_event_id == curr_place and radiant_quest.state == "Accepted" :
 		if victory :
 			RadiantQuestManager.complete_objective()
 		event_ui.show_dynamic_quest_location_event(radiant_quest, true)

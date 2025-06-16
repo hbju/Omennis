@@ -109,6 +109,7 @@ func _on_close_button_pressed():
 
 func show_sheet(party_member: PartyMember):
 	current_party_member = party_member
+	print("CharacterSheetUI: Showing sheet for %s" % current_party_member.character_name)
 	if not current_party_member:
 		printerr("CharacterSheetUI: No party member data to display!")
 		hide()
@@ -128,6 +129,7 @@ func show_sheet(party_member: PartyMember):
 
 	# Default to showing the stats tab
 	_on_tab_button_pressed(stats_panel, stats_tab_button)
+	print("CharacterSheetUI: Showing sheet for %s" % current_party_member.character_name)
 	show()
 
 func _update_stats_panel():

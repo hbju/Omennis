@@ -9,7 +9,6 @@ class_name PartyUI
 @onready var character_sheet: Control = $character_sheet_ui
 	
 signal fire_character(index)
-signal show_character_sheet(index)
 	
 const PARTY_MAX_NUMBER = 4
 
@@ -20,6 +19,7 @@ func _ready() :
 
 # Called when the node enters the scene tree for the first time.
 func update_ui(party: Array[PartyMember]) :
+	character_sheet.hide()
 	for i in range(0, party.size()):
 		displays[i].update_character(party[i])
 		displays[i].visible = true

@@ -21,7 +21,6 @@ func _ready():
 
 	
 	post_fight_screen_instance.get_node("background/proceed_button").pressed.connect(_on_post_fight_proceed) # Connect button
-	post_fight_screen_instance.show_skill_tree.connect(overworld._on_show_skill_tree) # Connect to skill tree
 
 	combat_scene.combat_ended.connect(_end_combat)
 

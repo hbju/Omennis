@@ -11,13 +11,15 @@ class_name FightUI
 @onready var flee_button = $bg/flee_button
 @onready var proceed_button = $bg/proceed_button
 
+@onready var background: TextureRect = $bg
+@onready var character_sheet_ui: Control = $character_sheet_ui
+
 @export var debug_fight = false : 
 	set(value) : 
 		_debug_fight()
 
 signal launch_fight(party: Array[PartyMember], enemies: Array[EnemyGroup])
 signal resolve_fight(fight_ccl: String)
-signal show_skill_tree(index: int)
 
 var fight_result = false
 
@@ -45,9 +47,14 @@ func _ready() :
 		var display: CharacterDisplay = party_display.get_child(i) as CharacterDisplay
 		display.show_skill_tree.connect(_on_show_skill_tree.bind(i))
 		display.show_skill_tree.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+
+	character_sheet_ui.character_sheet_closed.connect(background.show)
 	
 	
 func update_ui(_party: Array[PartyMember], enemies: Array[EnemyGroup]) :
+	background.show()
+	character_sheet_ui.hide()
+
 	self.party = _party
 	self.all_enemies = enemies
 	
@@ -170,4 +177,5 @@ func _debug_fight() :
 		chances_label.text = "Victory Chances : " + str(odds) + "%"
 	
 func _on_show_skill_tree(index: int) : 
-	show_skill_tree.emit(index)
+	character_sheet_ui.show_sheet(party[index])
+	background.hide()

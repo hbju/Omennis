@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://d25rdiau8ito5"]
+[gd_scene load_steps=32 format=3 uid="uid://d25rdiau8ito5"]
 
 [ext_resource type="Script" path="res://scripts/ui/fight_ui.gd" id="1_fhe66"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_bcqcl"]
@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://b33r0uq86r7wh" path="res://assets/ui/menu_ui/Box Borders/right_border_repeat_vertical.png" id="16_7qw21"]
 [ext_resource type="Texture2D" uid="uid://2vfdpjf4u6dj" path="res://assets/ui/menu_ui/Box Borders/bottom_border_midsec_repeat_horizontal.png" id="17_g6hh2"]
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="18_bkmp0"]
+[ext_resource type="PackedScene" uid="uid://dvs0op087antk" path="res://scenes/character_sheet_ui.tscn" id="28_22rhp"]
 [ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="29_5tlg3"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nyj1x"]
@@ -529,5 +530,9 @@ text = "Fight !"
 label_settings = SubResource("LabelSettings_t5da5")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="character_sheet_ui" parent="." instance=ExtResource("28_22rhp")]
+visible = false
+layout_mode = 1
 
 [editable path="bg/party_display/main_character_display"]

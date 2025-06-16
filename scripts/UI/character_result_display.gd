@@ -8,11 +8,15 @@ extends TextureRect
 @onready var class_icon: TextureRect = $hbox/class_badge/class_icon
 @onready var class_badge: TextureButton = $hbox/class_badge
 
+var party_member: PartyMember
+
 func update_display(character_before: PartyMember, character_after: PartyMember, xp_gained: int):
 	if not character_after: # Should always have the 'after' state
 		printerr("CharacterResultDisplay requires character_after data!")
 		queue_free() # Remove self if data is bad
 		return
+
+	party_member = character_after
 
 	name_label.text = character_after.character_name
 	portrait.texture = load(character_after.get_portrait_path())

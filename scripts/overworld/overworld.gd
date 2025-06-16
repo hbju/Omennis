@@ -46,9 +46,7 @@ func _ready():
 	$UI/quest_log_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_SCREEN_OPEN))
 
 	party_ui.fire_character.connect(_on_fire_character)
-	party_ui.show_character_sheet.connect(_on_show_skill_tree)
 
-	event_manager.fight_ui.show_skill_tree.connect(_on_show_skill_tree)
 
 	ContentGenerator.content_received.connect(_on_content_received)
 	var initial_random_event_prompt = "Generate a random event for the following party of adventurers : "
@@ -157,9 +155,6 @@ func _on_fire_character(index: int) :
 	GameState.fire_member(index)
 	party_ui.update_ui(GameState.party)
 
-func _on_show_skill_tree(index: int) : 
-	skill_ui.update_ui(GameState.party[index])
-	skill_ui.visible = true
 
 func _on_content_received(data: Dictionary) :
 	next_random_event = data
