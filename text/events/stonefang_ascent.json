@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "stonefang_ascent",
+            "name": "The Stonefang Ascent",
+            "description": "The road into the interior winds its way up the Stonefang Ascent, a narrow mountain pass infamous for its dangers. The path is a treacherous track of loose scree, flanked on one side by a sheer cliff face and on the other by a dizzying drop. The wind howls incessantly between the jagged, tooth-like peaks, carrying a permanent chill. Rockfalls are common, and the many shadowed overhangs make for perfect ambush spots.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Turn back before the ascent becomes too perilous."
+                }
+            ]
+        }
+    ]
+}

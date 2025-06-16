@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://c0ftlyy1m2o5f"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_q6du0"]
+
+[resource]
+script = ExtResource("1_q6du0")
+quest_type = 0
+quest_id_prefix = "rad_kill_dire_wolf_pack"
+title_template = "Hunt the Dire Wolf of [LocationName]"
+description_template = "Hunters report that a massive Dire Wolf has taken command of the wolf pack in [LocationName], making them bolder and far more dangerous. The beast must be slain. [LocationDistance]"
+offer_description = "A grizzled hunter posts a bounty, his hand missing two fingers. 'It's not just wolves anymore,' he growls to the room. 'A monster, a Dire Wolf as big as a pony, leads them now. They took down a full-grown moose last week. My trapping lines are useless. I'll pay [RewardGold] gold to the party that puts that beast's head on a spike!' [LocationDistance]"
+location_entry_description = "You enter [LocationName] and immediately find the tracks you're looking for – wolf prints, accompanied by another set, monstrously large. The carcasses of several half-eaten deer lie scattered about. A low, menacing howl echoes from deeper within, a clear challenge."
+location_post_objective_victory_description = "The massive body of the Dire Wolf lies still, its pack scattered or slain. The natural order of the region has been restored. You should return to [CityName] to claim the substantial reward."
+location_post_objective_failure_description = "The Dire Wolf's ferocity is legendary for a reason. Its fangs and the claws of its pack overwhelm you, forcing a bloody retreat."
+turn_in_description = "The old hunter sees you return and breaks into a wide, gap-toothed grin. 'You did it! By the gods, you actually did it! The woods will be safe to work again. Here, your [RewardGold]g, and my deepest thanks.'"
+location_tag_required = "cave"
+min_player_level = 4
+enemies = Array[Dictionary]([{
+"archetype": "Wolf",
+"count": 4,
+"level": 4
+}, {
+"archetype": "Dire Wolf",
+"count": 1,
+"level": 6
+}])
+reward_gold = 400
+reward_xp = 1800

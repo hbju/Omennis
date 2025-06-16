@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x7d40mc6x2km"
-path="res://.godot/imported/antifra.png-4c00206e6a222e58358a951201bcb570.ctex"
+uid="uid://c3solh1yxsrkg"
+path="res://.godot/imported/whisperwood.png-690b95176eb170a648ad98ec660a58f4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/overworld_elements/cities/antifra.png"
-dest_files=["res://.godot/imported/antifra.png-4c00206e6a222e58358a951201bcb570.ctex"]
+source_file="res://assets/ui/events_ui/pictures/whisperwood.png"
+dest_files=["res://.godot/imported/whisperwood.png-690b95176eb170a648ad98ec660a58f4.ctex"]
 
 [params]
 

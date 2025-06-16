@@ -30,23 +30,34 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	skill_bar_ui.wait_pressed.connect(_on_wait_pressed)
 	if debug_mode : 
-		var player1 = PartyMember.new_rand()
-		var player2 = PartyMember.new_rand()
+		var player1 = PartyMember.new_rand(Character.CLASSES.Mage)
+		var player2 = PartyMember.new_rand(Character.CLASSES.Warrior)
+		var player3 = PartyMember.new_rand(Character.CLASSES.Warrior)
+		var player4 = PartyMember.new_rand(Character.CLASSES.Mage)
+		var base_xp = 4000
+		player1.receive_experience(base_xp)
+		player2.receive_experience(base_xp)
+		player3.receive_experience(base_xp)
+		player4.receive_experience(base_xp)
 		player1.skill_list.append(Blink.new())
-		player1.skill_list.append(LightningStorm.new())
-		player2.skill_list.append(FiresparkMage.new())
-		player2.skill_list.append(ArcaneShield.new())	
-		var party: Array[PartyMember] = [player1, player2]
+		player1.skill_list.append(ArcaneShield.new())
+		player4.skill_list.append(Blink.new())
+		player4.skill_list.append(ArcaneShield.new())
+		player2.skill_list.append(Charge.new())
+		player2.skill_list.append(WarCry.new())
+		player3.skill_list.append(Charge.new())
+		player3.skill_list.append(DefensiveStance.new())
+		var party: Array[PartyMember] = [player1, player2, player3, player4]
 
-		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 50, 5)
-		var enemy2 = Character.new("Dark Cultist", 1, 2, 2, 50)
-		var enemies: Array[Character] = [enemy1, enemy2]
-		enemy1.skill_list.append(Frostbolt.new())
-		enemy1.skill_list.append(DefensiveStance.new())
-		enemy2.skill_list.append(Frostbolt.new())
-		enemy2.skill_list.append(ArcaneShield.new())
+		var enemies: Array[EnemyGroup] = []
+		enemies.append(EnemyGroup.from_enemy_data("Mercenary Guard", 4, 3))
+
+		var all_enemies: Array[Character] = []
+		for enemy_char in enemies:
+			for enemy in enemy_char.enemies:
+				all_enemies.append(enemy)
 		
-		enter_combat(party, enemies)
+		enter_combat(party, all_enemies)
 
 	if CombatCharacterTooltipScene :
 		character_tooltip_instance = CombatCharacterTooltipScene.instantiate()

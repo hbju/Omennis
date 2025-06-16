@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chusgxost6jkt"
-path="res://.godot/imported/nea.png-5b8e24cbe68b78993371d218850a2971.ctex"
+uid="uid://duxpr2bdddg64"
+path="res://.godot/imported/baul.png-de857fc297629a4c7e4d623ad08314f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/overworld_elements/cities/nea.png"
-dest_files=["res://.godot/imported/nea.png-5b8e24cbe68b78993371d218850a2971.ctex"]
+source_file="res://assets/ui/events_ui/pictures/baul.png"
+dest_files=["res://.godot/imported/baul.png-de857fc297629a4c7e4d623ad08314f2.ctex"]
 
 [params]
 

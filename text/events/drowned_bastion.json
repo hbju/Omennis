@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "drowned_bastion",
+            "name": "The Drowned Bastion",
+            "description": "Further up the Lodroi river stands the Drowned Bastion. The skeletal remains of a single, stout watchtower and its surrounding walls jut from the sullen, slow-moving water. Thick vines and river moss cling to the water-logged stones. The only sounds are the gentle lapping of the river against the decaying masonry and the distant cry of a lone river bird. It is a place of deep melancholy and forgotten history.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Leave the silent ruin to its watery grave."
+                }
+            ]
+        }
+    ]
+}

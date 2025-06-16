@@ -5,10 +5,6 @@ class_name Overworld
 var player_cell: Vector2i = Vector2i(0, 0)
 var player_neighbours: Array[Vector2i] = []
 
-@onready var gall = $gall
-@onready var cauldron_mountains = $cauldron_mountains
-@onready var whispering_hollow = $whispering_hollow
-@onready var sunken_mire = $sunken_mire
 
 @onready var party_ui: PartyUI = $UI/party_ui
 @onready var quest_log_ui: QuestLogUI = $UI/quest_log_ui
@@ -39,10 +35,9 @@ func _ready():
 	player.target_reached.connect(_on_target_reached)
 	_on_target_reached()
 
-	gall.body_entered.connect(_toggle_event_ui.bind("gall"))
-	cauldron_mountains.body_entered.connect(_toggle_event_ui.bind("cauldron_mountains"))
-	whispering_hollow.body_entered.connect(_toggle_event_ui.bind("whispering_hollow"))
-	sunken_mire.body_entered.connect(_toggle_event_ui.bind("sunken_mire"))
+	for child in get_children() :
+		if child is PointOfInterest :
+			child.body_entered.connect(_toggle_event_ui.bind(child.event_id_on_enter))
 
 	$UI/party_button.pressed.connect(_toggle_party_ui)
 	$UI/party_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_SCREEN_OPEN))

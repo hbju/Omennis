@@ -9,14 +9,10 @@ class_name EventUI
 @onready var card_choice_buttons_control = $bg/event_description/description_container/VBoxContainer
 
 var id: String
-var event_name: String
-var event_description: String
 var possibilities: Array
-var event_path: Array[String]
 var text_tween: Tween
 
-var current_event_json_data : Dictionary
-var current_context_characters: Array[PartyMember] = []
+var current_event_json_data: Dictionary
 
 signal resolve_event(event_ccl)
 
@@ -28,13 +24,14 @@ func _ready():
 	show_event("gall", "gall")
 
 		
-func show_event(curr_place: String, event_id: String, characters: Array[PartyMember] = [], random: bool = false) :
+func show_event(curr_place: String, event_id: String, characters: Array[PartyMember] = [], random: bool = false):
 	print("EventUI: Showing event '%s' in place '%s'" % [event_id, curr_place])
-	if ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + event_id + ".png") :
+	if ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + event_id + ".png"):
 		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + event_id + ".png")
+	elif ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + event_id + ".jpg"):
+		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + event_id + ".jpg")
 	
-	var place_json_data = get_event_data(curr_place, random).data 
-	current_context_characters = characters
+	var place_json_data = get_event_data(curr_place, random).data
 
 	var event_content = null
 	for content in place_json_data.events:
@@ -47,44 +44,146 @@ func show_event(curr_place: String, event_id: String, characters: Array[PartyMem
 		return
 
 	current_event_json_data = event_content
-	self.id = event_id
+	_display_event_text_and_possibilities(event_id, event_content, characters)
+
 	
-	card_name_label.text = event_content.name
-	
-	card_description_label.text = process_text(event_content.description, characters)
-	card_description_label.set_size(Vector2(750, 0))
-	card_description_label.visible_ratio = 0
-	text_tween.kill()
-	text_tween = get_tree().create_tween()
-	text_tween.tween_property(card_description_label, "visible_ratio", 1, card_description_label.text.length()/100.0)
-	text_tween.tween_callback(_show_possibilities).set_delay(0.3)
-	
-	description_container.get_v_scroll_bar().ratio = 0
-	for old_possibility in card_choice_buttons_control.get_children() :
-		if old_possibility is Button: 
+func show_dynamic_quest_offer(quest_data: Dictionary):
+	# Clear any old buttons and state
+	for old_possibility in card_choice_buttons_control.get_children():
+		if old_possibility is Button:
 			old_possibility.queue_free()
 	
-	self.possibilities = event_content.possibilities
+	var offer_text = quest_data.offer_description
 	
-	for i in range(possibilities.size()) :
-		if not possibilities[i].has("condition") or GameState.conditions(possibilities[i].condition) :
-			var possibility_button: Button = Button.new()
-			card_choice_buttons_control.add_child(possibility_button)
+	var event_content: Dictionary = {
+		"name": quest_data.title,
+		"description": offer_text,
+		"possibilities": [
+			{
+				"id": "accept_radiant_quest",
+				"description": "Accept the contract.",
+				"outcome": {
+					"type": "accept_radiant_quest",
+				}
+			},
+			{
+				"id": "decline_radiant_quest",
+				"description": "Decline.",
+				"outcome": {
+					"type": "decline_radiant_quest",
+				}
+			}
+		]
+	}
 
-			possibility_button.text = process_text(possibilities[i].description, characters)
+	_display_event_text_and_possibilities(quest_data.id, event_content)
 
-			possibility_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-			possibility_button.custom_minimum_size = Vector2(possibilities_width, possibilities_height)
-			
-			possibility_button.pressed.connect(on_possibilities_buttons_pressed.bind(possibilities[i].id))
-			possibility_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 
-			possibility_button.hide()
-			
-					
-	card_description_label.position.y = 0
+func show_dynamic_quest_turn_in(quest_data: Dictionary):
+	# Clear old buttons
+	for old_possibility in card_choice_buttons_control.get_children():
+		if old_possibility is Button:
+			old_possibility.queue_free()
+
+	var template = quest_data.template as RadiantQuestTemplate
+
+	var post_text = template.turn_in_description\
+		.replace("[LocationName]", quest_data.poi_name)\
+		.replace("[CityName]", quest_data.region_id.replace("_", " ").capitalize())\
+		.replace("[RewardGold]", str(quest_data.template.reward_gold))
+
+	var event_content: Dictionary = {
+		"name": quest_data.poi_name,
+		"description": post_text,
+		"possibilities": [
+			{
+				"id": "radiant_quest_turn_in",
+				"description": "Turn in the contract and go back to the guild hall.",
+			}
+		]
+	}
+
+	_display_event_text_and_possibilities(quest_data.poi_event_id, event_content)
+
+func show_dynamic_quest_location_event(quest_data: Dictionary, post_fight: bool = false):
+	# Clear old buttons
+	for old_possibility in card_choice_buttons_control.get_children():
+		if old_possibility is Button:
+			old_possibility.queue_free()
+
+	var template = quest_data.template as RadiantQuestTemplate
 	
-func get_event_data(curr_place: String, random: bool = false) -> Resource :
+	if ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + quest_data.poi_event_id + ".png"):
+		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + quest_data.poi_event_id + ".png")
+	elif ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + quest_data.poi_event_id + ".jpg"):
+		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + quest_data.poi_event_id + ".jpg")
+
+	if not post_fight:
+		var pre_text = template.location_entry_description\
+			.replace("[LocationName]", quest_data.poi_name)\
+			.replace("[CityName]", quest_data.region_id.replace("_", " ").capitalize())\
+			.replace("[RewardGold]", str(quest_data.template.reward_gold))
+
+		var event_content: Dictionary = {
+			"name": quest_data.poi_name,
+			"description": pre_text,
+			"possibilities": [
+				{
+					"id": "start_radiant_fight",
+					"description": "Confront the threat.",
+					"outcome": "start_radiant_fight"
+				},
+				{
+					"id": "leave",
+					"description": "Leave the area."
+				}
+			]
+		}
+
+		_display_event_text_and_possibilities(quest_data.poi_event_id, event_content)
+
+
+	elif quest_data.state == "Accomplished":
+		# --- POST-OBJECTIVE STATE, VICTORY ---
+		var post_text = template.location_post_objective_victory_description\
+			.replace("[LocationName]", quest_data.poi_name)\
+			.replace("[CityName]", quest_data.region_id.capitalize())\
+			.replace("[RewardGold]", str(quest_data.template.reward_gold))
+
+		var event_content: Dictionary = {
+			"name": quest_data.poi_name,
+			"description": post_text,
+			"possibilities": [
+				{
+					"id": "leave",
+					"description": "Leave the area."
+				}
+			]
+		}
+		_display_event_text_and_possibilities(quest_data.poi_event_id, event_content)
+
+	elif quest_data.state == "Accepted":
+		# --- POST-OBJECTIVE STATE, FAILURE ---
+		var post_text = template.location_post_objective_failure_description\
+			.replace("[LocationName]", quest_data.poi_name)\
+			.replace("[CityName]", quest_data.region_id.capitalize())\
+			.replace("[RewardGold]", str(quest_data.template.reward_gold))
+
+		var event_content: Dictionary = {
+			"name": quest_data.poi_name,
+			"description": post_text,
+			"possibilities": [
+				{
+					"id": "leave",
+					"description": "Leave the area."
+				}
+			]
+		}
+		
+		_display_event_text_and_possibilities(quest_data.poi_event_id, event_content)
+
+
+func get_event_data(curr_place: String, random: bool = false) -> Resource:
 	# Define base search paths
 	var base_path = "res://text/events/"
 	var random_base_path = base_path.path_join("random_events") # "res://text/events/random_events"
@@ -99,7 +198,7 @@ func get_event_data(curr_place: String, random: bool = false) -> Resource :
 
 
 	if found_path.is_empty():
-		if random: 
+		if random:
 			found_path = _find_file_recursively(base_path, target_filename)
 
 	if not found_path.is_empty():
@@ -145,7 +244,7 @@ func _find_file_recursively(search_dir: String, filename_to_find: String) -> Str
 				var subdir_path = search_dir.path_join(item_name)
 				var found_in_subdir = _find_file_recursively(subdir_path, filename_to_find)
 				if not found_in_subdir.is_empty():
-					dir.list_dir_end() 
+					dir.list_dir_end()
 					return found_in_subdir
 		item_name = dir.get_next()
 
@@ -153,14 +252,12 @@ func _find_file_recursively(search_dir: String, filename_to_find: String) -> Str
 
 	return ""
 		
-func on_possibilities_buttons_pressed(event_conclusion: String) :
+func on_possibilities_buttons_pressed(event_conclusion: String):
 	resolve_event.emit(event_conclusion)
 	
 func process_text(raw_text: String, party: Array[PartyMember]) -> String:
 	var new_text: String = raw_text
-	for i  in range(0, party.size()):
-
-
+	for i in range(0, party.size()):
 		new_text = new_text.replace("[char" + str(i) + "]", party[i].character_name)
 		new_text = new_text.replace("[Class " + str(i) + "]", party[i].get_char_class())
 		new_text = new_text.replace("[he/she/they " + str(i) + "]", "he" if party[i].character_sex == PartyMember.SEX.Male else "she" if party[i].character_sex == PartyMember.SEX.Female else "they")
@@ -168,8 +265,45 @@ func process_text(raw_text: String, party: Array[PartyMember]) -> String:
 		new_text = new_text.replace("[him/her/them " + str(i) + "]", "him" if party[i].character_sex == PartyMember.SEX.Male else "her" if party[i].character_sex == PartyMember.SEX.Female else "them")
 	return new_text
 	
+func _display_event_text_and_possibilities(event_id: String, event_content: Dictionary, characters: Array[PartyMember] = []): 
+	self.id = event_id
+	
+	card_name_label.text = event_content.name
+	
+	card_description_label.text = process_text(event_content.description, characters)
+	card_description_label.set_size(Vector2(750, 0))
+	card_description_label.visible_ratio = 0
+	text_tween.kill()
+	text_tween = get_tree().create_tween()
+	text_tween.tween_property(card_description_label, "visible_ratio", 1, card_description_label.text.length() / 100.0)
+	text_tween.tween_callback(_show_possibilities).set_delay(0.3)
+	
+	description_container.get_v_scroll_bar().ratio = 0
+	for old_possibility in card_choice_buttons_control.get_children():
+		if old_possibility is Button:
+			old_possibility.queue_free()
+	
+	self.possibilities = event_content.possibilities
+	
+	for i in range(possibilities.size()):
+		if not possibilities[i].has("condition") or GameState.conditions(possibilities[i].condition):
+			var possibility_button: Button = Button.new()
+			card_choice_buttons_control.add_child(possibility_button)
 
-func _show_possibilities() :
-	for button in card_choice_buttons_control.get_children() :
-		if button is Button: 
+			possibility_button.text = process_text(possibilities[i].description, characters)
+
+			possibility_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			possibility_button.custom_minimum_size = Vector2(possibilities_width, possibilities_height)
+			
+			possibility_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+			possibility_button.pressed.connect(on_possibilities_buttons_pressed.bind(possibilities[i].id))
+
+			possibility_button.hide()
+
+					
+	card_description_label.position.y = 0
+
+func _show_possibilities():
+	for button in card_choice_buttons_control.get_children():
+		if button is Button:
 			button.show()

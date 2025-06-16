@@ -4,7 +4,7 @@ class_name Frenzy
 var damage := 0
 var max_cooldown := 5
 var curr_highlighted_cells: Array[Vector2i] = []
-var duration := 3
+var duration := 4
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)
@@ -58,7 +58,7 @@ func get_skill_name() -> String:
 	return "Frenzy"
 
 func get_skill_description() -> String:
-	return "Increase attack damage by 50% and receive 50% more damage for " + str(duration) + ".\n" + \
+	return "Increase attack damage by 50% and receive 50% more damage for " + str(duration) + " turns.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: yourself.\n"
 

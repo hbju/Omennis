@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctp4px84f2s0f"
-path="res://.godot/imported/grotor.png-330900496a7fc7b13affeb33f3a44061.ctex"
+uid="uid://drim2vu7tn7i4"
+path="res://.godot/imported/evt_gall_guild.png-381b81fae09487db3dfddb8a5d08dd3c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/overworld_elements/cities/grotor.png"
-dest_files=["res://.godot/imported/grotor.png-330900496a7fc7b13affeb33f3a44061.ctex"]
+source_file="res://assets/ui/events_ui/pictures/evt_gall_guild.png"
+dest_files=["res://.godot/imported/evt_gall_guild.png-381b81fae09487db3dfddb8a5d08dd3c.ctex"]
 
 [params]
 

@@ -1,9 +1,9 @@
 extends Skill
 class_name MoltenBlade
 
-var bonus_damage = 10
-var duration := 3
-var max_cooldown := 4
+var bonus_damage = 15
+var duration := 4
+var max_cooldown := 5
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:

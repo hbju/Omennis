@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "tide_swallowed_city",
+            "name": "The Tide-Swallowed City",
+            "description": "At low tide, the sea reluctantly reveals its prize: the Tide-Swallowed City. This is no mere village ruin; cyclopean monoliths and sharp, unfamiliar spires of green-tinged stone jut from the wet sand and shallow tidal pools. The architecture is alien, ancient beyond reckoning. The entire area is covered in barnacles and seaweed, a testament to the fact that for most of the day, these structures lie deep beneath the waves. The air smells of ancient stone and deep ocean brine.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Leave this ancient place to the sea."
+                }
+            ]
+        }
+    ]
+}

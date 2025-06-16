@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "whisperwood",
+            "name": "The Whisperwood",
+            "description": "You enter a part of the Falroh known as the Whisperwood. The air here is strangely still, yet filled with a constant, rustling murmur that isn't caused by wind. The ancient, silver-barked trees seem to lean in, their leaves brushing against each other in a sibilant chorus. Faint, ethereal lights drift between the trunks like fireflies. The elves consider this a sacred, communicative place; for outsiders, the endless, unintelligible whispering can be deeply unsettling.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "The murmuring is unnerving. Return to familiar paths."
+                }
+            ]
+        }
+    ]
+}

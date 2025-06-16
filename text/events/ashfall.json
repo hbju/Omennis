@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "ashfall",
+            "name": "The Ashfall Village",
+            "description": "You arrive at what was once Ashfall. Now, it's a monument to goblin brutality. The stone and timber houses stand as blackened, hollowed-out shells, their roofs collapsed and their doors splintered. A fine layer of grey ash, from a thousand cold campfires and burnt timbers, covers everything like a shroud. The only sounds are the mournful whistle of the wind through the empty doorways and the crunch of ash under your feet. It's a dead place.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "There is nothing but sorrow here. Depart."
+                }
+            ]
+        }
+    ]
+}

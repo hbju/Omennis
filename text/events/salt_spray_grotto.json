@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "salt_spray_grotto",
+            "name": "The Salt-Spray Grotto",
+            "description": "North of Longshore, carved into the base of the coastal cliffs, is the Salt-Spray Grotto. The entrance is a low, wide mouth that greedily swallows the incoming tide, echoing with the thunderous boom of waves crashing within. The air is heavy with the sharp tang of salt and the smell of wet, decaying seaweed. It's a natural hiding place for smugglers, or for creatures that thrive in the damp and dark.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "The tide is coming in. Best not to be trapped."
+                }
+            ]
+        }
+    ]
+}

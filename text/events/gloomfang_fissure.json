@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "gloomfang_fissure",
+            "name": "The Gloomfang Fissure",
+            "description": "Just off the main road lies the Gloomfang Fissure, a jagged scar in the earth's surface. The entrance is a dark maw lined with sharp, tooth-like stalactites, from which a foul, cold air emanates. The ground around it is littered with the picked-clean bones of unlucky wildlife—and perhaps a few unwary travelers. It's a place that wise folk avoid.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Heed the warnings and stay on the road."
+                }
+            ]
+        }
+    ]
+}
