@@ -180,10 +180,14 @@ func process_outcomes(outcomes: Array):
 				next_event_id_from_outcomes = outcome.event_id
 
 			"recruit_pending_candidate":
+				placeholders["[CandidateName]"] = GameState.curr_candidate.character_name
+				placeholders["[CandidateClass]"] = GameState.curr_candidate.get_char_class()
 				GameState.recruit_candidate()
 
 			"display_new_candidate": # Used for recruiting events
 				display_new_member() # Your existing function
+				placeholders["[CandidateName]"] = GameState.curr_candidate.character_name
+				placeholders["[CandidateClass]"] = GameState.curr_candidate.get_char_class()
 			_:
 				printerr("EventManager: Unknown outcome type: ", outcome_type)
 				continue # Skip unknown types

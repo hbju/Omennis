@@ -98,7 +98,7 @@
 		{
 			"id": "evt_tavern_find_potential_companion",
 			"name": "A Keen Eye",
-			"description": "Your gaze settles on a figure nursing a drink alone in a shadowed corner – [Name 0], a seasoned-looking [Class 0], judging by their worn gear. They meet your eye with a guarded, appraising look. Opportunity, or trouble?",
+			"description": "Your gaze settles on a figure nursing a drink alone in a shadowed corner – [CandidateName], a seasoned-looking [CandidateClass], judging by their worn gear. They meet your eye with a guarded, appraising look. Opportunity, or trouble?",
 			"possibilities": [
 				{
 					"id": "opt_gall_tavern_recruit",
@@ -114,7 +114,7 @@
 						},
 						{
 							"type": "next_event",
-							"event_id": "evt_gall_tavern_interior"
+							"event_id": "evt_gall_confirm_recruitment"
 						}
 					]
 				},
@@ -133,6 +133,23 @@
 					"id": "opt_tavern_no_gold",
 					"description": "Not having enough gold, you return to the tavern.",
 					"condition": "NOT gold_100",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_confirm_recruitment",
+			"name": "Confirming the Recruitment",
+			"description": "You approach [CandidateName] with the offer of joining your party. They look you over, weighing the risks and rewards. 'I could use a change of scenery,' they say, a hint of a smile breaking through their otherwise stoic demeanor. 'Let's see what trouble we can find together.'",
+			"possibilities": [
+				{
+					"id": "opt_gall_tavern_interior_after_recruitment",
+					"description": "Return to the tavern's main area with your new companion.",
 					"outcomes": [
 						{
 							"type": "next_event",
