@@ -155,13 +155,27 @@ func _seed_initial_relationship(char_a: PartyMember, char_b: PartyMember):
 func new_candidate(candidate: PartyMember): 
 	curr_candidate = candidate
 
-func receive_experience(experience: int) -> Array[int] : 
-	var received_xp: Array[int] = []
-	for character in party : 
-		var xp: int = round(experience * randf_range(0.9, 1.1))
-		character.receive_experience(xp)
-		received_xp.append(xp)
-	return received_xp
+func receive_experience(base_experience: int) -> Array[Dictionary]:
+	var xp_report: Array[Dictionary] = []
+
+	for character in party:
+		var level_before = character.character_level
+		var xp_gained = roundi(base_experience * randf_range(0.9, 1.1))
+		
+		character.receive_experience(xp_gained)
+		
+		var leveled_up = character.character_level > level_before
+		
+		var character_report = {
+			"name": character.character_name,
+			"xp_gained": xp_gained,
+			"leveled_up": leveled_up,
+			"new_level": character.character_level,
+			"is_main_char": (character == party[0])
+		}
+		xp_report.append(character_report)
+		
+	return xp_report
 		
 func fire_member(index: int) : 
 	party.remove_at(index)	

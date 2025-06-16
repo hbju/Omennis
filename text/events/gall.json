@@ -457,7 +457,7 @@
 		{
 			"id": "evt_silas_act3_hint_and_piece",
 			"name": "Valerius's Shadow & A New Bargain",
-			"description": "Silas pales as you recount your full findings, and present the staff piece you recovered. 'Valerius!' he hisses. 'Councilman Valerius! That ambitious snake. He's trying to assemble the Staff of Whispered Dominion! My employer... he will want this stopped, and the full staff secured.' Silas offers you a pouch of 200 gold for your efforts so far. 'Valerius will be attempting his ritual soon, likely in his manor. Retrieve the complete staff from him. The reward will be legendary, I can assure you.'",
+			"description": "Silas pales as you recount your full findings, and present the staff piece you recovered. 'Valerius!' he hisses. 'Councilman Valerius! That ambitious snake. He's trying to assemble the Staff of Whispered Dominion! My employer... he will want this stopped, and the full staff secured.' Silas offers you a pouch of 200 gold for your efforts so far. 'Valerius will be attempting his ritual soon, likely in his manor. Retrieve the complete staff from him. The reward will be legendary, I can assure you.'\n\n[QuestRewardSummary]",
 			"possibilities": [
 				{
 					"id": "opt_silas_accept_manor_heist_deal",
@@ -804,7 +804,7 @@
                 },
 				{
 					"id": "opt_turn_in_quest_cauldron",
-					"description": "Report completion of 'Lost Spark in the Soot'.\n Receive your reward (100 gold, 1500 XP).",
+					"description": "Report completion of 'Lost Spark in the Soot'.",
 					"condition": "quest_sparksoot_accomplished AND NOT quest_sparksoot_turned",
 					"outcomes": [
 						{
@@ -822,13 +822,13 @@
 						},
 						{
 							"type": "next_event",
-							"event_id": "evt_guild_clerk_interaction"
+							"event_id": "evt_guild_turn_in_sparksoot"
 						}
 					]
 				},
 				{
 					"id": "opt_turn_in_quest_hollow",
-					"description": "Report completion of 'Whispering Hollow Eradication'.\n Receive your reward (200 gold, 4000 XP).",
+					"description": "Report completion of 'Whispering Hollow Eradication'.",
 					"condition": "quest_holloweradication_accomplished AND NOT quest_holloweradication_turned",
 					"outcomes": [
 						{
@@ -846,7 +846,7 @@
 						},
 						{
 							"type": "next_event",
-							"event_id": "evt_guild_clerk_interaction"
+							"event_id": "evt_guild_turn_in_holloweradication"
 						}
 					]
 				},
@@ -857,6 +857,40 @@
 						{
 							"type": "next_event",
 							"event_id": "evt_gall_guild"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_guild_turn_in_sparksoot",
+			"name": "Turning in the Spark",
+			"description": "The Guild Clerk takes the details of your successful mission with a nod, his expression unchanged. 'Elara Vayne's fate is noted. The 100 gold is yours.' He hands you a small pouch, its weight reassuring. 'Your reputation grows. More work will come.'\n\n[QuestRewardSummary]",
+			"possibilities": [
+				{
+					"id": "opt_guild_noticeboard_after_spark",
+					"description": "Return to the noticeboard for more contracts.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_guild_turn_in_holloweradication",
+			"name": "Turning in the Hollow Task",
+			"description": "The Guild Clerk listens to your report on the Whispering Hollow cult with a grim nod. 'A dangerous task, well done. The 200 gold is yours.' He hands you a heavier pouch, its contents clinking softly. 'Your actions have not gone unnoticed. The Guild appreciates your service.'\n\n[QuestRewardSummary]",
+			"possibilities": [
+				{
+					"id": "opt_guild_noticeboard_after_hollow",
+					"description": "Return to the noticeboard for more contracts.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
 						}
 					]
 				}

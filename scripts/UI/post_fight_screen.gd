@@ -19,7 +19,7 @@ func _ready():
 	character_sheet_ui.character_sheet_closed.connect(background.show)
 
 # Call this function from main_scene.gd to initialize the screen
-func setup(party_before: Array[PartyMember], party_after: Array[PartyMember], xp_gained: Array[int], victory: bool):
+func setup(party_before: Array[PartyMember], party_after: Array[PartyMember], xp_gained: Array[Dictionary], victory: bool):
 	# Set Title
 	background.show()
 	character_sheet_ui.hide()
@@ -32,7 +32,7 @@ func setup(party_before: Array[PartyMember], party_after: Array[PartyMember], xp
 
 		var char_after = party_after[i]
 		var char_before = party_before[i]
-		var xp = xp_gained[i]
+		var xp = xp_gained[i].xp_gained
 
 		# Update the display using before & after states
 		displays[i].update_display(char_before, char_after, xp)

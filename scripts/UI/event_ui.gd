@@ -24,7 +24,7 @@ func _ready():
 	show_event("gall", "gall")
 
 		
-func show_event(curr_place: String, event_id: String, characters: Array[PartyMember] = [], random: bool = false):
+func show_event(curr_place: String, event_id: String, placeholders: Dictionary = {}, random: bool = false):
 	print("EventUI: Showing event '%s' in place '%s'" % [event_id, curr_place])
 	if ResourceLoader.exists("res://assets/ui/events_ui/pictures/" + event_id + ".png"):
 		card_illustration.texture = load("res://assets/ui/events_ui/pictures/" + event_id + ".png")
@@ -44,7 +44,7 @@ func show_event(curr_place: String, event_id: String, characters: Array[PartyMem
 		return
 
 	current_event_json_data = event_content
-	_display_event_text_and_possibilities(event_id, event_content, characters)
+	_display_event_text_and_possibilities(event_id, event_content, placeholders)
 
 	
 func show_dynamic_quest_offer(quest_data: Dictionary):
@@ -79,22 +79,15 @@ func show_dynamic_quest_offer(quest_data: Dictionary):
 	_display_event_text_and_possibilities(quest_data.id, event_content)
 
 
-func show_dynamic_quest_turn_in(quest_data: Dictionary):
+func show_dynamic_quest_turn_in(description: String, event_name: String, placeholders: Dictionary = {}):
 	# Clear old buttons
 	for old_possibility in card_choice_buttons_control.get_children():
 		if old_possibility is Button:
 			old_possibility.queue_free()
 
-	var template = quest_data.template as RadiantQuestTemplate
-
-	var post_text = template.turn_in_description\
-		.replace("[LocationName]", quest_data.poi_name)\
-		.replace("[CityName]", quest_data.region_id.replace("_", " ").capitalize())\
-		.replace("[RewardGold]", str(quest_data.template.reward_gold))
-
 	var event_content: Dictionary = {
-		"name": quest_data.poi_name,
-		"description": post_text,
+		"name": event_name,
+		"description": description,
 		"possibilities": [
 			{
 				"id": "radiant_quest_turn_in",
@@ -103,7 +96,7 @@ func show_dynamic_quest_turn_in(quest_data: Dictionary):
 		]
 	}
 
-	_display_event_text_and_possibilities(quest_data.poi_event_id, event_content)
+	_display_event_text_and_possibilities(event_name, event_content, placeholders)
 
 func show_dynamic_quest_location_event(quest_data: Dictionary, post_fight: bool = false):
 	# Clear old buttons
@@ -255,22 +248,26 @@ func _find_file_recursively(search_dir: String, filename_to_find: String) -> Str
 func on_possibilities_buttons_pressed(event_conclusion: String):
 	resolve_event.emit(event_conclusion)
 	
-func process_text(raw_text: String, party: Array[PartyMember]) -> String:
-	var new_text: String = raw_text
-	for i in range(0, party.size()):
-		new_text = new_text.replace("[char" + str(i) + "]", party[i].character_name)
-		new_text = new_text.replace("[Class " + str(i) + "]", party[i].get_char_class())
-		new_text = new_text.replace("[he/she/they " + str(i) + "]", "he" if party[i].character_sex == PartyMember.SEX.Male else "she" if party[i].character_sex == PartyMember.SEX.Female else "they")
-		new_text = new_text.replace("[his/her/their " + str(i) + "]", "his" if party[i].character_sex == PartyMember.SEX.Male else "her" if party[i].character_sex == PartyMember.SEX.Female else "their")
-		new_text = new_text.replace("[him/her/them " + str(i) + "]", "him" if party[i].character_sex == PartyMember.SEX.Male else "her" if party[i].character_sex == PartyMember.SEX.Female else "them")
+func _process_dynamic_text(raw_text: String, placeholders: Dictionary) -> String:
+	var new_text = raw_text
+
+	# First, process the party member names like before
+	for i in range(GameState.party.size()):
+		var member = GameState.party[i]
+		new_text = new_text.replace("[char%d]" % i, member.character_name)
+		# Add other [he/she/they] replacements here if needed
+
+	for key in placeholders:
+		new_text = new_text.replace(key, placeholders[key])
+		
 	return new_text
 	
-func _display_event_text_and_possibilities(event_id: String, event_content: Dictionary, characters: Array[PartyMember] = []): 
+func _display_event_text_and_possibilities(event_id: String, event_content: Dictionary, placeholders: Dictionary = {}): 
 	self.id = event_id
 	
 	card_name_label.text = event_content.name
-	
-	card_description_label.text = process_text(event_content.description, characters)
+
+	card_description_label.text = _process_dynamic_text(event_content.description, placeholders)
 	card_description_label.set_size(Vector2(750, 0))
 	card_description_label.visible_ratio = 0
 	text_tween.kill()
@@ -290,7 +287,7 @@ func _display_event_text_and_possibilities(event_id: String, event_content: Dict
 			var possibility_button: Button = Button.new()
 			card_choice_buttons_control.add_child(possibility_button)
 
-			possibility_button.text = process_text(possibilities[i].description, characters)
+			possibility_button.text = _process_dynamic_text(possibilities[i].description, placeholders)
 
 			possibility_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 			possibility_button.custom_minimum_size = Vector2(possibilities_width, possibilities_height)
