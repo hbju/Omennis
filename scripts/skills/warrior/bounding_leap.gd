@@ -107,7 +107,7 @@ func get_skill_name() -> String: return "Bounding Leap"
 func get_skill_description() -> String:
 	return "Leap to a cell in a %d-cell radius. Enemies adjacent to your landing spot take %.2fx base damage and are knockbacked." % [leap_range, damage_mult] + \
 		   "\nCooldown: %d turns." % max_cooldown
-func get_skill_icon() -> Texture: return load("res://assets/ui/skills/bounding_leap.png") # Placeholder
+func get_skill_icon() -> Texture: return load("res://assets/ui/skills/bounding_leap.png")
 func get_skill_range() -> int: return leap_range # This is range to the landing cell
 
 func target_allies() -> bool: return false

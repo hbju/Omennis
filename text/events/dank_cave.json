@@ -1,0 +1,12 @@
+{
+    "events": [
+        {
+            "id": "evt_dank_cave_entry",
+            "name": "Dank Cave",
+            "description": "The entrance to this cave is slick with moss and reeks of damp earth. It is unnervingly quiet.",
+            "possibilities": [
+                { "id": "leave", "description": "Leave the cave." }
+            ]
+        }
+    ]
+}

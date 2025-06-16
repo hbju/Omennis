@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "ashen_clearing",
+            "name": "The Ashen Clearing",
+            "description": "Deep within the Citrine Forest, you stumble upon a place utterly devoid of life. In a perfect circle stands a grove of white, petrified trees, their bark smooth and cold like stone. The ground is not soil but a fine, grey dust that puffs up with every footstep. No birds sing here, no insects buzz; an unnatural, profound silence hangs in the air, a stark and chilling contrast to the living woods around you.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "This place feels wrong. Return to the familiar woods."
+                }
+            ]
+        }
+    ]
+}

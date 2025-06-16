@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "widows_beacon",
+            "name": "The Widow's Beacon",
+            "description": "Perched on a windswept, rocky cliff overlooking the churning grey ocean is the skeletal ruin of a lighthouse known as the Widow's Beacon. Battered by countless storms, the tower is a crumbling spire of salt-scoured stone, its lantern long since extinguished. The only sounds are the ceaseless shriek of the wind and the thunderous crash of waves against the rocks below. The place feels utterly isolated, a perfect lair for things that shun the light.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Turn back from the treacherous cliff edge."
+                }
+            ]
+        }
+    ]
+}

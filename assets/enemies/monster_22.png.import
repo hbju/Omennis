@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yijfle0qvb3f"
-path="res://.godot/imported/alathir.png-25b58e56ec997e340e5245476a2b7d5c.ctex"
+uid="uid://d1lbc8l2851dp"
+path="res://.godot/imported/monster_22.png-b93cbbf46f2245dc4c6770fb1900d5a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/overworld_elements/cities/alathir.png"
-dest_files=["res://.godot/imported/alathir.png-25b58e56ec997e340e5245476a2b7d5c.ctex"]
+source_file="res://assets/enemies/monster_22.png"
+dest_files=["res://.godot/imported/monster_22.png-b93cbbf46f2245dc4c6770fb1900d5a3.ctex"]
 
 [params]
 

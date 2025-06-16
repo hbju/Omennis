@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "knotted_weald",
+            "name": "The Knotted Weald",
+            "description": "You enter the Knotted Weald, an ancient forest where the trees have grown into a dense, tangled lattice. Gnarled roots, as thick as a man's waist, writhe across the forest floor, creating a treacherous, uneven path. The canopy above is so thick that it chokes the light, casting the undergrowth in a perpetual, gloomy twilight. Every snap of a twig sounds unnaturally loud in the oppressive silence.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Retreat from the suffocating woods."
+                }
+            ]
+        }
+    ]
+}

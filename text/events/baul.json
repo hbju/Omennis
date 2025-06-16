@@ -1,0 +1,50 @@
+{
+    "events": [
+        {
+            "id": "baul",
+            "name": "The City of Baul",
+            "description": "The road opens up to reveal the impressive City of Baul, straddling the wide mouth of the Lodroi River. A massive, high-arched stone bridge dominates the view, connecting the two halves of the city while allowing tall-masted sea vessels to pass beneath it into the riverine port. The air is a unique blend of sharp sea salt, damp river earth, and the crisp scent of pine from the vast Citrine Forest that presses against the city's eastern walls. Barges from upriver and ships from the open ocean vie for space at the stone quays, a testament to Baul's importance as a trade hub.",
+            "possibilities": [
+                {
+                    "id": "evt_baul_guild",
+                    "description": "Locate the Mercenaries' Guild chapterhouse."
+                },
+                {
+                    "id": "leave",
+                    "description": "Leave the city."
+                }
+            ]
+        },
+        {
+            "id": "evt_baul_guild",
+            "name": "Baul Mercenaries' Guild",
+            "description": "The Baul Mercenaries' Guild chapterhouse is a testament to the city's wealth and the dangers of its surroundings. Trophies of both land and sea adorn the walls: the head of a giant forest cat from the Citrine alongside the jawbone of a leviathan. The main hall is spacious, its polished counter separating petitioners from a half-dozen clerks scratching away at contracts for river escorts and monster culling.",
+            "possibilities": [
+                {
+                    "id": "evt_baul_get_quest",
+                    "description": "Inquire about available contracts.",
+                    "condition": "NOT radiant_quest_active",
+                    "outcomes": [
+                        {
+                            "type": "new_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "evt_baul_turn_in",
+                    "description": "Report the completion of a contract.",
+                    "condition": "radiant_quest_can_turn_in_baul",
+                    "outcomes": [
+                        {
+                            "type": "turn_in_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "baul",
+                    "description": "Return to the city streets."
+                }
+            ]
+        }
+    ]
+}

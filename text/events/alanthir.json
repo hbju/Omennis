@@ -1,0 +1,50 @@
+{
+    "events": [
+        {
+            "id": "alanthir",
+            "name": "Alanthir of the Falroh",
+            "description": "After a long journey, the dense canopy of the Falroh Forest parts to reveal the elven city of Alanthir. There are no streets of stone here; the city is a breathtaking vertical tapestry of platforms, dwellings, and graceful archways, all seamlessly woven into and around colossal, ancient trees. Sunlight filters down in dappled rays, illuminating the quiet, moss-covered walkways high above the forest floor. The air is clean and smells of damp earth and living wood. Figures move with silent grace on the high bridges, their unseen eyes following your every move. You are outsiders here, and you feel it.",
+            "possibilities": [
+                {
+                    "id": "evt_alanthir_guild",
+                    "description": "Seek an audience at the central Rangers' Spire."
+                },
+                {
+                    "id": "leave",
+                    "description": "Retreat from the alien beauty of the elven city."
+                }
+            ]
+        },
+        {
+            "id": "evt_alanthir_guild",
+            "name": "The Rangers' Spire",
+            "description": "You are led to a vast, open-air flet built around the trunk of the mightiest tree. This is the heart of Alanthir's defenses. Lithe elves in muted green and brown leathers practice archery or tend to massive bows. Instead of a contract board, maps of the forest cover a large, living-wood table. A sharp-eyed Ranger-Captain with a gaze that misses nothing approaches you, her arms crossed. 'The scent of men and steel is strong on you,' she states, her voice calm but devoid of warmth. 'State your purpose, outsiders.'",
+            "possibilities": [
+                {
+                    "id": "evt_alanthir_get_quest",
+                    "description": "Offer your services, for a price.",
+                    "condition": "NOT radiant_quest_active",
+                    "outcomes": [
+                        {
+                            "type": "new_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "evt_alanthir_turn_in",
+                    "description": "Report on a task completed for the Rangers.",
+                    "condition": "radiant_quest_can_turn_in_alanthir",
+                    "outcomes": [
+                        {
+                            "type": "turn_in_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "alanthir",
+                    "description": "State you are merely passing through and return to the main pathways."
+                }
+            ]
+        }
+    ]
+}

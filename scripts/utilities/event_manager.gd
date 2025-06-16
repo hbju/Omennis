@@ -8,13 +8,56 @@ var fight_defeat_event_id: String = ""
 
 var curr_place = ""
 
-func _init(_event_ui: EventUI, _fight_ui: FightUI) :
+func _init(_event_ui: EventUI, _fight_ui: FightUI):
 	self.event_ui = _event_ui
 	self.fight_ui = _fight_ui
 	event_ui.resolve_event.connect(event_manager)
 
-func event_manager(event_id_or_choice_id: String): 
-	
+func event_manager(event_id_or_choice_id: String):
+	if event_id_or_choice_id == "accept_radiant_quest":
+		RadiantQuestManager.finalize_quest_acceptance() 
+		# Go back to the guild hall screen
+		_show_event_by_id("evt_" + self.curr_place + "_guild")
+		return
+
+	if event_id_or_choice_id == "decline_radiant_quest":
+		RadiantQuestManager.clear_pending_quest() 
+		# Go back to the guild hall screen
+		_show_event_by_id("evt_" + self.curr_place + "_guild")
+		return
+
+	if event_id_or_choice_id == "start_radiant_fight":
+				var radiant_quest: Dictionary = RadiantQuestManager.get_active_quest()
+				if not radiant_quest:
+					printerr("No active radiant quest found.")
+					return
+				var template: RadiantQuestTemplate = radiant_quest.template as RadiantQuestTemplate
+				var fight_to_start: Array[EnemyGroup] = []
+				for enemy_data in template.enemies:
+					var enemy_archetype = enemy_data.get("archetype", "Mountain Drake")
+					var enemy_count = enemy_data.get("count", 1)
+					var enemy_level = enemy_data.get("level", 1)
+					var enemy_name = enemy_data.get("name", "")
+					var enemy_portrait = enemy_data.get("portrait", -1)
+					
+					# Create the EnemyGroup from the data
+					var new_enemy_group = EnemyGroup.from_enemy_data(enemy_archetype, enemy_level, enemy_count, enemy_name, enemy_portrait)
+					fight_to_start.append(new_enemy_group) # Add the main enemy character to the list
+				enter_fight(fight_to_start)
+				return
+
+	if event_id_or_choice_id == "radiant_quest_turn_in":
+		var completed_quest = RadiantQuestManager.turn_in_quest()
+		if completed_quest.is_empty():
+			printerr("No completed radiant quest to turn in.")
+			return
+
+		var template = completed_quest.template as RadiantQuestTemplate
+		GameState.change_gold(template.reward_gold)
+		GameState.receive_experience(template.reward_xp)
+		_show_event_by_id("evt_" + self.curr_place + "_guild")
+		return
+
 	var current_event_data = event_ui.current_event_json_data
 
 	if not current_event_data or not current_event_data.has("possibilities"):
@@ -36,7 +79,7 @@ func event_manager(event_id_or_choice_id: String):
 
 	if chosen_possibility.has("outcomes"):
 		process_outcomes(chosen_possibility.outcomes)
-	else: 
+	else:
 		if event_id_or_choice_id != "leave":
 			_show_event_by_id(event_id_or_choice_id)
 		else:
@@ -64,6 +107,18 @@ func process_outcomes(outcomes: Array):
 					"accept": GameState.accept_quest(quest_id)
 					"accomplish": GameState.accomplish_quest(quest_id)
 					"turn": GameState.turn_quest(quest_id)
+			"new_radiant_quest":
+				var generated_quest = RadiantQuestManager.generate_quest(self.curr_place)
+				if not generated_quest.is_empty():
+					event_ui.show_dynamic_quest_offer(generated_quest)
+				else:
+					next_event_id_from_outcomes = "evt_guild_no_work_available"
+			"turn_in_radiant_quest":
+				var radiant_quest = RadiantQuestManager.get_active_quest()
+				if not radiant_quest.is_empty():
+					event_ui.show_dynamic_quest_turn_in(radiant_quest)
+				else:
+					printerr("No active radiant quest to turn in.")
 			"flag_set": # E.g., {"type": "flag_set", "flag": "some_flag", "value": true}
 				GameState.set_flag(outcome.flag, outcome.value)
 			"trait_change": # {"type": "trait_change", "char_cond":"stat_Perception_party_highest_gte_50", "trait": "Valor", "change": 1}
@@ -84,7 +139,6 @@ func process_outcomes(outcomes: Array):
 					if outcome.get("symmetrical", true): # Assume symmetrical unless specified
 						char_b.adjust_relationship_track_score(char_a.character_unique_id, track_enum, outcome.change)
 			"start_fight": # {"type": "start_fight", "enemies": [{"archetype":"Mountain Drake", "enemy_count": 3, "enemy_level": 2, "enemy_name": "Drakes", "enemy_portrait":2}], "event_id_victory": "fight_drake_ambush_victory", "event_id_defeat": "fight_drake_ambush_defeat"}
-
 				for enemy_data in outcome.enemies:
 					var enemy_archetype = enemy_data.get("archetype", "Mountain Drake")
 					var enemy_count = enemy_data.get("count", 1)
@@ -104,7 +158,7 @@ func process_outcomes(outcomes: Array):
 				GameState.recruit_candidate()
 			"display_new_candidate": # Used for recruiting events
 				display_new_member() # Your existing function
-			_ :
+			_:
 				printerr("EventManager: Unknown outcome type: ", outcome_type)
 				continue # Skip unknown types
 
@@ -133,7 +187,7 @@ func _show_event_by_id(event_id: String):
 	event_ui.show_event(curr_place, event_id, GameState.party)
 
 
-func random_event_manager(_event_content: Dictionary) : 
+func random_event_manager(_event_content: Dictionary):
 	var _party = GameState.party
 	#TODO change party to whatever
 	# event_ui.show_event("conversation", "conversation", party, true)
@@ -141,30 +195,45 @@ func random_event_manager(_event_content: Dictionary) :
 	# GameState.in_event = true
 
 
-func enter_event(place_id: String) :
+func enter_event(place_id: String):
 	self.curr_place = place_id
 
-	event_ui.show_event(place_id, place_id)
+	var active_quest: Dictionary = RadiantQuestManager.get_active_quest()
+
+	if not active_quest.is_empty() and active_quest.template.quest_type != RadiantQuestTemplate.QuestType.DELIVER and active_quest.poi_event_id == place_id:
+		event_ui.show_dynamic_quest_location_event(active_quest)
+	else:
+		event_ui.show_event(place_id, place_id)
+
 	event_ui.visible = true
 	GameState.in_event = true
 	
-func display_new_member() :
+func display_new_member():
 	var candidate: PartyMember = PartyMember.new_rand()
 	GameState.new_candidate(candidate)
 	
 	
-func leave_event() : 
+func leave_event():
 	event_ui.visible = false
 	GameState.in_event = false
 	
-func enter_fight(enemy_group: Array[EnemyGroup]) :
+func enter_fight(enemy_group: Array[EnemyGroup]):
 	fight_ui.visible = true
 	fight_ui.update_ui(GameState.party, enemy_group)
 	event_ui.visible = false
 	
-func exit_fight(victory: bool) :
+func exit_fight(victory: bool):
 	fight_ui.visible = false
-	var next_event = fight_victory_event_id if victory else fight_defeat_event_id
+	
 	event_ui.visible = true
 	event_ui.current_event_json_data = {}
-	event_manager(next_event)
+	
+	var radiant_quest: Dictionary = RadiantQuestManager.get_active_quest()
+
+	if radiant_quest.poi_event_id == curr_place and radiant_quest.state == "Accepted" :
+		if victory :
+			RadiantQuestManager.complete_objective()
+		event_ui.show_dynamic_quest_location_event(radiant_quest, true)
+	else :
+		var next_event = fight_victory_event_id if victory else fight_defeat_event_id
+		event_manager(next_event)

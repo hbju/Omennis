@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://ci54s6140s1v1"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_1377t"]
+
+[resource]
+script = ExtResource("1_1377t")
+quest_type = 0
+quest_id_prefix = "rad_kill_orc_band"
+title_template = "Eliminate the problematic Orc Band in [LocationName]"
+description_template = "A band of Orcs has been causing trouble in [LocationName], raiding local settlements and threatening the peace. Your task is to eliminate this Orc band and restore safety to the region. The Orcs are known to be aggressive and well-armed, so prepare for a tough fight. [LocationDistance]"
+offer_description = "A quest offer on the notice board catches your attention. It reads: 'Brave adventurers needed to deal with a band of Orcs that has been terrorizing [LocationName]. A reward of [RewardGold] gold is offered for their elimination.' [LocationDistance]"
+location_entry_description = "You enter [LocationName]. The atmosphere is tense, and you can hear the distant sounds of Orcs causing trouble. It's clear that they are not far away."
+location_post_objective_victory_description = "With the Orc band defeated, [LocationName] is safe once more. You should return to the guild for your reward."
+location_post_objective_failure_description = "The Orcs proved too numerous. You barely escaped with your life. Regroup and try again later."
+turn_in_description = "You return to the guild and report your success in dealing with the Orc band. The guild master thanks you profusely and rewards you with [RewardGold] gold."
+location_tag_required = "cave"
+min_player_level = 5
+enemies = Array[Dictionary]([{
+"archetype": "Orc Warrior",
+"count": 3,
+"level": 5
+}, {
+"archetype": "Orc Shaman",
+"count": 2,
+"level": 6
+}])
+reward_gold = 400
+reward_xp = 1500

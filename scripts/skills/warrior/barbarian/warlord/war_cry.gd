@@ -2,18 +2,17 @@ extends Skill
 class_name WarCry
 
 var damage := 0
-var max_cooldown := 4
-var duration := 2
-var curr_highlighted_cells: Array[Vector2i] = []
+var max_cooldown := 5
+var duration := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var caster_pos = map.get_cell_coords(from.global_position)
-	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex): return true).filter(map.can_walk)
+	var aoe_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), func(_hex): return true)
 	if skill_pos in aoe_cells:
-		for cell in curr_highlighted_cells :
+		for cell in aoe_cells :
 			var character: CombatCharacter = map.get_character(cell)
 			if is_valid_target_type(from, character): # Is Ally?
-				character.gain_status("strong", duration+1 if character == from else duration)
+				character.gain_status("strong", duration)
 		cooldown = max_cooldown
 		skill_finished.emit()
 		return true
@@ -100,7 +99,7 @@ func is_melee() -> bool:
 
 func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]:
 	var can_attack = func(hex: Vector2i): return map.can_walk(hex)
-	curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
+	var curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), can_attack)
 	curr_highlighted_cells.erase(map.get_cell_coords(from.global_position))
 
 	for cell in curr_highlighted_cells:
@@ -113,7 +112,9 @@ func highlight_targets(from: CombatCharacter, map: CombatMap) -> Array[Vector2i]
 			curr_highlighted_cells.erase(cell)
 	return curr_highlighted_cells
 
-func highlight_mouse_pos(_from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	var curr_highlighted_cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), func(_hex): return map.can_walk(_hex))
+
 	for cell in curr_highlighted_cells:
 		map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 6)
 		if mouse_pos in curr_highlighted_cells:

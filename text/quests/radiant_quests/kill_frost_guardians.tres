@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://cbl4cq4n2o7vs"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_3pko7"]
+
+[resource]
+script = ExtResource("1_3pko7")
+quest_type = 0
+quest_id_prefix = "rad_kill_frost_guardian"
+title_template = "The Scholar's Plea"
+description_template = "An eccentric scholar in [CityName] claims his research outpost in [LocationName] has been overrun by hostile ice elementals. He needs them cleared out to resume his work. [LocationDistance]"
+offer_description = "You find a scribbled note. 'My observation post! In [LocationName]! It's been infested by Frost Guardians! Vicious, cold things! I can't get to my notes. Please, you must drive them out! I can offer 250 gold for your troubles.' [LocationDistance]"
+location_entry_description = "You arrive at a small, stone outpost in [LocationName], just as the scholar described. An unnatural chill hangs in the air, and jagged ice formations coat the nearby rocks. The Frost Guardians are here."
+location_post_objective_victory_description = "The unnatural cold has receded with the elementals' destruction. The outpost is secure. You should let the scholar in [CityName] know his research can continue."
+location_post_objective_failure_description = "The elementals' freezing power is overwhelming. You're forced to retreat before you're frozen solid."
+turn_in_description = "'The scholar will be pleased', the clerk says with a nod, pressing a pouch of 250 gold into your hand without looking up. 'He was quite anxious about those elementals.'"
+location_tag_required = "cave"
+min_player_level = 3
+enemies = [
+    {
+        "archetype": "Frost Guardian",
+        "count": 3,
+        "level": 4
+    }
+]
+reward_gold = 250
+reward_xp = 1200

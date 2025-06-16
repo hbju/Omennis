@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://chj47700segsg"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_e1mno"]
+
+[resource]
+script = ExtResource("1_e1mno")
+quest_type = 0
+quest_id_prefix = "rad_kill_bear_forest"
+title_template = "Hunt down the bear pack in [LocationName]"
+description_template = "Help the guild by eliminating the bear pack in [LocationName]. They are causing trouble for the local wildlife and need to be dealt with. [LocationDistance]"
+offer_description = "You find a notice pinned to the guild's bulletin board. 'Attention, brave adventurers! A pack of bears has been spotted in [LocationName], causing havoc among the local wildlife. We need someone to thin their numbers. A reward of [RewardGold] gold awaits those who can help. Report to the guild master for details.' [LocationDistance]"
+location_entry_description = "You arrive at [LocationName]. You quickly find some tracks leading into the forest. It's time to earn your coin."
+location_post_objective_victory_description = "The bears are gone. [LocationName] is quiet now. You should return to [CityName] to claim your reward."
+location_post_objective_failure_description = "The bears were too strong. You barely escaped with your life. You should regroup and try again later."
+turn_in_description = "'Well done,' the guild master says, dropping a heavy pouch of coins on the counter. 'Here is your [RewardGold]g, as promised.'"
+location_tag_required = "forest"
+min_player_level = 3
+enemies = Array[Dictionary]([{
+"archetype": "Bear",
+"count": 2,
+"level": 4
+}])
+reward_gold = 250
+reward_xp = 1200

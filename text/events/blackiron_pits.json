@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "blackiron_pits",
+            "name": "The Black-Iron Pits",
+            "description": "You arrive at the Black-Iron Pits, the source of Oldbridge's wealth. This is no orderly mine, but a chaotic, sprawling open-cast quarry. The air rings with the cacophony of pickaxes striking rock, the screech of crude machinery, and the shouts of overworked foremen. Rickety wooden scaffolding clings to the quarry walls, and a haze of gritty dust hangs over everything. It's a place of frantic work, where safety takes a distant second place to profit. And, as always with these mines, the lower levels are infested with goblins, their crude camps and makeshift barricades a constant reminder of the dangers lurking in the shadows.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Leave the noisy, dangerous pits behind."
+                }
+            ]
+        }
+    ]
+}

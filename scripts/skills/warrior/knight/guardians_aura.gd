@@ -2,7 +2,7 @@ extends Skill
 class_name GuardiansAura
 
 var max_cooldown := 5
-var duration := 2
+var duration := 3
 var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
