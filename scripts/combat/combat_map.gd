@@ -9,7 +9,7 @@ const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
 
 @export var debug_mode: bool = false
 
-const PLAYER_STARTING_POS = [Vector2i(0, 3), Vector2i(1, 3), Vector2i(1, 2), Vector2i(2, 2)]
+const PLAYER_STARTING_POS = [Vector2i(0, 3), Vector2i(1, 3), Vector2i(1, 2), Vector2i(2, 2), Vector2i(0, 1), Vector2i(1, 1)]
 const ENEMY_STARTING_POS = [Vector2i(7, 1), Vector2i(6, 1), Vector2i(7, 2), Vector2i(6, 2), Vector2i(7, 3), Vector2i(6, 3)]
 
 var astar: AStar2D = AStar2D.new()
@@ -83,12 +83,17 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 	player_count = party.size()
 	enemy_count = enemies.size()
 
+	var player_pos = PLAYER_STARTING_POS.duplicate()
+	var enemy_pos = ENEMY_STARTING_POS.duplicate()
+	player_pos.shuffle()
+	enemy_pos.shuffle()
+
 	for i in range(0, max(party.size(), enemies.size())) : 
 		if i < party.size() : 
 			party[i].reset_skills()
 			var player: CombatCharacter = PlayerCombatCharacter.new_character(party[i])
 			get_node("characters/player_characters").add_child(player)
-			player.position = map_to_local(PLAYER_STARTING_POS[i])
+			player.position = map_to_local(player_pos[i])
 
 			characters.append(player)
 			player.turn_finished.connect(_on_finished_turn)
@@ -98,7 +103,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			enemies[i].reset_skills()
 			var enemy: CombatCharacter = AICombatCharacter.new_character(enemies[i])
 			get_node("characters/enemies").add_child(enemy)
-			enemy.position = map_to_local(ENEMY_STARTING_POS[i])
+			enemy.position = map_to_local(enemy_pos[i])
 
 			characters.append(enemy)
 			enemy.turn_finished.connect(_on_finished_turn)
