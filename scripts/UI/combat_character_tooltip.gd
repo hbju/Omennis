@@ -3,6 +3,7 @@ extends PanelContainer
 
 @onready var info_label: Label = $VBoxContainer/info_label
 
+@onready var base_skill_button = $VBoxContainer/base_skill_button
 @onready var base_skill_cooldown = $VBoxContainer/base_skill_button/skill_cooldown
 @onready var base_skill_icon = $VBoxContainer/base_skill_button/skill_icon
 
@@ -27,6 +28,7 @@ func update_content(character: CombatCharacter):
 					"Base Damage: " + str(character.character.base_damage) + "\n" 
 
 	if character.character.base_skill :
+		base_skill_button.show()
 		base_skill_cooldown.text = str(character.character.base_skill.get_cooldown())
 		if character.character.base_skill.get_cooldown() > 0:
 			base_skill_cooldown.show()
@@ -35,7 +37,7 @@ func update_content(character: CombatCharacter):
 		base_skill_icon.texture = character.character.base_skill.get_skill_icon()
 	else :
 		base_skill_cooldown.text = ""
-		base_skill_icon.hide()
+		base_skill_button.hide()
 		
 	for i in range(0, 3):
 		if i < character.character.skill_list.size():
