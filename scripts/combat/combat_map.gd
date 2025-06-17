@@ -5,8 +5,6 @@ class_name CombatMap
 @onready var turn_order_container: HBoxContainer = $UI/turn_order_ui/portraits_container 
 const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
 
-
-
 @export var debug_mode: bool = false
 
 const PLAYER_STARTING_POS = [Vector2i(0, 3), Vector2i(1, 3), Vector2i(1, 2), Vector2i(2, 2), Vector2i(0, 1), Vector2i(1, 1)]
@@ -21,10 +19,13 @@ var player_count = 0
 var enemy_count = 0
 var dead_chars : Array[CombatCharacter] = []
 
-const CombatCharacterTooltipScene = preload("res://scenes/character_tooltip.tscn")
+const combat_character_tooltip_scene: PackedScene = preload("res://scenes/character_tooltip.tscn")
 var character_tooltip_instance: CombatCharacterTooltipUI
+const skill_tooltip_scene: PackedScene = preload("res://scenes/skill_tooltip.tscn")
+var skill_tooltip_instance: PanelContainer
 
 signal combat_ended(victory: bool)
+
 
 func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
@@ -59,13 +60,25 @@ func _ready():
 		
 		enter_combat(party, all_enemies)
 
-	if CombatCharacterTooltipScene :
-		character_tooltip_instance = CombatCharacterTooltipScene.instantiate()
+	if combat_character_tooltip_scene:
+		character_tooltip_instance = combat_character_tooltip_scene.instantiate()
 		character_tooltip_instance.hide()
 		character_tooltip_instance.top_level = true
 		$UI.add_child(character_tooltip_instance)
-	else :
+	else:
 		printerr("CombatCharacterTooltipScene not found. Tooltip will not be displayed.")
+
+	if skill_tooltip_scene:
+		skill_tooltip_instance = skill_tooltip_scene.instantiate()
+		skill_tooltip_instance.hide()
+		skill_tooltip_instance.top_level = true
+		$UI.add_child(skill_tooltip_instance)
+	else:
+		printerr("SkillTooltipScene not found. Tooltip will not be displayed.")
+
+	character_tooltip_instance.mouse_exited.connect(_on_character_hover_exited)
+	character_tooltip_instance.skill_hovered.connect(_on_char_tooltip_skill_hovered)
+	character_tooltip_instance.skill_unhovered.connect(_on_char_tooltip_skill_unhovered)
 
 
 ##
@@ -110,8 +123,8 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			enemy.character_died.connect(_on_character_died)	
 
 	for character in characters : 
-		character.hover_entered.connect(_on_character_hover_entered)
-		character.hover_exited.connect(_on_character_hover_exited)
+		character.mouse_entered.connect(_on_character_hover_entered.bind(character))
+		character.mouse_exited.connect(_on_character_hover_exited)
 
 	characters.shuffle()
 
@@ -163,6 +176,32 @@ func update_turn_order_ui():
 		#portrait_instance.mouse_exited.connect(character_to_display.set_highlight.bind(false))
 
 		turn_order_container.add_child(portrait_instance)
+
+func _on_char_tooltip_skill_hovered(skill: Skill):
+	if not skill_tooltip_instance: return
+	
+	skill_tooltip_instance.update_content(skill) # Assuming skill_tooltip.gd has this function
+	
+	# --- Positioning Logic ---
+	# Position the skill tooltip to the right of the character tooltip
+	var char_tooltip_rect = character_tooltip_instance.get_rect()
+	var skill_tooltip_size = skill_tooltip_instance.get_combined_minimum_size()
+	var offset = Vector2(10, 0) # Small gap
+
+	var target_pos = character_tooltip_instance.global_position + Vector2(char_tooltip_rect.size.x, 0) + offset
+	
+	# Adjust if it goes off-screen
+	var viewport_rect = get_viewport_rect()
+	if target_pos.x + skill_tooltip_size.x > viewport_rect.size.x:
+		# Place it on the left instead
+		target_pos.x = character_tooltip_instance.global_position.x - skill_tooltip_size.x - offset.x
+		
+	skill_tooltip_instance.global_position = target_pos
+	skill_tooltip_instance.show()
+
+func _on_char_tooltip_skill_unhovered():
+	if skill_tooltip_instance:
+		skill_tooltip_instance.hide()
 
 
 ##
@@ -364,6 +403,10 @@ func toggle_ui(show_ui: bool) :
 
 func _on_character_hover_entered(character: CombatCharacter):
 	if character_tooltip_instance and is_instance_valid(character):
+		if character_tooltip_instance.is_visible():
+			# If the tooltip is already showing for a character, do nothing
+			return
+			
 		character_tooltip_instance.update_content(character)
 
 		# Position the tooltip (similar logic to skill tree tooltip)
@@ -382,9 +425,15 @@ func _on_character_hover_entered(character: CombatCharacter):
 		character_tooltip_instance.global_position = target_pos
 		character_tooltip_instance.show()
 
-func _on_character_hover_exited(_character: CombatCharacter):
-	if character_tooltip_instance:
-		character_tooltip_instance.hide()
+func _on_character_hover_exited():
+	if character_tooltip_instance :
+		await get_tree().create_timer(0.1).timeout # Wait a bit before hiding to allow for quick mouse movements
+		# check if mouse is on character tooltip
+		if not character_tooltip_instance.get_rect().has_point(get_global_mouse_position()):
+			print("Hiding character tooltip")
+			character_tooltip_instance.hide()
+		else:
+			print("Mouse still on character tooltip, not hiding")
 
 
 func _on_finished_turn() :
