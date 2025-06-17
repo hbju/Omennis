@@ -148,10 +148,18 @@ func _unhandled_input(event):
 
 func _choose_target(index: int) : 
 	if index == 0 and base_skill.cooldown == 0 : 
+		if button_base_skill.modulate == Color(0.7, 0.7, 0.7) : 
+			button_base_skill.modulate = Color(1, 1, 1) # Reset color if disabled
+		else : 
+			button_base_skill.modulate = Color(0.7, 0.7, 0.7) # Disable color if already selected
 		choose_target.emit(base_skill)
 		return
 
 	elif index > 0 and skill_list[index-1].get_cooldown() == 0 : 
+		if button_skills[index-1].modulate == Color(0.7, 0.7, 0.7) : 
+			button_skills[index-1].modulate = Color(1, 1, 1) # Reset color if disabled
+		else : 
+			button_skills[index-1].modulate = Color(0.7, 0.7, 0.7) # Disable color if already selected
 		choose_target.emit(skill_list[index-1])
 
 func _on_skill_button_mouse_entered(skill_index: int):

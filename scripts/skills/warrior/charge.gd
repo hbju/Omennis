@@ -47,7 +47,7 @@ func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetIn
 		if not map.can_walk(current_cell) or map.cell_occupied(current_cell):
 			continue # Skip this column if blocked
 
-		for j in range(get_skill_range()):
+		for j in range(get_skill_range()-1):
 			current_cell = HexHelper.hex_neighbor(current_cell, i)
 			if not map.can_walk(current_cell):
 				break # Stop checking this column if blocked

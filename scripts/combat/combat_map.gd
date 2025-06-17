@@ -427,14 +427,10 @@ func _on_character_hover_entered(character: CombatCharacter):
 
 func _on_character_hover_exited():
 	if character_tooltip_instance :
-		await get_tree().create_timer(0.1).timeout # Wait a bit before hiding to allow for quick mouse movements
+		await get_tree().create_timer(0.05).timeout # Wait a bit before hiding to allow for quick mouse movements
 		# check if mouse is on character tooltip
 		if not character_tooltip_instance.get_rect().has_point(get_global_mouse_position()):
-			print("Hiding character tooltip")
 			character_tooltip_instance.hide()
-		else:
-			print("Mouse still on character tooltip, not hiding")
-
 
 func _on_finished_turn() :
 	next_turn()
