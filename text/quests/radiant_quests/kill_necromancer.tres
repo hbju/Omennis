@@ -13,11 +13,11 @@ location_entry_description = "The air in [LocationName] is heavy with the stench
 location_post_objective_victory_description = "The Necromancers are destroyed, and an eerie silence falls over the ruins. The dead may rest once more. Return to [CityName] to inform the guild the deed is done."
 location_post_objective_failure_description = "The Necromancers' unholy power prove too great, and you are driven from the ruins by their foul power."
 turn_in_description = "The clerk hands you a pouch. 'Thank you, adventurers. You have done a great service to this town and its history.' You collect the 350 gold reward.\n\n[QuestRewardSummary]"
-location_tag_required = "ruins"
+location_tag_required = ["ruins", "mountains"]
 min_player_level = 4
 enemies = [
     {"archetype": "Necromancer", "count": 2, "level": 5},
     {"archetype": "Lich Warrior", "count": 3, "level": 3, "name": "Skeleton Warrior"}
 ]
 reward_gold = 350
-reward_xp = 1500
+reward_xp = 1400

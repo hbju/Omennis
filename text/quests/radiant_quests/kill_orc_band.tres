@@ -13,7 +13,7 @@ location_entry_description = "You enter [LocationName]. The atmosphere is tense,
 location_post_objective_victory_description = "With the Orc band defeated, [LocationName] is safe once more. You should return to the guild for your reward."
 location_post_objective_failure_description = "The Orcs proved too numerous. You barely escaped with your life. Regroup and try again later."
 turn_in_description = "You return to the guild and report your success in dealing with the Orc band. The guild master thanks you profusely and rewards you with [RewardGold] gold.\n\n[QuestRewardSummary]"
-location_tag_required = "cave"
+location_tag_required = ["forest", "mountains"]
 min_player_level = 5
 enemies = Array[Dictionary]([{
 "archetype": "Orc Warrior",
@@ -25,4 +25,4 @@ enemies = Array[Dictionary]([{
 "level": 6
 }])
 reward_gold = 400
-reward_xp = 1500
+reward_xp = 1800

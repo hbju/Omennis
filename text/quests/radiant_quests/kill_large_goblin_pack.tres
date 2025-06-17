@@ -13,7 +13,7 @@ location_entry_description = "You enter [LocationName]. The air is filled with t
 location_post_objective_victory_description = "With the goblin pack defeated, [LocationName] is safe once more. You should return to the guild for your reward."
 location_post_objective_failure_description = "The goblins proved too numerous. You barely escaped with your life. Regroup and try again later."
 turn_in_description = "You return to the guild and report your success in dealing with the goblin pack. The guild master thanks you profusely and rewards you with [RewardGold] gold.\n\n[QuestRewardSummary]"
-location_tag_required = "cave"
+location_tag_required = ["cave", "forest", "ruins"]
 min_player_level = 4
 enemies = Array[Dictionary]([{
 "archetype": "Goblin Shaman",
@@ -25,4 +25,4 @@ enemies = Array[Dictionary]([{
 "level": 4
 }])
 reward_gold = 300
-reward_xp = 1200
+reward_xp = 1400

@@ -151,7 +151,9 @@ func _choose_target(index: int) :
 		if button_base_skill.modulate == Color(0.7, 0.7, 0.7) : 
 			button_base_skill.modulate = Color(1, 1, 1) # Reset color if disabled
 		else : 
-			button_base_skill.modulate = Color(0.7, 0.7, 0.7) # Disable color if already selected
+			button_base_skill.modulate = Color(0.7, 0.7, 0.7) # pushed color if already selected
+			for button in button_skills : 
+				button.modulate = Color(1, 1, 1) 
 		choose_target.emit(base_skill)
 		return
 
@@ -160,6 +162,10 @@ func _choose_target(index: int) :
 			button_skills[index-1].modulate = Color(1, 1, 1) # Reset color if disabled
 		else : 
 			button_skills[index-1].modulate = Color(0.7, 0.7, 0.7) # Disable color if already selected
+			button_base_skill.modulate = Color(1, 1, 1) # Reset base skill button
+			for button in button_skills : 
+				if button != button_skills[index-1]: # Reset other buttons
+					button.modulate = Color(1, 1, 1)
 		choose_target.emit(skill_list[index-1])
 
 func _on_skill_button_mouse_entered(skill_index: int):

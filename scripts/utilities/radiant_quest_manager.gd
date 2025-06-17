@@ -48,11 +48,15 @@ func generate_quest(region_id: String) -> Dictionary:
 
 	var party = GameState.party
 	var min_level = -1
+	var avg_level = 0
 	for member in party:
+		avg_level += member.character_level
 		if member.character_level > min_level:
 			min_level = member.character_level
+	avg_level = avg_level / party.size()
 
-	template_candidates = template_candidates.filter(func(t): return t.min_player_level <= min_level)
+	template_candidates = template_candidates.filter(func(t): return (t.min_player_level <= min_level and t.min_player_level >= avg_level))
+	print("Filtered templates by player level (", min_level, ") found ", template_candidates.size(), " templates available.")
 
 	while (not valid_template_found) and not template_candidates.is_empty():
 		chosen_template = template_candidates.pop_front() 
@@ -73,8 +77,15 @@ func generate_quest(region_id: String) -> Dictionary:
 			printerr("No valid POIs found for region: ", region_id)
 			return {}
 
+		print("Found %d valid POIs for region: %s" % [valid_pois.size(), region_id])
+
 		# 3. Find a POI that matches the template's tag requirement
-		for poi in valid_pois.filter(func(p): return p.tags.has(chosen_template.location_tag_required)):
+		for poi in valid_pois.filter(func(p): 
+			for tag in chosen_template.location_tag_required:
+				if p.tags.has(tag):
+					return true
+			return false
+				):
 			chosen_poi = poi
 			break # Found one, stop looking
 

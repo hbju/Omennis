@@ -6,8 +6,8 @@
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -400.5
-offset_right = 400.5
+offset_left = -614.0
+offset_right = 614.0
 offset_bottom = 135.0
 grow_horizontal = 2
 texture = ExtResource("1_6puoy")

@@ -13,13 +13,20 @@ location_entry_description = "You arrive at [LocationName]. The air crackles wit
 location_post_objective_victory_description = "The rogue mages have been dealt with, and the unstable magical energy in the area has dissipated. The region is safer now. Return to [CityName] to claim your reward."
 location_post_objective_failure_description = "The combined arcane power of the mages was too much to overcome. You retreat, the air sizzling with their triumphant spells."
 turn_in_description = "'They've been contained? Good.' The guild master looks relieved. 'Playing with such forces is a danger to us all. Here is your payment of [RewardGold]g. Well-earned.'\n\n[QuestRewardSummary]"
-location_tag_required = "cave"
-min_player_level = 3
-enemies = Array[Dictionary]([{
+location_tag_required = ["cave", "ruins", "forest"]
+min_player_level = 2
+enemies = Array[Dictionary]([
+{
 "archetype": "Arcane Channeler",
-"count": 3,
-"level": 4,
+"count": 2,
+"level": 2,
+"name": "Rogue Mage"
+},
+{
+"archetype": "Arcane Channeler",
+"count": 1,
+"level": 3,
 "name": "Rogue Mage"
 }])
 reward_gold = 250
-reward_xp = 1000
+reward_xp = 900

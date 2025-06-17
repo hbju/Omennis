@@ -10,13 +10,14 @@ title_template = "Eradicate the Marauders"
 description_template = "A trade caravan was ambushed near [LocationName]. The Mercenaries' Guild has posted a bounty for the heads of the Marauders responsible. [LocationDistance]"
 offer_description = "You find a small note about some enemies that need to be killed. 'A pack of Marauders are causing trouble at [LocationName]. Clear them out and there's 100 gold in it for you. Present to the local guild for the reward' [LocationDistance]"
 location_entry_description = "You arrive at [LocationName]. The signs of Marauder activity are unmistakable. It's time to earn your coin."
-location_post_objective_description = "The Marauders are gone. [LocationName] is quiet now. You should return to [CityName] to claim your reward."
+location_post_objective_victory_description = "The Marauders are gone. [LocationName] is quiet now. You should return to [CityName] to claim your reward."
+location_post_objective_failure_description = "The Marauders proved too powerful. You barely escaped with your life. Regroup and try again later."
 turn_in_description = "'Well done,' the guild master says, dropping a heavy pouch of coins on the counter. 'Here is your 100g, as promised.'\n\n[QuestRewardSummary]"
-location_tag_required = "cave"
+location_tag_required = ["cave", "mountains"]
 min_player_level = 1
 enemies = [
     {"archetype": "Brute Marauder", "count": 2, "level": 1},
     {"archetype": "Raging Berserker", "count": 1, "level": 2}
 ]
 reward_gold = 100
-reward_xp = 500
+reward_xp = 400

@@ -56,7 +56,7 @@ func _ready():
 
 	# GameState.random_event.connect(_on_random_event)
 	GameState.money_changed.connect(_on_money_changed)
-	GameState.change_gold(1000)
+	GameState.change_gold(100)
 	
 	if testing :
 		#GameState.accept_quest("obsidianwhisperhollow")

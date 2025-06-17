@@ -12,8 +12,10 @@ offer_description = "You find a notice pinned to the guild's bulletin board. 'At
 location_entry_description = "You arrive at [LocationName]. The guild has tasked you with dealing with the deserters who have taken refuge here. Be cautious, as they are known to be well-armed and dangerous."
 location_post_objective_victory_description = "You have successfully dealt with the deserters in [LocationName]. The local populace can rest easy knowing that the threat has been eliminated."
 location_post_objective_failure_description = "You have failed to deal with the deserters in [LocationName]. They continue to pose a threat to the local populace. You should try again."
-turn_in_description = "You return to the guild master to report your success in dealing with the deserters. The clerk in front of you nods approvingly as you recount your tale. 'Well done, adventurer! The guild appreciates your efforts in keeping the area safe. Here is your gold', as she hands you the reward. 'We hope to see you again soon for more quests.'\n\n[QuestRewardSummary]"
-location_tag_required = "cave"
+turn_in_description = "You return to the guild master to report your success in dealing with the deserters. The clerk in front of you nods approvingly as you recount your tale. 'Well done, adventurer! The guild appreciates your efforts in keeping the area safe. Here is your gold', as she hands you the reward. 'We hope to see you again soon for more quests.'
+
+[QuestRewardSummary]"
+location_tag_required = ["cave", "forest", "mountains"]
 min_player_level = 1
 enemies = Array[Dictionary]([{
 "archetype": "Mercenary Guard",
@@ -27,4 +29,4 @@ enemies = Array[Dictionary]([{
 "name": "Deserter Mage"
 }])
 reward_gold = 200
-reward_xp = 700
+reward_xp = 400

@@ -7,7 +7,7 @@ extends Node2D
 
 var curr_victory: bool = false
 
-var XP_PER_ENEMY_LEVEL = 250
+var XP_PER_ENEMY_LEVEL = 20
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -58,7 +58,7 @@ func _end_combat(victory: bool):
 
 	var last_enemy_groups: Array[EnemyGroup] = overworld.event_manager.fight_ui.all_enemies
 
-	var xp_reward = 0
+	var xp_reward = 50
 	if last_enemy_groups:
 		for enemy_group in last_enemy_groups:
 			for enemy_char in enemy_group.enemies:

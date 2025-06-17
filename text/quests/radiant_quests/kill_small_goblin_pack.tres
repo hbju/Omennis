@@ -13,8 +13,8 @@ location_entry_description = "You enter [LocationName]. The place reeks of gobli
 location_post_objective_victory_description = "The goblins are slain and their foul nest can be dismantled. The area is secure for now. Time to collect your bounty in [CityName]."
 location_post_objective_failure_description = "Even a few goblins can be surprisingly vicious. You are forced to retreat from their ferocious assault."
 turn_in_description = "The clerk takes your report with a bored sigh, makes a mark in a ledger, and slides a pouch of [RewardGold]g across the counter. 'Next,' he calls out to the room.\n\n[QuestRewardSummary]"
-location_tag_required = "cave"
-min_player_level = 1
+location_tag_required = ["cave"]
+min_player_level = 2
 enemies = Array[Dictionary]([{
 "archetype": "Goblin Raider",
 "count": 3,
@@ -25,4 +25,4 @@ enemies = Array[Dictionary]([{
 "level": 2
 }])
 reward_gold = 100
-reward_xp = 500
+reward_xp = 900

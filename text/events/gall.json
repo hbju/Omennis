@@ -491,12 +491,17 @@
 							"action": "accept"
 						},
 						{
+							"type": "flag_set",
+							"flag": "silas_involved_heist",
+							"value": 1
+						},
+						{
 							"type": "gold",
 							"change": 200
 						},
 						{
 							"type": "xp",
-							"amount": 500
+							"amount": 250
 						},
 						{
 							"type": "next_event",
@@ -519,7 +524,7 @@
 						},
 						{
 							"type": "xp",
-							"amount": 500
+							"amount": 250
 						},
 						{
 							"type": "next_event",
@@ -549,12 +554,17 @@
 							"action": "accept"
 						},
 						{
+							"type": "flag_set",
+							"flag": "silas_involved_heist",
+							"value": 1
+						},
+						{
 							"type": "gold",
 							"change": 100
 						},
 						{
 							"type": "xp",
-							"amount": 250
+							"amount": 150
 						},
 						{
 							"type": "next_event",
@@ -577,7 +587,7 @@
 						},
 						{
 							"type": "xp",
-							"amount": 250
+							"amount": 150
 						},
 						{
 							"type": "next_event",
@@ -607,7 +617,7 @@
 						},
 						{
 							"type": "xp",
-							"amount": 100
+							"amount": 50
 						},
 						{
 							"type": "next_event",
@@ -835,7 +845,7 @@
 						},
 						{
 							"type": "xp",
-							"amount": 1500
+							"amount": 1000
 						},
 						{
 							"type": "next_event",
@@ -859,7 +869,7 @@
 						},
 						{
 							"type": "xp",
-							"amount": 4000
+							"amount": 2000
 						},
 						{
 							"type": "next_event",
@@ -981,7 +991,7 @@
 						},
 						{
 							"type": "xp",
-							"amount": 500
+							"amount": 250
 						}
 					]
 				},
@@ -1027,7 +1037,7 @@
 						},
 						{
 							"type": "xp",
-							"amount": 500
+							"amount": 250
 						}
 					]
 				},

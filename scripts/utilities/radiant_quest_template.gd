@@ -27,7 +27,7 @@ enum QuestType { KILL, FETCH, DELIVER }
 @export_multiline var turn_in_description: String = ""
 
 # --- Requirements ---
-@export var location_tag_required: String = "cave" # e.g., "cave", "ruins", "forest_clearing"
+@export var location_tag_required: Array[String] = ["cave"] # e.g., "cave", "ruins", "forest_clearing"
 @export var min_player_level: int = 1
 
 # --- Quest Specifics ---
