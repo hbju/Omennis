@@ -4,6 +4,8 @@ extends Node
 var pending_radiant_quest: Dictionary = {}
 var active_radiant_quest: Dictionary = {}
 
+var last_radiant_kill: bool = false
+
 # We'll load all our templates at the start of the game.
 var quest_templates: Array[RadiantQuestTemplate] = []
 
@@ -42,6 +44,8 @@ func generate_quest(region_id: String) -> Dictionary:
 	var template_candidates = quest_templates.duplicate(true)
 	template_candidates.shuffle() # Randomize templates for variety
 	var valid_template_found = false
+
+	template_candidates = template_candidates.filter(func(t): return t.quest_type != RadiantQuestTemplate.QuestType.KILL or not last_radiant_kill)
 	
 	var chosen_template: RadiantQuestTemplate = null
 	var chosen_poi: PointOfInterest = null
@@ -150,5 +154,6 @@ func turn_in_quest() -> Dictionary:
 	
 	var completed_quest = active_radiant_quest.duplicate()
 	active_radiant_quest.clear()
+	last_radiant_kill = (completed_quest.template.quest_type == RadiantQuestTemplate.QuestType.KILL)
 	print("Radiant quest turned in!")
 	return completed_quest

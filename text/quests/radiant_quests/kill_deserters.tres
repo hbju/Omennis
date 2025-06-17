@@ -15,7 +15,7 @@ location_post_objective_failure_description = "You have failed to deal with the 
 turn_in_description = "You return to the guild master to report your success in dealing with the deserters. The clerk in front of you nods approvingly as you recount your tale. 'Well done, adventurer! The guild appreciates your efforts in keeping the area safe. Here is your gold', as she hands you the reward. 'We hope to see you again soon for more quests.'
 
 [QuestRewardSummary]"
-location_tag_required = ["cave", "forest", "mountains"]
+location_tag_required = Array[String](["cave", "forest", "mountains"])
 min_player_level = 1
 enemies = Array[Dictionary]([{
 "archetype": "Mercenary Guard",
