@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "greywatch_ruins",
+            "name": "Ruins of Greywatch",
+            "description": "On the shores of the vast and unnervingly still Lake Lohault stand the Ruins of Greywatch. What was once a proud lakeside town is now a collection of crumbling stone walls and skeletal towers, slick with moss and time. The lower sections of the ruins are flooded, the dark, placid water of the lake lapping gently against the water-stained stone. A thick mist rolls off the lake's surface, shrouding the area in a quiet, melancholy stillness.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Leave the haunted ruins behind."
+                }
+            ]
+        }
+    ]
+}

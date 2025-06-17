@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "scalded_crater",
+            "name": "The Scalded Crater",
+            "description": "You crest a ridge and look down into the Scalded Crater, a massive, bowl-shaped valley created by some ancient cataclysm. The crater floor is a patchwork of jagged rock and geothermal vents that spew foul-smelling steam. This is the domain of the Orc clans. Crude banners bearing tusks and broken skulls flutter from makeshift watchtowers, and the sounds of war drums and guttural shouts echo up from the valley floor. It is a raw, violent, and fiercely territorial place.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Do not trifle with the Orcs today."
+                }
+            ]
+        }
+    ]
+}

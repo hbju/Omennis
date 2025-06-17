@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://tsl4hrh1rp5m"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_sskxd"]
+
+[resource]
+script = ExtResource("1_sskxd")
+quest_type = 0
+quest_id_prefix = "rad_kill_small_goblin_pack"
+title_template = "Clear a Goblin Nest at [LocationName]"
+description_template = "A small scouting party of goblins has established a nest in [LocationName], threatening local travelers. The Guild needs them cleared out. [LocationDistance]"
+offer_description = "You see a simple notice on the board: 'Goblin nest in [LocationName]. Standard bounty: [RewardGold]g. Annoying, but not difficult. Speak to the clerk to accept.' The clerk barely looks up. 'Another nest. Just kill them and bring back proof. Simple.' [LocationDistance]"
+location_entry_description = "You enter [LocationName]. The place reeks of goblin filth. Crude drawings cover the walls, and the sound of high-pitched, guttural chittering echoes from deeper within."
+location_post_objective_victory_description = "The goblins are slain and their foul nest can be dismantled. The area is secure for now. Time to collect your bounty in [CityName]."
+location_post_objective_failure_description = "Even a few goblins can be surprisingly vicious. You are forced to retreat from their ferocious assault."
+turn_in_description = "The clerk takes your report with a bored sigh, makes a mark in a ledger, and slides a pouch of [RewardGold]g across the counter. 'Next,' he calls out to the room.\n\n[QuestRewardSummary]"
+location_tag_required = "cave"
+min_player_level = 1
+enemies = Array[Dictionary]([{
+"archetype": "Goblin Raider",
+"count": 3,
+"level": 1
+}, {
+"archetype": "Goblin Shaman",
+"count": 1,
+"level": 2
+}])
+reward_gold = 100
+reward_xp = 500

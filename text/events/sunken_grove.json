@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "sunken_grove",
+            "name": "The Sunken Grove",
+            "description": "To the east of Alanthir, you find a small, bowl-shaped clearing known as the Sunken Grove. It is a place of profound tranquility. A single, ancient weeping willow, its branches trailing to the ground like a curtain, dominates the center of the grove. A clear, shallow pool of water at its base reflects the sky perfectly. The air here is cool and still, and the sounds of the greater forest feel distant and muted. This place feels like a sanctuary.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Leave the sanctuary in peace."
+                }
+            ]
+        }
+    ]
+}

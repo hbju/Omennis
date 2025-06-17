@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://do65us1heocex"]
+[gd_scene load_steps=24 format=3 uid="uid://do65us1heocex"]
 
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_10nsb"]
 [ext_resource type="Script" path="res://scripts/ui/post_fight_screen.gd" id="1_m8hi8"]
@@ -21,6 +21,7 @@
 [ext_resource type="LabelSettings" uid="uid://0ssaijcssqa4" path="res://assets/fonts/normal_text.tres" id="19_maaqv"]
 [ext_resource type="Texture2D" uid="uid://dh64l2aiuua2i" path="res://assets/ui/buttons/red/red_square_button_h.png" id="19_u3vga"]
 [ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="20_taugr"]
+[ext_resource type="PackedScene" uid="uid://dvs0op087antk" path="res://scenes/character_sheet_ui.tscn" id="22_tbrhg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pl6as"]
 font = ExtResource("14_dkhex")
@@ -324,3 +325,7 @@ text = "Victory !"
 label_settings = SubResource("LabelSettings_pl6as")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="character_sheet_ui" parent="." instance=ExtResource("22_tbrhg")]
+visible = false
+layout_mode = 1

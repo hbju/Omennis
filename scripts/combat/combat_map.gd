@@ -5,11 +5,9 @@ class_name CombatMap
 @onready var turn_order_container: HBoxContainer = $UI/turn_order_ui/portraits_container 
 const TurnOrderPortraitScene = preload("res://scenes/turn_order_portrait.tscn")
 
-
-
 @export var debug_mode: bool = false
 
-const PLAYER_STARTING_POS = [Vector2i(0, 3), Vector2i(1, 3), Vector2i(1, 2), Vector2i(2, 2)]
+const PLAYER_STARTING_POS = [Vector2i(0, 3), Vector2i(1, 3), Vector2i(1, 2), Vector2i(2, 2), Vector2i(0, 1), Vector2i(1, 1)]
 const ENEMY_STARTING_POS = [Vector2i(7, 1), Vector2i(6, 1), Vector2i(7, 2), Vector2i(6, 2), Vector2i(7, 3), Vector2i(6, 3)]
 
 var astar: AStar2D = AStar2D.new()
@@ -21,40 +19,66 @@ var player_count = 0
 var enemy_count = 0
 var dead_chars : Array[CombatCharacter] = []
 
-const CombatCharacterTooltipScene = preload("res://scenes/character_tooltip.tscn")
+const combat_character_tooltip_scene: PackedScene = preload("res://scenes/character_tooltip.tscn")
 var character_tooltip_instance: CombatCharacterTooltipUI
+const skill_tooltip_scene: PackedScene = preload("res://scenes/skill_tooltip.tscn")
+var skill_tooltip_instance: PanelContainer
 
 signal combat_ended(victory: bool)
+
 
 func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	skill_bar_ui.wait_pressed.connect(_on_wait_pressed)
 	if debug_mode : 
-		var player1 = PartyMember.new_rand()
-		var player2 = PartyMember.new_rand()
+		var player1 = PartyMember.new_rand(Character.CLASSES.Mage)
+		var player2 = PartyMember.new_rand(Character.CLASSES.Warrior)
+		var player3 = PartyMember.new_rand(Character.CLASSES.Warrior)
+		var player4 = PartyMember.new_rand(Character.CLASSES.Mage)
+		var base_xp = 4000
+		player1.receive_experience(base_xp)
+		player2.receive_experience(base_xp)
+		player3.receive_experience(base_xp)
+		player4.receive_experience(base_xp)
 		player1.skill_list.append(Blink.new())
-		player1.skill_list.append(LightningStorm.new())
-		player2.skill_list.append(FiresparkMage.new())
-		player2.skill_list.append(ArcaneShield.new())	
-		var party: Array[PartyMember] = [player1, player2]
+		player1.skill_list.append(ArcaneShield.new())
+		player4.skill_list.append(Blink.new())
+		player4.skill_list.append(ArcaneShield.new())
+		player2.skill_list.append(Charge.new())
+		player2.skill_list.append(WarCry.new())
+		player3.skill_list.append(Charge.new())
+		player3.skill_list.append(DefensiveStance.new())
+		var party: Array[PartyMember] = [player1, player2, player3, player4]
 
-		var enemy1 = Character.new("Dark Cultist", 1, 2, 2, 50, 5)
-		var enemy2 = Character.new("Dark Cultist", 1, 2, 2, 50)
-		var enemies: Array[Character] = [enemy1, enemy2]
-		enemy1.skill_list.append(Frostbolt.new())
-		enemy1.skill_list.append(DefensiveStance.new())
-		enemy2.skill_list.append(Frostbolt.new())
-		enemy2.skill_list.append(ArcaneShield.new())
+		var enemies: Array[EnemyGroup] = []
+		enemies.append(EnemyGroup.from_enemy_data("Mercenary Guard", 4, 3))
+
+		var all_enemies: Array[Character] = []
+		for enemy_char in enemies:
+			for enemy in enemy_char.enemies:
+				all_enemies.append(enemy)
 		
-		enter_combat(party, enemies)
+		enter_combat(party, all_enemies)
 
-	if CombatCharacterTooltipScene :
-		character_tooltip_instance = CombatCharacterTooltipScene.instantiate()
+	if combat_character_tooltip_scene:
+		character_tooltip_instance = combat_character_tooltip_scene.instantiate()
 		character_tooltip_instance.hide()
 		character_tooltip_instance.top_level = true
 		$UI.add_child(character_tooltip_instance)
-	else :
+	else:
 		printerr("CombatCharacterTooltipScene not found. Tooltip will not be displayed.")
+
+	if skill_tooltip_scene:
+		skill_tooltip_instance = skill_tooltip_scene.instantiate()
+		skill_tooltip_instance.hide()
+		skill_tooltip_instance.top_level = true
+		$UI.add_child(skill_tooltip_instance)
+	else:
+		printerr("SkillTooltipScene not found. Tooltip will not be displayed.")
+
+	character_tooltip_instance.mouse_exited.connect(_on_character_hover_exited)
+	character_tooltip_instance.skill_hovered.connect(_on_char_tooltip_skill_hovered)
+	character_tooltip_instance.skill_unhovered.connect(_on_char_tooltip_skill_unhovered)
 
 
 ##
@@ -72,12 +96,17 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 	player_count = party.size()
 	enemy_count = enemies.size()
 
+	var player_pos = PLAYER_STARTING_POS.duplicate()
+	var enemy_pos = ENEMY_STARTING_POS.duplicate()
+	player_pos.shuffle()
+	enemy_pos.shuffle()
+
 	for i in range(0, max(party.size(), enemies.size())) : 
 		if i < party.size() : 
 			party[i].reset_skills()
 			var player: CombatCharacter = PlayerCombatCharacter.new_character(party[i])
 			get_node("characters/player_characters").add_child(player)
-			player.position = map_to_local(PLAYER_STARTING_POS[i])
+			player.position = map_to_local(player_pos[i])
 
 			characters.append(player)
 			player.turn_finished.connect(_on_finished_turn)
@@ -87,15 +116,15 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			enemies[i].reset_skills()
 			var enemy: CombatCharacter = AICombatCharacter.new_character(enemies[i])
 			get_node("characters/enemies").add_child(enemy)
-			enemy.position = map_to_local(ENEMY_STARTING_POS[i])
+			enemy.position = map_to_local(enemy_pos[i])
 
 			characters.append(enemy)
 			enemy.turn_finished.connect(_on_finished_turn)
 			enemy.character_died.connect(_on_character_died)	
 
 	for character in characters : 
-		character.hover_entered.connect(_on_character_hover_entered)
-		character.hover_exited.connect(_on_character_hover_exited)
+		character.mouse_entered.connect(_on_character_hover_entered.bind(character))
+		character.mouse_exited.connect(_on_character_hover_exited)
 
 	characters.shuffle()
 
@@ -147,6 +176,32 @@ func update_turn_order_ui():
 		#portrait_instance.mouse_exited.connect(character_to_display.set_highlight.bind(false))
 
 		turn_order_container.add_child(portrait_instance)
+
+func _on_char_tooltip_skill_hovered(skill: Skill):
+	if not skill_tooltip_instance: return
+	
+	skill_tooltip_instance.update_content(skill) # Assuming skill_tooltip.gd has this function
+	
+	# --- Positioning Logic ---
+	# Position the skill tooltip to the right of the character tooltip
+	var char_tooltip_rect = character_tooltip_instance.get_rect()
+	var skill_tooltip_size = skill_tooltip_instance.get_combined_minimum_size()
+	var offset = Vector2(10, 0) # Small gap
+
+	var target_pos = character_tooltip_instance.global_position + Vector2(char_tooltip_rect.size.x, 0) + offset
+	
+	# Adjust if it goes off-screen
+	var viewport_rect = get_viewport_rect()
+	if target_pos.x + skill_tooltip_size.x > viewport_rect.size.x:
+		# Place it on the left instead
+		target_pos.x = character_tooltip_instance.global_position.x - skill_tooltip_size.x - offset.x
+		
+	skill_tooltip_instance.global_position = target_pos
+	skill_tooltip_instance.show()
+
+func _on_char_tooltip_skill_unhovered():
+	if skill_tooltip_instance:
+		skill_tooltip_instance.hide()
 
 
 ##
@@ -348,6 +403,10 @@ func toggle_ui(show_ui: bool) :
 
 func _on_character_hover_entered(character: CombatCharacter):
 	if character_tooltip_instance and is_instance_valid(character):
+		if character_tooltip_instance.is_visible():
+			# If the tooltip is already showing for a character, do nothing
+			return
+			
 		character_tooltip_instance.update_content(character)
 
 		# Position the tooltip (similar logic to skill tree tooltip)
@@ -366,10 +425,12 @@ func _on_character_hover_entered(character: CombatCharacter):
 		character_tooltip_instance.global_position = target_pos
 		character_tooltip_instance.show()
 
-func _on_character_hover_exited(_character: CombatCharacter):
-	if character_tooltip_instance:
-		character_tooltip_instance.hide()
-
+func _on_character_hover_exited():
+	if character_tooltip_instance :
+		await get_tree().create_timer(0.05).timeout # Wait a bit before hiding to allow for quick mouse movements
+		# check if mouse is on character tooltip
+		if not character_tooltip_instance.get_rect().has_point(get_global_mouse_position()):
+			character_tooltip_instance.hide()
 
 func _on_finished_turn() :
 	next_turn()

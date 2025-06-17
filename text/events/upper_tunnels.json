@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "upper_tunnels",
+            "name": "The Upper Tunnels",
+            "description": "You enter the main shaft of the Cran mines, or what's left of them. The upper tunnels are a hive of grim activity. Miners, their faces permanently stained with coal dust, work under the watchful eye of grim-faced city guards. The air is thick with the scent of damp rock, sweat, and the acrid smoke of countless torches. Deeper in, crude barricades of rock and timber block passages leading down into the dark, a constant, necessary reminder of the goblin-infested depths below.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Return to the relative safety of Cran."
+                }
+            ]
+        }
+    ]
+}

@@ -43,6 +43,7 @@ label_settings = SubResource("LabelSettings_cihhv")
 z_index = 1
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+size_flags_horizontal = 4
 texture = ExtResource("4_qlgxy")
 expand_mode = 1
 stretch_mode = 5

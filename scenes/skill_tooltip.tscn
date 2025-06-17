@@ -16,6 +16,7 @@ font = ExtResource("2_s2ybi")
 font_size = 50
 
 [node name="SkillTooltip" type="PanelContainer"]
+z_index = 100
 custom_minimum_size = Vector2(400, 0)
 offset_right = 400.0
 offset_bottom = 213.0

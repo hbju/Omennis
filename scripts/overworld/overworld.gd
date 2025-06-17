@@ -5,9 +5,6 @@ class_name Overworld
 var player_cell: Vector2i = Vector2i(0, 0)
 var player_neighbours: Array[Vector2i] = []
 
-@onready var gall = $gall
-@onready var cauldron_mountains = $cauldron_mountains
-@onready var whispering_hollow = $whispering_hollow
 
 @onready var party_ui: PartyUI = $UI/party_ui
 @onready var quest_log_ui: QuestLogUI = $UI/quest_log_ui
@@ -27,7 +24,7 @@ var oddr_direction_differences = [
 	 [-1,  0], [ 0, +1], [+1, +1]],
 ]
 
-var nature_walkable_cells = [0, 1, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16]
+var nature_walkable_cells = [0, 1, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16, 19]
 
 var next_random_event: Dictionary
 
@@ -38,9 +35,9 @@ func _ready():
 	player.target_reached.connect(_on_target_reached)
 	_on_target_reached()
 
-	gall.body_entered.connect(_toggle_event_ui.bind("gall"))
-	cauldron_mountains.body_entered.connect(_toggle_event_ui.bind("cauldron_mountains"))
-	whispering_hollow.body_entered.connect(_toggle_event_ui.bind("whispering_hollow"))
+	for child in get_children() :
+		if child is PointOfInterest :
+			child.body_entered.connect(_toggle_event_ui.bind(child.event_id_on_enter))
 
 	$UI/party_button.pressed.connect(_toggle_party_ui)
 	$UI/party_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_SCREEN_OPEN))
@@ -49,9 +46,7 @@ func _ready():
 	$UI/quest_log_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_SCREEN_OPEN))
 
 	party_ui.fire_character.connect(_on_fire_character)
-	party_ui.show_skill_tree.connect(_on_show_skill_tree)
 
-	event_manager.fight_ui.show_skill_tree.connect(_on_show_skill_tree)
 
 	ContentGenerator.content_received.connect(_on_content_received)
 	var initial_random_event_prompt = "Generate a random event for the following party of adventurers : "
@@ -59,12 +54,18 @@ func _ready():
 		initial_random_event_prompt += "\n" + GameState.party[i].to_string()
 	ContentGenerator.request_content(initial_random_event_prompt)
 
-	GameState.random_event.connect(_on_random_event)
+	# GameState.random_event.connect(_on_random_event)
 	GameState.money_changed.connect(_on_money_changed)
 	GameState.change_gold(1000)
 	
 	if testing :
-		GameState.accept_quest(1)
+		#GameState.accept_quest("obsidianwhisperhollow")
+		#GameState.turn_quest("obsidianwhispermire")
+		#GameState.turn_quest("obsidianwhispercauldron")
+		GameState.new_candidate(PartyMember.new_rand())
+		GameState.recruit_candidate()
+		GameState.new_candidate(PartyMember.new_rand())
+		GameState.recruit_candidate()
 		GameState.new_candidate(PartyMember.new_rand())
 		GameState.recruit_candidate()
 		GameState.receive_experience(50000)
@@ -154,9 +155,6 @@ func _on_fire_character(index: int) :
 	GameState.fire_member(index)
 	party_ui.update_ui(GameState.party)
 
-func _on_show_skill_tree(index: int) : 
-	skill_ui.update_ui(GameState.party[index])
-	skill_ui.visible = true
 
 func _on_content_received(data: Dictionary) :
 	next_random_event = data

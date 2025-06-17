@@ -1,122 +1,1512 @@
 {
 	"events": [
-	  {
-		"id": "gall",
-		"name": "Entering Gall",
-		"description": "The heavy gates of Gall groan aside, revealing a city built of stern grey stone and weathered timber. Worn cobbles pave streets that wind between tightly packed buildings, their upper stories often leaning close, casting long shadows. The air is sharp with the tang of coal smoke and the distant clang of a smithy, mingled with the everyday scents of a populous, if somewhat grim, settlement. Guards in practical, scuffed armor observe your passage with a practiced, neutral gaze. Gall is a place of pragmatism, not pleasantries.",
-		"possibilities": [
-		  {
+		{
+			"id": "gall",
+			"name": "Entering Gall",
+			"description": "The heavy gates of Gall groan aside, revealing a city built of stern grey stone and weathered timber. Worn cobbles pave streets that wind between tightly packed buildings, their upper stories often leaning close, casting long shadows. The air is sharp with the tang of coal smoke and the distant clang of a smithy, mingled with the everyday scents of a populous, if somewhat grim, settlement. Guards in practical, scuffed armor observe your passage with a practiced, neutral gaze. Gall is a place of pragmatism, not pleasantries.",
+			"possibilities": [
+				{
+					"id": "opt_gall_tavern_interior",
+					"description": "Seek respite and potential allies at 'The Bent Mug' tavern.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				},
+				{
+					"id": "opt_gall_guildhall_entry",
+					"description": "Look for paid work at the Mercenaries' Guild.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_guild"
+						}
+					]
+				},
+				{
+					"id": "opt_investigate_valerius_yourself",
+					"description": "Investigate who could have seized the Obsidian Whisper pieces.",
+					"condition": "quest_obsidianwhisperact3_accepted AND flag_obsidian-whisper-hints_gte_3 AND NOT quest_obsidianwhisperact3_turned",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_investigate_valerius_start"
+						}
+					]
+				},
+				{
+					"id": "leave",
+					"description": "Leave the city's confines and return to the wilds."
+				}
+			]
+		},
+		{
 			"id": "evt_gall_tavern_interior",
-			"description": "Seek respite and potential allies at 'The Bent Mug' tavern."
-		  },
-		  {
-			"id": "evt_gall_guildhall_entry",
-			"description": "Look for paid work at the Mercenaries' Guild."
-		  },
-		  {
-			"id": "leave",
-			"description": "Leave the city's confines and return to the wilds."
-		  }
-		]
-	  },
-	  {
-		"id": "evt_gall_tavern_interior",
-		"name": "The Bent Mug",
-		"description": "The air inside 'The Bent Mug' is thick with the aroma of stale ale, cheap stew, and damp wool. Low wooden beams hang overhead, scarred by years of careless tankards. A mix of dour locals and hard-bitten travelers occupy the rough-hewn tables, their conversations a low, rumbling murmur beneath the clatter of mugs and the occasional coarse laugh. A single, overworked server navigates the crowded floor.",
-		"possibilities": [
-		  {
+			"name": "The Bent Mug",
+			"description": "The air inside 'The Bent Mug' is thick with the aroma of stale ale, cheap stew, and damp wool. Low wooden beams hang overhead, scarred by years of careless tankards. A mix of dour locals and hard-bitten travelers occupy the rough-hewn tables, their conversations a low, rumbling murmur beneath the clatter of mugs and the occasional coarse laugh. A single, overworked server navigates the crowded floor.",
+			"possibilities": [
+				{
+					"id": "opt_tavern_find_potential_companion",
+					"description": "Scan the patrons for a capable, if perhaps desperate, individual.",
+					"condition": "NOT party_full",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_tavern_find_potential_companion"
+						},
+						{
+							"type": "display_new_candidate"
+						}
+					]
+				},
+				{
+					"id": "opt_tavern_notice_shady_figure",
+					"description": "[Avg Level 2]\nNotice a particularly shifty individual nursing a drink alone.",
+					"condition": "lvl_party_average_gte_2 AND NOT (quest_obsidianwhispermire_accepted OR quest_obsidianwhispercauldron_accepted OR quest_obsidianwhisperhollow_accepted)",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_tavern_shady_figure_approach"
+						}
+					]
+				},
+				{
+					"id": "opt_tavern_silas_act3",
+					"description": "Go back to Silas Thorne to report on your progress with your quest.",
+					"condition": "quest_obsidianwhisperact3_accepted AND NOT quest_obsidianwhisperact3_turned",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_obsidian_return_to_silas"
+						}
+					]
+				},
+				{
+					"id": "opt_depart_tavern",
+					"description": "Decide the ale isn't worth the atmosphere and depart.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "gall"
+						}
+					]
+				}
+			]
+		},
+		{
 			"id": "evt_tavern_find_potential_companion",
-			"description": "Scan the patrons for a capable, if perhaps desperate, individual.",
-			"condition" : "not(party_full)"
-		  },
-		  {
-			"id": "gall",
-			"description": "Decide the ale isn't worth the atmosphere and depart."
-		  }
-		]
-	  },
-	  {
-		"id": "evt_tavern_find_potential_companion",
-		"name": "A Keen Eye",
-		"description": "Your gaze settles on a figure nursing a drink alone in a shadowed corner – [Name 0], a seasoned-looking [Class 0], judging by their worn gear. They meet your eye with a guarded, appraising look. Opportunity, or trouble?",
-		"possibilities": [
-		  {
-			"id": "recruit_member",
-			"description": "Offer 100 gold for their blade and loyalty.",
-			"condition" : "gold_100"
-		  },
-		  {
-			"id": "evt_gall_tavern_interior",
-			"description": "Reconsider and return to observing the tavern's patrons.",
-			"condition" : "gold_100"
-		  },
-		  {
-			"id": "evt_gall_tavern_interior",
-			"description": "Not having enough gold, you return to the tavern.",
-			"condition" : "not(gold_100)"
-		  }
-		]
-	  },
-	  {
-		"id": "evt_gall_guildhall_entry",
-		"name": "Mercenaries' Guild Hall",
-		"description": "The Guild Hall is a cavernous, echoing space built for function over comfort. The air smells faintly of old parchment, oiled leather, and nervous sweat. Rough-looking individuals study a large, crowded noticeboard plastered with contracts, while others wait on worn benches, sharpening blades or exchanging hushed words. A stern-faced clerk presides over a heavy oak counter, ready to deal in coin and contracts.",
-		"possibilities": [
-		  {
+			"name": "A Keen Eye",
+			"description": "Your gaze settles on a figure nursing a drink alone in a shadowed corner – [CandidateName], a seasoned-looking [CandidateClass], judging by their worn gear. They meet your eye with a guarded, appraising look. Opportunity, or trouble?",
+			"possibilities": [
+				{
+					"id": "opt_gall_tavern_recruit",
+					"description": "[Gold 100]\nRecruit them for your party. 'We could use someone like you.'",
+					"condition": "gold_100",
+					"outcomes": [
+						{
+							"type": "gold",
+							"change": -100
+						},
+						{
+							"type": "recruit_pending_candidate"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_confirm_recruitment"
+						}
+					]
+				},
+				{
+					"id": "opt_tavern_reconsider",
+					"description": "Reconsider and return to observing the tavern's patrons.",
+					"condition": "gold_100",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				},
+				{
+					"id": "opt_tavern_no_gold",
+					"description": "Not having enough gold, you return to the tavern.",
+					"condition": "NOT gold_100",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_confirm_recruitment",
+			"name": "Confirming the Recruitment",
+			"description": "You approach [CandidateName] with the offer of joining your party. They look you over, weighing the risks and rewards. 'I could use a change of scenery,' they say, a hint of a smile breaking through their otherwise stoic demeanor. 'Let's see what trouble we can find together.'",
+			"possibilities": [
+				{
+					"id": "opt_gall_tavern_interior_after_recruitment",
+					"description": "Return to the tavern's main area with your new companion.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_tavern_shady_figure_approach",
+			"name": "The Anxious Informant",
+			"description": "You approach the shifty individual. He's nursing a watered-down ale and constantly glancing over his shoulder. He eyes your group with a mixture of apprehension and desperate hope, clearly burdened by something.",
+			"possibilities": [
+				{
+					"id": "opt_shady_ask_charisma",
+					"description": "[Charisma 4]\n'You look like you have a story to tell, friend. What weighs on you?'",
+					"condition": "stat_Charisma_party_highest_gte_4",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_initial_plea"
+						}
+					]
+				},
+				{
+					"id": "opt_shady_ask_impulsive",
+					"description": "[Impulsive 1]\n'You look like you could use some help. Spill it.'",
+					"condition": "trait_Temper_highest_gte_1",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_initial_plea"
+						}
+					]
+				},
+				{
+					"id": "opt_shady_observe_first",
+					"description": "[Perception 4]\n'Let's just watch him for a moment. See what we can glean.'",
+					"condition": "stat_Perception_party_highest_gte_7",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_observation_reveals"
+						}
+					]
+				},
+				{
+					"id": "opt_shady_offer_drink",
+					"description": "'[Gold 20]\nBuy the man a proper drink. Might loosen his tongue.'",
+					"condition": "gold_20",
+					"outcomes": [
+						{
+							"type": "gold",
+							"change": -20
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_initial_plea"
+						}
+					]
+				},
+				{
+					"id": "opt_shady_ignore_return_tavern",
+					"description": "He's probably just another down-on-his-luck drunk. Return to the tavern.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_shady_observation_reveals",
+			"name": "A Desperate Man",
+			"description": "Your keen observation reveals more than just nerves. The man clutches a small, worn pouch tightly, his knuckles white. His gaze keeps flicking towards the tavern door and any well-armed patrons. He mutters to himself, something about 'the whispers' and 'owed debts'. He's not just scared; he's desperate.",
+			"possibilities": [
+				{
+					"id": "opt_shady_approach_after_observation",
+					"description": "Now approach him, armed with this insight.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_initial_plea"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_shady_figure_initial_plea",
+			"name": "Silas Thorne's Plea",
+			"description": "Silas Thorne, as he is named, jumps as you properly address him. 'You... you look capable,' he stammers, eyes wide. 'I... I need help. A delicate matter. Retrieval. An old family... heirloom. Lost. It's... important. Very important. And dangerous to acquire. Are you... discrete? And brave?'",
+			"possibilities": [
+				{
+					"id": "opt_shady_ask_for_details",
+					"description": "'An heirloom? Tell us more. What is it, and where?'",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_quest_offer_relic"
+						}
+					]
+				},
+				{
+					"id": "opt_shady_ask_payment_first",
+					"description": "[Self-Serving 1]\n'Dangerous work costs. What's the pay?'",
+					"condition": "trait_Ethics_party_any_lte_-1",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_quest_offer_relic"
+						}
+					]
+				},
+				{
+					"id": "opt_shady_decline_initial_plea",
+					"description": "'Sounds like trouble we don't need. Good luck to you.'",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_shady_figure_quest_offer_relic",
+			"name": "The Obsidian Whisper - The Offer",
+			"description": "Silas leans in, voice dropping to a conspiratorial whisper. 'It's called the... well, some call it the Obsidian Whisper. A staff... or parts of one. My employer wants it back badly. He says it was last seen in pieces, scattered across some godsforsaken places : the Cauldron Mountains, the Whispering Hollow, and the Sunken Mire. He'll pay 500 gold for its complete retrieval, plus a bonus for... expediency.' He avoids eye contact when mentioning the 'whisper' part.",
+			"possibilities": [
+				{
+					"id": "opt_quest_accept_obsidian_whisper",
+					"description": "Accept the quest. 'We'll find your 'Obsidian Whisper'.'",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_relic_initial_location_choice"
+						}
+					]
+				},
+				{
+					"id": "opt_quest_ask_more_about_relic",
+					"description": "[Lore 3]\n'A staff in pieces? Sounds unusual. Tell me more about this artifact of yours.'",
+					"condition": "stat_Lore_party_highest_gte_3",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_relic_silas_more_details_artifact"
+						}
+					]
+				},
+				{
+					"id": "opt_quest_ask_more_about_employer",
+					"description": "[Charisma 5]\n'Your employer must be quite powerful to want this so badly. Who is he?'",
+					"condition": "stat_Charisma_party_highest_gte_5",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_relic_silas_more_details_employer"
+						}
+					]
+				},
+				{
+					"id": "opt_quest_decline_obsidian_whisper",
+					"description": "Decline the offer. 'Too vague, too dangerous for that price.'",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_relic_silas_more_details_artifact",
+			"name": "Silas's Reluctant Details",
+			"description": "Silas squirms under your questioning. 'It's... old. Very old. Dark. Some say it... influences things. People. My employer just wants it back, no questions. The less you know, the safer you'll be, eh?' He seems genuinely afraid of the object itself.",
+			"possibilities": [
+				{
+					"id": "opt_details_return_to_offer",
+					"description": "Return to considering his offer.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_quest_offer_relic"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_relic_silas_more_details_employer",
+			"name": "Silas's Employer",
+			"description": "Silas's eyes dart around nervously. 'I... I can't say. He prefers to remain... anonymous. But he's powerful, influential. He can make things happen. Just trust me, you want to stay on his good side.' His voice trembles slightly, betraying his fear of revealing too much.",
+			"possibilities": [
+				{
+					"id": "opt_employer_return_to_offer",
+					"description": "Return to considering his offer.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_shady_figure_quest_offer_relic"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_quest_relic_initial_location_choice",
+			"name": "Choosing the First Hunt",
+			"description": "Barely containing his excitement of having found potential help, Silas quickly lays out the locations where the pieces of the Obsidian Whisper are rumored to be found. He provides crude maps and hearsay about where each piece might lie. 'The Tip was revered by Mire Trolls. The Core, lost in a volcanic hive. The Hilt, guarded by a mad hermit in the Hollow. Where will you begin your search for the Obsidian Whisper?'",
+			"possibilities": [
+				{
+					"id": "opt_relic_choose_mire_start",
+					"description": "Begin the hunt in the Sunken Mire.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermire",
+							"action": "accept"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_relic_act_1_silas_goodbye"
+						}
+					]
+				},
+				{
+					"id": "opt_relic_choose_cauldron_start",
+					"description": "Seek the relic part in the Cauldron Mountains.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispercauldron",
+							"action": "accept"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_relic_act_1_silas_goodbye"
+						}
+					]
+				},
+				{
+					"id": "opt_relic_choose_hollow_start",
+					"description": "Venture into the Whispering Hollow first.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperhollow",
+							"action": "accept"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_relic_act_1_silas_goodbye"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_quest_relic_act_1_silas_goodbye",
+			"name": "Silas's Farewell",
+			"description": "Silas nods eagerly, his eyes gleaming with hope. 'Thank you! Thank you! I'll be here, waiting for news. Remember, the Obsidian Whisper is... important. Be careful. And don't forget about the fat purse waiting for you at the end of your journey !' He quickly slips away into the crowd, leaving you with the weight of your new quest.",
+			"possibilities": [
+				{
+					"id": "opt_gall_tavern_interior",
+					"description": "Return to the tavern to prepare for your journey.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_quest_obsidian_return_to_silas",
+			"name": "Report to Silas Thorne",
+			"description": "You find Silas Thorne in his usual shadowed corner of 'The Bent Mug', looking even more frayed. He practically leaps out of his skin when you approach. 'Well? News? Did you find any... any part of it?'",
+			"possibilities": [
+				{
+					"id": "opt_silas_report_hint_and_piece",
+					"description": "Report your findings from the latest expedition.",
+					"condition": "quest_obsidianwhisperact3_accepted AND flag_obsidian-whisper-part-recovered_gte_1",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_silas_act3_hint_and_piece"
+						}
+					]
+				},
+				{
+					"id": "opt_silas_report_hint_no_piece",
+					"description": "Report your findings from the latest expedition.",
+					"condition": "quest_obsidianwhisperact3_accepted AND NOT flag_obsidian-whisper-part-recovered_gte_1 AND flag_obsidian-whisper-hints_gte_2",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_silas_act3_hint_no_piece"
+						}
+					]
+				},
+				{
+					"id": "opt_silas_report_no_hint_no_piece",
+					"description": "Report your findings from the latest expedition.",
+					"condition": "quest_obsidianwhisperact3_accepted AND NOT flag_obsidian-whisper-part-recovered_gte_1 AND NOT flag_obsidian-whisper-hints_gte_2",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_silas_act3_no_hint_no_piece"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_silas_act3_hint_and_piece",
+			"name": "Valerius's Shadow & A New Bargain",
+			"description": "Silas pales as you recount your full findings, and present the staff piece you recovered. 'Valerius!' he hisses. 'Councilman Valerius! That ambitious snake. He's trying to assemble the Staff of Whispered Dominion! My employer... he will want this stopped, and the full staff secured.' Silas offers you a pouch of 200 gold for your efforts so far. 'Valerius will be attempting his ritual soon, likely in his manor. Retrieve the complete staff from him. The reward will be legendary, I can assure you.'\n\n[QuestRewardSummary]",
+			"possibilities": [
+				{
+					"id": "opt_silas_accept_manor_heist_deal",
+					"description": "Accept the new contract: Infiltrate Valerius's manor.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "accept"
+						},
+						{
+							"type": "gold",
+							"change": 200
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_prepare_valerius_manor_heist"
+						}
+					]
+				},
+				{
+					"id": "opt_silas_decline_manor_heist",
+					"description": "Decline. This seems too dangerous, even for the gold offered.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "turn"
+						},
+						{
+							"type": "gold",
+							"change": 200
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_silas_decline_manor_heist"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_silas_act3_hint_no_piece",
+			"name": "Valerius's Triumph & A Desperate Plea",
+			"description": "Silas listens with growing concerns as you detail the pale woman that you encountered, her actions and the connection with a well-established person from Gall she seems to have. You also confirm you couldn't secure any staff pieces. 'That must be Valerius. And now, he has them all then...' he despairs. 'He'll attempt his ritual! My employer...' He offers a smaller pouch, 100 gold. 'A token for the dire news. But there's still a chance. If you infiltrate his manor, disrupt the ritual, perhaps retrieve the staff... the original reward, and more, still stands! It's our only hope.'",
+			"possibilities": [
+				{
+					"id": "opt_silas_accept_manor_heist_desperate",
+					"description": "Agree. It's a long shot, but Valerius must be stopped.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "accept"
+						},
+						{
+							"type": "gold",
+							"change": 100
+						},
+						{
+							"type": "xp",
+							"amount": 250
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_prepare_valerius_manor_heist"
+						}
+					]
+				},
+				{
+					"id": "opt_silas_decline_manor_heist_no_piece",
+					"description": "Decline. The risk is too great with no leverage.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisper_main",
+							"action": "fail"
+						},
+						{
+							"type": "gold",
+							"change": 100
+						},
+						{
+							"type": "xp",
+							"amount": 250
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_silas_decline_manor_heist"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_silas_act3_no_hint_no_piece",
+			"name": "A Complete Failure",
+			"description": "Silas slumps as you report your complete failure to secure any pieces or significant clues about the broader conspiracy. 'Lost... all lost then,' he whispers, looking utterly defeated. He offers a paltry sum, 50 gold. 'For your wasted time. There's nothing more to be done. Now get the hell out of my sight'.",
+			"possibilities": [
+				{
+					"id": "opt_silas_accept_failure_payment_leave",
+					"description": "Take the meager payment and leave Silas.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "turn"
+						},
+						{
+							"type": "gold",
+							"change": 50
+						},
+						{
+							"type": "xp",
+							"amount": 100
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_tavern_interior"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_prepare_valerius_manor_heist",
+			"name": "Silas's Brief",
+			"description": "Silas Thorne, though visibly terrified of Valerius, provides what little information he has gleaned about the Councilman's manor. 'It's in the Nobles' Quarter, naturally. Walls are high, guards are numerous and loyal. Valerius is paranoid; expect traps. He's supposedly converted the old wine cellars into some sort of... ritual space. That's where the Staff of Whispered Dominion will be. Get in, get the staff, and get out. I... I can't offer much help with the 'how', that's your expertise.'",
+			"possibilities": [
+				{
+					"id": "opt_manor_heist_scout_stealth_silas",
+					"description": "'We'll scout for a weakness – sewers, rooftops, a blind spot.'",
+					"outcomes": [
+						{
+							"type": "flag_set",
+							"flag": "silas_involved_heist",
+							"value": 1
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_stealth_scouting"
+						}
+					]
+				},
+				{
+					"id": "opt_manor_heist_disguise_silas",
+					"description": "'Perhaps disguises? Service entrance, deliver a message...'",
+					"outcomes": [
+						{
+							"type": "flag_set",
+							"flag": "silas_involved_heist",
+							"value": 1
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_disguise_prep"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_guild",
+			"name": "Mercenaries' Guild Hall",
+			"description": "The Guild Hall is a cavernous, echoing space built for function over comfort. The air smells faintly of old parchment, oiled leather, and nervous sweat. Rough-looking individuals study a large, crowded noticeboard plastered with contracts, while others wait on worn benches, sharpening blades or exchanging hushed words. A stern-faced clerk presides over a heavy oak counter, ready to deal in coin and contracts.",
+			"possibilities": [
+				{
+					"id": "opt_guild_noticeboard",
+					"description": "Examine the noticeboard for available contracts.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				},
+				{
+					"id": "opt_guild_clerk_interaction",
+					"description": "Report to the clerk about a completed task.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_clerk_interaction"
+						}
+					]
+				},
+				{
+					"id": "opt_guildhall_exit",
+					"description": "Leave the Guild Hall and return to the city streets.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "gall"
+						}
+					]
+				}
+			]
+		},
+		{
 			"id": "evt_guild_noticeboard",
-			"description": "Examine the noticeboard for available contracts."
-		  },
-		  {
+			"name": "The Contract Board",
+			"description": "The noticeboard is a chaotic tapestry of handwritten pleas, official-looking bounties, and desperate missives, all vying for attention. You find a few generic missions that you could take, low risk, low reward. Amidst the usual requests for rat extermination and debt collection, some particular postings stand out, promising greater risk and reward.",
+			"possibilities": [
+				{
+                    "id": "opt_gall_get_radiant_quest",
+                    "description": "Take a look at some of the generic contracts available.",
+                    "condition": "NOT radiant_quest_active",
+                    "outcomes": [
+                        {
+                            "type": "new_radiant_quest"
+                        }
+                    ]
+                },
+				{
+					"id": "opt_quest_read_cauldron_easy",
+					"description": "Read the contract: 'Lost Spark in the Soot'.",
+					"condition": "NOT (quest_sparksoot_accepted)",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_read_cauldron_easy"
+						}
+					]
+				},
+				{
+					"id": "opt_quest_read_hollow_hard",
+					"description": "Read the contract: 'Whispering Hollow Eradication'.",
+					"condition": "NOT (quest_holloweradication_accepted)",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_read_hollow_hard"
+						}
+					]
+				},
+				{
+					"id": "opt_gall_guildhall_entry",
+					"description": "Step back from the board and return to the Guild Hall's main floor.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_guild"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_read_cauldron_easy",
+			"name": "Lost Spark in the Soot",
+			"description": "A contract seeking assistance in the Cauldron Mountains. The prospector Elara Vayne has gone missing, and her last known location is near a drake's nest. The Guild offers 100 gold for any information about her fate, and 200 gold for the recovery of her safe return.",
+			"possibilities": [
+				{
+					"id": "opt_quest_accept_cauldron_easy",
+					"description": "Accept the contract and return to the noticeboard.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "sparksoot",
+							"action": "accept"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				},
+				{
+					"id": "opt_guild_noticeboard",
+					"description": "Return to the noticeboard.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_read_hollow_hard",
+			"name": "Whispering Hollow Eradication",
+			"description": "A contract seeking assistance in the Whispering Hollow. The Guild has received reports of a growing cult in the area, and they are offering 200 gold for the head of their leader. The task is marked as dangerous, with a warning about the potential for ambushes.",
+			"possibilities": [
+				{
+					"id": "opt_quest_accept_hollow_hard",
+					"description": "Accept the contract and return to the noticeboard.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "holloweradication",
+							"action": "accept"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				},
+				{
+					"id": "opt_guild_noticeboard",
+					"description": "Return to the noticeboard.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				}
+			]
+		},
+		{
 			"id": "evt_guild_clerk_interaction",
-			"description": "Report to the clerk about a completed task."
-		  },
-		  {
-			"id": "gall",
-			"description": "Leave the Guild Hall and return to the city streets."
-		  }
-		]
-	  },
-	  {
-		"id": "evt_guild_noticeboard",
-		"name": "The Contract Board",
-		"description": "The noticeboard is a chaotic tapestry of handwritten pleas, official-looking bounties, and desperate missives, all vying for attention. Amidst the usual requests for rat extermination and debt collection, two particular postings stand out, promising greater risk and reward.",
-		"possibilities": [
-		  {
-			"id": "opt_quest_accept_cauldron_easy",
-			"description": "Take contract: 'Lost Spark in the Soot' (Cauldron Mountains).",
-			"condition": "not(quest_001_accepted)"
-		  },
-		  {
-			"id": "opt_quest_accept_hollow_hard",
-			"description": "Take contract: 'Whispering Hollow Eradication' (Whispering Hollow).",
-			"condition": "not(quest_002_accepted)"
-		  },
-		  {
-			"id": "evt_gall_guildhall_entry",
-			"description": "Step back from the board and return to the Guild Hall's main floor."
-		  }
-		]
-	  },
-	  {
-		"id": "evt_guild_clerk_interaction",
-		"name": "Reporting to the Guild Clerk",
-		"description": "You approach the heavy oak counter. The Guild Clerk, a man with eyes that seem to have tallied countless grim bargains, looks up from his ledger, quill poised. 'Report?' he asks, his voice flat and devoid of warmth.",
-		"possibilities": [
-		  {
-			"id": "opt_turn_in_quest_cauldron",
-			"description": "Report completion of 'Lost Spark in the Soot'.\n Receive your reward (100 gold, 1500 XP).",
-			"condition": "quest_001_accomplished"
-		  },
-		  {
-			"id": "opt_turn_in_quest_hollow",
-			"description": "Report completion of 'Whispering Hollow Eradication'.\n Receive your reward (200 gold, 4000 XP).",
-			"condition": "quest_002_accomplished"
-		  },
-		  {
-			"id": "evt_gall_guildhall_entry",
-			"description": "State you have nothing to report at this time."
-		  }
-		]
-	  }
+			"name": "Reporting to the Guild Clerk",
+			"description": "You approach the heavy oak counter. The Guild Clerk, a man with eyes that seem to have tallied countless grim bargains, looks up from his ledger, quill poised. 'Report?' he asks, his voice flat and devoid of warmth.",
+			"possibilities": [
+                {
+                    "id": "evt_gall_turn_in",
+                    "description": "Report a completed task.",
+                    "condition": "radiant_quest_can_turn_in_gall",
+                    "outcomes": [
+                        {
+                            "type": "turn_in_radiant_quest"
+                        }
+                    ]
+                },
+				{
+					"id": "opt_turn_in_quest_cauldron",
+					"description": "Report completion of 'Lost Spark in the Soot'.",
+					"condition": "quest_sparksoot_accomplished AND NOT quest_sparksoot_turned",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "sparksoot",
+							"action": "turn"
+						},
+						{
+							"type": "gold",
+							"change": 100
+						},
+						{
+							"type": "xp",
+							"amount": 1500
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_turn_in_sparksoot"
+						}
+					]
+				},
+				{
+					"id": "opt_turn_in_quest_hollow",
+					"description": "Report completion of 'Whispering Hollow Eradication'.",
+					"condition": "quest_holloweradication_accomplished AND NOT quest_holloweradication_turned",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "holloweradication",
+							"action": "turn"
+						},
+						{
+							"type": "gold",
+							"change": 200
+						},
+						{
+							"type": "xp",
+							"amount": 4000
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_turn_in_holloweradication"
+						}
+					]
+				},
+				{
+					"id": "opt_gall_guildhall_entry",
+					"description": "State you have nothing to report at this time.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_guild"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_guild_turn_in_sparksoot",
+			"name": "Turning in the Spark",
+			"description": "The Guild Clerk takes the details of your successful mission with a nod, his expression unchanged. 'Elara Vayne's fate is noted. The 100 gold is yours.' He hands you a small pouch, its weight reassuring. 'Your reputation grows. More work will come.'\n\n[QuestRewardSummary]",
+			"possibilities": [
+				{
+					"id": "opt_guild_noticeboard_after_spark",
+					"description": "Return to the noticeboard for more contracts.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_guild_turn_in_holloweradication",
+			"name": "Turning in the Hollow Task",
+			"description": "The Guild Clerk listens to your report on the Whispering Hollow cult with a grim nod. 'A dangerous task, well done. The 200 gold is yours.' He hands you a heavier pouch, its contents clinking softly. 'Your actions have not gone unnoticed. The Guild appreciates your service.'\n\n[QuestRewardSummary]",
+			"possibilities": [
+				{
+					"id": "opt_guild_noticeboard_after_hollow",
+					"description": "Return to the noticeboard for more contracts.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_guild_noticeboard"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_investigate_valerius_start",
+			"name": "Unmasking the Councilman",
+			"description": "Your findings from the wilds, particularly the Coiled Serpent and Tower sigil, point towards powerful, clandestine forces operating within Gall itself. It's time to gather concrete proof and understand his plans before confronting him or his operations directly.",
+			"possibilities": [
+				{
+					"id": "opt_valerius_research_archives",
+					"description": "[Lore 5]\nConsult Gall's archives about the sigil, and any known occult dealings.",
+					"condition": "stat_Lore_party_highest_gte_5",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_library_research_valerius"
+						}
+					]
+				},
+				{
+					"id": "opt_valerius_gather_underworld_rumors",
+					"description": "[Charisma 4][Gold 50]\nSeek out informants in Gall's underbelly.",
+					"condition": "stat_Charisma_party_highest_gte_4",
+					"outcomes": [
+						{
+							"type": "gold",
+							"change": -50
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_underworld_rumors_valerius"
+						}
+					]
+				},
+				{
+					"id": "opt_valerius_return_to_silas_option",
+					"description": "Perhaps you should seek Silas' help to uncover all of this.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_obsidian_return_to_silas"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_library_research_valerius",
+			"name": "The Scholar's Findings",
+			"description": "You find a dusty tome in the archives detailing a secretive cabal, the Obsidian Circle, rumored to be led by a powerful councilman named Valerius. The tome describes their sigil: a coiled serpent entwined around a tower, the same as the one you found in the wilds. It also mentions their dealings in dark magic and political manipulation.",
+			"possibilities": [
+				{
+					"id": "opt_valerius_plan_self_heist",
+					"description": "Armed with this knowledge, you can plan a heist on Valerius's manor to retrieve the Obsidian Whisper.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_prepare_valerius_self_manor_heist"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "accept"
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				},
+				{
+					"id": "opt_valerius_research_return_to_silas",
+					"description": "With this new lead, return to Silas Thorne to plan your next move.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_obsidian_return_to_silas"
+						},
+						{
+							"type": "flag_set",
+							"flag": "flag_obsidian-whisper-hints",
+							"value": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_underworld_rumors_valerius",
+			"name": "Whispers of the Underworld",
+			"description": "In a dimly lit tavern, you meet a grizzled informant who shares, for a hefty price, intel on someone who has been searching for the Obsidian Whisper, a Councilman named Valerius. 'He's not just a councilman,' he says, voice low. 'He's part of something bigger. The Obsidian Circle. They deal in dark magic, power plays... and they don't take kindly to those who pry too much.' He hands you a small, engraved token bearing the same sigil you found earlier.",
+			"possibilities": [
+				{
+					"id": "opt_valerius_plan_self_heist_underworld",
+					"description": "Armed with this knowledge, you can plan a heist on Valerius's manor to retrieve the Obsidian Whisper.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_gall_prepare_valerius_self_manor_heist"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhisperact3",
+							"action": "turn"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "accept"
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				},
+				{
+					"id": "opt_valerius_rumors_return_to_silas",
+					"description": "With this new lead, return to Silas Thorne to plan your next move.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_quest_obsidian_return_to_silas"
+						},
+						{
+							"type": "flag_set",
+							"flag": "flag_obsidian-whisper-hints",
+							"value": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_gall_prepare_valerius_self_manor_heist",
+			"name": "Planning the Infiltration",
+			"description": "Your own investigations have confirmed Councilman Valerius is the one seeking the Staff of Whispered Dominion, likely for a dark ritual in his manor's cellars. The manor is a veritable fortress in Gall's Nobles' Quarter. You'll need a solid plan to breach its defenses, secure the staff, and deal with Valerius's operation.",
+			"possibilities": [
+				{
+					"id": "opt_manor_heist_scout_stealth_self",
+					"description": "'A thorough reconnaissance should reveal a subtle entry point.'",
+					"outcomes": [
+						{
+							"type": "flag_set",
+							"flag": "silas_involved_heist",
+							"value": 0
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_stealth_scouting"
+						}
+					]
+				},
+				{
+					"id": "opt_manor_heist_disguise_self",
+					"description": "'With the right attire and a convincing story, we might walk right in.'",
+					"outcomes": [
+						{
+							"type": "flag_set",
+							"flag": "silas_involved_heist",
+							"value": 0
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_disguise_prep"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_stealth_scouting",
+			"name": "Shadows and Stone",
+			"description": "Under the cover of Gall's perpetual gloom, you spend hours observing Valerius's manor. The main gates are heavily guarded, patrols are regular. However, you end up discovering a crumbling section of the outer garden wall hidden by overgrown ivy that might allow access to the grounds.",
+			"possibilities": [
+				{
+					"id": "opt_stealth_choose_wall",
+					"description": "Try to scale the crumbling garden wall.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_wall_entry"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_wall_entry",
+			"name": "Over the Ivy",
+			"description": "The crumbling wall is treacherous. Successfully scaling it grants access to the manor's dark, overgrown gardens. From here, a servant's entrance is accessible with further stealth.",
+			"possibilities": [
+				{
+					"id": "opt_wall_sneak_to_servant_door",
+					"description": "Sneak towards a servant's entrance.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_servant_quarters_entry"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_disguise_prep",
+			"name": "Borrowed Plumes",
+			"description": "Acquiring convincing disguises takes resources and cunning. You could try to 'procure' livery by purchasing convincing fakes from a shady outfitter.",
+			"possibilities": [
+				{
+					"id": "opt_disguise_purchase_fakes",
+					"description": "[Gold 100]\nPurchase high-quality fake livery.",
+					"condition": "gold_100",
+					"outcomes": [
+						{
+							"type": "gold",
+							"change": -100
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_disguise_entry_attempt"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_disguise_entry_attempt",
+			"name": "The Gates of Valerius",
+			"description": "Clad in your disguises as servents, you approach the main gates. Stern-faced guards eye you suspiciously. 'State your business,' one barks.",
+			"possibilities": [
+				{
+					"id": "opt_disguise_bluff_success",
+					"description": "Attempt to bluff your way past the guards.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_courtyard_access"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_courtyard_access",
+			"name": "Within the Walls",
+			"description": "You've made it past the outer defenses and now stand in the manor's main courtyard. Patrols are still a threat, and all doors and windows are likely locked or watched. The path to the cellars, and the Staff, lies deeper within.",
+			"possibilities": [
+				{
+					"id": "opt_manor_find_cellar_entrance",
+					"description": "Search for direct access to the cellars.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_cellar_approach"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_servant_quarters_entry",
+			"name": "Servants' Domain",
+			"description": "You slip into the servant quarters. It's quieter here, but staff are present and would raise an alarm if they spot intruders. You might overhear useful gossip or find keys, but lingering too long is risky.",
+			"possibilities": [
+				{
+					"id": "opt_servants_sneak_to_cellars",
+					"description": "Attempt to find a route to the cellars from here.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_cellar_approach"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_cellar_approach",
+			"name": "Descent into Darkness",
+			"description": "You find a heavy, locked door or a steep staircase leading down into the gloom – undoubtedly the way to Valerius's cellars. The air grows colder, and a faint, unsettling hum can be felt more than heard. The lock looks sturdy.",
+			"possibilities": [
+				{
+					"id": "opt_cellar_pick_lock_kaelen_alive",
+					"description": "Attempt to pick the lock to the cellars.",
+					"condition": "flag_kaelen-alive_gte_1",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_cellar_entry_unlocked_kaelen_alive"
+						}
+					]
+				},
+				{
+					"id": "opt_cellar_pick_lock_kaelen_dead",
+					"description": "Attempt to pick the lock to the cellars.",
+					"condition": "NOT flag_kaelen-alive_gte_1",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_cellar_entry_unlocked_kaelen_dead"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_cellar_entry_unlocked_kaelen_alive",
+			"name": "The Ritual Chamber's Antechamber",
+			"description": "The way is open. A stone passage slopes downwards, the unsettling hum growing stronger. You can hear voices ahead – hushed, urgent tones, and the clang of armor. Kaelen Vane and a contingent of Valerius's elite guards are stationed here, guarding the entrance to what must be the ritual chamber.",
+			"possibilities": [
+				{
+					"id": "opt_cellar_confront_kaelen_guards",
+					"description": "Confront Kaelen and the guards!",
+					"outcomes": [
+						{
+							"type": "start_fight",
+							"enemies": [
+								{
+									"archetype": "Kaelen Vane",
+									"count": 1,
+									"level": 6
+								},
+								{
+									"archetype": "Mercenary Guard",
+									"name": "Valerius Elite Guard",
+									"count": 3,
+									"level": 5
+								}
+							],
+							"event_id_victory": "evt_manor_heist_final_guards_defeated",
+							"event_id_defeat": "evt_manor_heist_captured"
+						}
+					]
+				},
+				{
+					"id": "opt_cellar_try_stealth_past_guards",
+					"description": "[Perception 9 + Survival 8]\nAttempt to find a way to sneak past this final guard post.",
+					"condition": "stat_Perception_party_highest_gte_9 AND stat_Survival_party_average_gte_8",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "ev"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_cellar_entry_unlocked_kaelen_dead",
+			"name": "The Ritual Chamber's Antechamber",
+			"description": "The way is open. A stone passage slopes downwards, the unsettling hum growing stronger. You can hear voices ahead – hushed, urgent tones, and the clang of armor. A contingent of Valerius's elite guards are stationed here, guarding the entrance to what must be the ritual chamber.",
+			"possibilities": [
+				{
+					"id": "opt_cellar_confront_guards",
+					"description": "Confront the guards!",
+					"outcomes": [
+						{
+							"type": "start_fight",
+							"enemies": [
+								{
+									"archetype": "Mercenary Guard",
+									"name": "Valerius Elite Guard",
+									"count": 4,
+									"level": 5
+								}
+							],
+							"event_id_victory": "evt_manor_heist_final_guards_defeated",
+							"event_id_defeat": "evt_manor_heist_captured"
+						}
+					]
+				},
+				{
+					"id": "opt_cellar_try_stealth_past_guards",
+					"description": "[Perception 9 + Survival 8]\nAttempt to find a way to sneak past this final guard post.",
+					"condition": "stat_Perception_party_highest_gte_9 AND stat_Survival_party_average_gte_8",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_ritual_chamber_stealth_success"
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"id": "evt_manor_heist_final_guards_defeated",
+			"name": "Guardians Down",
+			"description": "Valerius's elite guard lie defeated. The way into the ritual chamber is clear. The humming energy from beyond the final door is almost unbearable. This is it.",
+			"possibilities": [
+				{
+					"id": "opt_manor_enter_ritual_chamber",
+					"description": "Enter the ritual chamber.",
+					"condition": "flag_silas-involved_heist_gte_1",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "accomplish"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_conclusion_silas_awaits"
+						}
+					]
+				},
+				{
+					"id": "opt_manor_enter_ritual_chamber_no_silas",
+					"description": "Enter the ritual chamber.",
+					"condition": "NOT flag_silas-involved_heist_gte_1",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "accomplish"
+						},
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_conclusion_no_silas"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_captured",
+			"name": "Captured!",
+			"description": "You are overwhelmed by Valerius' guards. Bound and blindfolded, you are dragged deeper into the manor.",
+			"possibilities": [
+				{
+					"id": "opt_manor_captured_wait_for_rescue",
+					"description": "Wait in the small cell you've been assigned to.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_captured_waiting"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_captured_waiting",
+			"name": "A Ray of Hope",
+			"description": "Days pass in the dark cell. Just as despair sets in, a letter is slipped under the door. It's from Silas Thorne, who has greased the palms of some guards to gain access. 'The guards won't stop you. Get out of here. Don't try to find me, you failed miserably. My master has no more use for you.'",
+			"possibilities": [
+				{
+					"id": "opt_manor_rescue_join_silas",
+					"description": "Take the door, who is now unlocked, \nand get the hell out of here.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_conclusion_failed"
+						},
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "turn"
+						},
+						{
+							"type": "xp",
+							"amount": 500
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_ritual_chamber_stealth_success",
+			"name": "The Ritual Chamber",
+			"description": "You manage to slip past the guards, entering the ritual chamber undetected. The room is vast, filled with dark stone pillars and an altar at its center. The air hums with dark energy, and you can find the staff, ready to be activated, resting on the altar. You seize it, and get the hell out of there before anyone notices.",
+			"possibilities": [
+				{
+					"id": "opt_manor_ritual_chamber_steal_staff",
+					"description": "Steal the Staff of Whispered Dominion and get out of the manor.",
+					"condition": "NOT flag_silas-involved_heist_gte_1",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_conclusion_no_silas"
+						}
+					]
+				},
+				{
+					"id": "opt_manor_ritual_chamber_steal_staff_silas",
+					"description": "Steal the Staff of Whispered Dominion and get out of the manor.",
+					"condition": "flag_silas-involved_heist_gte_1",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_conclusion_silas_awaits"
+						}
+					]
+				},
+				{
+					"id": "evt_manor_heist_conclusion_silas_awaits",
+					"name": "The Staff in Hand",
+					"description": "With the Staff of Whispered Dominion in your possession, you get out of the manor, only to find out Silas waiting nearby for you with some guards. He looks at the staff with a mix of awe and fear. 'You did it,' he says, voice trembling. 'This... this is more than I hoped for. The Obsidian Circle will be furious.' He hands you a heavy pouch of gold and a promise of future aid. 'Goodbye adventurers. My master sends his regards.'",
+					"possibilities": [
+						{
+							"id": "opt_manor_conclusion_silas_reward",
+							"description": "Accept Silas's reward and leave.",
+							"outcomes": [
+								{
+									"type": "quest_update",
+									"quest_id": "obsidianwhispermanorheist",
+									"action": "turn"
+								},
+								{
+									"type": "gold",
+									"change": 500
+								},
+								{
+									"type": "xp",
+									"amount": 2000
+								},
+								{
+									"type": "next_event",
+									"event_id": "gall"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_conclusion_no_silas",
+			"name": "The Staff in Hand",
+			"description": "With the Staff of Whispered Dominion in your possession, you make your way out of the manor. The guards are confused, but you manage to slip past them unnoticed. You leave the city, staff in hand, ready to face whatever comes next. You could return to Silas Thorne, but after all, you have no obligation to do so. You could keep this powerful artifact to yourself, as would have no idea who to blame.",
+			"possibilities": [
+				{
+					"id": "opt_manor_conclusion_no_silas_reward",
+					"description": "Keep the staff to yourself \nand put this adventure behind you.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "turn"
+						},
+						{
+							"type": "xp",
+							"amount": 2000
+						},
+						{
+							"type": "next_event",
+							"event_id": "gall"
+						}
+					]
+				},
+				{
+					"id": "opt_manor_conclusion_no_silas_return_to_silas",
+					"description": "Return to Silas Thorne with the staff.",
+					"outcomes": [
+						{
+							"type": "next_event",
+							"event_id": "evt_manor_heist_conclusion_silas_goodbye"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "evt_manor_heist_conclusion_silas_goodbye",
+			"name": "The Staff in Hand",
+			"description": "With the Staff of Whispered Dominion in your possession, you return to Silas Thorne. He greets you with a nod of respect. 'You did it,' he says, voice steady. 'This staff is more powerful than I imagined. The Obsidian Circle will be furious.' He hands you a heavy pouch of gold and a promise of future aid. 'Goodbye adventurers. My master sends his regards.'",
+			"possibilities": [
+				{
+					"id": "opt_manor_conclusion_silas_reward",
+					"description": "Accept Silas's reward and leave.",
+					"outcomes": [
+						{
+							"type": "quest_update",
+							"quest_id": "obsidianwhispermanorheist",
+							"action": "turn"
+						},
+						{
+							"type": "gold",
+							"change": 500
+						},
+						{
+							"type": "xp",
+							"amount": 2000
+						},
+						{
+							"type": "next_event",
+							"event_id": "gall"
+						}
+					]
+				}
+			]
+		}
 	]
-  }
+}

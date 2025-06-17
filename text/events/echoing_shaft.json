@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "echoing_shaft",
+            "name": "The Echoing Shaft",
+            "description": "This is the abandoned mine of Ashfall. Unlike the main Cran mines, this place is utterly still. The entrance is choked with rubble and rotting timbers, left behind by the goblins after they stripped it of anything valuable. A steady drip of water from the ceiling is the only sound, each drop echoing unnervingly in the oppressive silence of the deep. This place has been forgotten by the world.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "This forgotten place is best left alone."
+                }
+            ]
+        }
+    ]
+}

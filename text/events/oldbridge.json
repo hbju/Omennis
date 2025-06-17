@@ -1,0 +1,50 @@
+{
+    "events": [
+        {
+            "id": "oldbridge",
+            "name": "The City of Oldbridge",
+            "description": "You arrive at the banks of the Logauc river, where the city of Oldbridge pulses with the frantic energy of newfound wealth. Since Cran's fall to the goblins, this once-modest town has become the kingdom's new mining heart. The city is a chaotic jumble of construction; older, modest stone buildings are crowded by new, hastily erected timber structures and webs of scaffolding. The air is a gritty cocktail of river mist, sawdust, and the metallic tang of coal smoke from the ever-active smelters. The Logauc itself is choked with barges, laden with ore heading downstream.",
+            "possibilities": [
+                {
+                    "id": "evt_oldbridge_guild",
+                    "description": "Find the Mercenaries' Guild; it's sure to be doing brisk business."
+                },
+                {
+                    "id": "leave",
+                    "description": "Leave the city."
+                }
+            ]
+        },
+        {
+            "id": "evt_oldbridge_guild",
+            "name": "Oldbridge Mercenaries' Guild",
+            "description": "The Guild operates from a newly-constructed timber hall that smells strongly of fresh pine and stale ale. The atmosphere inside is loud and pragmatic, filled with prospectors, caravan masters, and grim-faced mercenaries looking for their next payout. The contract board is a testament to the city's problems and profits: bounties for protecting ore shipments, clearing monsters from new mining claims, and 'settling' disputes between aggressive prospectors.",
+            "possibilities": [
+                {
+                    "id": "evt_oldbridge_get_quest",
+                    "description": "Look for a profitable contract.",
+                    "condition": "NOT radiant_quest_active",
+                    "outcomes": [
+                        {
+                            "type": "new_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "evt_oldbridge_turn_in",
+                    "description": "Report a completed job.",
+                    "condition": "radiant_quest_can_turn_in_oldbridge",
+                    "outcomes": [
+                        {
+                            "type": "turn_in_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "oldbridge",
+                    "description": "Return to the noise and mud of the city streets."
+                }
+            ]
+        }
+    ]
+}

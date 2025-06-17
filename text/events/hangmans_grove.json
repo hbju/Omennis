@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "hangmans_grove",
+            "name": "The Hangman's Grove",
+            "description": "In the midst of the vast, rolling plains stands the Hangman's Grove, a tight, isolated cluster of ancient, gnarled oaks. It's the only feature for miles, a dark knot of wood and shadow on the open grasslands. A strange silence hangs under its boughs, and its largest tree bears a single, thick, low-hanging branch that looks unnervingly like a gibbet. It's a place travelers speak of in hushed tones, a known haunt for bandits and worse.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Keep to the open plains and give the grove a wide berth."
+                }
+            ]
+        }
+    ]
+}

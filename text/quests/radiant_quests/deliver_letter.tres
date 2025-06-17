@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://d25iqu201fjr1"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_m1uss"]
+
+[resource]
+script = ExtResource("1_m1uss")
+quest_type = 2
+quest_id_prefix = "rad_deliver_letter"
+title_template = "Deliver a Letter to [LocationName]"
+description_template = "A guild master in [CityName] has a letter that needs to be delivered to [LocationName]. Travel there and deliver the letter. [LocationDistance]"
+offer_description = "You find a contract on the guild board. The local guild master needs you to deliver a sealed letter. You go to him to ask for more information.\n 'This needs to get to [LocationName]. It's important, so please be quick about it. You'll be rewarded 100 gold for your efforts.'  [LocationDistance]"
+location_entry_description = "Entering the guild hall at [LocationName], you see the familiar sight of mercenaries preparing for their next mission. You approach the counter where a guild member awaits."
+location_post_objective_victory_description = "The [EnemyName]s are gone. [LocationName] is quiet now. You should return to [CityName] to claim your reward."
+location_post_objective_failure_description = "The [EnemyName]s were too strong. You barely escaped with your life. You should regroup and try again later."
+turn_in_description = "'Well done,' the guild master says, as you give him the sealed letter. He drops a pouch of coins on the counter. 'Here is your 100 gold, as promised.'\n\n[QuestRewardSummary]"
+location_tag_required = "city"
+min_player_level = 1
+enemy_archetype = "Brute Marauder"
+count = 2
+level = 1
+reward_gold = 100
+reward_xp = 300

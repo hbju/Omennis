@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bnel1clkuwbpb" path="res://assets/ui/party_ui/armoury_body_merge.png" id="2_sxwhk"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_t6wy0"]
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="4_baxa8"]
-[ext_resource type="Texture2D" uid="uid://gwydou43ppsm" path="res://assets/ui/events_ui/pictures/gall.png" id="4_it7lx"]
+[ext_resource type="Texture2D" uid="uid://dq526cf0awshu" path="res://assets/ui/events_ui/pictures/gall.png" id="4_it7lx"]
 [ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="5_v7vpi"]
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="6_bedjm"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="7_fhrwg"]

@@ -30,6 +30,12 @@ func update_node(new_skill: Skill, party_member: PartyMember):
 
 	skill = new_skill
 	curr_char = party_member
+
+	if party_member.unlocked_skills.has(skill.get_skill_name()):
+		is_unlocked.append(party_member)
+	else:
+		is_unlocked.erase(party_member)
+
 	if previous_node and not previous_node.is_unlocked.has(curr_char):
 		disabled = true
 	else:

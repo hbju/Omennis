@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwx5vgdwyp3rl"]
+[gd_scene load_steps=9 format=3 uid="uid://bwx5vgdwyp3rl"]
 
 [ext_resource type="Script" path="res://scripts/ui/party_ui.gd" id="1_cqsal"]
 [ext_resource type="Texture2D" uid="uid://bnel1clkuwbpb" path="res://assets/ui/party_ui/armoury_body_merge.png" id="2_cnifg"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="3_jkd3s"]
 [ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="4_invhi"]
 [ext_resource type="Texture2D" uid="uid://cygxw5gpduq6s" path="res://assets/chars/male/male_05.png" id="5_qj0u8"]
+[ext_resource type="PackedScene" uid="uid://dvs0op087antk" path="res://scenes/character_sheet_ui.tscn" id="7_mlatf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tyvgq"]
 font = ExtResource("4_invhi")
@@ -146,5 +147,10 @@ grow_vertical = 0
 character_class = ""
 character_level = 0
 character_portrait = 0
+
+[node name="character_sheet_ui" parent="." instance=ExtResource("7_mlatf")]
+visible = false
+layout_mode = 1
+debugging = false
 
 [editable path="bg/displays/main_character_display"]

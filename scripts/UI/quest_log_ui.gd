@@ -20,10 +20,11 @@ func update_ui(quest_log: Dictionary) :
 		quest_button.queue_free()
 	displayed_quest.visible = false
 	
+	curr_quest = 0
 	for i in range(0, quest_log.size()):
 		var quest_state = quest_log[quest_log.keys()[i]]
 		if quest_state != GameState.QUEST_STATE.Turned :  
-			var quest_info = load("res://text/quests/" + "%03d" % quest_log.keys()[i] + ".json").data
+			var quest_info = load("res://text/quests/" + "%s" % quest_log.keys()[i] + ".json").data
 			quests_info.append(quest_info)
 			
 			var quest_button = Button.new()
@@ -31,13 +32,41 @@ func update_ui(quest_log: Dictionary) :
 			quest_button.add_theme_font_size_override("font_size", 30)
 			var quest_title = quest_info.name + (" (Accomplished)" if quest_state == GameState.QUEST_STATE.Accomplished else "") 
 			quest_button.set_text(quest_title)
-			quest_button.pressed.connect(_on_quest_button_pressed.bind(i))
+			quest_button.pressed.connect(_on_quest_button_pressed.bind(curr_quest))
 			quest_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 			quest_button.set_size(Vector2(QUESTS_WIDTH, QUESTS_HEIGHT))
-			quest_button.set_position(Vector2(0, QUESTS_MARGIN + i * (QUESTS_HEIGHT + QUESTS_MARGIN)))
+			quest_button.set_position(Vector2(0, QUESTS_MARGIN + curr_quest * (QUESTS_HEIGHT + QUESTS_MARGIN)))
 			quests_control.add_child(quest_button)
+			curr_quest += 1
+	
+	var rq = RadiantQuestManager.get_active_quest()
+	if not rq.is_empty():
+		var radiant_quest_button = Button.new()
+		radiant_quest_button.add_theme_color_override("font_color", Color(0, 0, 0))
+		radiant_quest_button.add_theme_font_size_override("font_size", 30)
+		var rq_title = rq.title + (" (Accomplished)" if rq.state == "Accomplished" else "")
+		radiant_quest_button.set_text(rq_title)
+		radiant_quest_button.pressed.connect(_on_quest_button_pressed.bind(curr_quest))
+		radiant_quest_button.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+		radiant_quest_button.set_size(Vector2(QUESTS_WIDTH, QUESTS_HEIGHT))
+		radiant_quest_button.set_position(Vector2(0, QUESTS_MARGIN + curr_quest * (QUESTS_HEIGHT + QUESTS_MARGIN)))
+		quests_control.add_child(radiant_quest_button)
+		curr_quest += 1
 
 func _on_quest_button_pressed(index: int) :
+	if index == quests_info.size() :
+		# Radiant Quest
+		var rq = RadiantQuestManager.get_active_quest()
+		if not rq.is_empty():
+			displayed_quest_title.set_text(rq.title)
+			displayed_quest_description.set_text(rq.description)
+			if index != curr_quest :
+				displayed_quest.visible = true
+			else :
+				displayed_quest.visible = not displayed_quest.visible
+			curr_quest = index
+			return
+	
 	var quest_info = quests_info[index]
 	displayed_quest_title.set_text(quest_info.name)
 	displayed_quest_description.set_text(

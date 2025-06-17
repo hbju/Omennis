@@ -11,8 +11,6 @@ var init_pos = null
 
 signal turn_finished
 signal character_died(character)
-signal hover_entered(character)
-signal hover_exited(character)
 
 @onready var health_bar = $health_bar
 @onready var health_label = $health_bar/curr_health
@@ -80,8 +78,6 @@ func _ready() :
 	base_damage = character.base_damage
 	_update_health_bar()
 	_update_shield_bar()
-	mouse_entered.connect(_on_mouse_entered)
-	mouse_exited.connect(_on_mouse_exited)
 	call_deferred("update_status_icons")
 
 
@@ -112,6 +108,7 @@ func attack(new_target: Vector2i, ranged: bool = false) :
 			init_pos = position
 		else : 
 			var path = _calculate_path_to_character(map.local_to_map(new_target))
+			print("path: ", path)
 			init_pos = map.map_to_local(path[path.size() - 2])
 
 func _physics_process(_delta):
@@ -437,12 +434,6 @@ func knockback(knockback_distance: int, direction: int, knockback_damage: float)
 
 
 ## UI
-
-func _on_mouse_entered() : 
-	hover_entered.emit(self)
-
-func _on_mouse_exited() :
-	hover_exited.emit(self)
 
 func update_status_icons():
 	if not is_inside_tree() or not status_effects_container: # Safety check

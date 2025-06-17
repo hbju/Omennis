@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "gnashtooth_caverns",
+            "name": "The Gnash-Tooth Caverns",
+            "description": "At the rugged edge where the Falroh Forest gives way to the Great Mountains, you find the Gnash-Tooth Caverns. This is no natural cave, but a festering goblin warren. The entrance is a wide, messy opening, fortified with crude palisades of sharpened sticks and scavenged metal. The ground is churned mud, littered with filth and gnawed bones. A foul stench of goblin and burnt meat hangs in the air, a blight upon the pristine forest nearby.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "This foul place is not worth the risk today."
+                }
+            ]
+        }
+    ]
+}

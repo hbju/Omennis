@@ -1,0 +1,15 @@
+{
+    "events": [
+        {
+            "id": "fallen_titan",
+            "name": "The Fallen Titan",
+            "description": "You stand in the shadow of the Fallen Titan, a pine tree so ancient and impossibly large that its fall centuries ago reshaped this part of the forest. Its colossal trunk, wider than a house, lies across the landscape, now covered in a thick blanket of moss and sprouting fungi the size of shields. The massive, upturned root ball is a wall of earth and stone, and the hollowed sections of its trunk are large enough to serve as caves, home to all manner of creatures.",
+            "possibilities": [
+                {
+                    "id": "leave",
+                    "description": "Leave the massive landmark behind."
+                }
+            ]
+        }
+    ]
+}

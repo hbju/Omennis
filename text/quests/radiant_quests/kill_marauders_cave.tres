@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://gyyl2aptdvdg"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_m1uss"]
+
+[resource]
+script = ExtResource("1_m1uss")
+quest_type = 0
+quest_id_prefix = "rad_kill_marauders"
+title_template = "Eradicate the Marauders"
+description_template = "A trade caravan was ambushed near [LocationName]. The Mercenaries' Guild has posted a bounty for the heads of the Marauders responsible. [LocationDistance]"
+offer_description = "You find a small note about some enemies that need to be killed. 'A pack of Marauders are causing trouble at [LocationName]. Clear them out and there's 100 gold in it for you. Present to the local guild for the reward' [LocationDistance]"
+location_entry_description = "You arrive at [LocationName]. The signs of Marauder activity are unmistakable. It's time to earn your coin."
+location_post_objective_description = "The Marauders are gone. [LocationName] is quiet now. You should return to [CityName] to claim your reward."
+turn_in_description = "'Well done,' the guild master says, dropping a heavy pouch of coins on the counter. 'Here is your 100g, as promised.'\n\n[QuestRewardSummary]"
+location_tag_required = "cave"
+min_player_level = 1
+enemies = [
+    {"archetype": "Brute Marauder", "count": 2, "level": 1},
+    {"archetype": "Raging Berserker", "count": 1, "level": 2}
+]
+reward_gold = 100
+reward_xp = 500

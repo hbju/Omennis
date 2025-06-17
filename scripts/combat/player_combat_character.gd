@@ -117,7 +117,7 @@ func _input(event):
 
 func _get_move_cells() -> void :
 	if char_statuses["rooted"] > 0 :
-		action_cells = []
+		action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 0, 4).filter(func(cell): return map.cell_occupied(cell) and not map.get_cell_coords(global_position) == cell)
 		current_skill = null
 		return
 	action_cells = map.highlight_neighbours(map.get_cell_coords(global_position), 1, 1, 4)

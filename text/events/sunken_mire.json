@@ -1,0 +1,427 @@
+{
+  "events": [
+    {
+      "id": "sunken_mire",
+      "name": "The Sunken Mire",
+      "description": "The air grows heavy and rank as you approach the Sunken Mire. Twisted, skeletal trees drip with fetid moisture, their roots lost in murky, stagnant water. The ground is a treacherous patchwork of sucking mud and slick, moss-covered logs. A chorus of croaking things and the buzz of biting insects forms a constant, oppressive drone. The scent of decay and stagnant water is overwhelming.",
+      "possibilities": [
+        {
+          "id": "opt_mire_pursue_relic",
+          "description": "Follow Silas's clues towards the heart of the Mire to find the relic.",
+          "condition": "quest_obsidianwhispermire_accepted AND NOT quest_obsidianwhispermire_accomplished",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_pursue_relic"
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "description": "This fetid swamp is too perilous; withdraw."
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_pursue_relic",
+      "name": "Deep Mire Path",
+      "description": "You press deeper into the Sunken Mire, following Silas's vague directions towards a rumored Troll shrine where the 'Sky-Shard Spear-Tip' might be found. The whispers of the Mire grow louder, the footing more treacherous. Strange eyes seem to watch from the murky depths.",
+      "possibilities": [
+        {
+          "id": "opt_shrine_act1",
+          "description": "Continue towards the shrine.",
+          "condition": "NOT (quest_obsidianwhispercauldron_turned AND quest_obsidianwhisperhollow_turned)",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_shrine_plundered_discovery"
+            }
+          ]
+        },
+        {
+          "id": "opt_shrine_act2",
+          "description": "Continue towards the shrine.",
+          "condition": "(quest_obsidianwhispercauldron_turned AND quest_obsidianwhisperhollow_turned)",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_kaelen_vs_trolls_battle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_kaelen_vs_trolls_battle",
+      "name": "Mire Ambush Point",
+      "description": "The sounds of battle – harsh commands in Gall's clipped military tongue and the guttural roars of Trolls – echo through the swamp. Peering through the dense foliage, you see soldiers, leaded by a pale woman, engaged in a fierce skirmish with several large, moss-caked Mire Trolls. They are fighting near a crude, partially submerged stone altar upon which rests a dark, runed spear-tip crackling with faint energy – the Staff Tip!",
+      "possibilities": [
+        {
+          "id": "opt_mire_fight_kaelen_forces",
+          "description": "Attack the leader while her troups are engaged!",
+          "outcomes": [
+            {
+              "type": "start_fight",
+              "enemies": [
+                {
+                  "archetype": "Kaelen Vane",
+                  "count": 1,
+                  "level": 5
+                }
+              ],
+              "event_id_victory": "evt_mire_kaelen_defeated_get_tip",
+              "event_id_defeat": "evt_mire_kaelen_won_lost_tip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_kaelen_defeated_get_tip",
+      "name": "Tip Secured",
+      "description": "The Pale woman and her soldiers lie defeated amidst the churned mud and fallen Trolls. You retrieve the 'Sky-Shard Spear-Tip' from the altar. It feels cold and hums with a barely restrained power. The remaining Trolls watch you with wary, bloodshot eyes before melting back into the swamp.",
+      "possibilities": [
+        {
+          "id": "opt_mire_interrogate_kaelen",
+          "description": "Interrogate the leader of the soldiers for information about the relic and her mission.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_kaelen_interrogation"
+            }
+          ]
+        },
+        {
+          "id": "opt_kill_kaelen",
+          "description": "[Self-Serving 2] Kill the woman to prevent her from reporting your actions.",
+          "condition": "trait_ethics_any_lte_-2",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_kaelen_killed"
+            },
+            
+						{
+							"type": "trait_change",
+							"trait": "Ethics",
+							"char_cond": "trait_ethics_party_any_lte_-2",
+							"change": -1
+						}
+          ]
+        },
+        {
+          "id": "opt_mire_leave_kaelen",
+          "description": "Leave her be and return to the entrance of the Mire. You have what you came for.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_accomplish_mire_relic"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "accomplish"
+            },
+            {
+              "type": "trait_change",
+              "trait": "Ethics",
+              "change": 1
+            },
+            {
+              "type": "flag_set",
+              "flag": "kaelen-alive",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_kaelen_interrogation",
+      "name": "Kaelen's Confession",
+      "description": "Kaelen Vane, as she presents herself, is still defiant, though wounded. She reluctantly gives some answers to your questions, but she seems like she is trying to buy time. She reveals that the Staff is a powerful artifact that her employer plans on using for an ancient ritual.",
+      "possibilities": [
+        {
+          "id": "opt_mire_ask_kaelen_employer",
+          "description": "Ask her who her employer is.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_kaelen_recalled"
+            },
+            {
+              "type": "flag_set",
+              "flag": "obsidian-whisper-hints",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_kaelen_recalled",
+      "name": "Kaelen's Disappearance",
+      "description": "Suddenly, Kaelen disappears into thin air, leaving only a faint shimmer in the air. [stat_lore_party_highest_gte_0] recognizes this as a recalling spell, that must have been cast by a mage in the area. \"So that's why she was trying to buy time,\" [char0] says. \"She was waiting for her allies to come and rescue her.\"",
+      "possibilities": [
+        {
+          "id": "opt_mire_leave",
+          "description": "You take the artifact fragment and go back to the entrance of the Mire.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_accomplish_mire_relic"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "accomplish"
+            },
+            {
+              "type": "flag_set",
+              "flag": "kaelen-alive",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_kaelen_killed",
+      "name": "Kaelen's End",
+      "description": "Not wanting to encounter any bad surprise, [trait_ethics_any_lte_2] kills the woman quickly, without letting her utter a single word. She now lies dead, her body slumped against the altar. The 'Sky-Shard Spear-Tip' is now yours. The remaining Trolls, if any survived your intervention, watch you with wary, bloodshot eyes before melting back into the swamp.",
+      "possibilities": [
+        {
+          "id": "opt_mire_leave_kaelen_killed",
+          "description": "Leave the Sunken Mire with the 'Sky-Shard Spear-Tip'.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_accomplish_mire_relic"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "accomplish"
+            },
+            {
+              "type": "flag_set",
+              "flag": "kaelen-alive",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_accomplish_mire_relic",
+      "name": "The Sky-Shard Spear-Tip",
+      "description": "You now have the at least one part of the staff in your possession. It is a powerful artifact, and you can feel its energy coursing through you. Even though you couldn't acquire the first two parts, you may return to Silas to present what you've discovered...",
+      "possibilities": [
+        {
+          "id": "opt_mire_finish_relic",
+          "description": "Go back to the entrance of the Mire.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "sunken_mire"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "turn"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhisperact3",
+              "action": "accept"
+            },
+            {
+              "type": "flag_set",
+              "flag": "obsidian-whisper-part-recovered",
+              "value": 1
+            },
+            {
+              "type": "xp",
+              "amount": 1000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_kaelen_won_lost_tip",
+      "name": "Lost Relic",
+      "description": "The woman and her soldiers have won the day. The Trolls are dead, and the 'Sky-Shard Spear-Tip' is in their possession. You can only watch as they retreat deeper into the Mire, leaving you for dead behind.",
+      "possibilities": [
+        {
+          "id": "opt_mire_flee_mire",
+          "description": "Regroup and decide what to do next.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_failed_artifact"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "accomplish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_failed_artifact",
+      "name": "Artifact Lost",
+      "description": "You recovered none of the artifact parts. Maybe the informations you have gathered will be enough to convince Silas to still pay you...",
+      "possibilities": [
+        {
+          "id": "opt_mire_flee_mire_failed_artifact",
+          "description": "Go back to the entrance of the Mire.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "sunken_mire"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "turn"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermireact3",
+              "action": "accept"
+            },
+            {
+              "type": "flag_set",
+              "flag": "obsidian-whisper-part-recovered",
+              "value": 0
+            },
+            {
+              "type": "xp",
+              "amount": 500
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_shrine_plundered_discovery",
+      "name": "Plundered Shrine",
+      "description": "You arrive at the site of the Troll shrine. It's a scene of devastation. The crude altar is overturned, and several Mire Trolls lie slain, their bodies bearing wounds from well-made steel weapons. The 'Sky-Shard Spear-Tip' is gone. Whoever was here left recently, and they were ruthlessly efficient.",
+      "possibilities": [
+        {
+          "id": "opt_mire_search_plundered_shrine_for_clues",
+          "description": "[Perception 4]\nSearch the area for clues to the attackers' identity.",
+          "condition": "stat_perception_party_highest_gte_4",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_clues_found_at_shrine"
+            }
+          ]
+        },
+        {
+          "id": "opt_mire_leave_plundered_shrine_no_clues",
+          "description": "The relic is gone. You should plan your next move.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_what_next"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "accomplish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_clues_found_at_shrine",
+      "name": "Signs of the Serpent",
+      "description": "A thorough search of the plundered shrine yields results. Near a fallen Troll, you find a high-quality steel crossbow bolt, far too refined for Troll use. More tellingly, partially pressed into the mud is a discarded leather gauntlet bearing the faint, stamped insignia of a Coiled Serpent gripping a Tower.",
+      "possibilities": [
+        {
+          "id": "opt_mire_leave_with_valerius_clues",
+          "description": "Leave the shrine with this new information, and decide what to do next.",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "evt_mire_what_next"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "accomplish"
+            },
+            {
+              "type": "flag_set",
+              "flag": "obsidian-whisper-hints",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt_mire_what_next",
+      "name": "What Next?",
+      "description": "You have no idea who the attackers were, but you know they are not Trolls. You should now go search for the remaining parts of the artifact.",
+      "possibilities": [
+        {
+          "id": "opt_mire_search_cauldron",
+          "description": "Go find the part hidden in the Cauldron Mountains.",
+          "condition": "NOT quest_obsidianwhispercauldron_turned",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "sunken_mire"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "turn"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispercauldron",
+              "action": "accept"
+            },
+            {
+              "type": "xp",
+              "amount": 500
+            }
+          ]
+        },
+        {
+          "id": "opt_mire_search_hollow",
+          "description": "Go find the part hidden in the Whispering Hollow.",
+          "condition": "NOT quest_obsidianwhisperhollow_turned",
+          "outcomes": [
+            {
+              "type": "next_event",
+              "event_id": "sunken_mire"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhispermire",
+              "action": "turn"
+            },
+            {
+              "type": "quest_update",
+              "quest_id": "obsidianwhisperhollow",
+              "action": "accept"
+            },
+            {
+              "type": "xp",
+              "amount": 500
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

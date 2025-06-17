@@ -1,0 +1,41 @@
+{
+    "events": [
+        {
+            "id": "lowshore",
+            "name": "lowshore",
+            "description": "You arrive in Lowshore, a small port town nestled at the edge of the great ocean. The scent of fishes and the sea hangs heavy in the air.",
+            "possibilities": [
+                { "id": "evt_lowshore_guild", "description": "Visit the local Mercenaries' Guild post." },
+                { "id": "leave", "description": "Leave town." }
+            ]
+        },
+        {
+            "id": "evt_lowshore_guild",
+            "name": "lowshore Guild Post",
+            "description": "The guild post is little more than a single room with a cluttered notice board. A weary-looking official manages the contracts.",
+            "possibilities": [
+                {
+                    "id": "evt_lowshore_get_quest",
+                    "description": "Look for available work.",
+                    "condition": "NOT radiant_quest_active",
+                    "outcomes": [
+                        {
+                            "type": "new_radiant_quest"
+                        }
+                    ]
+                },
+                {
+                    "id": "evt_lowshore_turn_in",
+                    "description": "Report a completed task.",
+                    "condition": "radiant_quest_can_turn_in_lowshore",
+                    "outcomes": [
+                        {
+                            "type": "turn_in_radiant_quest"
+                        }
+                    ]
+                },
+                { "id": "lowshore", "description": "Return to the town square." }
+            ]
+        }
+    ]
+}

@@ -10,7 +10,8 @@ var curr_highlighted_cells: Array[Vector2i] = []
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var skill_target = map.get_character(skill_pos)
-	if not is_valid_target_type(from, skill_target) or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) <= get_skill_range():
+	if not is_valid_target_type(from, skill_target) or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		print("Invalid target for Zealous Charge: ", skill_target, " at position ", skill_pos, " because ", is_valid_target_type(from, skill_target), " or ", HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos), " <= ", get_skill_range())
 		return false
 
 	from.attack(map.to_local(skill_target.global_position))

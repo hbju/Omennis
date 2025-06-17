@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://drsurmoqa133t"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_0d4gm"]
+
+[resource]
+script = ExtResource("1_0d4gm")
+quest_type = 0
+quest_id_prefix = "rad_kill_rogue_mages"
+title_template = "Contain the Rogue Mages from [LocationName]"
+description_template = "The Guild has been alerted to a cabal of rogue mages practicing forbidden arts in the [LocationName]. They are a volatile threat and must be neutralized. [LocationDistance]"
+offer_description = "A quest offer on the notice board catches your attention. 'A dangerous matter has arisen. A trio of mages, cast out from the sanctioned orders, have taken up residence in the [LocationName]. We're getting reports of... unstable magic. Before they tear a hole in reality, we need them stopped. It's a high-risk job, but the pay is [RewardGold] gold.' [LocationDistance]"
+location_entry_description = "You arrive at [LocationName]. The air crackles with residual energy, and the scent of ozone is sharp. Faint, unsettling glyphs glow on the walls, pulsing with a weak, arcane light. The mages are close."
+location_post_objective_victory_description = "The rogue mages have been dealt with, and the unstable magical energy in the area has dissipated. The region is safer now. Return to [CityName] to claim your reward."
+location_post_objective_failure_description = "The combined arcane power of the mages was too much to overcome. You retreat, the air sizzling with their triumphant spells."
+turn_in_description = "'They've been contained? Good.' The guild master looks relieved. 'Playing with such forces is a danger to us all. Here is your payment of [RewardGold]g. Well-earned.'\n\n[QuestRewardSummary]"
+location_tag_required = "cave"
+min_player_level = 3
+enemies = Array[Dictionary]([{
+"archetype": "Arcane Channeler",
+"count": 3,
+"level": 4,
+"name": "Rogue Mage"
+}])
+reward_gold = 250
+reward_xp = 1000

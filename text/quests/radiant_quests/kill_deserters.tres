@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://b6t7ukdf0e14b"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_vghx4"]
+
+[resource]
+script = ExtResource("1_vghx4")
+quest_type = 0
+quest_id_prefix = "rad_kill_deserters"
+title_template = "Hunt down the deserters in [LocationName]"
+description_template = "The local guild has received reports of deserters hiding out in [LocationName]. They are a threat to the safety of the area and must be dealt with. [LocationDistance]"
+offer_description = "You find a notice pinned to the guild's bulletin board. 'Attention, brave adventurers! Deserters have been spotted in [LocationName], causing trouble for the local populace. We need someone to eliminate them. A reward of [RewardGold] gold awaits those who can help. Report to the guild master for details.' [LocationDistance]"
+location_entry_description = "You arrive at [LocationName]. The guild has tasked you with dealing with the deserters who have taken refuge here. Be cautious, as they are known to be well-armed and dangerous."
+location_post_objective_victory_description = "You have successfully dealt with the deserters in [LocationName]. The local populace can rest easy knowing that the threat has been eliminated."
+location_post_objective_failure_description = "You have failed to deal with the deserters in [LocationName]. They continue to pose a threat to the local populace. You should try again."
+turn_in_description = "You return to the guild master to report your success in dealing with the deserters. The clerk in front of you nods approvingly as you recount your tale. 'Well done, adventurer! The guild appreciates your efforts in keeping the area safe. Here is your gold', as she hands you the reward. 'We hope to see you again soon for more quests.'\n\n[QuestRewardSummary]"
+location_tag_required = "cave"
+min_player_level = 1
+enemies = Array[Dictionary]([{
+"archetype": "Mercenary Guard",
+"count": 2,
+"level": 2,
+"name": "Deserter Guard"
+}, {
+"archetype": "Arcane Channeler",
+"count": 1,
+"level": 2,
+"name": "Deserter Mage"
+}])
+reward_gold = 200
+reward_xp = 700

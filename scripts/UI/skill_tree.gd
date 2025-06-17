@@ -83,11 +83,8 @@ func _on_skill_hover_entered(hovered_node: SkillNode, skill_data: Skill):
 	skill_tooltip_needed.emit(hovered_node, skill_data)
 
 
-
-
 func _on_skill_hover_exited():
 	skill_tooltip_not_needed.emit()
-
 
 
 func _on_skill_node_activated(skill_node: SkillNode):
@@ -99,6 +96,7 @@ func _on_skill_node_activated(skill_node: SkillNode):
 			if not skill_node.is_unlocked.has(party_member) and party_member.skill_points > 0:
 				skill_node.is_unlocked.append(party_member)
 				party_member.spend_skill_point()
+				party_member.unlocked_skills.append(skill.get_skill_name())
 				skill_unlocked.emit(skill)
 				AudioManager.play_sfx(AudioManager.UI_SKILL_UNLOCK)
 				update_ui(party_member) 

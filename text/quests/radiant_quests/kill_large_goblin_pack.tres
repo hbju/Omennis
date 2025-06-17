@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://cb8b0v08qmg1c"]
+
+[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_1qp8d"]
+
+[resource]
+script = ExtResource("1_1qp8d")
+quest_type = 0
+quest_id_prefix = "rad_kill_large_goblin_pack"
+title_template = "A big problem with goblins"
+description_template = "A large pack of goblins has been spotted in [LocationName], causing trouble for the local population. They are known to be aggressive and dangerous, especially in such a large number. [LocationDistance]"
+offer_description = "You spot a notice on the quest board. It reads: 'A large pack of goblins has been spotted in [LocationName]. They are causing trouble for the local population. We need someone to deal with them. We are offering a reward of [RewardGold] gold for anyone who can eliminate them.' [LocationDistance]"
+location_entry_description = "You enter [LocationName]. The air is filled with the sounds of nature, but you can also hear the distant chatter of goblins. They seem to be gathered in a large group, making it easy to spot them from a distance."
+location_post_objective_victory_description = "With the goblin pack defeated, [LocationName] is safe once more. You should return to the guild for your reward."
+location_post_objective_failure_description = "The goblins proved too numerous. You barely escaped with your life. Regroup and try again later."
+turn_in_description = "You return to the guild and report your success in dealing with the goblin pack. The guild master thanks you profusely and rewards you with [RewardGold] gold.\n\n[QuestRewardSummary]"
+location_tag_required = "cave"
+min_player_level = 4
+enemies = Array[Dictionary]([{
+"archetype": "Goblin Shaman",
+"count": 2,
+"level": 4
+}, {
+"archetype": "Goblin Raider",
+"count": 3,
+"level": 4
+}])
+reward_gold = 300
+reward_xp = 1200
