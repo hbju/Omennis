@@ -1,7 +1,7 @@
 extends Skill
 class_name LightningStorm
 
-var damage_mult := 4
+var damage_mult := 3
 var num_targets := 3
 var stun_chance := 0.5
 var stun_duration := 1

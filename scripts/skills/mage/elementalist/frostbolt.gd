@@ -78,7 +78,7 @@ func get_skill_name() -> String:
 	return "Frostbolt"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage and root an enemy for " + str(root_duration) + " turn.\n" + \
+	return "Deal " + str(damage_mult) + "x your base damage to an enemy and root them for " + str(root_duration) + " turn.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: " + str(get_skill_range()) + " cells.\n"
 

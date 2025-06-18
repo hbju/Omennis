@@ -3,7 +3,7 @@ class_name BloodFury
 
 var damage := 0
 var max_cooldown := 6
-var duration := 3
+var duration := 4
 var leech_strength = 33
 var curr_highlighted_cells: Array[Vector2i] = []
 

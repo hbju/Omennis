@@ -1,7 +1,7 @@
 extends Skill
 class_name BoneArmor
 
-var shield_amount_percentage := 25
+var shield_amount_percentage := 20
 var retaliate_damage := 20
 var duration := 3
 var max_cooldown := 5

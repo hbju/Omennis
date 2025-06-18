@@ -92,7 +92,7 @@ func get_skill_name() -> String:
 	return "Zealous Charge"
 
 func get_skill_description() -> String:
-	return "Charge a target from " + str(get_skill_range()) + " tiles away, dealing " + str(damage_mult) + " times your base damage, stunning them for one turn and knocking them back one tile.\n" + \
+	return "Charge a target from " + str(get_skill_range()) + " tiles away, dealing " + str(damage_mult) + " times your base damage, knocking them back " + str(knockback_distance) + " tile and stunning them for " + str(stunned_duration) + " turn. " + \
 		"Can only target enemies not adjacent to you, in a straight line.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: " + str(get_skill_range()) + " cells.\n"

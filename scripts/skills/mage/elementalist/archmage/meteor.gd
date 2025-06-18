@@ -1,7 +1,7 @@
 extends Skill
 class_name Meteor
 
-var total_damage_mult := 12
+var total_damage_mult := 10
 var aoe_radius := 1
 var max_cooldown := 5
 

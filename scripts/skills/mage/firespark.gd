@@ -72,7 +72,7 @@ func get_skill_name() -> String:
 	return "Firespark"
 
 func get_skill_description() -> String:
-	return "A basic fire attack that deals " + str(damage_mult) + " times your base damage to an enemy.\n" + \
+	return "Deal " + str(damage_mult) + "x your base damage to an enemy.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: " + str(get_skill_range()) + " cells.\n" 
 

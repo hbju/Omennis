@@ -58,7 +58,7 @@ func get_skill_name() -> String:
 	return "Frenzy"
 
 func get_skill_description() -> String:
-	return "Increase attack damage by 50% and receive 50% more damage for " + str(duration) + " turns.\n" + \
+	return "Increase your damage by 50% and receive 50% more damage for " + str(duration) + " turns.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: yourself.\n"
 

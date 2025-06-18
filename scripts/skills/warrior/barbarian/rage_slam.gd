@@ -6,7 +6,6 @@ var max_cooldown := 4
 var targets_number := 3
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
-	print("Rage Slam used by ", from.get_name(), " at position ", skill_pos)
 	var cells = HexHelper.hex_reachable(map.get_cell_coords(from.global_position), get_skill_range(), map.can_walk)
 	if skill_pos in cells:
 		var char_list = []
