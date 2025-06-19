@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://2bnhkewiggc3"]
+[gd_scene load_steps=8 format=3 uid="uid://2bnhkewiggc3"]
 
 [ext_resource type="Script" path="res://scripts/ui/skill_tooltip.gd" id="1_ayt5w"]
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_pqejf"]
 [ext_resource type="FontFile" uid="uid://c8gm6pjmvi186" path="res://assets/fonts/VarelaRound-Regular.ttf" id="2_s2ybi"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="4_alise"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rp6u5"]
 content_margin_left = 15.0
@@ -14,6 +15,10 @@ texture = ExtResource("1_pqejf")
 [sub_resource type="LabelSettings" id="LabelSettings_bgrvm"]
 font = ExtResource("2_s2ybi")
 font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_by5v1"]
+font = ExtResource("4_alise")
+font_size = 21
 
 [node name="SkillTooltip" type="PanelContainer"]
 z_index = 100
@@ -39,7 +44,9 @@ layout_mode = 2
 text = "Create a magical shield around an ally or yourself that reduces incoming damage by 50% for \" + str(duration) + \" turn. \\n\" + \\
 		\"Cooldown: \" + str(max_cooldown) + \" turns.\\n\" + \\
 		\"Range: \" + str(get_skill_range()) + \" cells.\""
+label_settings = SubResource("LabelSettings_by5v1")
 autowrap_mode = 3
 
 [node name="CooldownLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+label_settings = SubResource("LabelSettings_by5v1")

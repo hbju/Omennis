@@ -8,8 +8,7 @@ var heal_percentage := 0.5
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var target = map.get_character(skill_pos)
 	if is_valid_target_type(from, target) and HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) <= get_skill_range():
-		var damage = from.get_damage() * damage_mult
-		from.deal_damage(target, damage_mult)
+		var damage = from.deal_damage(target, damage_mult)
 		from.heal(damage * heal_percentage)
 		from.attack(map.to_local(target.global_position))
 		cooldown = max_cooldown

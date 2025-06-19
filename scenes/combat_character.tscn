@@ -8,30 +8,30 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
 size = Vector2(296, 294)
 
-[sub_resource type="Gradient" id="Gradient_iepj2"]
+[sub_resource type="Gradient" id="Gradient_o8akt"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_8n6cs"]
-gradient = SubResource("Gradient_iepj2")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_w1sr7"]
+gradient = SubResource("Gradient_o8akt")
 
-[sub_resource type="Gradient" id="Gradient_3got3"]
+[sub_resource type="Gradient" id="Gradient_mveol"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_i5tfp"]
-gradient = SubResource("Gradient_3got3")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_h76fu"]
+gradient = SubResource("Gradient_mveol")
 
-[sub_resource type="LabelSettings" id="LabelSettings_vvgo5"]
+[sub_resource type="LabelSettings" id="LabelSettings_ygik3"]
 font_size = 28
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_eywwv"]
+[sub_resource type="Gradient" id="Gradient_5aogj"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(4.90934e-06, 0, 0.891691, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_d86c8"]
-gradient = SubResource("Gradient_eywwv")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lyxst"]
+gradient = SubResource("Gradient_5aogj")
 
-[sub_resource type="LabelSettings" id="LabelSettings_ijxd3"]
+[sub_resource type="LabelSettings" id="LabelSettings_orpqc"]
 font_size = 28
 font_color = Color(0, 0, 0, 1)
 
@@ -56,74 +56,71 @@ z_index = -1
 position = Vector2(-1, 2)
 shape = SubResource("RectangleShape2D_wtnqe")
 
-[node name="health_bar" type="TextureProgressBar" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = -127.0
-offset_top = -225.0
-offset_right = 129.0
-offset_bottom = -185.0
-grow_horizontal = 2
-step = 0.01
-value = 100.0
-nine_patch_stretch = true
-texture_under = SubResource("GradientTexture1D_8n6cs")
-texture_progress = SubResource("GradientTexture1D_i5tfp")
+[node name="bar_container" type="VBoxContainer" parent="."]
+offset_left = -139.2
+offset_top = -286.8
+offset_right = 137.8
+offset_bottom = -143.8
+theme_override_constants/separation = -1
+alignment = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="curr_health" type="Label" parent="health_bar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_vvgo5")
-
-[node name="shield_bar" type="TextureProgressBar" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = -127.0
-offset_top = -265.0
-offset_right = 129.0
-offset_bottom = -225.0
-grow_horizontal = 2
-step = 0.01
-value = 100.0
-nine_patch_stretch = true
-texture_progress = SubResource("GradientTexture1D_d86c8")
-
-[node name="curr_shield" type="Label" parent="shield_bar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_ijxd3")
-
-[node name="status_effects_container" type="HBoxContainer" parent="."]
+[node name="status_effects_container" type="HBoxContainer" parent="bar_container"]
+z_index = 1
 custom_minimum_size = Vector2(0, 40)
-offset_left = -127.0
-offset_top = -185.0
-offset_right = 129.0
-offset_bottom = -145.0
-
-[node name="status_icon" parent="status_effects_container" instance=ExtResource("4_hrprm")]
 layout_mode = 2
+
+[node name="status_icon" parent="bar_container/status_effects_container" instance=ExtResource("4_hrprm")]
+layout_mode = 2
+
+[node name="health_bar" type="TextureProgressBar" parent="bar_container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_w1sr7")
+texture_progress = SubResource("GradientTexture1D_h76fu")
+
+[node name="curr_health" type="Label" parent="bar_container/health_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_ygik3")
+
+[node name="shield_bar" type="TextureProgressBar" parent="bar_container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture1D_lyxst")
+
+[node name="curr_shield" type="Label" parent="bar_container/shield_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_orpqc")
 
 [node name="attack_swing_player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"

@@ -7,6 +7,8 @@ var character_level: int
 
 var max_health: int
 var base_damage: float
+var crit_chance: float = 0.1 # Base 10% critical chance
+var crit_damage_multiplier: float = 1.5 # Base +50% critical damage
 
 var base_skill: Skill
 var skill_list: Array[Skill] = []

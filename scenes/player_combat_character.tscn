@@ -1,8 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://xkfew8g51xdy"]
+[gd_scene load_steps=17 format=3 uid="uid://xkfew8g51xdy"]
 
 [ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_rl8hf"]
 [ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_rduhn"]
+[ext_resource type="PackedScene" uid="uid://c5k7vp5miiflb" path="res://scenes/status_icon.tscn" id="4_5drti"]
+[ext_resource type="PackedScene" uid="uid://bf44srtemk43f" path="res://scenes/floating_text.tscn" id="5_m4ave"]
 
 [sub_resource type="Gradient" id="Gradient_88r5d"]
 offsets = PackedFloat32Array(1)
@@ -14,30 +16,30 @@ gradient = SubResource("Gradient_88r5d")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
 size = Vector2(296, 294)
 
-[sub_resource type="Gradient" id="Gradient_p3qac"]
+[sub_resource type="Gradient" id="Gradient_t6myu"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_rwybt"]
-gradient = SubResource("Gradient_p3qac")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kmxbv"]
+gradient = SubResource("Gradient_t6myu")
 
-[sub_resource type="Gradient" id="Gradient_pxset"]
+[sub_resource type="Gradient" id="Gradient_m0vtu"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_4dom1"]
-gradient = SubResource("Gradient_pxset")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5sfuf"]
+gradient = SubResource("Gradient_m0vtu")
 
-[sub_resource type="LabelSettings" id="LabelSettings_h4cpq"]
+[sub_resource type="LabelSettings" id="LabelSettings_o66bx"]
 font_size = 28
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_tn7jg"]
+[sub_resource type="Gradient" id="Gradient_e5exv"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(4.90934e-06, 0, 0.891691, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xl4q8"]
-gradient = SubResource("Gradient_tn7jg")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g2br1"]
+gradient = SubResource("Gradient_e5exv")
 
-[sub_resource type="LabelSettings" id="LabelSettings_txji2"]
+[sub_resource type="LabelSettings" id="LabelSettings_n882b"]
 font_size = 28
 font_color = Color(0, 0, 0, 1)
 
@@ -71,71 +73,70 @@ z_index = -1
 position = Vector2(-1, -1.52588e-05)
 shape = SubResource("RectangleShape2D_wtnqe")
 
-[node name="health_bar" type="TextureProgressBar" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = -127.0
-offset_top = -225.0
-offset_right = 129.0
-offset_bottom = -185.0
-grow_horizontal = 2
-step = 0.01
-value = 100.0
-nine_patch_stretch = true
-texture_under = SubResource("GradientTexture1D_rwybt")
-texture_progress = SubResource("GradientTexture1D_4dom1")
+[node name="bar_container" type="VBoxContainer" parent="."]
+offset_left = -139.2
+offset_top = -286.8
+offset_right = 137.8
+offset_bottom = -143.8
+theme_override_constants/separation = -1
+alignment = 2
 
-[node name="curr_health" type="Label" parent="health_bar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_h4cpq")
-
-[node name="shield_bar" type="TextureProgressBar" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = -127.0
-offset_top = -265.0
-offset_right = 129.0
-offset_bottom = -225.0
-grow_horizontal = 2
-step = 0.01
-value = 100.0
-nine_patch_stretch = true
-texture_progress = SubResource("GradientTexture1D_xl4q8")
-
-[node name="curr_shield" type="Label" parent="shield_bar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_txji2")
-
-[node name="status_effects_container" type="HBoxContainer" parent="."]
+[node name="status_effects_container" type="HBoxContainer" parent="bar_container"]
+z_index = 1
 custom_minimum_size = Vector2(0, 40)
-offset_left = -127.0
-offset_top = -185.0
-offset_right = 129.0
-offset_bottom = -145.0
+layout_mode = 2
+
+[node name="status_icon" parent="bar_container/status_effects_container" instance=ExtResource("4_5drti")]
+layout_mode = 2
+
+[node name="health_bar" type="TextureProgressBar" parent="bar_container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_kmxbv")
+texture_progress = SubResource("GradientTexture1D_5sfuf")
+
+[node name="curr_health" type="Label" parent="bar_container/health_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_o66bx")
+
+[node name="shield_bar" type="TextureProgressBar" parent="bar_container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture1D_g2br1")
+
+[node name="curr_shield" type="Label" parent="bar_container/shield_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_n882b")
 
 [node name="attack_swing_player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
@@ -148,3 +149,5 @@ bus = &"SFX"
 
 [node name="footstep_player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
+
+[node name="floating_text" parent="." instance=ExtResource("5_m4ave")]

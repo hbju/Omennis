@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://7ruoao68t0vm"]
+[gd_scene load_steps=16 format=3 uid="uid://7ruoao68t0vm"]
 
 [ext_resource type="Script" path="res://scripts/combat/ai_combat_character.gd" id="1_p787k"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_gwoe4"]
 [ext_resource type="Texture2D" uid="uid://b818jtm4d4and" path="res://assets/enemies/monster_02.png" id="3_vmbuy"]
+[ext_resource type="PackedScene" uid="uid://c5k7vp5miiflb" path="res://scenes/status_icon.tscn" id="4_4nmlm"]
 
 [sub_resource type="Gradient" id="Gradient_xwqtt"]
 offsets = PackedFloat32Array(1)
@@ -14,30 +15,30 @@ gradient = SubResource("Gradient_xwqtt")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtnqe"]
 size = Vector2(296, 294)
 
-[sub_resource type="Gradient" id="Gradient_iepj2"]
+[sub_resource type="Gradient" id="Gradient_7q2ce"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_7l162"]
-gradient = SubResource("Gradient_iepj2")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_16syf"]
+gradient = SubResource("Gradient_7q2ce")
 
-[sub_resource type="Gradient" id="Gradient_3got3"]
+[sub_resource type="Gradient" id="Gradient_gycuk"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_4tww3"]
-gradient = SubResource("Gradient_3got3")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ox2ib"]
+gradient = SubResource("Gradient_gycuk")
 
-[sub_resource type="LabelSettings" id="LabelSettings_ppms4"]
+[sub_resource type="LabelSettings" id="LabelSettings_hh4ih"]
 font_size = 28
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_eywwv"]
+[sub_resource type="Gradient" id="Gradient_mgf2c"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(4.90934e-06, 0, 0.891691, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_y4ime"]
-gradient = SubResource("Gradient_eywwv")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ics3a"]
+gradient = SubResource("Gradient_mgf2c")
 
-[sub_resource type="LabelSettings" id="LabelSettings_ju1bp"]
+[sub_resource type="LabelSettings" id="LabelSettings_0a0im"]
 font_size = 28
 font_color = Color(0, 0, 0, 1)
 
@@ -69,72 +70,6 @@ z_index = -1
 position = Vector2(-1, -1.52588e-05)
 shape = SubResource("RectangleShape2D_wtnqe")
 
-[node name="health_bar" type="TextureProgressBar" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = -127.0
-offset_top = -225.0
-offset_right = 129.0
-offset_bottom = -185.0
-grow_horizontal = 2
-step = 0.01
-value = 100.0
-nine_patch_stretch = true
-texture_under = SubResource("GradientTexture1D_7l162")
-texture_progress = SubResource("GradientTexture1D_4tww3")
-
-[node name="curr_health" type="Label" parent="health_bar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_ppms4")
-
-[node name="shield_bar" type="TextureProgressBar" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = -127.0
-offset_top = -265.0
-offset_right = 129.0
-offset_bottom = -225.0
-grow_horizontal = 2
-step = 0.01
-value = 100.0
-nine_patch_stretch = true
-texture_progress = SubResource("GradientTexture1D_y4ime")
-
-[node name="curr_shield" type="Label" parent="shield_bar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_ju1bp")
-
-[node name="status_effects_container" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(0, 40)
-offset_left = -127.0
-offset_top = -185.0
-offset_right = 129.0
-offset_bottom = -145.0
-
 [node name="attack_swing_player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
 
@@ -146,3 +81,68 @@ bus = &"SFX"
 
 [node name="footstep_player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
+
+[node name="bar_container" type="VBoxContainer" parent="."]
+offset_left = -139.2
+offset_top = -286.8
+offset_right = 137.8
+offset_bottom = -143.8
+theme_override_constants/separation = -1
+alignment = 2
+
+[node name="status_effects_container" type="HBoxContainer" parent="bar_container"]
+z_index = 1
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="status_icon" parent="bar_container/status_effects_container" instance=ExtResource("4_4nmlm")]
+layout_mode = 2
+
+[node name="health_bar" type="TextureProgressBar" parent="bar_container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_16syf")
+texture_progress = SubResource("GradientTexture1D_ox2ib")
+
+[node name="curr_health" type="Label" parent="bar_container/health_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_hh4ih")
+
+[node name="shield_bar" type="TextureProgressBar" parent="bar_container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture1D_ics3a")
+
+[node name="curr_shield" type="Label" parent="bar_container/shield_bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_0a0im")

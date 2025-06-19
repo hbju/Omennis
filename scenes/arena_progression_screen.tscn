@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cb72gthtfkeba"]
+[gd_scene load_steps=37 format=3 uid="uid://cb72gthtfkeba"]
 
 [ext_resource type="Script" path="res://scripts/ui/arena_progression_screen.gd" id="1_n14a6"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_321p8"]
@@ -12,12 +12,15 @@
 [ext_resource type="Texture2D" uid="uid://fslr5mbjwe8i" path="res://assets/ui/buttons/red/red_square_button_un.png" id="7_23j0b"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="7_l4vfj"]
 [ext_resource type="LabelSettings" uid="uid://0ssaijcssqa4" path="res://assets/fonts/normal_text.tres" id="8_4kh8c"]
+[ext_resource type="FontFile" uid="uid://dngui58hvv7wi" path="res://assets/fonts/lato/Lato-Bold.ttf" id="8_5km2n"]
 [ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="8_ita55"]
 [ext_resource type="Texture2D" uid="uid://bl4uj1vo5jgf0" path="res://assets/ui/buttons/circle_button/special_ability_frame_n.png" id="8_s07di"]
 [ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="9_aobc2"]
 [ext_resource type="Texture2D" uid="uid://0oew1uuyn6mv" path="res://assets/ui/buttons/circle_button/special_ability_frame_p.png" id="9_dkes7"]
+[ext_resource type="FontFile" uid="uid://bt34ev35e4qoa" path="res://assets/fonts/lato/Lato-Italic.ttf" id="9_ftn1p"]
 [ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="10_1akyf"]
 [ext_resource type="Texture2D" uid="uid://csymekdp54xcs" path="res://assets/ui/buttons/circle_button/special_ability_frame_h.png" id="10_k65wd"]
+[ext_resource type="FontFile" uid="uid://dfjkgiy7iyxvg" path="res://assets/fonts/lato/Lato-BoldItalic.ttf" id="10_n8ect"]
 [ext_resource type="Texture2D" uid="uid://bif1amwq6bxy7" path="res://assets/ui/menu_ui/box_heading_midsec_repeat.png" id="11_2dcym"]
 [ext_resource type="Texture2D" uid="uid://ctbvwknltdyh6" path="res://assets/ui/menu_ui/box_head_pattern_repeatable.png" id="12_phrp1"]
 [ext_resource type="Texture2D" uid="uid://c4winy4h5qjb5" path="res://assets/ui/menu_ui/Box Borders/bottom_border_left_cap.png" id="13_p0q8p"]
@@ -34,11 +37,6 @@
 font = ExtResource("7_l4vfj")
 font_size = 30
 font_color = Color(0.783523, 0.783523, 0.783523, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_bbdgg"]
-font = ExtResource("7_l4vfj")
-font_size = 25
-font_color = Color(0.625597, 0.625597, 0.625597, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ljopw"]
 font = ExtResource("7_l4vfj")
@@ -154,10 +152,18 @@ layout_mode = 2
 text = "Dummy_Character"
 label_settings = SubResource("LabelSettings_5o4xq")
 
-[node name="xp_gain_label" type="Label" parent="background/character_result_display/hbox/info_vbox"]
+[node name="xp_gain_label" type="RichTextLabel" parent="background/character_result_display/hbox/info_vbox"]
 layout_mode = 2
-text = "+1500XP (Level Up ! (Lv. 9 -> 10))"
-label_settings = SubResource("LabelSettings_bbdgg")
+theme_override_colors/default_color = Color(0.627451, 0.627451, 0.627451, 1)
+theme_override_fonts/normal_font = ExtResource("7_l4vfj")
+theme_override_fonts/bold_font = ExtResource("8_5km2n")
+theme_override_fonts/italics_font = ExtResource("9_ftn1p")
+theme_override_fonts/bold_italics_font = ExtResource("10_n8ect")
+theme_override_font_sizes/normal_font_size = 25
+theme_override_font_sizes/bold_font_size = 25
+bbcode_enabled = true
+text = "+1500XP  [b][color=yellow]Level Up ! Lv. 9 -> 10[/color][/b]"
+fit_content = true
 
 [node name="xp_progress_label" type="Label" parent="background/character_result_display/hbox/info_vbox"]
 layout_mode = 2

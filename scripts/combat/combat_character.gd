@@ -12,11 +12,11 @@ var init_pos = null
 signal turn_finished
 signal character_died(character)
 
-@onready var health_bar = $health_bar
-@onready var health_label = $health_bar/curr_health
-@onready var shield_bar = $shield_bar
-@onready var shield_label = $shield_bar/curr_shield
-@onready var status_effects_container: BoxContainer = $status_effects_container
+@onready var health_bar = $bar_container/health_bar
+@onready var health_label = $bar_container/health_bar/curr_health
+@onready var shield_bar = $bar_container/shield_bar
+@onready var shield_label = $bar_container/shield_bar/curr_shield
+@onready var status_effects_container: BoxContainer = $bar_container/status_effects_container
 @onready var character_highlight = $character_portrait_bg/character_background
 @onready var attack_swing_player: AudioStreamPlayer2D = $attack_swing_player
 @onready var take_damage_player: AudioStreamPlayer2D = $take_damage_player
@@ -55,10 +55,12 @@ const STATUS_ICON_MAP = {
 
 @onready var character_portrait = $character_portrait_bg/character_portrait
 
-var char_statuses: Dictionary = {"stunned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "leech" : [], "imbue" : [0,0], "thorns" : [0,0], "decay" : [0,0]}
+var char_statuses: Dictionary = {"stunned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "leech" : [], "imbue" : [0,0], "thorns" : [0,0], "decay" : [0,0], "stealth" : 0}
 
 var stunned_animation = preload("res://scenes/stun_animation.tscn")
 var curr_stun_animation = null
+
+const FloatingTextScene = preload("res://scenes/floating_text.tscn")
 
 var character: Character
 
@@ -274,9 +276,29 @@ func get_damage() -> float :
 		damage = damage * 3 / 2
 	return damage
 
-func deal_damage(other: CombatCharacter, damage_mult: float) -> float : 
+func deal_damage(other: CombatCharacter, damage_mult: float, attack_flags: Dictionary = {}) -> float : 
 	var damage = get_damage() * damage_mult
-	other.take_damage(damage)
+
+	var is_guaranteed_crit = attack_flags.get("guaranteed_crit", false)
+	var is_crit = is_guaranteed_crit or randf() < character.crit_chance
+
+	if is_crit :
+		damage *= character.crit_damage_multiplier
+
+
+
+	var damage_taken = other.take_damage(damage)
+
+	if FloatingTextScene:
+		print("Showing floating text")
+		var floating_text = FloatingTextScene.instantiate()
+		other.add_child(floating_text)
+		var color = Color.YELLOW
+		var text = str(damage_taken)
+		if is_crit :
+			color = Color.RED
+			text += "\nCRITICAL !"
+		floating_text.show_text(text, color)
 
 	if (other.char_statuses["thorns"][0] > 0) :
 		take_damage(other.char_statuses["thorns"][1])
@@ -287,9 +309,11 @@ func deal_damage(other: CombatCharacter, damage_mult: float) -> float :
 		for i in range(leech_stats.size()) : 
 			if leech_stats[i][0] > 0 : 
 				leech_level += leech_stats[i][1]
-		heal(damage * leech_level / 100.0)
+		heal(damage_taken * leech_level / 100.0)
 
-	return damage
+	char_statuses["stealth"] = 0 
+
+	return damage_taken
 
 func take_turn() : 
 	assert(false, "take_turn not implemented")
