@@ -5,6 +5,7 @@ class_name Blink
 var max_cooldown: int = 5
 var blink_range: int = 3
 var next_spell_damage_bonus: int = 10 # +10 damage
+var next_spell_damage_duration: int = 2
 
 func use_skill(caster: CombatCharacter, target_cell: Vector2i, map: CombatMap) -> bool:
 	var caster_pos = map.get_cell_coords(caster.global_position)
@@ -12,8 +13,11 @@ func use_skill(caster: CombatCharacter, target_cell: Vector2i, map: CombatMap) -
 	if HexHelper.distance(caster_pos, target_cell) > blink_range or \
 	   not map.can_walk(target_cell) or map.cell_occupied(target_cell):
 		return false # Invalid target cell
-	caster.position = map.map_to_local(target_cell) # Actual instant position update
-	caster.gain_status("imbue", 2, next_spell_damage_bonus)
+	
+	if not caster.teleport_to(target_cell) :
+		return false
+
+	caster.gain_status("imbue", next_spell_damage_duration, next_spell_damage_bonus)
 
 	cooldown = max_cooldown
 	skill_finished.emit()
@@ -60,6 +64,9 @@ func score_action(caster: CombatCharacter, _affected_targets: Array[CombatCharac
 	return score
 
 func generate_targets(caster: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	if caster.char_statuses["rooted"] > 0 :
+		return []
+		
 	var targets: Array[TargetInfo] = []
 	var caster_pos = map.get_cell_coords(caster.global_position)
 	var potential_blink_cells = HexHelper.hex_reachable(caster_pos, blink_range, func (_hex): return true) \

@@ -75,7 +75,7 @@ func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo
 
 func _on_reached_target():
 	if is_instance_valid(target):
-		target.gain_status("decay", duration, damage_percent)
+		target.gain_status("poisoned", duration, floor(damage_percent * target.max_health / 100.0))
 	if is_instance_valid(curr_projectile):
 		curr_projectile.queue_free()
 	skill_finished.emit()

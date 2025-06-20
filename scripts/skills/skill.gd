@@ -74,8 +74,8 @@ func is_valid_target_type(from: CombatCharacter, target: CombatCharacter) -> boo
 	if not from or not target: return false 
 
 	if target_enemies():
-		if (from is PlayerCombatCharacter and target is AICombatCharacter) or \
-		   (from is AICombatCharacter and target is PlayerCombatCharacter):
+		if (target.char_statuses.get("stealth", 0) == 0) and ((from is PlayerCombatCharacter and target is AICombatCharacter) or \
+		   (from is AICombatCharacter and target is PlayerCombatCharacter)):
 			return true
 
 	if target_allies():

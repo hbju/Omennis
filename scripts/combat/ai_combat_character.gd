@@ -101,6 +101,10 @@ func get_lowest_health_player_path(party: Array[PlayerCombatCharacter]) -> Array
 
 func get_usable_skills() -> Array[Skill]:
 	var usable_skills: Array[Skill] = []
+
+	if char_statuses["silence"] > 0 :
+		return usable_skills
+
 	if character.base_skill && character.base_skill.cooldown == 0:
 		usable_skills.append(character.base_skill)
 	for skill in character.skill_list:
@@ -205,7 +209,7 @@ func score_basic_attack(caster: AICombatCharacter, target: CombatCharacter) -> f
 	var score = 10.0 # Placeholder
 	var potential_damage = caster.get_damage() * 1.0 # Basic attack damage mult = 1?
 	score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE
-	if target.health <= potential_damage: score += AIScoringWeights.WEIGHT_KILL_BONUS
+	if target.health <= potential_damage: score += 3 * AIScoringWeights.WEIGHT_KILL_BONUS # Extra bonus when killing without using skills
 	return score
 
 func score_move_action(caster: AICombatCharacter, primary_target: CombatCharacter, destination_cell: Vector2i) -> float:

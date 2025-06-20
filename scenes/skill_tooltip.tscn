@@ -18,7 +18,7 @@ font_size = 50
 
 [sub_resource type="LabelSettings" id="LabelSettings_by5v1"]
 font = ExtResource("4_alise")
-font_size = 21
+font_size = 25
 
 [node name="SkillTooltip" type="PanelContainer"]
 z_index = 100

@@ -1,0 +1,130 @@
+# phantom_shot.gd
+extends Skill
+class_name PhantomShot
+
+var damage_mult: float = 4.0
+var knockback_distance: int = 2
+var max_cooldown: int = 4
+
+const projectile_scene = preload("res://scenes/projectile_effect.tscn")
+var caster: CombatCharacter
+var target: CombatCharacter
+var curr_projectile: ProjectileEffect
+
+func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
+	var skill_target = map.get_character(skill_pos)
+	if not is_valid_target_type(from, skill_target) or HexHelper.distance(map.get_cell_coords(from.global_position), skill_pos) > get_skill_range():
+		return false
+
+	caster = from
+	target = skill_target
+	
+	curr_projectile = projectile_scene.instantiate()
+	from.get_parent().add_child(curr_projectile)
+	curr_projectile.position = from.position
+	curr_projectile.set_target_position(target.position)
+	curr_projectile.target_reached.connect(_on_reached_target.bind(map), CONNECT_ONE_SHOT)
+
+	cooldown = max_cooldown
+	return true
+
+func _on_reached_target(map: CombatMap):
+	if is_instance_valid(target) and is_instance_valid(caster):
+		caster.deal_damage(target, damage_mult)
+		# Determine knockback direction away from caster
+		var caster_pos = map.get_cell_coords(caster.global_position)
+		var target_pos = map.get_cell_coords(target.global_position)
+		var direction = _get_knockback_dir_from_line(caster_pos, target_pos)
+		
+		if direction != -1:
+			target.knockback(knockback_distance, direction, 0) # No extra damage on collision
+
+	if is_instance_valid(curr_projectile):
+		curr_projectile.queue_free()
+		
+	skill_finished.emit()
+	
+func _get_knockback_dir_from_line(start_pos: Vector2i, end_pos: Vector2i) -> int:
+	var line = HexHelper.oddr_linedraw(start_pos, end_pos)
+	if line.size() < 2: return -1 # Not a valid line
+	
+	var first_step = line[1]
+	for i in range(6):
+		if HexHelper.hex_neighbor(start_pos, i) == first_step:
+			return i
+	return -1 # Should not happen if line is valid
+
+func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, map: CombatMap) -> float:
+	if potential_targets.is_empty(): return 0.0
+	var potential_target = potential_targets[0]
+
+	var score = AIScoringWeights.WEIGHT_BASE_RANGED
+	
+	# Score high damage
+	var potential_damage = from.get_damage() * damage_mult
+	score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE
+	
+	if potential_target.health <= potential_damage:
+		score += AIScoringWeights.WEIGHT_KILL_BONUS
+		
+	# Score knockback
+	var knockback_score = knockback_distance * 5.0 # Base value for pushing enemy away
+	# Add bonus if it pushes them out of melee from an ally
+	for ally in map.characters:
+		if ally is AICombatCharacter:
+			if HexHelper.distance(map.get_cell_coords(ally.global_position), map.get_cell_coords(potential_target.global_position)) == 1:
+				knockback_score += 10.0 # Good to save a melee ally
+				break
+	score += knockback_score
+	
+	return score
+
+func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:
+	# Standard ranged targeting
+	var targets: Array[TargetInfo] = []
+	var caster_pos = map.get_cell_coords(from.global_position)
+	var potential_cells = HexHelper.hex_reachable(caster_pos, get_skill_range(), map.can_walk)
+
+	for cell in potential_cells:
+		if cell != caster_pos:
+			var target_char = map.get_character(cell)
+			if is_valid_target_type(from, target_char):
+				targets.append(TargetInfo.new(
+					TargetInfo.TargetType.CHARACTER, target_char, cell, [target_char]
+				))
+	return targets
+
+# --- Metadata and UI Functions ---
+func get_skill_name() -> String: return "Phantom Shot"
+func get_skill_description() -> String:
+	return "Deal %.1fx base damage and knock the target back %d tiles.\nCooldown: %d turns.\nRange: %d cells." % [damage_mult, knockback_distance, max_cooldown, get_skill_range()]
+func get_skill_icon() -> Texture: return load("res://assets/ui/skills/phantom_shot.png") # Placeholder
+func get_skill_range() -> int: return 5
+func is_melee() -> bool: return false
+func target_allies() -> bool: return false
+func target_enemies() -> bool: return true
+func target_self() -> bool: return false
+
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array:
+	return []
+
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array:
+	var fov_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk)
+	var valid_cells: Array[Vector2i] = []
+	for cell in fov_cells:
+		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
+			continue
+		valid_cells.append(cell)
+		var cell_char = map.get_character(cell)
+		if cell == mouse_pos and is_valid_target_type(from, cell_char):
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
+			var knock_dir = _get_knockback_dir_from_line(map.get_cell_coords(from.global_position), cell)
+			for i in range(knockback_distance) :
+				var knock_cell = HexHelper.hex_neighbor(cell, knock_dir)
+				if map.can_walk(knock_cell):
+					map.set_cell(0, knock_cell, 22, map.get_cell_atlas_coords(0, knock_cell), 5)
+				else:
+					break # Stop if we hit a wall
+		else:
+			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
+	return valid_cells

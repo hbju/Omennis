@@ -33,7 +33,7 @@ func _ready():
 	if debug_mode : 
 		var player1 = PartyMember.new_rand(Character.CLASSES.Mage)
 		var player2 = PartyMember.new_rand(Character.CLASSES.Warrior)
-		var player3 = PartyMember.new_rand(Character.CLASSES.Warrior)
+		var player3 = PartyMember.new_rand(Character.CLASSES.Rogue)
 		var player4 = PartyMember.new_rand(Character.CLASSES.Mage)
 		var base_xp = 4000
 		player1.receive_experience(base_xp)
@@ -46,8 +46,8 @@ func _ready():
 		player4.skill_list.append(ArcaneShield.new())
 		player2.skill_list.append(Charge.new())
 		player2.skill_list.append(WarCry.new())
-		player3.skill_list.append(Charge.new())
-		player3.skill_list.append(DefensiveStance.new())
+		player3.skill_list.append(CripplingShot.new())
+		player3.skill_list.append(ShooterStance.new())
 		var party: Array[PartyMember] = [player1, player2, player3, player4]
 
 		var enemies: Array[EnemyGroup] = []
@@ -148,7 +148,7 @@ func next_turn() -> void :
 	turn = (turn + 1) % characters.size()
 	update_turn_order_ui()
 	characters[turn].take_turn()	
-	skill_bar_ui.update_ui(characters[turn].character, not characters[turn] is PlayerCombatCharacter)
+	skill_bar_ui.update_ui(characters[turn])
 
 ### --- UI --- ###
 func update_turn_order_ui():

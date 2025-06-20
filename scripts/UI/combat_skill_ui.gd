@@ -62,8 +62,12 @@ func _ready() -> void :
 
 
 
-func update_ui(character: Character, enemy_turn: bool= false ) : 
-	player_turn = not enemy_turn
+func update_ui(combat_character: CombatCharacter) : 
+	player_turn = combat_character is PlayerCombatCharacter
+	var enemy_turn = not player_turn
+
+	var character = combat_character.character
+	var is_silenced = combat_character.char_statuses["silence"] > 0
 
 	base_skill = character.base_skill
 	self.skill_list = []
@@ -71,28 +75,29 @@ func update_ui(character: Character, enemy_turn: bool= false ) :
 		self.skill_list.append(skill)
 
 	if base_skill : 
-		button_base_skill.modulate = Color(1, 1, 1)
 		button_base_skill.show()
-		button_base_skill.disabled = enemy_turn
+		button_base_skill.disabled = enemy_turn or is_silenced or base_skill.cooldown > 0
 		cooldown_base_skill.show()
 		if base_skill.cooldown > 0 : 
 			cooldown_base_skill.text = str(base_skill.get_cooldown())
 		else : 
 			cooldown_base_skill.text = ""
+
 		icon_base_skill.show()
 		icon_base_skill.texture = base_skill.get_skill_icon()
 	else : 
-		button_base_skill.modulate = Color(0.7, 0.7, 0.7)
 		button_base_skill.disabled = true
 		cooldown_base_skill.hide()
 		icon_base_skill.hide()
+	button_base_skill.modulate = Color(1, 1, 1) if not button_base_skill.disabled else Color(0.7, 0.7, 0.7)
+
+
 
 	for i in range(0, 3) : 
 		if i < skill_list.size() : 
 			var skill = skill_list[i]
-			button_skills[i].modulate = Color(1, 1, 1)
 			button_skills[i].show()
-			button_skills[i].disabled = enemy_turn
+			button_skills[i].disabled = enemy_turn or is_silenced or skill.cooldown > 0
 			cooldown_skills[i].show()
 			if skill.cooldown > 0 : 
 				cooldown_skills[i].text = str(skill.get_cooldown())
@@ -101,18 +106,18 @@ func update_ui(character: Character, enemy_turn: bool= false ) :
 			icon_skills[i].show()
 			icon_skills[i].texture = skill.get_skill_icon()
 		else : 
-			button_skills[i].modulate = Color(0.7, 0.7, 0.7)
 			button_skills[i].disabled = true
 			cooldown_skills[i].hide()
 			icon_skills[i].hide()
+		button_skills[i].modulate = Color(1,1,1) if not button_skills[i].disabled else Color(0.7, 0.7, 0.7)
 
 func reset_ui() : 
 	for i in range(0, 3) : 
-		button_skills[i].modulate = Color(0.7, 0.7, 0.7)
+		button_skills[i].modulate = Color(1, 1, 1)
 		button_skills[i].disabled = true
 		cooldown_skills[i].hide()
 		icon_skills[i].hide()
-	button_base_skill.modulate = Color(0.7, 0.7, 0.7)
+	button_base_skill.modulate = Color(1, 1, 1)
 	button_base_skill.disabled = true
 	cooldown_base_skill.hide()
 	icon_base_skill.hide()
