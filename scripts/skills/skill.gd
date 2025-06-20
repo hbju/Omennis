@@ -111,11 +111,11 @@ func generate_targets(_caster: CombatCharacter, _map: CombatMap) -> Array[Target
 func get_cooldown() -> int:
 	return cooldown
 
-func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array:
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
 	assert(false, "function not implemented")
 	return []
 
-func highlight_mouse_pos(_from: CombatCharacter, _mouse_pos: Vector2i, _map: CombatMap) -> Array:
+func highlight_mouse_pos(_from: CombatCharacter, _mouse_pos: Vector2i, _map: CombatMap) -> Array[Vector2i]:
 	assert(false, "function not implemented")
 	return []
 

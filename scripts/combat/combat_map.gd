@@ -46,8 +46,8 @@ func _ready():
 		player4.skill_list.append(ArcaneShield.new())
 		player2.skill_list.append(Charge.new())
 		player2.skill_list.append(WarCry.new())
-		player3.skill_list.append(CripplingShot.new())
-		player3.skill_list.append(ShooterStance.new())
+		player3.skill_list.append(PhantomShot.new())
+		player3.skill_list.append(SilencingShot.new())
 		var party: Array[PartyMember] = [player1, player2, player3, player4]
 
 		var enemies: Array[EnemyGroup] = []

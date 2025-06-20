@@ -29,10 +29,36 @@ func _ready() :
 func update_ui(new_member: PartyMember) : 
 	party_member = new_member
 
-	var warrior_skills: Array[Skill] = [DefensiveStance.new(), Charge.new(), ShieldBash.new(), GuardiansAura.new(), HolyStrike.new(), DivineShield.new(), ZealousCharge.new(), Inquisition.new(), Frenzy.new(), RageSlam.new(), WarCry.new(), Whirlwind.new(), BloodFury.new(), RagingBlow.new()]
-	var mage_skills: Array[Skill] = [Blink.new(), ArcaneShield.new(), Frostbolt.new(), Thunderstrike.new(), LightningStorm.new(), Meteor.new(), ArcaneSlash.new(), MoltenBlade.new(), DarkPact.new(), DrainLife.new(), BoneArmor.new(), SoulHarvest.new(), DeathCoil.new(), Decay.new()]
-	var rogue_skills: Array[Skill] = [Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new(), Firespark.new(),Sprint.new(), Charge.new()]
+	var warrior_skills: Array[Skill] = [
+		DefensiveStance.new(), Charge.new(), # Level 1 & 2
+		ShieldBash.new(), GuardiansAura.new(), # Knight Path
+		HolyStrike.new(), DivineShield.new(), # Paladin Path
+		ZealousCharge.new(), Inquisition.new(), # Crusader Path
+		Frenzy.new(), RageSlam.new(), # Barbarian Path
+		WarCry.new(), Whirlwind.new(), # Warlord Path
+		BloodFury.new(), RagingBlow.new() # Berserker Path
+	]
 
+	var mage_skills: Array[Skill] = [
+		Blink.new(), ArcaneShield.new(), # Level 1 & 2
+		Frostbolt.new(), Thunderstrike.new(), # Elementalist Path
+		LightningStorm.new(), Meteor.new(), # Archmage Path
+		ArcaneSlash.new(), MoltenBlade.new(), # Spellblade Path
+		DarkPact.new(), DrainLife.new(), # Necromancer Path
+		BoneArmor.new(), SoulHarvest.new(), # Death Knight Path
+		DeathCoil.new(), Decay.new() # Lich Path
+	]
+
+	var rogue_skills: Array[Skill] = [
+		Backstab.new(), MarkTarget.new(), # Level 1 & 2
+		PoisonDagger.new(), Gouge.new(), # Assassin Path
+		ShadowStrike.new(), Nightmare.new(), # Shadowblade Path
+		Guillotine.new(), FinalStrike.new(), # Executioner Path
+		CripplingShot.new(), ShooterStance.new(), # Scout Path
+		NecroticShot.new(), SniperShot.new(), # Marksman Path
+		SilencingShot.new(), PhantomShot.new() # Ghost Path
+	]
+	
 	var background: ColorRect = $background
 	var curr_skills: Array[Skill] = []
 	match party_member.get_char_class():

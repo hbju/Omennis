@@ -82,7 +82,7 @@ func target_allies() -> bool: return false
 func target_enemies() -> bool: return true
 func target_self() -> bool: return false
 
-func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array:
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
 	return []
 
 func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array:

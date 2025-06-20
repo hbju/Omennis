@@ -105,11 +105,11 @@ func target_allies() -> bool: return false
 func target_enemies() -> bool: return true
 func target_self() -> bool: return false
 
-func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array:
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
 	return []
 
-func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array:
-	var fov_cells = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk)
+func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: CombatMap) -> Array[Vector2i]:
+	var fov_cells: Array[Vector2i] = HexHelper.fov(map.get_cell_coords(from.global_position), mouse_pos, map.can_walk)
 	var valid_cells: Array[Vector2i] = []
 	for cell in fov_cells:
 		if HexHelper.distance(map.get_cell_coords(from.global_position), cell) > get_skill_range():
@@ -118,13 +118,6 @@ func highlight_mouse_pos(from: CombatCharacter, mouse_pos: Vector2i, map: Combat
 		var cell_char = map.get_character(cell)
 		if cell == mouse_pos and is_valid_target_type(from, cell_char):
 			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 5)
-			var knock_dir = _get_knockback_dir_from_line(map.get_cell_coords(from.global_position), cell)
-			for i in range(knockback_distance) :
-				var knock_cell = HexHelper.hex_neighbor(cell, knock_dir)
-				if map.can_walk(knock_cell):
-					map.set_cell(0, knock_cell, 22, map.get_cell_atlas_coords(0, knock_cell), 5)
-				else:
-					break # Stop if we hit a wall
 		else:
 			map.set_cell(0, cell, 22, map.get_cell_atlas_coords(0, cell), 3)
 	return valid_cells

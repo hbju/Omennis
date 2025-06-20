@@ -80,7 +80,7 @@ static func new_rand(char_class: Character.CLASSES = Character.CLASSES.None) -> 
 	var names = load("res://text/characters/" + ("female_character_names.json" if sex == 1 else "male_character_names.json")).data.names
 	var char_name = names[randi() % names.size()]
 	var portrait = randi() % (NB_FEMALE_PORTRAIT if sex == 1 else NB_MALE_PORTRAIT)
-	char_class = CLASSES.values()[randi_range(0, CLASSES.size() - 3)] if char_class == Character.CLASSES.None else char_class
+	char_class = CLASSES.values()[randi_range(0, CLASSES.size() - 2)] if char_class == Character.CLASSES.None else char_class
 
 	var new_char = PartyMember.new(char_name, char_class, portrait, 1, sex)
 	
