@@ -22,10 +22,14 @@ func _load_all_templates(path: String):
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
-		if not dir.current_is_dir() and file_name.ends_with(".tres"):
-			var template = load(path.path_join(file_name))
-			if template is RadiantQuestTemplate:
-				quest_templates.append(template)
+		if not dir.current_is_dir() and not file_name.begins_with("."):
+			if file_name.ends_with(".remap"):
+				file_name = file_name.trim_suffix(".remap")
+			var resource_path = path.path_join(file_name)
+			var loaded_resource = load(resource_path)
+			if loaded_resource is RadiantQuestTemplate:
+				quest_templates.append(loaded_resource)
+			
 		file_name = dir.get_next()
 	
 	print("RadiantQuestManager: Loaded %d quest templates." % quest_templates.size())
