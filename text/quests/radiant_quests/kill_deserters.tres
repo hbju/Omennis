@@ -20,7 +20,7 @@ min_player_level = 1
 enemies = Array[Dictionary]([{
 "archetype": "Mercenary Guard",
 "count": 2,
-"level": 1,
+"level": 2,
 "name": "Deserter Guard"
 }, {
 "archetype": "Arcane Channeler",

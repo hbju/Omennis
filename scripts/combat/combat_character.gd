@@ -11,13 +11,12 @@ var init_pos = null
 
 signal turn_finished
 signal character_died(character)
-signal character_moved
 
-@onready var health_bar = $bar_container/health_bar
-@onready var health_label = $bar_container/health_bar/curr_health
-@onready var shield_bar = $bar_container/shield_bar
-@onready var shield_label = $bar_container/shield_bar/curr_shield
-@onready var status_effects_container: BoxContainer = $bar_container/status_effects_container
+@onready var health_bar = $health_bar
+@onready var health_label = $health_bar/curr_health
+@onready var shield_bar = $shield_bar
+@onready var shield_label = $shield_bar/curr_shield
+@onready var status_effects_container: BoxContainer = $status_effects_container
 @onready var character_highlight = $character_portrait_bg/character_background
 @onready var attack_swing_player: AudioStreamPlayer2D = $attack_swing_player
 @onready var take_damage_player: AudioStreamPlayer2D = $take_damage_player
@@ -47,32 +46,22 @@ const STATUS_ICON_MAP = {
 	"strong": "res://assets/ui/status/strong_icon.png",
 	"vulnerable": "res://assets/ui/status/vulnerable_icon.png",
 	"rooted": "res://assets/ui/status/rooted_icon.png",
-	"poisoned": "res://assets/ui/status/poisoned_icon.png",
+	"decay": "res://assets/ui/status/decay_icon.png",
 	"thorns": "res://assets/ui/status/thorns_icon.png",
 	"blessed": "res://assets/ui/status/blessed_icon.png",
-	"leech": "res://assets/ui/status/leech_icon.png",
-	"imbue": "res://assets/ui/status/imbue_icon.png",
-	"stealth": "res://assets/ui/status/stealth_icon.png",
-	"lynx_eye": "res://assets/ui/status/lynx_eye_icon.png",
-	"silence": "res://assets/ui/status/silence_icon.png"
+	 "leech": "res://assets/ui/status/leech_icon.png",
+	 "imbue": "res://assets/ui/status/imbue_icon.png" 
 }
 
 @onready var character_portrait = $character_portrait_bg/character_portrait
 
-var char_statuses: Dictionary = {
-	"stunned": 0, "rooted": 0, "vulnerable": 0, 
-	"defensive" : 0, "weak": 0, "blessed" : 0, 
-	"strong" : 0, "leech" : [], "imbue" : [0,0], 
-	"thorns" : [0,0], "poisoned" : [0,0], "stealth" : 0, 
-	"lynx_eye": [0,0], "silence": 0,
-	}
+var char_statuses: Dictionary = {"stunned": 0, "rooted": 0, "vulnerable": 0, "defensive" : 0, "weak": 0, "blessed" : 0, "strong" : 0, "leech" : [], "imbue" : [0,0], "thorns" : [0,0], "decay" : [0,0]}
 
 var stunned_animation = preload("res://scenes/stun_animation.tscn")
 var curr_stun_animation = null
 
-const FloatingTextScene = preload("res://scenes/floating_text.tscn")
-
 var character: Character
+
 
 var shield: float = 0
 var max_health: float = 100
@@ -89,8 +78,7 @@ func _ready() :
 	base_damage = character.base_damage
 	_update_health_bar()
 	_update_shield_bar()
-
-	call_deferred("_update_status_icons")
+	call_deferred("update_status_icons")
 
 
 ##
@@ -99,24 +87,12 @@ func _ready() :
 ## If the character is already moving, ignore the new target [br]
 ## [code] new_target [/code]: The position of the target character
 ##
-func move_to(new_target: Vector2i) -> bool : 
-	if move_target or char_statuses["rooted"]:
-		return false
-
-	if not FOOTSTEP_SFX.is_empty() :
-		footstep_player.stream = FOOTSTEP_SFX[randi() % FOOTSTEP_SFX.size()]
-		footstep_player.play()
-	move_target = new_target
-	return true
-
-
-func teleport_to(new_target: Vector2i) :
-	if char_statuses["rooted"]:
-		return false
-
-	position = map.map_to_local(new_target)
-	character_moved.emit()
-	return true
+func move_to(new_target) : 
+	if not move_target :
+		if not FOOTSTEP_SFX.is_empty() :
+			footstep_player.stream = FOOTSTEP_SFX[randi() % FOOTSTEP_SFX.size()]
+			footstep_player.play()
+		move_target = new_target
 
 ##
 ## Attack a new target [br]
@@ -132,7 +108,7 @@ func attack(new_target: Vector2i, ranged: bool = false) :
 			init_pos = position
 		else : 
 			var path = _calculate_path_to_character(map.local_to_map(new_target))
-			print("path : ", path, " | target : ", new_target)
+			print("path: ", path)
 			init_pos = map.map_to_local(path[path.size() - 2])
 
 func _physics_process(_delta):
@@ -156,7 +132,6 @@ func move_to_target() :
 		move_and_slide()
 	else :
 		position = move_target
-		character_moved.emit()
 		finish_turn()
 
 func knock_to_target() :
@@ -187,20 +162,6 @@ func move_to_attack_target() :
 		else :
 			finish_turn()
 
-func take_flat_damage(damage_taken: float) -> float : 
-	if not TAKE_DAMAGE_SFX.is_empty() :
-		take_damage_player.stream = TAKE_DAMAGE_SFX[randi() % TAKE_DAMAGE_SFX.size()]
-		take_damage_player.play()
-
-	health -= damage_taken
-
-	_update_health_bar()
-
-	if health <= 0 :
-		character_died.emit(self)
-	
-	return damage_taken
-
 ##
 ## Decrease the health of the character by the damage taken [br]
 ## Update the health bar [br]
@@ -221,10 +182,17 @@ func take_damage(damage_taken: float) -> float :
 			damage_taken -= shield
 			shield = 0
 
+	if damage_taken > 0 and not TAKE_DAMAGE_SFX.is_empty() :
+		take_damage_player.stream = TAKE_DAMAGE_SFX[randi() % TAKE_DAMAGE_SFX.size()]
+		take_damage_player.play()
+
+	health -= damage_taken
+
+	_update_health_bar()
 	_update_shield_bar()
 
-	if damage_taken > 0 :
-		take_flat_damage(damage_taken)
+	if health <= 0 :
+		character_died.emit(self)
 	
 	return damage_taken
 
@@ -240,9 +208,6 @@ func spend_health(health_spent: float) :
 
 	if health <= 0 :
 		character_died.emit(self)
-
-func is_dead() -> bool : 
-	return health <= 0
 
 ##
 ## Heal the character by the heal_amount [br]
@@ -296,14 +261,6 @@ func _update_shield_bar() :
 		shield_bar.value = (shield / max_health) * shield_bar.max_value
 		shield_label.text = str(roundi(shield)) + "/" + str(max_health)
 
-func _update_stealth_visuals():
-	if char_statuses.get("stealth", 0) > 0:
-		# Become semi-transparent
-		modulate.a = 0.5 
-	else:
-		# Return to full visibility
-		modulate.a = 1.0
-
 ##
 ## Get the amount of damage the character will deal on the next attack [br]
 ## If the character is weak, the base_damage is reduced by a third [br]
@@ -317,37 +274,9 @@ func get_damage() -> float :
 		damage = damage * 3 / 2
 	return damage
 
-func get_crit_chance() -> float : 
-	var crit_chance = character.crit_chance + char_statuses["lynx_eye"][1]
-	if char_statuses["stealth"] > 0 :
-		crit_chance += 10
-	return crit_chance
-
-func deal_damage(other: CombatCharacter, damage_mult: float, attack_flags: Dictionary = {}) -> float : 
-
-	var is_guaranteed_crit = attack_flags.get("guaranteed_crit", false)
-	var crit_chance = get_crit_chance()
-	var is_crit = is_guaranteed_crit or randf() < crit_chance
-
-	if is_crit :
-		damage_mult = attack_flags.get("custom_crit_damage", damage_mult)
-
+func deal_damage(other: CombatCharacter, damage_mult: float) -> float : 
 	var damage = get_damage() * damage_mult
-
-	if is_crit :
-		damage *= character.crit_damage_multiplier
-
-	var damage_taken: float = other.take_damage(damage)
-
-	if FloatingTextScene:
-		var floating_text = FloatingTextScene.instantiate()
-		other.add_child(floating_text)
-		var color = Color.YELLOW
-		var text = str(round(damage_taken))
-		if is_crit :
-			color = Color.RED
-			text += "\nCRITICAL !"
-		floating_text.show_text(text, color)
+	other.take_damage(damage)
 
 	if (other.char_statuses["thorns"][0] > 0) :
 		take_damage(other.char_statuses["thorns"][1])
@@ -358,24 +287,12 @@ func deal_damage(other: CombatCharacter, damage_mult: float, attack_flags: Dicti
 		for i in range(leech_stats.size()) : 
 			if leech_stats[i][0] > 0 : 
 				leech_level += leech_stats[i][1]
-		heal(damage_taken * leech_level / 100.0)
+		heal(damage * leech_level / 100.0)
 
-	char_statuses["stealth"] = 0 
-	_update_stealth_visuals()
-	_update_status_icons()
-
-	return damage_taken
+	return damage
 
 func take_turn() : 
-	if char_statuses["poisoned"][0] > 0 : 
-		take_flat_damage(char_statuses["poisoned"][1])
-		char_statuses["poisoned"][0] = max(0, char_statuses["poisoned"][0] - 1)
-
-	
-	for skill in character.skill_list : 
-		skill.decrease_cooldown()
-	if character.base_skill:
-		character.base_skill.decrease_cooldown()
+	assert(false, "take_turn not implemented")
 
 ##
 ## Finish the turn [br]
@@ -402,15 +319,13 @@ func finish_turn() :
 		if char_statuses["leech"][i][0] > 0 : 
 			new_leech.append(char_statuses["leech"][i])
 	char_statuses["leech"] = new_leech
+	char_statuses["decay"][0] = max(0, char_statuses["decay"][0] - 1)
 	char_statuses["thorns"][0] = max(0, char_statuses["thorns"][0] - 1)
-	char_statuses["stealth"] = max(0, char_statuses["stealth"] - 1)
-	char_statuses["lynx_eye"][0] = max(0, char_statuses["lynx_eye"][0] - 1)
-	char_statuses["silence"] = max(0, char_statuses.get("silence", 0) - 1) # NEW
 
-	_update_stealth_visuals()
+	if char_statuses["decay"][0] > 0 : 
+		take_damage(char_statuses["decay"][1] * max_health / 100.0)
 
-
-	_update_status_icons()
+	update_status_icons()
 	await get_tree().create_timer(0.25).timeout
 	turn_finished.emit()
 
@@ -420,13 +335,11 @@ func finish_turn() :
 ## [code] return [/code]: The path to the target character
 ##
 func _calculate_path_to_character(other_char_pos: Vector2i) -> PackedVector2Array:
-	print("Calculating path to character at position: ", other_char_pos)
-
 	var this_tile_id = map.cell_ids[map.get_cell_coords(global_position)]
 	var target_tile_id = map.cell_ids[other_char_pos]
 	return map.astar.get_point_path(this_tile_id, target_tile_id)
 
-func gain_status(status_name: String, nb_turns: int = 1, nb_level: float = 0) :
+func gain_status(status_name: String, nb_turns: int = 1, nb_level: int = 0) :
 	match status_name : 
 		"stunned" : 
 			gain_stunned_status(nb_turns)
@@ -437,7 +350,7 @@ func gain_status(status_name: String, nb_turns: int = 1, nb_level: float = 0) :
 		"weak" : 
 			gain_weak_status(nb_turns)
 		"blessed" : 
-			gain_blessed_status(nb_turns)
+			gain_blessed_status(nb_level)
 		"strong" : 
 			gain_strong_status(nb_turns)
 		"imbue" : 
@@ -448,16 +361,10 @@ func gain_status(status_name: String, nb_turns: int = 1, nb_level: float = 0) :
 			gain_leech_status(nb_turns, nb_level)
 		"thorns":
 			gain_thorn_status(nb_turns, nb_level)
-		"poisoned":
-			gain_poisoned_status(nb_turns, nb_level)
-		"stealth":
-			gain_stealth_status(nb_turns)
-		"lynx_eye":
-			gain_lynx_eye_status(nb_turns, nb_level)
-		"silence":
-			gain_silence_status(nb_turns)
+		"decay":
+			gain_decay_status(nb_turns, nb_level)
 
-	_update_status_icons()
+	update_status_icons()
 
 ##
 ## Stun the character, making him skip his next turn [br]
@@ -483,15 +390,15 @@ func gain_weak_status(nb_turns: int = 1) :
 	if char_statuses["strong"] > 0 : 
 		char_statuses["strong"] = 0
 
-func gain_blessed_status(nb_turns: int = 1) : 
-	char_statuses["blessed"] += nb_turns
+func gain_blessed_status(nb_level: int = 1) : 
+	char_statuses["blessed"] += nb_level
 
 func gain_strong_status(nb_turns: int = 1) : 
 	char_statuses["strong"] += nb_turns
 	if char_statuses["weak"] > 0 : 
 		char_statuses["weak"] = 0
 
-func gain_imbue_status(nb_turns: int = 1, imbue_strength: float = 10) :
+func gain_imbue_status(nb_turns: int = 1, imbue_strength: int = 10) :
 	char_statuses["imbue"][0] += nb_turns
 	char_statuses["imbue"][1] += imbue_strength
 
@@ -500,28 +407,16 @@ func gain_vulnerable_status(nb_turns: int = 1) :
 	if char_statuses["defensive"] > 0 : 
 		char_statuses["defensive"] = 0
 
-func gain_leech_status(nb_turns: int = 1, nb_levels: float = 1) : 
+func gain_leech_status(nb_turns: int = 1, nb_levels: int = 1) : 
 	char_statuses["leech"].append([nb_turns, nb_levels])
 
-func gain_thorn_status(nb_turns: int = 1, nb_levels: float = 1) :
+func gain_thorn_status(nb_turns: int = 1, nb_levels: int = 1) :
 	char_statuses["thorns"][0] += nb_turns
 	char_statuses["thorns"][1] = max(char_statuses["thorns"][1], nb_levels)
 
-func gain_poisoned_status(nb_turns: int = 1, poison_damage: float = 10) :
-	char_statuses["poisoned"][0] += nb_turns
-	char_statuses["poisoned"][1] = char_statuses["poisoned"][1] + poison_damage
-
-func gain_stealth_status(nb_turns: int = 1) :
-	char_statuses["stealth"] += nb_turns
-	_update_stealth_visuals()
-	
-func gain_lynx_eye_status(nb_turns: int = 1, nb_levels: float = 1) :
-	char_statuses["lynx_eye"][0] += nb_turns
-	char_statuses["lynx_eye"][1] += nb_levels
-
-func gain_silence_status(nb_turns: int = 1) : 
-	char_statuses["silence"] += nb_turns
-
+func gain_decay_status(nb_turns: int = 1, decay_percent: int = 10) :
+	char_statuses["decay"][0] = max(char_statuses["decay"][0], nb_turns)
+	char_statuses["decay"][1] = char_statuses["decay"][1] + decay_percent
 
 func knockback(knockback_distance: int, direction: int, knockback_damage: float) : 
 	var curr_pos = map.get_cell_coords(global_position)
@@ -540,7 +435,7 @@ func knockback(knockback_distance: int, direction: int, knockback_damage: float)
 
 ## UI
 
-func _update_status_icons():
+func update_status_icons():
 	if not is_inside_tree() or not status_effects_container: # Safety check
 		return
 
@@ -565,7 +460,7 @@ func _update_status_icons():
 							show_icon = true
 							duration += status_value[i][0] # Show duration
 							level = max(status_value[i][1], level) # Show level
-			"imbue", "thorns", "poisoned", "lynx_eye":
+			"imbue", "thorns", "decay":
 				if status_value is Array and status_value[0] > 0: # Check duration part
 					show_icon = true
 					duration = status_value[0] # Show duration

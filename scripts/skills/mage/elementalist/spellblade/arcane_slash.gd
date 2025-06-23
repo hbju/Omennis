@@ -32,7 +32,7 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 	if target.health <= potential_damage:
 		score += AIScoringWeights.WEIGHT_KILL_BONUS
 	else:
-		score += (1.0 - ((target.health - potential_damage) / target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+		score += (1.0 - (target.health / target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 
 	# Score the shield gain
 	var shield_gain = potential_damage * shield_gain_percent / 100.0

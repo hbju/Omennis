@@ -85,7 +85,7 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 			if target.health <= potential_damage_per_target:
 				combi_score += AIScoringWeights.WEIGHT_KILL_BONUS
 			else:
-				combi_score += (1.0 - ((target.health - potential_damage_per_target) / target.max_health)) * potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+				combi_score += (1.0 - (target.health / target.max_health)) * potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 		
 			combi_score += AIScoringWeights.WEIGHT_DISABLE_TURN * stun_duration * stun_chance * combination.size()
 

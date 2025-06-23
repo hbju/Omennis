@@ -247,7 +247,7 @@ func enter_event(place_id: String):
 
 	var active_quest: Dictionary = RadiantQuestManager.get_active_quest()
 
-	if not active_quest.is_empty() and active_quest.state == "Accepted" and active_quest.template.quest_type != RadiantQuestTemplate.QuestType.DELIVER and active_quest.poi_event_id == place_id:
+	if not active_quest.is_empty() and active_quest.template.quest_type != RadiantQuestTemplate.QuestType.DELIVER and active_quest.poi_event_id == place_id:
 		event_ui.show_dynamic_quest_location_event(active_quest)
 	else:
 		event_ui.show_event(place_id, place_id)

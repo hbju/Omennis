@@ -30,18 +30,18 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 
 func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], target_cell: Vector2i, map: CombatMap) -> float:
 	if potential_targets.is_empty(): return 0.0
-	var potential_target = potential_targets[0]
+	var curr_target = potential_targets[0]
 
 	var score = AIScoringWeights.WEIGHT_BASE_RANGED # Ranged attacks are generally safer/valuable
 	var potential_damage = from.get_damage() * damage_mult
 	score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE
 
-	if potential_target.health <= potential_damage:
+	if curr_target.health <= potential_damage:
 		score += AIScoringWeights.WEIGHT_KILL_BONUS
 	else:
-		score += (1.0 - ((potential_target.health - potential_damage) / potential_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+		score += (1.0 - (curr_target.health / curr_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 
-	score -= potential_target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY
+	score -= curr_target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY
 
 	# Bonus for range - less valuable if target is already close?
 	var dist = HexHelper.distance(map.get_cell_coords(from.global_position), target_cell)
