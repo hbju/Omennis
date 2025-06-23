@@ -35,15 +35,15 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 
 	var score = AIScoringWeights.WEIGHT_BASE_RANGED
 	var potential_damage = from.get_damage() * damage_mult
-	var potential_heal = potential_damage # Heal amount equals damage dealt
+	var potential_heal = min(potential_damage, from.max_health - from.health)
 
 	# Score damage component
 	var damage_score = potential_damage * AIScoringWeights.WEIGHT_DAMAGE
 	if potential_target.health <= potential_damage:
 		damage_score += AIScoringWeights.WEIGHT_KILL_BONUS
 	else:
-		damage_score += (1.0 - (potential_target.health / potential_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
-	damage_score -= potential_target.shield * 0.1
+		damage_score += (1.0 - ((potential_target.health - potential_damage) / potential_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+	damage_score -= potential_target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY
 
 	# Score heal component
 	var heal_score = potential_heal * AIScoringWeights.WEIGHT_HEAL
@@ -53,9 +53,10 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 
 	# If targeting an ally, damage score is negative!
 	if potential_target is AICombatCharacter : 
-		damage_score = (1 - (potential_target.health / potential_target.max_health)) * AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY # Use heavy penalty
+		damage_score = (1 - ((potential_target.health - potential_damage) / potential_target.max_health)) * AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY # Use heavy penalty
 
 	score += damage_score + heal_score
+	print("Drain Life score -> ", damage_score, " damage, ", heal_score, " heal")
 	return max(0.0, score)
 
 func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo]:

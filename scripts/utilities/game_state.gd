@@ -1,6 +1,5 @@
 extends Node
 
-var player_coords: Vector2
 var party: Array[PartyMember]
 var curr_candidate: PartyMember
 const PARTY_MAX_NUMBER = 4
@@ -890,25 +889,36 @@ func step_taken() :
 		steps_until_event = randi_range(12, 20)
 		random_event.emit()
 
-func get_distance_and_orientation_to_location(city: String, location: PointOfInterest) -> String : 
+func get_distance_and_orientation_to_location(city: PointOfInterest, location: PointOfInterest) -> String : 
 
-	var distance = player_coords.distance_to(location.position)
-	var orientation = player_coords.angle_to(location.position)
-	print(orientation, " ", distance)
-	if orientation < -PI/4 or orientation > PI/4:
-		orientation = "North"
-	elif orientation < 3*PI/4:
-		orientation = "East"
-	elif orientation < 5*PI/4:
-		orientation = "South"
+	var distance = city.global_position.distance_to(location.global_position)
+	var orientation = location.global_position.angle_to(city.global_position)
+	orientation = wrapf(orientation, -PI, PI) # Normalize to [-PI, PI]
+	
+	print("Distance to %s: %d, Orientation: %f" % [location.poi_name, distance, orientation])
+	if orientation > -PI/8 and orientation <= PI/8:
+		orientation = "east"
+	elif orientation > PI/8 and orientation <= 3*PI/8:
+		orientation = "northeast"
+	elif orientation > 3*PI/8 and orientation <= 5*PI/8:
+		orientation = "north"
+	elif orientation > 5*PI/8 and orientation <= 7*PI/8:
+		orientation = "northwest"
+	elif orientation > 7*PI/8 or orientation <= -7*PI/8:
+		orientation = "west"
+	elif orientation > -7*PI/8 and orientation < -5*PI/8:
+		orientation = "southwest"
+	elif orientation > -5*PI/8 and orientation < -3*PI/8:
+		orientation = "south"
 	else:
-		orientation = "West"
+		orientation = "southeast"
+
 
 	if distance < 10 * 900:
-		return "%s is near %s to the %s." % [location.poi_name, city, orientation]
+		return "%s is near %s to the %s." % [location.poi_name, city.poi_name, orientation]
 	elif distance < 15 * 900:
-		return "%s is a short distance from %s to the %s." % [location.poi_name, city, orientation]
+		return "%s is a short distance from %s to the %s." % [location.poi_name, city.poi_name, orientation]
 	elif distance < 20 * 900:
-		return "%s is a moderate distance from %s to the %s." % [location.poi_name.capitalize(), city, orientation]
+		return "%s is a moderate distance from %s to the %s." % [location.poi_name.capitalize(), city.poi_name, orientation]
 	else:
-		return "%s is far away from %s to the %s." % [location.poi_name.capitalize(), city, orientation]
+		return "%s is far away from %s to the %s." % [location.poi_name.capitalize(), city.poi_name, orientation]

@@ -74,8 +74,8 @@ func is_valid_target_type(from: CombatCharacter, target: CombatCharacter) -> boo
 	if not from or not target: return false 
 
 	if target_enemies():
-		if (from is PlayerCombatCharacter and target is AICombatCharacter) or \
-		   (from is AICombatCharacter and target is PlayerCombatCharacter):
+		if (target.char_statuses.get("stealth", 0) == 0) and ((from is PlayerCombatCharacter and target is AICombatCharacter) or \
+		   (from is AICombatCharacter and target is PlayerCombatCharacter)):
 			return true
 
 	if target_allies():
@@ -111,11 +111,11 @@ func generate_targets(_caster: CombatCharacter, _map: CombatMap) -> Array[Target
 func get_cooldown() -> int:
 	return cooldown
 
-func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array:
+func highlight_targets(_from: CombatCharacter, _map: CombatMap) -> Array[Vector2i]:
 	assert(false, "function not implemented")
 	return []
 
-func highlight_mouse_pos(_from: CombatCharacter, _mouse_pos: Vector2i, _map: CombatMap) -> Array:
+func highlight_mouse_pos(_from: CombatCharacter, _mouse_pos: Vector2i, _map: CombatMap) -> Array[Vector2i]:
 	assert(false, "function not implemented")
 	return []
 

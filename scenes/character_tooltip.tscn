@@ -15,6 +15,7 @@ texture = ExtResource("1_nnihd")
 
 [sub_resource type="LabelSettings" id="LabelSettings_cihhv"]
 font = ExtResource("3_qyt6r")
+font_size = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_7mai5"]
 font_size = 75

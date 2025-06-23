@@ -46,14 +46,14 @@ func score_action(_from: CombatCharacter, potential_targets: Array[CombatCharact
 	# Bonus if target is high health (DoT %HP is better)
 	score += (potential_target.health / potential_target.max_health) * 10.0
 
-	# Bonus if target doesn't already have decay or has fewer stacks
-	var current_decay_stacks = potential_target.char_statuses["decay"][0] # Duration acts as proxy for stacks here
-	var current_decay_percent = potential_target.char_statuses["decay"][1]
+	# Bonus if target doesn't already have poison or has fewer stacks
+	var current_poison_stacks = potential_target.char_statuses["poisoned"][0] # Duration acts as proxy for stacks here
+	var current_poison_percent = potential_target.char_statuses["poisoned"][1]
 	# Value applying the *first* stack more, or refreshing a long duration one
-	if current_decay_stacks < duration:
-		score += 3.0 * (duration - current_decay_stacks) 
+	if current_poison_stacks < duration:
+		score += 3.0 * (duration - current_poison_stacks)
 	# Value adding to existing stacks, up to a point
-	score += (damage_percent / max(10.0, current_decay_percent)) * 10.0 # Diminishing returns as % increases
+	score += (damage_percent / max(10.0, current_poison_percent)) * 10.0 # Diminishing returns as % increases
 
 	# Consider if target might die before DoT finishes? Hard to predict.
 
@@ -75,7 +75,7 @@ func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo
 
 func _on_reached_target():
 	if is_instance_valid(target):
-		target.gain_status("decay", duration, damage_percent)
+		target.gain_status("poisoned", duration, floor(damage_percent * target.max_health / 100.0))
 	if is_instance_valid(curr_projectile):
 		curr_projectile.queue_free()
 	skill_finished.emit()

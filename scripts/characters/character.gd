@@ -7,6 +7,8 @@ var character_level: int
 
 var max_health: int
 var base_damage: float
+var crit_chance: float = 0.1 # Base 10% critical chance
+var crit_damage_multiplier: float = 1.5 # Base +50% critical damage
 
 var base_skill: Skill
 var skill_list: Array[Skill] = []
@@ -25,6 +27,8 @@ func _init(name, _class, portrait, level, health: int = 100, damage: float = 10)
 		self.base_skill = BoundingLeap.new()
 	elif _class == CLASSES.Mage:
 		self.base_skill = FiresparkMage.new()
+	elif _class == CLASSES.Rogue:
+		self.base_skill = ShadowStep.new()
 
 func reset_skills(): 
 	for skill in skill_list:

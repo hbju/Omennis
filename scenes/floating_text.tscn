@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bf44srtemk43f"]
+
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="1_vxkke"]
+[ext_resource type="Script" path="res://scripts/combat/floating_text.gd" id="5_x6ruk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xvcty"]
+font = ExtResource("1_vxkke")
+font_size = 50
+
+[node name="floating_text" type="Label"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -30.5
+offset_right = 25.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "17"
+label_settings = SubResource("LabelSettings_xvcty")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+script = ExtResource("5_x6ruk")
