@@ -70,7 +70,7 @@ static var ENEMY_CLASS_DEFINITIONS = {
     "Mountain Drake" : {
         "class_enum": Character.CLASSES.None,
         "base_hp": 40, "hp_per_level": 7,
-        "base_damage_stat": 10, "damage_stat_per_level": 2,
+        "base_damage_stat": 5, "damage_stat_per_level": 2,
         "skill_pool_config": [
             {"skill": Charge, "min_level": 3},
             {"skill": Frenzy, "min_level": 5},
@@ -80,8 +80,8 @@ static var ENEMY_CLASS_DEFINITIONS = {
     },
     "Ash-Chitterer Queen" : {
         "class_enum": Character.CLASSES.Warrior,
-        "base_hp": 60, "hp_per_level": 10,
-        "base_damage_stat": 12, "damage_stat_per_level": 3,
+        "base_hp": 50, "hp_per_level": 8,
+        "base_damage_stat": 4, "damage_stat_per_level": 2,
         "skill_pool_config": [
             {"skill": Charge, "min_level": 3},
             {"skill": Frenzy, "min_level": 5},

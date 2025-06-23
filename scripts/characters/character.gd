@@ -27,6 +27,8 @@ func _init(name, _class, portrait, level, health: int = 100, damage: float = 10)
 		self.base_skill = BoundingLeap.new()
 	elif _class == CLASSES.Mage:
 		self.base_skill = FiresparkMage.new()
+	elif _class == CLASSES.Rogue:
+		self.base_skill = ShadowStep.new()
 
 func reset_skills(): 
 	for skill in skill_list:

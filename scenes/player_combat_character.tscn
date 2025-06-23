@@ -1,10 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://xkfew8g51xdy"]
+[gd_scene load_steps=16 format=3 uid="uid://xkfew8g51xdy"]
 
 [ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_rl8hf"]
 [ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_rduhn"]
 [ext_resource type="PackedScene" uid="uid://c5k7vp5miiflb" path="res://scenes/status_icon.tscn" id="4_5drti"]
-[ext_resource type="PackedScene" uid="uid://bf44srtemk43f" path="res://scenes/floating_text.tscn" id="5_m4ave"]
 
 [sub_resource type="Gradient" id="Gradient_88r5d"]
 offsets = PackedFloat32Array(1)
@@ -149,5 +148,3 @@ bus = &"SFX"
 
 [node name="footstep_player" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
-
-[node name="floating_text" parent="." instance=ExtResource("5_m4ave")]

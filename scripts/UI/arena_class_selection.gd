@@ -6,6 +6,7 @@ signal class_selected(selected_class: Character.CLASSES)
 @onready var title_label: Label = $background/CenterContainer/content_vbox/title_label_bg/title_label
 @onready var warrior_button: TextureButton = $background/CenterContainer/content_vbox/class_options_hbox/warrior_button
 @onready var mage_button: TextureButton = $background/CenterContainer/content_vbox/class_options_hbox/mage_button
+@onready var rogue_button: TextureButton = $background/CenterContainer/content_vbox/class_options_hbox/rogue_button
 @onready var confirm_button: TextureButton = $background/CenterContainer/content_vbox/proceed_button
 
 var chosen_class: Character.CLASSES = Character.CLASSES.None # Default to None or first class
@@ -14,7 +15,7 @@ var selected_button: TextureButton = null
 func _ready():
 	warrior_button.pressed.connect(_on_class_button_pressed.bind(Character.CLASSES.Warrior, warrior_button))
 	mage_button.pressed.connect(_on_class_button_pressed.bind(Character.CLASSES.Mage, mage_button))
-	# rogue_button.pressed.connect(_on_class_button_pressed.bind(Character.CLASSES.Rogue, rogue_button))
+	rogue_button.pressed.connect(_on_class_button_pressed.bind(Character.CLASSES.Rogue, rogue_button))
 	confirm_button.pressed.connect(_on_confirm_button_pressed)
 
 	# Start with no class selected and confirm button disabled
@@ -30,14 +31,15 @@ func _on_class_button_pressed(class_enum_value: Character.CLASSES, button_node: 
 
 func _highlight_selected_button(button_to_highlight: TextureButton):
 	# Reset previous highlights (simple modulation example)
-	warrior_button.modulate = Color.WHITE
-	warrior_button.disabled = false
-	mage_button.modulate = Color.WHITE
+	warrior_button.modulate = Color.DIM_GRAY if button_to_highlight else Color.WHITE
+	warrior_button.disabled = false 
+	mage_button.modulate = Color.DIM_GRAY if button_to_highlight else Color.WHITE
 	mage_button.disabled = false
-	# rogue_button.modulate = Color.WHITE
+	rogue_button.modulate = Color.DIM_GRAY if button_to_highlight else Color.WHITE
+	rogue_button.disabled = false
 
 	if button_to_highlight:
-		button_to_highlight.modulate = Color.DIM_GRAY # Highlight the selected button
+		button_to_highlight.modulate = Color.WHITE # Highlight the selected button
 		button_to_highlight.disabled = true
 
 func _on_confirm_button_pressed():

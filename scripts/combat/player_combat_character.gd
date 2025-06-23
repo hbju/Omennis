@@ -35,10 +35,7 @@ func _ready():
 ## [code] return [/code]: void
 ##
 func take_turn() : 
-	for skill in character.skill_list : 
-		skill.decrease_cooldown()
-	if character.base_skill:
-		character.base_skill.decrease_cooldown()
+	super()
 
 	if (char_statuses["stunned"] > 0) :
 		finish_turn()

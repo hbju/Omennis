@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cehdjqrvkxicd"]
+[gd_scene load_steps=19 format=3 uid="uid://cehdjqrvkxicd"]
 
 [ext_resource type="Script" path="res://scripts/ui/arena_class_selection.gd" id="1_7pt7w"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_cixhl"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="7_45mfw"]
 [ext_resource type="Texture2D" uid="uid://b7kbnk04701ot" path="res://assets/ui/classes_icons/mage.png" id="7_t1xvm"]
 [ext_resource type="FontFile" uid="uid://cmqc3xpvl6rqt" path="res://assets/fonts/trocchi/Trocchi.otf" id="8_s15g8"]
+[ext_resource type="Texture2D" uid="uid://bk5sf2nsjr1yv" path="res://assets/ui/classes_icons/rogue.png" id="11_3immr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_l6w4x"]
 font = ExtResource("2_tyu74")
@@ -201,6 +202,67 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Mage"
+label_settings = SubResource("LabelSettings_ta4x1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rogue_button" type="TextureButton" parent="background/CenterContainer/content_vbox/class_options_hbox"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("3_kxhc2")
+texture_pressed = ExtResource("4_cftyi")
+texture_hover = ExtResource("5_8e11n")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="class_icon" type="TextureRect" parent="background/CenterContainer/content_vbox/class_options_hbox/rogue_button"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_3immr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="class_name_bg" type="TextureRect" parent="background/CenterContainer/content_vbox/class_options_hbox/rogue_button"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -65.0
+offset_top = -31.0
+offset_right = 65.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_45mfw")
+expand_mode = 1
+
+[node name="class_name" type="Label" parent="background/CenterContainer/content_vbox/class_options_hbox/rogue_button/class_name_bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -11.5
+offset_right = 30.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Rogue"
 label_settings = SubResource("LabelSettings_ta4x1")
 horizontal_alignment = 1
 vertical_alignment = 1
