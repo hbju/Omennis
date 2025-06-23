@@ -57,10 +57,10 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 			if target.health <= potential_damage_per_target:
 				enemy_score += AIScoringWeights.WEIGHT_KILL_BONUS
 			else:
-				enemy_score += (1.0 - (target.health / target.max_health)) * potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+				enemy_score += (1.0 - ((target.health - potential_damage_per_target) / target.max_health)) * potential_damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 			total_enemy_damage_score += enemy_score
 		else: # Is Ally?
-			total_ally_damage_penalty += AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY * (potential_damage_per_target / target.max_health)
+			total_ally_damage_penalty += AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY * (1+(potential_damage_per_target / target.max_health))
 
 	if enemies_hit == 0: return 0.0 # No value if only hitting allies
 

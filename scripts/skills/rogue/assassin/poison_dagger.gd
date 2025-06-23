@@ -38,7 +38,7 @@ func score_action(caster: CombatCharacter, potential_targets: Array[CombatCharac
 	if target.health <= initial_damage:
 		score += AIScoringWeights.WEIGHT_KILL_BONUS * 0.8 # Slightly less valuable as DoT is wasted
 	else:
-		score += (1.0 - (target.health / target.max_health)) * initial_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+		score += (1.0 - ((target.health - initial_damage) / target.max_health)) * initial_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 
 	# Score DoT component (Poison)
 	var poison_damage = caster.get_damage() * poison_damage_mult_per_turn

@@ -132,7 +132,7 @@ func attack(new_target: Vector2i, ranged: bool = false) :
 			init_pos = position
 		else : 
 			var path = _calculate_path_to_character(map.local_to_map(new_target))
-			print("path: ", path)
+			print("path : ", path, " | target : ", new_target)
 			init_pos = map.map_to_local(path[path.size() - 2])
 
 func _physics_process(_delta):
@@ -241,6 +241,9 @@ func spend_health(health_spent: float) :
 	if health <= 0 :
 		character_died.emit(self)
 
+func is_dead() -> bool : 
+	return health <= 0
+
 ##
 ## Heal the character by the heal_amount [br]
 ## If the character is blessed, the heal_amount is increased by 10% times the level of blessed [br]
@@ -334,13 +337,13 @@ func deal_damage(other: CombatCharacter, damage_mult: float, attack_flags: Dicti
 	if is_crit :
 		damage *= character.crit_damage_multiplier
 
-	var damage_taken = other.take_damage(damage)
+	var damage_taken: float = other.take_damage(damage)
 
 	if FloatingTextScene:
 		var floating_text = FloatingTextScene.instantiate()
 		other.add_child(floating_text)
 		var color = Color.YELLOW
-		var text = str(damage_taken)
+		var text = str(round(damage_taken))
 		if is_crit :
 			color = Color.RED
 			text += "\nCRITICAL !"
@@ -364,7 +367,15 @@ func deal_damage(other: CombatCharacter, damage_mult: float, attack_flags: Dicti
 	return damage_taken
 
 func take_turn() : 
-	assert(false, "take_turn not implemented")
+	if char_statuses["poisoned"][0] > 0 : 
+		take_flat_damage(char_statuses["poisoned"][1])
+		char_statuses["poisoned"][0] = max(0, char_statuses["poisoned"][0] - 1)
+
+	
+	for skill in character.skill_list : 
+		skill.decrease_cooldown()
+	if character.base_skill:
+		character.base_skill.decrease_cooldown()
 
 ##
 ## Finish the turn [br]
@@ -391,7 +402,6 @@ func finish_turn() :
 		if char_statuses["leech"][i][0] > 0 : 
 			new_leech.append(char_statuses["leech"][i])
 	char_statuses["leech"] = new_leech
-	char_statuses["poisoned"][0] = max(0, char_statuses["poisoned"][0] - 1)
 	char_statuses["thorns"][0] = max(0, char_statuses["thorns"][0] - 1)
 	char_statuses["stealth"] = max(0, char_statuses["stealth"] - 1)
 	char_statuses["lynx_eye"][0] = max(0, char_statuses["lynx_eye"][0] - 1)
@@ -399,8 +409,6 @@ func finish_turn() :
 
 	_update_stealth_visuals()
 
-	if char_statuses["poisoned"][0] > 0 : 
-		take_flat_damage(char_statuses["poisoned"][1])
 
 	_update_status_icons()
 	await get_tree().create_timer(0.25).timeout
@@ -412,6 +420,8 @@ func finish_turn() :
 ## [code] return [/code]: The path to the target character
 ##
 func _calculate_path_to_character(other_char_pos: Vector2i) -> PackedVector2Array:
+	print("Calculating path to character at position: ", other_char_pos)
+
 	var this_tile_id = map.cell_ids[map.get_cell_coords(global_position)]
 	var target_tile_id = map.cell_ids[other_char_pos]
 	return map.astar.get_point_path(this_tile_id, target_tile_id)

@@ -1,7 +1,7 @@
 extends Skill
 class_name Meteor
 
-var total_damage_mult := 10
+var total_damage_mult := 8
 var aoe_radius := 1
 var max_cooldown := 5
 
@@ -58,11 +58,11 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 			if target.health <= damage_per_target:
 				enemy_score += AIScoringWeights.WEIGHT_KILL_BONUS
 			else:
-				enemy_score += (1.0 - (target.health / target.max_health)) * damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+				enemy_score += (1.0 - ((target.health - damage_per_target) / target.max_health)) * damage_per_target * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 			total_enemy_damage_score += enemy_score
 		else :
 			# Apply penalty for hitting allies
-			total_ally_damage_penalty += AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY * (damage_per_target / target.max_health) # Penalty scaled by % max hp damage
+			total_ally_damage_penalty += AIScoringWeights.WEIGHT_AOE_TARGET_ALLY_DAMAGE_PENALTY * (1+(damage_per_target / target.max_health)) # Penalty scaled by % max hp damage
 
 	if enemy_targets == 0: return 0.0 # No enemies in AoE
 

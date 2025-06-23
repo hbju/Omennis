@@ -90,7 +90,7 @@ func get_skill_name() -> String: return "Mark Target"
 func get_skill_description() -> String:
 	return "Mark an enemy, increasing damage they take from all sources by %d%% for %d turns. Killing the marked enemy resets this skill's cooldown.\nCooldown: %d turns." % [damage_increase * 100, duration, max_cooldown]
 func get_skill_icon() -> Texture: return load("res://assets/ui/skills/mark_target.png") # Placeholder path
-func get_skill_range() -> int: return 3
+func get_skill_range() -> int: return 4
 func is_melee() -> bool: return false
 func target_allies() -> bool: return false
 func target_enemies() -> bool: return true

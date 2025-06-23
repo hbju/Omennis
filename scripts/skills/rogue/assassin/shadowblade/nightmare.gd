@@ -35,6 +35,8 @@ func score_action(caster: CombatCharacter, potential_targets: Array[CombatCharac
 	
 	if target.health <= potential_damage:
 		score += AIScoringWeights.WEIGHT_KILL_BONUS
+	else : 
+			score += (1.0 - ((target.health - potential_damage) / target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 	
 	return score
 

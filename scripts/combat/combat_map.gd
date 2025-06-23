@@ -31,27 +31,27 @@ func _ready():
 	skill_bar_ui.choose_target.connect(_on_skill_selected)
 	skill_bar_ui.wait_pressed.connect(_on_wait_pressed)
 	if debug_mode : 
-		var player1 = PartyMember.new_rand(Character.CLASSES.Mage)
+		var player1 = PartyMember.new_rand(Character.CLASSES.Rogue)
 		var player2 = PartyMember.new_rand(Character.CLASSES.Warrior)
-		var player3 = PartyMember.new_rand(Character.CLASSES.Rogue)
-		var player4 = PartyMember.new_rand(Character.CLASSES.Mage)
+		#var player3 = PartyMember.new_rand(Character.CLASSES.Rogue)
+		#var player4 = PartyMember.new_rand(Character.CLASSES.Mage)
 		var base_xp = 4000
 		player1.receive_experience(base_xp)
 		player2.receive_experience(base_xp)
-		player3.receive_experience(base_xp)
-		player4.receive_experience(base_xp)
-		player1.skill_list.append(Blink.new())
-		player1.skill_list.append(ArcaneShield.new())
-		player4.skill_list.append(Blink.new())
-		player4.skill_list.append(ArcaneShield.new())
+		#player3.receive_experience(base_xp)
+		#player4.receive_experience(base_xp)
+		player1.skill_list.append(Backstab.new())
+		player1.skill_list.append(MarkTarget.new())
+		#player4.skill_list.append(Blink.new())
+		#player4.skill_list.append(ArcaneShield.new())
 		player2.skill_list.append(Charge.new())
 		player2.skill_list.append(WarCry.new())
-		player3.skill_list.append(PhantomShot.new())
-		player3.skill_list.append(SilencingShot.new())
-		var party: Array[PartyMember] = [player1, player2, player3, player4]
+		#player3.skill_list.append(PhantomShot.new())
+		#player3.skill_list.append(SilencingShot.new())
+		var party: Array[PartyMember] = [player1, player2]
 
 		var enemies: Array[EnemyGroup] = []
-		enemies.append(EnemyGroup.from_enemy_data("Mercenary Guard", 4, 3))
+		enemies.append(EnemyGroup.from_enemy_data("Orc Shaman", 4, 2))
 
 		var all_enemies: Array[Character] = []
 		for enemy_char in enemies:
@@ -382,18 +382,13 @@ func get_cell_astar_id(cell_pos) :
 
 
 ##
-## Disables or enables the cells occupied by the enemies or party members. [br]
+## Setup the A* at the beginning and the end of an AI enemy turn. If called at the beginning, disable all cells occupied by other AI characters and stealthed characters. At end of the turn, reenable all cells. [br]
 ##
-## [code]enemies [/code]: A boolean indicating whether to disable or enable the cells occupied by the enemies.[br]
-## [code]party [/code]: A boolean indicating whether to disable or enable the cells occupied by the party members.[br]
-## [code]disable [/code]: A boolean indicating whether to disable or enable the cells.
+## [code]begin [/code]: Whether we are at the beginning of the turn (true) or at the end (false). [br]
 ##
-func enable_disable_cells(enemies: bool, party: bool, disable: bool) : 
+func setup_astar_ai_turn(begin: bool) :
 	for character in characters : 
-			if enemies and character is AICombatCharacter : 
-				astar.set_point_disabled(cell_ids[get_cell_coords(character.global_position)], disable)
-			if party and character is PlayerCombatCharacter :
-				astar.set_point_disabled(cell_ids[get_cell_coords(character.global_position)], disable)
+		astar.set_point_disabled(cell_ids[get_cell_coords(character.global_position)], begin and (character.char_statuses["stealth"] > 0 or character is AICombatCharacter))
 
 ##
 ## Turn the combat UI on or off.

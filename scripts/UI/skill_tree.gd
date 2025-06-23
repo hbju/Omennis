@@ -54,8 +54,8 @@ func update_ui(new_member: PartyMember) :
 		PoisonDagger.new(), Gouge.new(), # Assassin Path
 		ShadowStrike.new(), Nightmare.new(), # Shadowblade Path
 		Guillotine.new(), FinalStrike.new(), # Executioner Path
-		CripplingShot.new(), ShooterStance.new(), # Scout Path
-		NecroticShot.new(), SniperShot.new(), # Marksman Path
+		CripplingShot.new(), NecroticShot.new(), # Scout Path
+		ShooterStance.new(), SniperShot.new(), # Marksman Path
 		SilencingShot.new(), PhantomShot.new() # Ghost Path
 	]
 	

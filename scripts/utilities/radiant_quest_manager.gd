@@ -45,6 +45,8 @@ func generate_quest(region_id: String) -> Dictionary:
 	template_candidates.shuffle() # Randomize templates for variety
 	var valid_template_found = false
 
+	var curr_city: PointOfInterest = null
+
 	template_candidates = template_candidates.filter(func(t): return t.quest_type != RadiantQuestTemplate.QuestType.KILL or not last_radiant_kill)
 	
 	var chosen_template: RadiantQuestTemplate = null
@@ -59,7 +61,7 @@ func generate_quest(region_id: String) -> Dictionary:
 			min_level = member.character_level
 	avg_level = avg_level / party.size()
 
-	template_candidates = template_candidates.filter(func(t): return (t.min_player_level <= min_level and t.min_player_level >= avg_level))
+	template_candidates = template_candidates.filter(func(t): return (t.min_player_level <= min_level and t.min_player_level >= avg_level-1) or t.quest_type != RadiantQuestTemplate.QuestType.KILL)
 	print("Filtered templates by player level (", min_level, ") found ", template_candidates.size(), " templates available.")
 
 	while (not valid_template_found) and not template_candidates.is_empty():
@@ -70,6 +72,8 @@ func generate_quest(region_id: String) -> Dictionary:
 		var all_pois = get_tree().get_nodes_in_group("points_of_interest")
 		var valid_pois: Array[PointOfInterest] = []
 		for poi in all_pois:
+			if poi.region_id == region_id and poi.tags.has("city") :
+				curr_city = poi # Keep track of the current city POI
 			if chosen_template.quest_type == RadiantQuestTemplate.QuestType.DELIVER :
 				if poi.tags.has("city") and poi.region_id != region_id:
 					valid_pois.append(poi) # Deliver quests can be to any city POI
@@ -108,13 +112,13 @@ func generate_quest(region_id: String) -> Dictionary:
 			.replace("[LocationName]", chosen_poi.poi_name)\
 			.replace("[CityName]", chosen_poi.region_id.capitalize())\
 			.replace("[RewardGold]", str(chosen_template.reward_gold))\
-			.replace("[LocationDistance]", str(GameState.get_distance_and_orientation_to_location(region_id.replace("_", " ").capitalize(), chosen_poi)))
+			.replace("[LocationDistance]", str(GameState.get_distance_and_orientation_to_location(curr_city, chosen_poi)))
 
 	var offer_description = chosen_template.offer_description\
 		.replace("[LocationName]", chosen_poi.poi_name)\
 		.replace("[CityName]", chosen_poi.region_id.replace("_", " ").capitalize())\
 		.replace("[RewardGold]", str(chosen_template.reward_gold))\
-		.replace("[LocationDistance]", str(GameState.get_distance_and_orientation_to_location(region_id.replace("_", " ").capitalize(), chosen_poi)))
+		.replace("[LocationDistance]", str(GameState.get_distance_and_orientation_to_location(curr_city, chosen_poi)))
 
 	pending_radiant_quest = {
 		"id": quest_id,

@@ -32,10 +32,13 @@ func score_action(caster: CombatCharacter, potential_targets: Array[CombatCharac
 	
 	# Score damage as a secondary benefit
 	var potential_damage = caster.get_damage() * damage_mult
-	score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE * 0.5 # Damage is less important than the stun
+	score += potential_damage * AIScoringWeights.WEIGHT_DAMAGE
 	
 	if target.health <= potential_damage:
 		score += AIScoringWeights.WEIGHT_KILL_BONUS
+	else :
+		score += (1.0 - ((target.health - potential_damage) / target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+
 
 	score -= target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY
 	return score
