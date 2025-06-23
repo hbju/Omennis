@@ -444,14 +444,6 @@
 						{
 							"type": "next_event",
 							"event_id": "evt_silas_act3_hint_and_piece"
-						},
-						{
-							"type": "gold",
-							"change": 200
-						},
-						{
-							"type": "xp",
-							"amount": 250
 						}
 					]
 				},
@@ -463,14 +455,6 @@
 						{
 							"type": "next_event",
 							"event_id": "evt_silas_act3_hint_no_piece"
-						},
-						{
-							"type": "gold",
-							"change": 100
-						},
-						{
-							"type": "xp",
-							"amount": 150
 						}
 					]
 				},
@@ -482,14 +466,6 @@
 						{
 							"type": "next_event",
 							"event_id": "evt_silas_act3_no_hint_no_piece"
-						},
-						{
-							"type": "gold",
-							"change": 50
-						},
-						{
-							"type": "xp",
-							"amount": 50
 						}
 					]
 				}
@@ -520,6 +496,14 @@
 							"value": 1
 						},
 						{
+							"type": "gold",
+							"change": 200
+						},
+						{
+							"type": "xp",
+							"amount": 250
+						},
+						{
 							"type": "next_event",
 							"event_id": "evt_gall_prepare_valerius_manor_heist"
 						}
@@ -533,6 +517,14 @@
 							"type": "quest_update",
 							"quest_id": "obsidianwhisperact3",
 							"action": "turn"
+						},
+						{
+							"type": "gold",
+							"change": 200
+						},
+						{
+							"type": "xp",
+							"amount": 250
 						},
 						{
 							"type": "next_event",
@@ -567,6 +559,14 @@
 							"value": 1
 						},
 						{
+							"type": "gold",
+							"change": 100
+						},
+						{
+							"type": "xp",
+							"amount": 150
+						},
+						{
 							"type": "next_event",
 							"event_id": "evt_gall_prepare_valerius_manor_heist"
 						}
@@ -580,6 +580,14 @@
 							"type": "quest_update",
 							"quest_id": "obsidianwhisper_main",
 							"action": "fail"
+						},
+						{
+							"type": "gold",
+							"change": 100
+						},
+						{
+							"type": "xp",
+							"amount": 150
 						},
 						{
 							"type": "next_event",
@@ -602,6 +610,14 @@
 							"type": "quest_update",
 							"quest_id": "obsidianwhisperact3",
 							"action": "turn"
+						},
+						{
+							"type": "gold",
+							"change": 50
+						},
+						{
+							"type": "xp",
+							"amount": 50
 						},
 						{
 							"type": "next_event",
@@ -1467,14 +1483,6 @@
 						{
 							"type": "next_event",
 							"event_id": "evt_manor_heist_conclusion_silas_goodbye"
-						},
-						{
-							"type": "gold",
-							"change": 500
-						},
-						{
-							"type": "xp",
-							"amount": 2000
 						}
 					]
 				}
@@ -1483,7 +1491,7 @@
 		{
 			"id": "evt_manor_heist_conclusion_silas_goodbye",
 			"name": "The Staff in Hand",
-			"description": "With the Staff of Whispered Dominion in your possession, you return to Silas Thorne. He greets you with a nod of respect. 'You did it,' he says, voice steady. 'This staff is more powerful than I imagined. The Obsidian Circle will be furious.' He hands you a heavy pouch of gold and a promise of future aid. 'Goodbye adventurers. My master sends his regards.'\n\n[QuestRewardSummary]",
+			"description": "With the Staff of Whispered Dominion in your possession, you return to Silas Thorne. He greets you with a nod of respect. 'You did it,' he says, voice steady. 'This staff is more powerful than I imagined. The Obsidian Circle will be furious.' He hands you a heavy pouch of gold and a promise of future aid. 'Goodbye adventurers. My master sends his regards.'",
 			"possibilities": [
 				{
 					"id": "opt_manor_conclusion_silas_reward",
@@ -1495,26 +1503,12 @@
 							"action": "turn"
 						},
 						{
-							"type": "next_event",
-							"event_id": "gall"
-						}
-					]
-				}
-			]
-		},
-		{
-			"id": "evt_manor_heist_conclusion_failed",
-			"name": "A Failed Heist",
-			"description": "You manage to escape the manor, but the Obsidian Whisper remains in Valerius's hands. The Obsidian Circle will continue their dark machinations, and you have lost a powerful artifact. You return to Gall, knowing you failed to stop them this time.\n\n[QuestRewardSummary]",
-			"possibilities": [
-				{
-					"id": "opt_manor_conclusion_failed_return_to_gall",
-					"description": "Return to Gall and put this adventure behind you.",
-					"outcomes": [
+							"type": "gold",
+							"change": 500
+						},
 						{
-							"type": "quest_update",
-							"quest_id": "obsidianwhispermanorheist",
-							"action": "turn"
+							"type": "xp",
+							"amount": 2000
 						},
 						{
 							"type": "next_event",

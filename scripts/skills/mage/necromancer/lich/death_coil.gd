@@ -35,14 +35,14 @@ func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacte
 
 	var score = AIScoringWeights.WEIGHT_BASE_RANGED 
 	var potential_damage = from.get_damage() * damage_mult
-	var potential_heal = min(potential_damage * heal_percent, from.max_health - from.health)
+	var potential_heal = potential_damage * heal_percent
 
 	# Score damage
 	var damage_score = potential_damage * AIScoringWeights.WEIGHT_DAMAGE
 	if potential_target.health <= potential_damage:
 		damage_score += AIScoringWeights.WEIGHT_KILL_BONUS
 	else:
-		damage_score += (1.0 - ((target.health - potential_damage) / potential_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
+		damage_score += (1.0 - (potential_target.health / potential_target.max_health)) * potential_damage * AIScoringWeights.WEIGHT_DAMAGE_PER_HP
 	damage_score -= potential_target.shield * AIScoringWeights.WEIGHT_SHIELD_ENEMY
 
 	# Score heal
