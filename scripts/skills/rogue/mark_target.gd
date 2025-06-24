@@ -20,33 +20,22 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	caster = from
 	target = skill_target
 	
-	curr_projectile = mark_impact_scene.instantiate()
-	from.get_parent().add_child(curr_projectile)
-	curr_projectile.position = skill_pos
-	curr_projectile.set_impact_type("thunderstrike")
-	curr_projectile.animated_sprite.animation_looped.connect(_apply_effect)
+
+	target.gain_status("vulnerable", duration)
+	if not target.character_died.is_connected(_on_marked_target_died):
+		target.character_died.connect(_on_marked_target_died)
 
 	cooldown = max_cooldown
-	return true
-
-func _apply_effect():
-	if is_instance_valid(target):
-		target.gain_status("vulnerable", duration)
-		if not target.character_died.is_connected(_on_marked_target_died):
-			target.character_died.connect(_on_marked_target_died)
 	
-	if is_instance_valid(curr_projectile):
-		curr_projectile.queue_free()
-		
 	skill_finished.emit()
+	return true
 
 func _on_marked_target_died(dead_character: CombatCharacter):
 	if is_instance_valid(dead_character) and dead_character.character_died.is_connected(_on_marked_target_died):
 		dead_character.character_died.disconnect(_on_marked_target_died)
 		
-	if dead_character != target : 
-		return
-	cooldown = 0
+	if dead_character == target : 
+		cooldown = 0
 
 func score_action(from: CombatCharacter, potential_targets: Array[CombatCharacter], _target_cell: Vector2i, map: CombatMap) -> float:
 	if potential_targets.is_empty(): return 0.0

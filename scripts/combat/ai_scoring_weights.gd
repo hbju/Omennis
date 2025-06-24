@@ -2,7 +2,7 @@ class_name AIScoringWeights
 static var WEIGHT_BASE_MELEE = 5.0 # Base score for a possible action
 static var WEIGHT_BASE_RANGED = 10.0
 static var WEIGHT_BASE_MOBILITY = 5.0 # Base score for a possible action
-static var WEIGHT_SKILL_DISTANCE = 1.5 # Bonus for the distance from the target
+static var WEIGHT_SKILL_DISTANCE = 0.5 # Bonus for the distance from the target
 static var WEIGHT_DAMAGE = 1.0
 static var WEIGHT_DAMAGE_PER_HP = 0.5 # Bonus for damaging low-health targets
 static var WEIGHT_KILL_BONUS = 50.0

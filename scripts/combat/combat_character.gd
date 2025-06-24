@@ -3,10 +3,10 @@ class_name CombatCharacter
 
 var map: CombatMap
 
-var move_target = null
-var attack_target = null
-var knockback_target = null
-var init_pos = null
+var action_queue: Array[Dictionary] = []
+var current_action: Dictionary = {}
+var is_processing_action: bool = false
+
 @export var speed: int = 1000
 
 signal turn_finished
@@ -81,6 +81,8 @@ var base_damage: float = 10
 
 var walkable_cells: Array[int] = []
 
+var is_my_turn : bool = false
+
 func _ready() : 
 	map = get_parent().get_parent().get_parent()
 	character_portrait.texture = load(character.get_portrait_path())
@@ -93,20 +95,30 @@ func _ready() :
 	call_deferred("_update_status_icons")
 
 
+func execute_action_sequence(actions: Array[Dictionary]):
+	action_queue.append_array(actions)
+	if not is_processing_action:
+		_process_next_action_in_queue()
+
+func execute_action(action: Dictionary):
+	execute_action_sequence([action])
+
 ##
 ## Move to a new target [br]
 ## If the character is not already moving, set the new target as the move target [br]
 ## If the character is already moving, ignore the new target [br]
 ## [code] new_target [/code]: The position of the target character
 ##
-func move_to(new_target: Vector2i) -> bool : 
-	if move_target or char_statuses["rooted"]:
+func move_to(new_target_pos: Vector2i) -> bool : 
+	if char_statuses["rooted"]:
 		return false
 
 	if not FOOTSTEP_SFX.is_empty() :
 		footstep_player.stream = FOOTSTEP_SFX[randi() % FOOTSTEP_SFX.size()]
 		footstep_player.play()
-	move_target = new_target
+
+	execute_action({"type": "move", "target_pos": new_target_pos})
+	character_moved.emit()
 	return true
 
 
@@ -122,70 +134,126 @@ func teleport_to(new_target: Vector2i) :
 ## Attack a new target [br]
 ## If the character is not already attacking, set the new target as the attack target [br]
 ## If the character is already attacking, ignore the new target	[br]
-## [code] new_target [/code]: The position of the target character [br]
+## [code] target_pos [/code]: The global position of the target character [br]
 ## [code] ranged [/code]: If the attack is ranged or not
 ##
-func attack(new_target: Vector2i, ranged: bool = false) :
-	if not attack_target :
-		attack_target = new_target
-		if ranged : 
-			init_pos = position
-		else : 
-			var path = _calculate_path_to_character(map.local_to_map(new_target))
-			print("path : ", path, " | target : ", new_target)
-			init_pos = map.map_to_local(path[path.size() - 2])
+func attack(target_pos: Vector2, is_ranged: bool = false):
+	var initial_pos = position
+	if not is_ranged:
+		# Melee attacks require movement to the target.
+		print("Attacking with melee from ", map.get_cell_coords(global_position), " to ", map.local_to_map(target_pos))
+		var path = HexHelper.oddr_linedraw(map.get_cell_coords(global_position), map.local_to_map(target_pos))
+		print("path : ", path, " | target : ", target_pos)
+		initial_pos = map.map_to_local(path[path.size() - 2])
+
+	z_index = 10
+	# Melee attack is a two-part visual sequence.
+	var attack_action = {
+		"type": "attack",
+		"target_pos": target_pos,
+		"initial_pos": initial_pos
+	}
+	execute_action(attack_action)
+
+func knockback(knockback_distance: int, direction: int, knockback_damage: float) : 
+	var curr_pos = map.get_cell_coords(global_position)
+	var knock_target = curr_pos
+	var knocked = false
+	for i in range(knockback_distance) : 
+		var neighbour = HexHelper.hex_neighbor(knock_target, direction)
+		if not map.can_walk(neighbour) or map.cell_occupied(neighbour) : 
+			knocked = true
+			break
+		knock_target = neighbour
+
+	if knocked : 
+		take_damage(knockback_damage)
+
+	var knockback_action = {"type": "knockback", "target_pos": map.map_to_local(knock_target)}
+	execute_action(knockback_action)
 
 func _physics_process(_delta):
-	if not move_target and not attack_target and not knockback_target : 
+	if not is_processing_action or current_action.is_empty():
 		return
 
-	if move_target :	
-		move_to_target()
-	elif attack_target :
-		move_to_attack_target()
-	elif knockback_target : 
-		knock_to_target()
+	match current_action.type:
+		"move":
+			_process_move_visuals()
+		"attack":
+			_process_attack_visuals()
+		"knockback":
+			_process_knockback_visuals()
+		"wait":
+			_complete_current_action()
 
-##
-## Move the character to the move target [br]
-## If the character is close enough to the target, finish the turn
-##
-func move_to_target() :
-	velocity = position.direction_to(move_target) * speed
-	if position.distance_to(move_target) > 50:
-		move_and_slide()
-	else :
-		position = move_target
-		character_moved.emit()
-		finish_turn()
 
-func knock_to_target() :
-	velocity = position.direction_to(knockback_target) * speed
-	if position.distance_to(knockback_target) > 50:
-		move_and_slide()
-	else :
-		position = knockback_target
-		knockback_target = null
+# --- ACTION PROCESSING LOGIC ---
 
-##
-## Move the character to the attack target [br]
-## If the character is close enough to the target, moves the character back to the initial position [br]
-##
-func move_to_attack_target() :		
-	z_index = 10
-	velocity = position.direction_to(attack_target) * speed
-	if position.distance_to(attack_target) > 50:
-		move_and_slide()
-	else :
-		position = attack_target
-		if init_pos :
-			if not ATTACK_SWING_SFX.is_empty() :
-				footstep_player.stream = ATTACK_SWING_SFX[randi() % ATTACK_SWING_SFX.size()]
-				footstep_player.play()
-			attack_target = init_pos
-			init_pos = null
-		else :
+func _process_next_action_in_queue():
+	if not action_queue.is_empty():
+		is_processing_action = true
+		current_action = action_queue.pop_front()
+		
+		if current_action.type == "effect_only":
+			_complete_current_action()
+
+	elif is_processing_action:
+		is_processing_action = false
+		current_action.clear()
+		_process_next_action_in_queue()
+	else:
+		print(character.character_name, " has finished processing actions. Finishing turn.")
+		if is_my_turn:
 			finish_turn()
+
+func _complete_current_action():
+	current_action.clear()
+	_process_next_action_in_queue()
+
+# --- VISUAL PROCESSING ---
+
+func _process_move_visuals():
+	var target_pos = current_action.target_pos
+	velocity = position.direction_to(target_pos) * speed
+	if position.distance_to(target_pos) > 50: # A small threshold
+		move_and_slide()
+	else:
+		position = target_pos
+		_complete_current_action()
+
+
+func _process_attack_visuals():
+	var state = current_action.get("attack_state", "moving_to_target")
+	var target_pos = current_action.target_pos
+	
+	if state == "moving_to_target":
+		velocity = position.direction_to(target_pos) * speed
+		if position.distance_to(target_pos) > 50:
+			move_and_slide()
+		else:
+			position = target_pos
+			current_action.attack_state = "moving_back"
+			if not ATTACK_SWING_SFX.is_empty():
+				attack_swing_player.stream = ATTACK_SWING_SFX[randi() % ATTACK_SWING_SFX.size()]
+				attack_swing_player.play()
+	
+	elif state == "moving_back":
+		var initial_pos = current_action.initial_pos
+		velocity = position.direction_to(initial_pos) * speed
+		if position.distance_to(initial_pos) > 50:
+			move_and_slide()
+		else:
+			position = initial_pos
+			_complete_current_action()
+
+func _process_knockback_visuals():
+	var target_pos = current_action.target_pos
+	velocity = position.direction_to(target_pos) * speed
+	if position.distance_to(target_pos) > 50:
+		move_and_slide()
+	else:
+		position = target_pos
+		_complete_current_action()
 
 func take_flat_damage(damage_taken: float) -> float : 
 	if not TAKE_DAMAGE_SFX.is_empty() :
@@ -367,6 +435,8 @@ func deal_damage(other: CombatCharacter, damage_mult: float, attack_flags: Dicti
 	return damage_taken
 
 func take_turn() : 
+	is_my_turn = true
+
 	if char_statuses["poisoned"][0] > 0 : 
 		take_flat_damage(char_statuses["poisoned"][1])
 		char_statuses["poisoned"][0] = max(0, char_statuses["poisoned"][0] - 1)
@@ -383,9 +453,11 @@ func take_turn() :
 ## Emit the turn_finished signal
 ##
 func finish_turn() : 
+	if not is_my_turn :
+		print("Character ", character.character_name, " is not on their turn, cannot finish turn.")
+		return	
+
 	z_index = 0
-	attack_target = null
-	move_target = null
 	char_statuses["stunned"] = max(0, char_statuses["stunned"] - 1)
 	if char_statuses["stunned"] == 0 && curr_stun_animation :
 		curr_stun_animation.queue_free()
@@ -408,9 +480,11 @@ func finish_turn() :
 	char_statuses["silence"] = max(0, char_statuses.get("silence", 0) - 1) # NEW
 
 	_update_stealth_visuals()
-
-
 	_update_status_icons()
+	is_my_turn = false
+
+	print("Character ", character.character_name, " finished turn.")
+
 	await get_tree().create_timer(0.25).timeout
 	turn_finished.emit()
 
@@ -420,8 +494,6 @@ func finish_turn() :
 ## [code] return [/code]: The path to the target character
 ##
 func _calculate_path_to_character(other_char_pos: Vector2i) -> PackedVector2Array:
-	print("Calculating path to character at position: ", other_char_pos)
-
 	var this_tile_id = map.cell_ids[map.get_cell_coords(global_position)]
 	var target_tile_id = map.cell_ids[other_char_pos]
 	return map.astar.get_point_path(this_tile_id, target_tile_id)
@@ -522,20 +594,6 @@ func gain_lynx_eye_status(nb_turns: int = 1, nb_levels: float = 1) :
 func gain_silence_status(nb_turns: int = 1) : 
 	char_statuses["silence"] += nb_turns
 
-
-func knockback(knockback_distance: int, direction: int, knockback_damage: float) : 
-	var curr_pos = map.get_cell_coords(global_position)
-	var knock_target = curr_pos
-	var knocked = false
-	for i in range(knockback_distance) : 
-		var neighbour = HexHelper.hex_neighbor(knock_target, direction)
-		if not map.can_walk(neighbour) or map.cell_occupied(neighbour) : 
-			knocked = true
-			break
-		knock_target = neighbour
-	knockback_target = map.map_to_local(knock_target)
-	if knocked : 
-		take_damage(knockback_damage)
 
 
 ## UI
