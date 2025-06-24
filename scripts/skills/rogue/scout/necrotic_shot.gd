@@ -3,7 +3,7 @@ extends Skill
 class_name NecroticShot
 
 var damage_mult: float = 2.0
-var dot_damage: int = 10
+var dot_damage: int = 1
 var dot_duration: int = 3
 var max_cooldown: int = 2
 
@@ -81,7 +81,7 @@ func generate_targets(from: CombatCharacter, map: CombatMap) -> Array[TargetInfo
 # --- Metadata and UI Functions ---
 func get_skill_name() -> String: return "Necrotic Shot"
 func get_skill_description() -> String:
-	return "Deal %.1fx base damage immediately to an enemy and apply a necrotic poison, dealing %d damage per turn for %d turns. Stacks.\nCooldown: %d turns.\nRange: %d cells." % [damage_mult, dot_damage, dot_duration, max_cooldown, get_skill_range()]
+	return "Deal %.1fx base damage immediately to an enemy and apply a necrotic poison, dealing %dx your base damage per turn for %d turns. Stacks.\nCooldown: %d turns.\nRange: %d cells." % [damage_mult, dot_damage, dot_duration, max_cooldown, get_skill_range()]
 func get_skill_icon() -> Texture: return load("res://assets/ui/skills/necrotic_shot.png") # Placeholder
 func get_skill_range() -> int: return 4
 func is_melee() -> bool: return false

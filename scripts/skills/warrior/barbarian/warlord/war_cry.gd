@@ -3,7 +3,7 @@ class_name WarCry
 
 var damage := 0
 var max_cooldown := 5
-var duration := 3
+var duration := 2
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:
 	var caster_pos = map.get_cell_coords(from.global_position)

@@ -109,7 +109,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			player.position = map_to_local(player_pos[i])
 
 			characters.append(player)
-			player.turn_finished.connect(_on_finished_turn)
+			player.turn_finished.connect(_on_finished_turn.bind(player))
 			player.character_died.connect(_on_character_died)
 
 		if i < enemies.size() : 
@@ -119,7 +119,7 @@ func enter_combat(party: Array[PartyMember], enemies: Array[Character]) :
 			enemy.position = map_to_local(enemy_pos[i])
 
 			characters.append(enemy)
-			enemy.turn_finished.connect(_on_finished_turn)
+			enemy.turn_finished.connect(_on_finished_turn.bind(enemy))
 			enemy.character_died.connect(_on_character_died)	
 
 	for character in characters : 
@@ -146,6 +146,7 @@ func next_turn() -> void :
 	reset_map()
 	skill_bar_ui.reset_ui()
 	turn = (turn + 1) % characters.size()
+	print("Next turn: ", turn, " - ", characters[turn].character.character_name)
 	update_turn_order_ui()
 	characters[turn].take_turn()	
 	skill_bar_ui.update_ui(characters[turn])
@@ -427,7 +428,10 @@ func _on_character_hover_exited():
 		if not character_tooltip_instance.get_rect().has_point(get_global_mouse_position()):
 			character_tooltip_instance.hide()
 
-func _on_finished_turn() :
+func _on_finished_turn(character: CombatCharacter) :
+	if not characters[turn] == character :
+		push_warning("Character finished turn, but it's not their turn: ", character.character.character_name)
+		return
 	next_turn()
 
 func _on_character_died(character) : 
@@ -438,7 +442,9 @@ func _on_character_died(character) :
 		dead_chars.append(character)
 
 func char_died() :
+	print("Character died, removing from combat map.")
 	for character in dead_chars : 
+		print("Removing character: ", character.character.character_name)
 		if character is PlayerCombatCharacter : 
 			player_count -= 1
 		else : 
@@ -447,7 +453,7 @@ func char_died() :
 		var char_index = characters.find(character)
 		characters.erase(character)
 
-		if turn > char_index :
+		if turn >= char_index :
 			turn -= 1
 
 		character.queue_free()

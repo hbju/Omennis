@@ -3,9 +3,6 @@ class_name PlayerCombatCharacter
 
 const player_character = preload("res://scenes/player_combat_character.tscn")
 
-var is_turn = false
-var action_in_progress = false
-
 var action_cells: Array[Vector2i] = []
 
 var current_skill: Skill = null
@@ -38,20 +35,18 @@ func take_turn() :
 	super()
 
 	if (char_statuses["stunned"] > 0) :
+		print("Player ", character.character_name, " is stunned, cannot take a turn")
 		finish_turn()
 		return
 
 	_get_move_cells()
 
-	is_turn = true
-	action_in_progress = false
 
 func finish_turn() : 
 	map.reset_neighbours(action_cells)
 	action_cells = []
 	current_skill = null
-	is_turn = false
-	action_in_progress = false
+
 	super()
 
 
@@ -76,7 +71,7 @@ func highlight_skill(skill: Skill) :
 ## [code] return [/code]: void
 ##
 func _input(event):
-	if not is_turn or action_in_progress: 
+	if not is_my_turn or is_processing_action: 
 		return
 	
 	if event is InputEventMouseMotion :
@@ -88,25 +83,30 @@ func _input(event):
 		
 
 	if event is InputEventMouseButton :
-		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
+		if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 			var click_pos = map.get_cell_coords(get_global_mouse_position())
 			if not current_skill :
-				if click_pos in action_cells && map.can_walk(click_pos) && !map.cell_occupied(click_pos): 
+				# -- MOVEMENT ---
+				if click_pos in action_cells and map.can_walk(click_pos) and not map.cell_occupied(click_pos): 
+					print("Moving to ",  click_pos)
 					move_to(map.map_to_local(click_pos))
-					action_in_progress = true
 					map.reset_neighbours(action_cells)
 
+				# -- BASIC ATTACK ---
 				var enemy = map.enemy_in_cell(click_pos)
-				if click_pos in action_cells && enemy : 
+				if click_pos in action_cells and enemy : 
+					print("Attacking enemy at ", click_pos, " with basic attack")
 					deal_damage(enemy, 1)
 					attack(map.to_local(enemy.global_position))
-					action_in_progress = true
 					map.reset_neighbours(action_cells)
 
 			else : 
 				if click_pos in action_cells :
+					if current_skill : 
+						print("Using skill ", current_skill.get_skill_name(), " on ",  click_pos)
+
 					if (current_skill.use_skill(self, click_pos, map)) :
-						action_in_progress = true
+						pass
 
 	if event.is_action_pressed("combat_cancel_action") :
 		map.reset_map()

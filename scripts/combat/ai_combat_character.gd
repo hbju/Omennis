@@ -16,11 +16,15 @@ static func new_character(_char: Character) -> AICombatCharacter:
 	var new_char = enemy_character.instantiate()
 	new_char.character = _char
 	for skill in _char.skill_list : 
-		skill.skill_finished.connect(new_char.finish_turn)
+		skill.skill_finished.connect(func () :
+			print("Skill ", skill.get_skill_name(), " finished for ", _char.character_name)
+			new_char.finish_turn())
 	
 	if _char.base_skill:
-		_char.base_skill.skill_finished.connect(new_char.finish_turn)
-	
+		_char.base_skill.skill_finished.connect(func () :
+			print("Base skill finished for ", _char.character_name)
+			new_char.finish_turn())
+
 	return new_char
 
 
@@ -35,13 +39,16 @@ func _ready():
 ##
 func take_turn():
 	await get_tree().create_timer(0.25).timeout
+
 	super()
 
 	if is_dead():
+		print("AI ", character.character_name, " is dead, cannot take a turn")
 		finish_turn()
 		return
 
 	if char_statuses["stunned"] > 0 :
+		print("AI ", character.character_name, " is stunned, cannot take a turn")
 		finish_turn()
 		return
 
@@ -67,7 +74,11 @@ func take_turn():
 			"move":
 				move_to(map.map_to_local(selected_action.target_cell))
 			"wait" :
-				finish_turn()
+				execute_action({"type": "wait"})
+
+	else:
+		push_warning("No valid actions available, AI will wait.")
+		execute_action({"type": "wait"})
 
 	map.setup_astar_ai_turn(false)
 
@@ -152,7 +163,6 @@ func evaluate_potential_actions(current_pos: Vector2i, alive_players: Array[Play
 		for player in alive_players:
 			if player.char_statuses["stealth"] > 0: continue # Skip stealth players
 			var path = _calculate_path_to_character(map.get_cell_coords(player.global_position))
-			print("Path to ", player.character.character_name, ": ", path)
 			if path.size() > 2: 
 				var primary_target = player
 				possible_actions.append({
@@ -203,7 +213,6 @@ func score_and_select_action(possible_actions: Array[Dictionary]) -> Dictionary:
 
 	# TODO: Add weighted random selection here instead of just taking the best?
 	if not scored_actions.is_empty():
-		print("Selected Action: ", scored_actions[0].type, " with score ", scored_actions[0].score)
 		return scored_actions[0]
 	else:
 		return {} # Fallback
