@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://2bnhkewiggc3"]
+[gd_scene load_steps=9 format=3 uid="uid://2bnhkewiggc3"]
 
 [ext_resource type="Script" path="res://scripts/ui/skill_tooltip.gd" id="1_ayt5w"]
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_pqejf"]
@@ -12,13 +12,17 @@ content_margin_right = 15.0
 content_margin_bottom = 15.0
 texture = ExtResource("1_pqejf")
 
-[sub_resource type="LabelSettings" id="LabelSettings_bgrvm"]
+[sub_resource type="LabelSettings" id="LabelSettings_mm7k7"]
 font = ExtResource("2_s2ybi")
-font_size = 50
+font_size = 40
 
-[sub_resource type="LabelSettings" id="LabelSettings_by5v1"]
+[sub_resource type="LabelSettings" id="LabelSettings_l41hh"]
 font = ExtResource("4_alise")
-font_size = 25
+font_size = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_c2t1q"]
+font = ExtResource("4_alise")
+font_size = 22
 
 [node name="SkillTooltip" type="PanelContainer"]
 z_index = 100
@@ -36,7 +40,7 @@ theme_override_constants/separation = 12
 [node name="SkillNameLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Arcane Shield"
-label_settings = SubResource("LabelSettings_bgrvm")
+label_settings = SubResource("LabelSettings_mm7k7")
 
 [node name="SkillDescriptionLabel" type="Label" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
@@ -44,9 +48,9 @@ layout_mode = 2
 text = "Create a magical shield around an ally or yourself that reduces incoming damage by 50% for \" + str(duration) + \" turn. \\n\" + \\
 		\"Cooldown: \" + str(max_cooldown) + \" turns.\\n\" + \\
 		\"Range: \" + str(get_skill_range()) + \" cells.\""
-label_settings = SubResource("LabelSettings_by5v1")
+label_settings = SubResource("LabelSettings_l41hh")
 autowrap_mode = 3
 
 [node name="CooldownLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-label_settings = SubResource("LabelSettings_by5v1")
+label_settings = SubResource("LabelSettings_c2t1q")

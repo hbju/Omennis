@@ -36,6 +36,7 @@ func _ready():
 		#var player3 = PartyMember.new_rand(Character.CLASSES.Rogue)
 		#var player4 = PartyMember.new_rand(Character.CLASSES.Mage)
 		var base_xp = 4000
+		player1.equip_item(load("res://items/weapons/assassins_blade.tres") as WeaponItem)
 		player1.receive_experience(base_xp)
 		player2.receive_experience(base_xp)
 		#player3.receive_experience(base_xp)
@@ -58,6 +59,7 @@ func _ready():
 			for enemy in enemy_char.enemies:
 				all_enemies.append(enemy)
 		
+		print(party[0].weapon_skill.get_skill_name())
 		enter_combat(party, all_enemies)
 
 	if combat_character_tooltip_scene:
@@ -399,24 +401,22 @@ func toggle_ui(show_ui: bool) :
 
 func _on_character_hover_entered(character: CombatCharacter):
 	if character_tooltip_instance and is_instance_valid(character):
-		if character_tooltip_instance.is_visible():
-			# If the tooltip is already showing for a character, do nothing
-			return
+
+		print("Hovering over character: ", character.character.character_name)
 			
 		character_tooltip_instance.update_content(character)
 
 		# Position the tooltip (similar logic to skill tree tooltip)
-		var mouse_pos = get_global_mouse_position()
+		var character_rect = character.character_rect.get_global_rect()
 		var viewport_rect = get_viewport_rect()
 		var tooltip_size = character_tooltip_instance.size
-		var offset = Vector2(15, 15)
-		var target_pos = mouse_pos + offset
+		var offset = Vector2(15, 0)
+		var target_pos = character_rect.position + offset
+		target_pos.x += character_rect.size.x 
 
 		# Adjust if off-screen
 		if target_pos.x + tooltip_size.x > viewport_rect.size.x:
-			target_pos.x = mouse_pos.x - tooltip_size.x - offset.x
-		if target_pos.y + tooltip_size.y > viewport_rect.size.y:
-			target_pos.y = mouse_pos.y - tooltip_size.y - offset.y
+			target_pos.x = character_rect.position.x - tooltip_size.x - offset.x
 
 		character_tooltip_instance.global_position = target_pos
 		character_tooltip_instance.show()
@@ -425,6 +425,10 @@ func _on_character_hover_exited():
 	if character_tooltip_instance :
 		await get_tree().create_timer(0.05).timeout # Wait a bit before hiding to allow for quick mouse movements
 		# check if mouse is on character tooltip
+		for character in characters:
+			if character.character_rect.get_global_rect().has_point(get_global_mouse_position()):
+				return  # Don't hide if mouse is still on a character
+
 		if not character_tooltip_instance.get_rect().has_point(get_global_mouse_position()):
 			character_tooltip_instance.hide()
 

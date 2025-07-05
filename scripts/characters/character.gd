@@ -5,8 +5,13 @@ var character_class: CLASSES
 var character_portrait: int
 var character_level: int
 
+var _base_max_health: int
+var _base_damage: float
+
 var max_health: int
-var base_damage: float
+var damage: float
+var init_shield: float
+
 var crit_chance: float = 0.1 # Base 10% critical chance
 var crit_damage_multiplier: float = 1.5 # Base +50% critical damage
 
@@ -15,13 +20,15 @@ var skill_list: Array[Skill] = []
 
 enum CLASSES {Warrior, Mage, Rogue, None}
 
-func _init(name, _class, portrait, level, health: int = 100, damage: float = 10):
+func _init(name, _class, portrait, level, base_health: int = 100, base_damage: float = 10):
 	self.character_name = name
 	self.character_class = _class
 	self.character_portrait = portrait
 	self.character_level = level
-	self.max_health = health
-	self.base_damage = damage
+	self._base_max_health = base_health
+	self.max_health = base_health
+	self._base_damage = base_damage
+	self.damage = base_damage
 
 	if _class == CLASSES.Warrior:
 		self.base_skill = BoundingLeap.new()

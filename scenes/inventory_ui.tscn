@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://brfryccwkmslw"]
+
+[ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_d4ehs"]
+[ext_resource type="PackedScene" uid="uid://bcow2c1wvn77x" path="res://scenes/item_slot.tscn" id="2_0l1h0"]
+[ext_resource type="Script" path="res://scripts/ui/inventory_ui.gd" id="2_1kfdr"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eh14m"]
+texture = ExtResource("1_d4ehs")
+texture_margin_left = 50.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+expand_margin_left = 10.0
+region_rect = Rect2(17.7558, 17.5342, 1360.72, 1574.78)
+
+[node name="inventory_ui" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -575.0
+offset_top = -345.0
+offset_right = 575.0
+offset_bottom = 345.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_eh14m")
+script = ExtResource("2_1kfdr")
+
+[node name="equipment_vbox" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+alignment = 1
+
+[node name="armor_slot" parent="equipment_vbox" instance=ExtResource("2_0l1h0")]
+layout_mode = 2
+
+[node name="weapon_slot" parent="equipment_vbox" instance=ExtResource("2_0l1h0")]
+layout_mode = 2
+
+[node name="accessory_slot" parent="equipment_vbox" instance=ExtResource("2_0l1h0")]
+layout_mode = 2
+
+[node name="inventory_grid" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+columns = 5
+
+[node name="inventory_slot" parent="inventory_grid" instance=ExtResource("2_0l1h0")]
+layout_mode = 2

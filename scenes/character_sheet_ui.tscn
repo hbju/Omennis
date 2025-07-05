@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://dvs0op087antk"]
+[gd_scene load_steps=45 format=3 uid="uid://dvs0op087antk"]
 
 [ext_resource type="Script" path="res://scripts/ui/character_sheet_ui.gd" id="1_10so0"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_43w0b"]
@@ -37,6 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://duqgapa04qxnx" path="res://assets/ui/buttons/plus_button/add_b_h.png" id="28_bsfys"]
 [ext_resource type="Script" path="res://scripts/ui/skill_ui.gd" id="30_cqrxe"]
 [ext_resource type="PackedScene" uid="uid://ds8wb1udg56mq" path="res://scenes/relationship_entry.tscn" id="30_kv4ir"]
+[ext_resource type="PackedScene" uid="uid://brfryccwkmslw" path="res://scenes/inventory_ui.tscn" id="31_v31bk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1mw01"]
 font = ExtResource("14_ggg2r")
@@ -45,7 +46,7 @@ font_color = Color(0.728822, 0.728822, 0.728822, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_h86xt"]
 font = ExtResource("26_bd84x")
-font_size = 32
+font_size = 25
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jvlv4"]
 texture = ExtResource("25_4exlp")
@@ -291,7 +292,7 @@ offset_right = 799.5
 offset_bottom = 438.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="portrait" type="ColorRect" parent="background/sheet_hbox"]
@@ -336,7 +337,7 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="stats_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 texture_normal = ExtResource("15_u7dp3")
 texture_pressed = ExtResource("22_62jlo")
@@ -366,7 +367,7 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="traits_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 texture_normal = ExtResource("15_u7dp3")
 texture_pressed = ExtResource("22_62jlo")
@@ -396,7 +397,7 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="skills_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 texture_normal = ExtResource("15_u7dp3")
 texture_pressed = ExtResource("22_62jlo")
@@ -426,7 +427,7 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="relationships_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 texture_normal = ExtResource("15_u7dp3")
 texture_pressed = ExtResource("22_62jlo")
@@ -449,6 +450,35 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Relationships"
+label_settings = SubResource("LabelSettings_h86xt")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="inventory_tab_button" type="TextureButton" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+texture_normal = ExtResource("15_u7dp3")
+texture_pressed = ExtResource("22_62jlo")
+texture_hover = ExtResource("23_p2w7f")
+texture_disabled = ExtResource("16_npjvp")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="background/sheet_hbox/sheet_vbox/tab_buttons_box/inventory_tab_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -11.5
+offset_right = 36.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Inventory
+"
 label_settings = SubResource("LabelSettings_h86xt")
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -1029,9 +1059,13 @@ size_flags_horizontal = 4
 layout_mode = 2
 size_flags_horizontal = 4
 
+[node name="inventory_panel" parent="background/sheet_hbox/sheet_vbox/tab_content_container" instance=ExtResource("31_v31bk")]
+visible = false
+layout_mode = 1
+
 [node name="right_part" type="Control" parent="background/sheet_hbox"]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="close_button" type="TextureButton" parent="background/sheet_hbox/right_part"]
 layout_mode = 1

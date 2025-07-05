@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://b44rjciwcbbx2"]
+
+[ext_resource type="Script" path="res://scripts/items/equipment_item.gd" id="1_c0egw"]
+[ext_resource type="Texture2D" uid="uid://jociusrry768" path="res://assets/ui/items/armor/armor_12.png" id="1_lqurq"]
+
+[resource]
+script = ExtResource("1_c0egw")
+equip_slot = 0
+health_bonus = 0
+armor_bonus = 20
+passives = Array[Resource]([])
+item_lvl = 10
+item_name = "Leather Jerkin"
+description = "A simple but sturdy jerkin. Offers basic protection."
+icon = ExtResource("1_lqurq")
+tier = 0
+value = 10

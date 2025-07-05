@@ -26,7 +26,7 @@ font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Gradient" id="Gradient_5aogj"]
 offsets = PackedFloat32Array(1)
-colors = PackedColorArray(4.90934e-06, 0, 0.891691, 1)
+colors = PackedColorArray(0.466667, 0.466667, 0.466667, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_lyxst"]
 gradient = SubResource("Gradient_5aogj")
@@ -40,6 +40,14 @@ position = Vector2(811, 433)
 scale = Vector2(2.5, 2.5)
 input_pickable = true
 script = ExtResource("1_2uelq")
+
+[node name="rect" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -146.0
+offset_top = -138.0
+offset_right = 144.0
+offset_bottom = 152.0
 
 [node name="character_portrait_bg" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)

@@ -1,3 +1,4 @@
+extends Resource
 class_name Skill
 
 var cooldown: int

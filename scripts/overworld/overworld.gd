@@ -24,8 +24,6 @@ var oddr_direction_differences = [
 	 [-1,  0], [ 0, +1], [+1, +1]],
 ]
 
-var nature_walkable_cells = [0, 1, 2, 6, 7, 8, 9, 10, 11, 14, 15, 16, 19]
-
 var next_random_event: Dictionary
 
 func _ready():
@@ -84,7 +82,7 @@ func is_neighbour(hex, pos) :
 	return false
 	
 func can_walk(hex) : 
-	return get_cell_source_id(0, hex) == 22 && get_cell_atlas_coords(0, hex).x in nature_walkable_cells
+	return get_cell_tile_data(0, hex).get_custom_data("walkable")
 	
 func _input(event):
 	if GameState.in_event or GameState.in_ui :
@@ -92,8 +90,8 @@ func _input(event):
 
 	if event is InputEventMouseMotion :
 		var mouse_cell = local_to_map(to_local(get_global_mouse_position()))
+		highlight_neighbours(1)
 		if mouse_cell in player_neighbours :
-			highlight_neighbours(1)
 			if can_walk(mouse_cell) :
 				set_cell(0, mouse_cell, 22, get_cell_atlas_coords(0, mouse_cell), 2)
 
@@ -101,7 +99,7 @@ func _input(event):
 	if event is InputEventMouseButton :
 		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
 			var click_cell = local_to_map(to_local(get_global_mouse_position()))
-			if is_neighbour(player_cell, click_cell) && can_walk(click_cell): 
+			if click_cell in player_neighbours: 
 				player.move_to(map_to_local(click_cell))
 				GameState.step_taken()
 

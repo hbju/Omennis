@@ -39,6 +39,9 @@ func take_turn() :
 		finish_turn()
 		return
 
+	if (character as PartyMember).weapon_skill :
+		(character as PartyMember).weapon_skill.decrease_cooldown()
+
 	_get_move_cells()
 
 

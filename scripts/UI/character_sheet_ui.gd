@@ -18,12 +18,14 @@ signal non_combat_stat_increased(stat_name: String)
 @onready var traits_tab_button       : TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/traits_tab_button
 @onready var skills_tab_button       : TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/skills_tab_button
 @onready var relationships_tab_button: TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/relationships_tab_button
+@onready var inventory_tab_button    : TextureButton = $background/sheet_hbox/sheet_vbox/tab_buttons_box/inventory_tab_button
 
 # Tab Content Panels
 @onready var stats_panel        : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel
 @onready var traits_panel       : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/traits_panel
 @onready var skills_panel       : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/skills_panel
 @onready var relationships_panel: Control = $background/sheet_hbox/sheet_vbox/tab_content_container/relationships_panel
+@onready var inventory_panel    : Control = $background/sheet_hbox/sheet_vbox/tab_content_container/inventory_panel
 
 # Stats Panel Content
 @onready var stats_label:            Label = $background/sheet_hbox/sheet_vbox/tab_content_container/stats_panel/stats_vbox/overview_label
@@ -74,6 +76,7 @@ func _ready():
 	traits_tab_button.pressed.connect(_on_tab_button_pressed.bind(traits_panel, traits_tab_button))
 	skills_tab_button.pressed.connect(_on_tab_button_pressed.bind(skills_panel, skills_tab_button))
 	relationships_tab_button.pressed.connect(_on_tab_button_pressed.bind(relationships_panel, relationships_tab_button))
+	inventory_tab_button.pressed.connect(_on_tab_button_pressed.bind(inventory_panel, inventory_tab_button))
 
 	close_button.pressed.connect(_on_close_button_pressed)
 
@@ -99,7 +102,7 @@ func _on_tab_button_pressed(panel_to_show: Control, button_pressed: TextureButto
 	active_panel = panel_to_show
 
 	button_pressed.disabled = true
-	for button in [stats_tab_button, traits_tab_button, skills_tab_button, relationships_tab_button]:
+	for button in [stats_tab_button, traits_tab_button, skills_tab_button, relationships_tab_button, inventory_tab_button]:
 		if button != button_pressed:
 			button.disabled = false
 
@@ -126,6 +129,7 @@ func show_sheet(party_member: PartyMember):
 	_update_traits_panel()
 	_update_skills_panel()
 	_update_relationships_panel() 
+	_update_inventory_panel()
 
 	# Default to showing the stats tab
 	_on_tab_button_pressed(stats_panel, stats_tab_button)
@@ -142,7 +146,7 @@ func _update_stats_panel():
 		current_party_member.next_level(),
 		current_party_member.skill_points,
 		current_party_member.max_health,
-		current_party_member.base_damage
+		current_party_member.damage
 	]
 
 	# Update Non-Combat Stats
@@ -256,6 +260,10 @@ func _update_relationships_panel():
 		entry_instance.get_node("relation_hbox/relation_tracks_vbox/fear_vbox/progress_hbox/right_side_rel").value = fear
 
 		relationship_list_vbox.add_child(entry_instance)
+
+func _update_inventory_panel():
+	if not current_party_member or not inventory_panel: return
+	inventory_panel.show_inventory(current_party_member)
 
 func _on_increase_stat_pressed(stat_name: String):
 	if current_party_member and current_party_member.spend_non_combat_stat_point(stat_name):

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://qaqr2ks5kf6f" path="res://assets/ui/fight_ui/description_texture.png" id="1_p5af0"]
 [ext_resource type="Script" path="res://scripts/ui/character_display.gd" id="2_5ghbd"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="3_fa86o"]
-[ext_resource type="Texture2D" uid="uid://dfsimsey84bkf" path="res://assets/chars/male/male_13.png" id="5_j8110"]
+[ext_resource type="Texture2D" uid="uid://m201u30snxc2" path="res://assets/chars/male/male_11.png" id="4_moje3"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="6_u4r2h"]
 [ext_resource type="Texture2D" uid="uid://cqoog8jnypwmi" path="res://assets/ui/buttons/close_button/close_button_n.png" id="7_nl268"]
 [ext_resource type="Texture2D" uid="uid://b2vp8sx5lstxj" path="res://assets/ui/buttons/close_button/close_button_p.png" id="8_541ib"]
@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bl4uj1vo5jgf0" path="res://assets/ui/buttons/circle_button/special_ability_frame_n.png" id="9_oi6rk"]
 [ext_resource type="Texture2D" uid="uid://0oew1uuyn6mv" path="res://assets/ui/buttons/circle_button/special_ability_frame_p.png" id="10_6g4eb"]
 [ext_resource type="Texture2D" uid="uid://csymekdp54xcs" path="res://assets/ui/buttons/circle_button/special_ability_frame_h.png" id="11_w3d5e"]
-[ext_resource type="Texture2D" uid="uid://bjyj8oi6bsuxm" path="res://assets/ui/classes_icons/warrior.png" id="12_2ispd"]
+[ext_resource type="Texture2D" uid="uid://bk5sf2nsjr1yv" path="res://assets/ui/classes_icons/rogue.png" id="12_wq884"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_r0k1a"]
 font = ExtResource("3_fa86o")
@@ -47,7 +47,7 @@ grow_vertical = 2
 texture = ExtResource("1_p5af0")
 expand_mode = 5
 script = ExtResource("2_5ghbd")
-character_portrait = 13
+character_portrait = 11
 
 [node name="infos" type="Label" parent="."]
 layout_mode = 1
@@ -113,7 +113,7 @@ offset_right = 42.5
 offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_j8110")
+texture = ExtResource("4_moje3")
 expand_mode = 3
 
 [node name="frame" type="TextureRect" parent="avatar_background"]
@@ -172,6 +172,6 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("12_2ispd")
+texture = ExtResource("12_wq884")
 expand_mode = 1
 stretch_mode = 5

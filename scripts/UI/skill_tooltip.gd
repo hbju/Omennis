@@ -5,6 +5,7 @@ extends PanelContainer
 @onready var skill_description_label: Label = $VBoxContainer/SkillDescriptionLabel
 
 func update_content(skill: Skill):
+	print("Updating skill tooltip with skill: ", skill)
 	if not skill:
         # Handle cases where skill might be null, maybe hide?
 		skill_name_label.text = "???"
@@ -26,4 +27,3 @@ func _ready():
 	reset_size()
 	await get_tree().process_frame
 	global_position = Vector2(-1000, -1000)
-	show()

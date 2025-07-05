@@ -4,11 +4,11 @@ extends TextureRect
 const skill_tooltip_scene: PackedScene = preload("res://scenes/skill_tooltip.tscn")
 var skill_tooltip_instance: PanelContainer
 
+@onready var button_wait = $wait_button
+
 @onready var button_base_skill = $base_skill_button
 @onready var cooldown_base_skill = $base_skill_button/skill_cooldown
 @onready var icon_base_skill = $base_skill_button/skill_icon
-
-@onready var button_wait = $wait_button
 
 @onready var button_skills = [
 	$skill_button_1,
@@ -26,9 +26,14 @@ var skill_tooltip_instance: PanelContainer
 	$skill_button_3/skill_icon_3
 ]
 
+@onready var button_weapon_skill = $weapon_skill_button 
+@onready var cooldown_weapon_skill = $weapon_skill_button/skill_cooldown 
+@onready var icon_weapon_skill = $weapon_skill_button/skill_icon 
+
 var targeting_skill: int = -1
 var base_skill: Skill = null
 var skill_list: Array[Skill] = []
+var weapon_skill: Skill = null
 
 signal choose_target(skill: Skill)
 signal wait_pressed()
@@ -36,13 +41,15 @@ signal wait_pressed()
 var player_turn: bool = false
 
 func _ready() -> void : 
-	button_base_skill.pressed.connect(_choose_target.bind(0))
-	button_base_skill.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	button_wait.pressed.connect(func () : wait_pressed.emit())
 	button_wait.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	button_base_skill.pressed.connect(_choose_target.bind(0))
+	button_base_skill.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 	for i in range(3):
 		button_skills[i].pressed.connect(_choose_target.bind(i+1))
 		button_skills[i].pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
+	button_weapon_skill.pressed.connect(_choose_target.bind(4))
+	button_weapon_skill.pressed.connect(AudioManager.play_sfx.bind(AudioManager.UI_BUTTON_CLICK))
 
 	if skill_tooltip_scene:
 		skill_tooltip_instance = skill_tooltip_scene.instantiate()
@@ -59,8 +66,8 @@ func _ready() -> void :
 		button_skills[i].mouse_exited.connect(_on_skill_button_mouse_exited)
 	button_wait.mouse_entered.connect(_on_wait_button_mouse_entered)
 	button_wait.mouse_exited.connect(_on_skill_button_mouse_exited)
-
-
+	button_weapon_skill.mouse_entered.connect(_on_skill_button_mouse_entered.bind(4))
+	button_weapon_skill.mouse_exited.connect(_on_skill_button_mouse_exited)
 
 func update_ui(combat_character: CombatCharacter) : 
 	player_turn = combat_character is PlayerCombatCharacter
@@ -73,6 +80,12 @@ func update_ui(combat_character: CombatCharacter) :
 	self.skill_list = []
 	for skill in character.skill_list : 
 		self.skill_list.append(skill)
+	if player_turn and character.weapon_skill:
+		print("Player has a weapon skill: ", character.weapon_skill.get_skill_name())
+		weapon_skill = character.weapon_skill
+	else :
+		weapon_skill = null
+		
 
 	if base_skill : 
 		button_base_skill.show()
@@ -90,7 +103,6 @@ func update_ui(combat_character: CombatCharacter) :
 		cooldown_base_skill.hide()
 		icon_base_skill.hide()
 	button_base_skill.modulate = Color(1, 1, 1) if not button_base_skill.disabled else Color(0.7, 0.7, 0.7)
-
 
 
 	for i in range(0, 3) : 
@@ -111,6 +123,24 @@ func update_ui(combat_character: CombatCharacter) :
 			icon_skills[i].hide()
 		button_skills[i].modulate = Color(1,1,1) if not button_skills[i].disabled else Color(0.7, 0.7, 0.7)
 
+	if weapon_skill :
+		button_weapon_skill.show()
+		button_weapon_skill.disabled = enemy_turn or is_silenced or character.weapon_skill.cooldown > 0
+		cooldown_weapon_skill.show()
+		if character.weapon_skill.cooldown > 0 : 
+			cooldown_weapon_skill.text = str(character.weapon_skill.get_cooldown())
+		else : 
+			cooldown_weapon_skill.text = ""
+		icon_weapon_skill.show()
+		icon_weapon_skill.texture = character.weapon_skill.get_skill_icon()
+	else :
+		button_weapon_skill.disabled = true
+		button_weapon_skill.show()
+		cooldown_weapon_skill.hide()
+		icon_weapon_skill.texture = load("res://assets/ui/items/weapon_bg.png") 
+		icon_weapon_skill.show()
+	button_weapon_skill.modulate = Color(1, 1, 1) if not button_weapon_skill.disabled else Color(0.7, 0.7, 0.7)
+
 func reset_ui() : 
 	for i in range(0, 3) : 
 		button_skills[i].modulate = Color(1, 1, 1)
@@ -121,9 +151,12 @@ func reset_ui() :
 	button_base_skill.disabled = true
 	cooldown_base_skill.hide()
 	icon_base_skill.hide()
+	button_weapon_skill.modulate = Color(1, 1, 1)
+	button_weapon_skill.disabled = true
+	cooldown_weapon_skill.hide()
+	icon_weapon_skill.hide()
 
 func _unhandled_input(event):
-		
 	if event.is_action_pressed("combat_base_skill") :
 		if player_turn :
 			_choose_target(0)
@@ -150,6 +183,11 @@ func _unhandled_input(event):
 			_choose_target(3)
 		get_viewport().set_input_as_handled()
 		return
+	if event.is_action_pressed("combat_weapon_skill") :
+		if player_turn :
+			_choose_target(4)
+		get_viewport().set_input_as_handled()
+		return
 
 func _choose_target(index: int) : 
 	if index == 0 and base_skill.cooldown == 0 : 
@@ -159,10 +197,11 @@ func _choose_target(index: int) :
 			button_base_skill.modulate = Color(0.7, 0.7, 0.7) # pushed color if already selected
 			for button in button_skills : 
 				button.modulate = Color(1, 1, 1) 
+			button_weapon_skill.modulate = Color(1, 1, 1) # Reset weapon skill button
 		choose_target.emit(base_skill)
 		return
 
-	elif index > 0 and skill_list[index-1].get_cooldown() == 0 : 
+	elif index > 0 and index < 4 and skill_list[index-1].get_cooldown() == 0 : 
 		if button_skills[index-1].modulate == Color(0.7, 0.7, 0.7) : 
 			button_skills[index-1].modulate = Color(1, 1, 1) # Reset color if disabled
 		else : 
@@ -171,16 +210,30 @@ func _choose_target(index: int) :
 			for button in button_skills : 
 				if button != button_skills[index-1]: # Reset other buttons
 					button.modulate = Color(1, 1, 1)
+			button_weapon_skill.modulate = Color(1, 1, 1) # Reset weapon skill button
 		choose_target.emit(skill_list[index-1])
 
+	elif index == 4 and weapon_skill and weapon_skill.get_cooldown() == 0 :
+		if button_weapon_skill.modulate == Color(0.7, 0.7, 0.7) :
+			button_weapon_skill.modulate = Color(1, 1, 1) # Reset color if disabled
+		else :
+			button_weapon_skill.modulate = Color(0.7, 0.7, 0.7) # Disable color if already selected
+			button_base_skill.modulate = Color(1, 1, 1) # Reset base skill button
+			for button in button_skills :
+				button.modulate = Color(1, 1, 1) # Reset other buttons
+		choose_target.emit(weapon_skill)
+
 func _on_skill_button_mouse_entered(skill_index: int):
+	print("Mouse entered skill button at index: ", skill_index)
 	if not skill_tooltip_instance: return # Tooltip doesn't exist
-	if skill_index < 0 or skill_index - 1 >= skill_list.size(): return # Invalid index
+	if skill_index < 0 or (skill_index < 4 and skill_index - 1 >= skill_list.size()) or (skill_index == 4 and not weapon_skill): return # Invalid index
 
 	skill_tooltip_instance.reset_size()
 
-	var skill: Skill = base_skill if skill_index == 0 else skill_list[skill_index - 1]
-	var button: TextureButton = button_base_skill if skill_index == 0 else button_skills[skill_index - 1]
+	var skill: Skill = base_skill if skill_index == 0 else skill_list[skill_index - 1] if skill_index < 4 else weapon_skill
+	var button: TextureButton = button_base_skill if skill_index == 0 else button_skills[skill_index - 1] if skill_index < 4 else button_weapon_skill
+
+	print("Showing tooltip for skill: ", skill.get_skill_name(), " at index: ", skill_index)
 
 	skill_tooltip_instance.update_content(skill)
 	var cd_text = "CD: %d/%d" % [skill.cooldown, skill.max_cooldown]

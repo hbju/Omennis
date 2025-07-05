@@ -115,7 +115,7 @@ func _calculate_party_strength():
 	var total_strength = 0
 	for member in party:
 		var advantage_factor = _get_advantage_factor(member.get_char_class(), all_enemies[0].enemy.get_char_class())
-		var member_strength = (member.character_level + member.base_damage / 10.0 + member.max_health / 100.0) * advantage_factor
+		var member_strength = (member.character_level + member.damage / 10.0 + member.max_health / 100.0) * advantage_factor
 		total_strength += member_strength
 	return total_strength
 
@@ -124,7 +124,7 @@ func _calculate_enemy_strength() -> float:
 	var total_strength = 0
 	for enemy_group in all_enemies:
 		var enemy = enemy_group.enemy
-		var enemy_char_strength = (enemy.character_level + enemy.base_damage / 10.0 + enemy.max_health / 100.0) * enemy_group.enemies.size()
+		var enemy_char_strength = (enemy.character_level + enemy.damage / 10.0 + enemy.max_health / 100.0) * enemy_group.enemies.size()
 		total_strength += enemy_char_strength
 	return total_strength
 

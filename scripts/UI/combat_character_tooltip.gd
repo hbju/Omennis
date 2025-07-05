@@ -39,7 +39,7 @@ func update_content(character: CombatCharacter):
 	info_label.text = "Name: " + character.character.character_name + "\n" + \
 					"Class: " + character.character.get_char_class() + "\n" + \
 					"Level: " + str(character.character.character_level) + "\n" + \
-					"Base Damage: " + str(character.character.base_damage) + "\n" 
+					"Base Damage: " + str(character.character.damage) + "\n" 
 
 	if character.character.base_skill:
 		base_skill_button.show()

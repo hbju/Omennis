@@ -23,6 +23,7 @@ signal character_moved
 @onready var take_damage_player: AudioStreamPlayer2D = $take_damage_player
 @onready var death_player: AudioStreamPlayer2D = $death_player
 @onready var footstep_player: AudioStreamPlayer2D = $footstep_player
+@onready var character_rect: Control = $rect
 
 const ATTACK_SWING_SFX = [
 	preload("res://audio/sfx/combat/swing_melee_01.wav"),
@@ -88,7 +89,8 @@ func _ready() :
 	character_portrait.texture = load(character.get_portrait_path())
 	max_health = character.max_health
 	health = character.max_health
-	base_damage = character.base_damage
+	shield = character.init_shield
+	base_damage = character.damage
 	_update_health_bar()
 	_update_shield_bar()
 

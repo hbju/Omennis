@@ -1,0 +1,97 @@
+[gd_scene load_steps=12 format=3 uid="uid://sobkhkhfcccq"]
+
+[ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_qwwnt"]
+[ext_resource type="Script" path="res://scripts/ui/item_tooltip.gd" id="2_lv2bh"]
+[ext_resource type="FontFile" uid="uid://c8gm6pjmvi186" path="res://assets/fonts/VarelaRound-Regular.ttf" id="3_bxplu"]
+[ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="4_35nxj"]
+[ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="4_qdkbw"]
+[ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="5_g5rc7"]
+[ext_resource type="PackedScene" uid="uid://2bnhkewiggc3" path="res://scenes/skill_tooltip.tscn" id="7_efw2c"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rp6u5"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+texture = ExtResource("1_qwwnt")
+
+[sub_resource type="LabelSettings" id="LabelSettings_bgrvm"]
+font = ExtResource("3_bxplu")
+font_size = 45
+
+[sub_resource type="LabelSettings" id="LabelSettings_by5v1"]
+font = ExtResource("4_qdkbw")
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_h5s3p"]
+font = ExtResource("4_qdkbw")
+font_size = 25
+font_color = Color(0.803922, 0.654902, 0, 1)
+
+[node name="item_tooltip" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("2_lv2bh")
+
+[node name="item_container" type="PanelContainer" parent="."]
+z_index = 99
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 435.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_rp6u5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="item_container"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="name_label" type="Label" parent="item_container/VBoxContainer"]
+layout_mode = 2
+text = "Assassin's Blade"
+label_settings = SubResource("LabelSettings_bgrvm")
+autowrap_mode = 2
+
+[node name="stats_label" type="Label" parent="item_container/VBoxContainer"]
+layout_mode = 2
+text = "Weapon
++5 Base Damage
++5% Crit Chance"
+label_settings = SubResource("LabelSettings_by5v1")
+
+[node name="description_label" type="Label" parent="item_container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+text = "\"A light, sharp blade that rewards precise strikes.\""
+label_settings = SubResource("LabelSettings_h5s3p")
+autowrap_mode = 3
+
+[node name="weapon_skill" type="TextureRect" parent="item_container/VBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("4_35nxj")
+expand_mode = 1
+
+[node name="skill_icon" type="TextureRect" parent="item_container/VBoxContainer/weapon_skill"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -65.0
+offset_right = 65.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_g5rc7")
+expand_mode = 1
+
+[node name="skill_tooltip" parent="." instance=ExtResource("7_efw2c")]
+visible = false
+layout_mode = 2
+offset_bottom = 449.0
