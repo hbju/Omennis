@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://sobkhkhfcccq"]
 
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_qwwnt"]
-[ext_resource type="Script" path="res://scripts/ui/item_tooltip.gd" id="2_lv2bh"]
+[ext_resource type="Script" uid="uid://cxn7chv0d3pv5" path="res://scripts/ui/item_tooltip.gd" id="2_lv2bh"]
 [ext_resource type="FontFile" uid="uid://c8gm6pjmvi186" path="res://assets/fonts/VarelaRound-Regular.ttf" id="3_bxplu"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="4_35nxj"]
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="4_qdkbw"]

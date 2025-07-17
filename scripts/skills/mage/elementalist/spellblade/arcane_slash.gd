@@ -62,7 +62,7 @@ func get_skill_name() -> String:
 	return "Arcane Slash"
 
 func get_skill_description() -> String:
-	return "Deal " + str(damage_mult) + " times your base damage to an enemy, gain " + str(shield_gain_percent) + "% of damage dealt as shield.\n" + \
+	return "Deal " + str(damage_mult) + " times your base damage to an enemy, gain " + str(shield_gain_percent * 100) + "% of damage dealt as shield.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: " + str(get_skill_range()) + " cells.\n"
 

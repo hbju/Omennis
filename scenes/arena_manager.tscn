@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://7x2i5w6vl2vs"]
 
-[ext_resource type="Script" path="res://scripts/arena_manager.gd" id="1_1lmge"]
+[ext_resource type="Script" uid="uid://85eqt13jjkmd" path="res://scripts/arena_manager.gd" id="1_1lmge"]
 [ext_resource type="PackedScene" uid="uid://de5n37s7ivoq6" path="res://scenes/combat_scene.tscn" id="1_l5saf"]
 [ext_resource type="PackedScene" uid="uid://mbxnxi53kylh" path="res://scenes/skill_ui.tscn" id="3_0obu1"]
 [ext_resource type="PackedScene" uid="uid://cb72gthtfkeba" path="res://scenes/arena_progression_screen.tscn" id="4_eyg3n"]

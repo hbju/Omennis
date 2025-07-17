@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=3 format=3 uid="uid://chp2vlstxr5av"]
+
+[ext_resource type="Texture2D" uid="uid://d3pl2nh65ess0" path="res://assets/ui/items/weapon/marauders_club.png" id="1_f07d4"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_kv38o"]
+
+[resource]
+script = ExtResource("1_kv38o")
+equip_slot = 0
+damage_bonus = 5.0
+crit_chance_bonus = 0.0
+item_lvl = 4
+item_name = "Marauder's Club"
+description = "A heavy length of wood, studded with whatever was sharp and available. Brutally effective."
+icon = ExtResource("1_f07d4")
+tier = 0
+value = 10

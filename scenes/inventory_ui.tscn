@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dndblg8fgs0rr" path="res://assets/ui/fight_ui/container.png" id="1_d4ehs"]
 [ext_resource type="PackedScene" uid="uid://bcow2c1wvn77x" path="res://scenes/item_slot.tscn" id="2_0l1h0"]
-[ext_resource type="Script" path="res://scripts/ui/inventory_ui.gd" id="2_1kfdr"]
+[ext_resource type="Script" uid="uid://brngusqqj3bi" path="res://scripts/ui/inventory_ui.gd" id="2_1kfdr"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eh14m"]
 texture = ExtResource("1_d4ehs")

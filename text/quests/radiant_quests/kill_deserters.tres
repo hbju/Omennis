@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://b6t7ukdf0e14b"]
 
-[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_vghx4"]
+[ext_resource type="Script" uid="uid://bwe8po3812ulb" path="res://scripts/utilities/radiant_quest_template.gd" id="1_vghx4"]
 
 [resource]
 script = ExtResource("1_vghx4")

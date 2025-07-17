@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://chj47700segsg"]
 
-[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_e1mno"]
+[ext_resource type="Script" uid="uid://bwe8po3812ulb" path="res://scripts/utilities/radiant_quest_template.gd" id="1_e1mno"]
 
 [resource]
 script = ExtResource("1_e1mno")
@@ -12,8 +12,10 @@ offer_description = "You find a notice pinned to the guild's bulletin board. 'At
 location_entry_description = "You arrive at [LocationName]. You quickly find some tracks leading into the forest. It's time to earn your coin."
 location_post_objective_victory_description = "The bears are gone. [LocationName] is quiet now. You should return to [CityName] to claim your reward."
 location_post_objective_failure_description = "The bears were too strong. You barely escaped with your life. You should regroup and try again later."
-turn_in_description = "'Well done,' the guild master says, dropping a heavy pouch of coins on the counter. 'Here is your [RewardGold]g, as promised.'\n\n[QuestRewardSummary]"
-location_tag_required = ["forest"]
+turn_in_description = "'Well done,' the guild master says, dropping a heavy pouch of coins on the counter. 'Here is your [RewardGold]g, as promised.'
+
+[QuestRewardSummary]"
+location_tag_required = Array[String](["forest"])
 min_player_level = 3
 enemies = Array[Dictionary]([{
 "archetype": "Bear",

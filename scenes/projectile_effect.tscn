@@ -1,6 +1,6 @@
 [gd_scene load_steps=79 format=3 uid="uid://f0widx1xsh6f"]
 
-[ext_resource type="Script" path="res://scripts/combat/skills/projectile_effect.gd" id="1_g4f6b"]
+[ext_resource type="Script" uid="uid://cwrajctg6xhfp" path="res://scripts/combat/skills/projectile_effect.gd" id="1_g4f6b"]
 [ext_resource type="Texture2D" uid="uid://b53mqagif6xqx" path="res://assets/combat/skills/firespark/img_0.png" id="2_48fua"]
 [ext_resource type="Texture2D" uid="uid://cvlpejo4q80rb" path="res://assets/combat/skills/firespark/img_1.png" id="3_o2wre"]
 [ext_resource type="Texture2D" uid="uid://c65kwdry1c3to" path="res://assets/combat/skills/firespark/img_2.png" id="4_eljpr"]

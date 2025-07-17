@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=4 format=3 uid="uid://ctwup5ayjicet"]
+
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_buvxd"]
+[ext_resource type="Script" uid="uid://oic6py7hi7ms" path="res://scripts/skills/warrior/charge.gd" id="1_dyc4b"]
+
+[sub_resource type="Resource" id="Resource_f52xp"]
+script = ExtResource("1_dyc4b")
+
+[resource]
+script = ExtResource("1_buvxd")
+equip_slot = 0
+damage_bonus = 4.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_f52xp")
+item_lvl = 3
+item_name = "Maul of the Brute"
+description = "Less a weapon and more a slab of iron on a stick. It is designed to shatter anything it hits, be it a gate, a shield, or a ribcage."
+tier = 1
+value = 40

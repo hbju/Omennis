@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://bxfvg38fuudbv"]
+
+[ext_resource type="Script" uid="uid://bt11mopnnwgu5" path="res://scripts/skills/mage/necromancer/dark_pact.gd" id="1_5rln3"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_f4v2v"]
+[ext_resource type="Texture2D" uid="uid://8bf2v3ij3nvx" path="res://assets/ui/items/weapon/sacrificial_dirk.png" id="2_t1q7v"]
+
+[sub_resource type="Resource" id="Resource_no2yo"]
+script = ExtResource("1_5rln3")
+
+[resource]
+script = ExtResource("1_f4v2v")
+equip_slot = 0
+damage_bonus = 4.0
+crit_chance_bonus = 0.1
+granted_skill = SubResource("Resource_no2yo")
+item_lvl = 4
+item_name = "Sacrificial Dirk"
+description = "A ritual blade that thirsts for blood, whether it be from a foe or its wielder. Power always has a price."
+icon = ExtResource("2_t1q7v")
+tier = 1
+value = 10

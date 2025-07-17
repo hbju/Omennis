@@ -1,7 +1,7 @@
 extends Skill
 class_name Decay
 
-var damage_percent := 10
+var damage_percent := 0.1
 var duration := 3
 var max_cooldown := 1
 
@@ -85,7 +85,7 @@ func get_skill_name() -> String:
 	return "Decay"
 
 func get_skill_description() -> String:
-	return "Inflict a decay effect on the enemy, causing them to lose " + str(int(damage_percent)) + "% of their max health at the end of their turn for " + str(duration) + " turns. Stacks.\n" + \
+	return "Inflict a decay effect on the enemy, causing them to lose " + str(damage_percent * 100) + "% of their max health at the end of their turn for " + str(duration) + " turns. Stacks.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: " + str(get_skill_range()) + " cells.\n" 
 

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://cbl4cq4n2o7vs"]
 
-[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_3pko7"]
+[ext_resource type="Script" uid="uid://bwe8po3812ulb" path="res://scripts/utilities/radiant_quest_template.gd" id="1_3pko7"]
 
 [resource]
 script = ExtResource("1_3pko7")
@@ -12,15 +12,15 @@ offer_description = "You find a scribbled note. 'My observation post! In [Locati
 location_entry_description = "You arrive at a small, stone outpost in [LocationName], just as the scholar described. An unnatural chill hangs in the air, and jagged ice formations coat the nearby rocks. The Frost Guardians are here."
 location_post_objective_victory_description = "The unnatural cold has receded with the elementals' destruction. The outpost is secure. You should let the scholar in [CityName] know his research can continue."
 location_post_objective_failure_description = "The elementals' freezing power is overwhelming. You're forced to retreat before you're frozen solid."
-turn_in_description = "'The scholar will be pleased', the clerk says with a nod, pressing a pouch of 250 gold into your hand without looking up. 'He was quite anxious about those elementals.'\n\n[QuestRewardSummary]"
-location_tag_required = ["ruins", "mountains"]
+turn_in_description = "'The scholar will be pleased', the clerk says with a nod, pressing a pouch of 250 gold into your hand without looking up. 'He was quite anxious about those elementals.'
+
+[QuestRewardSummary]"
+location_tag_required = Array[String](["ruins", "mountains"])
 min_player_level = 3
-enemies = [
-    {
-        "archetype": "Frost Guardian",
-        "count": 3,
-        "level": 4
-    }
-]
+enemies = Array[Dictionary]([{
+"archetype": "Frost Guardian",
+"count": 3,
+"level": 4
+}])
 reward_gold = 250
 reward_xp = 1000

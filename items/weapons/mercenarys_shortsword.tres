@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=3 format=3 uid="uid://be0cg23wbfu5b"]
+
+[ext_resource type="Texture2D" uid="uid://diesjneb2653v" path="res://assets/ui/items/weapon/mercenarys_shortword.png" id="1_2vddl"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_wdybq"]
+
+[resource]
+script = ExtResource("1_wdybq")
+equip_slot = 0
+damage_bonus = 3.0
+crit_chance_bonus = 0.0
+item_lvl = 3
+item_name = "Mercenary's Shortsword"
+description = "A reliable, mass-produced blade. It has seen countless skirmishes and likely will see countless more."
+icon = ExtResource("1_2vddl")
+tier = 0
+value = 15

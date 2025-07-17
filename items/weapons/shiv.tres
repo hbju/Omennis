@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=3 format=3 uid="uid://dn06154ljbltg"]
+
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_nly5u"]
+[ext_resource type="Texture2D" uid="uid://qx7p2dsmtw7x" path="res://assets/ui/items/weapon/shiv.png" id="2_rfltm"]
+
+[resource]
+script = ExtResource("1_nly5u")
+equip_slot = 0
+damage_bonus = 2.0
+crit_chance_bonus = 0.05
+item_lvl = 2
+item_name = "Shiv"
+description = "Less a proper dagger and more a sharpened piece of metal with a wrapped hilt. Lethal when applied to an unsuspecting back."
+icon = ExtResource("2_rfltm")
+tier = 0
+value = 15

@@ -76,26 +76,27 @@ static var ENEMY_CLASS_DEFINITIONS = {
             {"skill": Frenzy, "min_level": 4},
             {"skill": WarCry, "min_level": 5}
         ],
-        "portraits": [1]
+        "portraits": [1],
+        "loot_table": preload("res://items/loot_tables/mountain_drake_loot.tres")
     },
     "Kaelen Vane" : {
-        "class_enum": Character.CLASSES.Warrior,
+        "class_enum": Character.CLASSES.Rogue,
         "base_hp": 0, "hp_per_level": 50,
         "base_damage_stat": 0, "damage_stat_per_level": 5,
         "skill_pool_config": [
-            {"skill": Blink, "min_level": 3},
-            {"skill": ArcaneSlash, "min_level": 5},
-            {"skill": BloodFury, "min_level": 6}
+            {"skill": MarkTarget, "min_level": 3},
+            {"skill": Gouge, "min_level": 5},
+            {"skill": Nightmare, "min_level": 6}
         ],
         "portraits": [14]
     },
     "Ash-Chitterer Queen" : {
-        "class_enum": Character.CLASSES.Warrior,
+        "class_enum": Character.CLASSES.None,
         "base_hp": 0, "hp_per_level": 40,
         "base_damage_stat": 0, "damage_stat_per_level": 5,
         "skill_pool_config": [
-            {"skill": Charge, "min_level": 3},
-            {"skill": Frenzy, "min_level": 5},
+            {"skill": ShadowStep, "min_level": 3},
+            {"skill": PoisonDagger, "min_level": 5},
             {"skill": Decay, "min_level": 6}
         ],
         "portraits": [15]
@@ -112,13 +113,13 @@ static var ENEMY_CLASS_DEFINITIONS = {
         "portraits": [16]
     },
     "Goblin Raider": {
-        "class_enum": Character.CLASSES.Warrior,
+        "class_enum": Character.CLASSES.Rogue,
         "base_hp": 20, "hp_per_level": 3,
         "base_damage_stat": 10, "damage_stat_per_level": 3,
         "skill_pool_config": [
-            {"skill": Blink, "min_level": 2},
+            {"skill": Backstab, "min_level": 2},
             {"skill": Frenzy, "min_level": 4},
-            {"skill": RagingBlow, "min_level": 6}
+            {"skill": PoisonDagger, "min_level": 6}
         ],
         "portraits": [20]
     },
@@ -151,7 +152,7 @@ static var ENEMY_CLASS_DEFINITIONS = {
         "skill_pool_config": [
             {"skill": Charge, "min_level": 2},
             {"skill": BloodFury, "min_level": 4},
-            {"skill": RagingBlow, "min_level": 6}
+            {"skill": FinalStrike, "min_level": 6}
         ],
         "portraits": [18]
     },

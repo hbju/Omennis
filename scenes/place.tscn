@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdrsfqh46wpr2"]
 
-[ext_resource type="Script" path="res://scripts/overworld/point_of_interest.gd" id="1_j483c"]
+[ext_resource type="Script" uid="uid://crnepkb1eslp4" path="res://scripts/overworld/point_of_interest.gd" id="1_j483c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0t7k4"]
 radius = 797.569

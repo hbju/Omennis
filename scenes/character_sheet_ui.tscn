@@ -1,6 +1,6 @@
 [gd_scene load_steps=45 format=3 uid="uid://dvs0op087antk"]
 
-[ext_resource type="Script" path="res://scripts/ui/character_sheet_ui.gd" id="1_10so0"]
+[ext_resource type="Script" uid="uid://cgku64fbgyejy" path="res://scripts/ui/character_sheet_ui.gd" id="1_10so0"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_43w0b"]
 [ext_resource type="Texture2D" uid="uid://c0lna5hhs37mm" path="res://assets/ui/menu_ui/box_heading_reaper_left.png" id="2_3l7pp"]
 [ext_resource type="Texture2D" uid="uid://hen2oq5a7eox" path="res://assets/ui/menu_ui/box_heading_reaper_right.png" id="3_u6rce"]
@@ -35,7 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://cmv3q2wxfdisj" path="res://assets/ui/buttons/plus_button/add_b_p.png" id="27_jxqdf"]
 [ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="27_wex54"]
 [ext_resource type="Texture2D" uid="uid://duqgapa04qxnx" path="res://assets/ui/buttons/plus_button/add_b_h.png" id="28_bsfys"]
-[ext_resource type="Script" path="res://scripts/ui/skill_ui.gd" id="30_cqrxe"]
+[ext_resource type="Script" uid="uid://c0yw57sqqkjd2" path="res://scripts/ui/skill_ui.gd" id="30_cqrxe"]
 [ext_resource type="PackedScene" uid="uid://ds8wb1udg56mq" path="res://scenes/relationship_entry.tscn" id="30_kv4ir"]
 [ext_resource type="PackedScene" uid="uid://brfryccwkmslw" path="res://scenes/inventory_ui.tscn" id="31_v31bk"]
 

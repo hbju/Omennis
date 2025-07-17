@@ -6,7 +6,6 @@ const player_character = preload("res://scenes/player_combat_character.tscn")
 var action_cells: Array[Vector2i] = []
 
 var current_skill: Skill = null
-signal use_skill(skill: Skill)
 
 ##
 ## Create a new player character [br]

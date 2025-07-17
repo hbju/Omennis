@@ -1,6 +1,6 @@
 [gd_scene load_steps=67 format=3 uid="uid://bmdtxl2f2oaiq"]
 
-[ext_resource type="Script" path="res://scripts/combat/skills/impact_effect.gd" id="1_dvfyd"]
+[ext_resource type="Script" uid="uid://xp0ayr0glk2k" path="res://scripts/combat/skills/impact_effect.gd" id="1_dvfyd"]
 [ext_resource type="Texture2D" uid="uid://dlypsyoohn3te" path="res://assets/combat/skills/lightning/Lightning_1_512-sheet.png" id="2_mredx"]
 [ext_resource type="Texture2D" uid="uid://diessd8l7f7sx" path="res://assets/combat/skills/lightning/Lightning_2_512-sheet.png" id="3_keb6m"]
 [ext_resource type="Texture2D" uid="uid://baasbqgx0hrt1" path="res://assets/combat/skills/lightning/Lightning_3_512-sheet.png" id="4_y26n4"]

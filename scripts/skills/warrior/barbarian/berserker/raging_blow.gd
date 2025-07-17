@@ -1,7 +1,7 @@
 extends MeleeSkill
 class_name RagingBlow
 
-var damage_mult := 5
+var damage_mult := 4
 var max_cooldown := 4
 
 func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bool:

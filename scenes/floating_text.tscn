@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bf44srtemk43f"]
 
 [ext_resource type="FontFile" uid="uid://chxj0wt4i4epv" path="res://assets/fonts/lato/Lato-Regular.ttf" id="1_vxkke"]
-[ext_resource type="Script" path="res://scripts/combat/floating_text.gd" id="5_x6ruk"]
+[ext_resource type="Script" uid="uid://uei45oxt27rl" path="res://scripts/combat/floating_text.gd" id="5_x6ruk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xvcty"]
 font = ExtResource("1_vxkke")

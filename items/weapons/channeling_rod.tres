@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://bimet0hwnsrxl"]
+
+[ext_resource type="Script" uid="uid://bfu83rjvxa8va" path="res://scripts/skills/mage/blink.gd" id="1_bn071"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_f6lob"]
+[ext_resource type="Texture2D" uid="uid://cv24owj6luij" path="res://assets/ui/items/weapon/channeling_rod.png" id="2_eev31"]
+
+[sub_resource type="Resource" id="Resource_gu802"]
+script = ExtResource("1_bn071")
+
+[resource]
+script = ExtResource("1_f6lob")
+equip_slot = 0
+damage_bonus = 3.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_gu802")
+item_lvl = 2
+item_name = "Channeling Rod"
+description = "A length of polished birch capped with a dull, faintly warm crystal. It helps to focus ambient magical energies."
+icon = ExtResource("2_eev31")
+tier = 1
+value = 30

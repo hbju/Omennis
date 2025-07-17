@@ -164,6 +164,9 @@ func _on_slot_hover(slot: ItemSlot):
 		if new_position.x + slot_rect.size.x + tooltip_size.x > get_viewport().size.x:
 			# If it goes off-screen, adjust to the left side
 			new_position.x = slot_rect.position.x - tooltip_size.x - 5
+		if new_position.y + tooltip_size.y > get_viewport().size.y:
+			# If it goes off-screen vertically, adjust to the top
+			new_position.y = get_viewport().size.y - tooltip_size.y - 5
 		print("New tooltip position: ", new_position)
 		item_tooltip.global_position = new_position
 

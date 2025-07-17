@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://xkfew8g51xdy"]
 
-[ext_resource type="Script" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
+[ext_resource type="Script" uid="uid://0o7wvyfu41w" path="res://scripts/combat/player_combat_character.gd" id="1_38dme"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_rl8hf"]
 [ext_resource type="Texture2D" uid="uid://us8lymojm1m0" path="res://assets/chars/male/male_00.png" id="3_rduhn"]
 [ext_resource type="PackedScene" uid="uid://c5k7vp5miiflb" path="res://scenes/status_icon.tscn" id="4_5drti"]

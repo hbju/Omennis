@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://der1csr2ipan8"]
 
 [ext_resource type="Texture2D" uid="uid://crrjmqd5ro00r" path="res://assets/ui/items/armor/armor_5.PNG" id="1_b8m1b"]
-[ext_resource type="Script" path="res://scripts/items/equipment_item.gd" id="1_cbw51"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_cbw51"]
 
 [resource]
 script = ExtResource("1_cbw51")
@@ -9,6 +9,7 @@ equip_slot = 0
 health_bonus = 30
 armor_bonus = 25
 passives = Array[Resource]([])
+item_lvl = 0
 item_name = "Guardian Plate"
 description = "Heavy plate that can turn a deadly blow."
 icon = ExtResource("1_b8m1b")

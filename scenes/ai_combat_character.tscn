@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://7ruoao68t0vm"]
 
-[ext_resource type="Script" path="res://scripts/combat/ai_combat_character.gd" id="1_p787k"]
+[ext_resource type="Script" uid="uid://d31014nnup54r" path="res://scripts/combat/ai_combat_character.gd" id="1_p787k"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="2_gwoe4"]
 [ext_resource type="Texture2D" uid="uid://b818jtm4d4and" path="res://assets/enemies/monster_02.png" id="3_vmbuy"]
 [ext_resource type="PackedScene" uid="uid://c5k7vp5miiflb" path="res://scenes/status_icon.tscn" id="4_4nmlm"]

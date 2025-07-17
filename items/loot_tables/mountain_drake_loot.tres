@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=3 format=3 uid="uid://bn81gyi087edg"]
+
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="1_05x1c"]
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_7rdg0"]
+
+[resource]
+script = ExtResource("1_05x1c")
+entries = Dictionary[ExtResource("1_7rdg0"), Vector3i]({})

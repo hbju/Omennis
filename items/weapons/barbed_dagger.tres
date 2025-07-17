@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=3 format=3 uid="uid://cikqvx33tm5vr"]
+
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_2iu5g"]
+[ext_resource type="Texture2D" uid="uid://barcw1nhnhdt2" path="res://assets/ui/items/weapon/barbed_dagger.png" id="1_wxn7s"]
+
+[resource]
+script = ExtResource("1_2iu5g")
+equip_slot = 0
+damage_bonus = 2.0
+crit_chance_bonus = 0.05
+item_lvl = 2
+item_name = "Barbed Dagger"
+description = "A cruel weapon designed to tear flesh on its way out. The wounds it inflicts are notoriously difficult to stitch."
+icon = ExtResource("1_wxn7s")
+tier = 0
+value = 10

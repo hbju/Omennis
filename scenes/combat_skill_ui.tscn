@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dyw8duvfrq3mb"]
 
 [ext_resource type="Texture2D" uid="uid://b5iofwi1qo8pt" path="res://assets/ui/fight_ui/skill_bar_ui.png" id="1_ge7uk"]
-[ext_resource type="Script" path="res://scripts/ui/combat_skill_ui.gd" id="2_vqerd"]
+[ext_resource type="Script" uid="uid://big5btwrhkcpj" path="res://scripts/ui/combat_skill_ui.gd" id="2_vqerd"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_7ni60"]
 [ext_resource type="Texture2D" uid="uid://7o3a8tlw6qhr" path="res://assets/ui/skills/basic_slash.png" id="4_yn2gs"]
 [ext_resource type="Texture2D" uid="uid://bxyo6htxdl7o5" path="res://assets/ui/fight_ui/menu_heading_smaller.png" id="5_0jvpv"]

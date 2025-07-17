@@ -1,7 +1,7 @@
 extends Skill
 class_name BoneArmor
 
-var shield_amount_percentage := 20
+var shield_amount_percentage := 0.2
 var retaliate_damage := 20
 var duration := 3
 var max_cooldown := 5
@@ -54,7 +54,7 @@ func get_skill_name() -> String:
 	return "Bone Armor"
 
 func get_skill_description() -> String:
-	return "Create a shield that absorbs " + str(shield_amount_percentage) + "%% of your max HP and deals " + str(retaliate_damage) + " damage to any enemy that attacks you for " + str(duration) + " turns.\n" + \
+	return "Create a shield that absorbs " + str(shield_amount_percentage * 100) + "%% of your max HP and deals " + str(retaliate_damage) + " damage to any enemy that attacks you for " + str(duration) + " turns.\n" + \
 		"Cooldown: " + str(max_cooldown) + " turns.\n" + \
 		"Range: yourself.\n"
 

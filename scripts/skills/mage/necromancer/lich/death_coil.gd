@@ -1,7 +1,7 @@
 extends Skill
 class_name DeathCoil
 
-var damage_mult := 3
+var damage_mult := 2
 var heal_percent := 0.5
 var max_cooldown := 2
 

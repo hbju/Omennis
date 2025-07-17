@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RadiantQuestTemplate" load_steps=2 format=3 uid="uid://cb8b0v08qmg1c"]
 
-[ext_resource type="Script" path="res://scripts/utilities/radiant_quest_template.gd" id="1_1qp8d"]
+[ext_resource type="Script" uid="uid://bwe8po3812ulb" path="res://scripts/utilities/radiant_quest_template.gd" id="1_1qp8d"]
 
 [resource]
 script = ExtResource("1_1qp8d")
@@ -12,8 +12,10 @@ offer_description = "You spot a notice on the quest board. It reads: 'A large pa
 location_entry_description = "You enter [LocationName]. The air is filled with the sounds of nature, but you can also hear the distant chatter of goblins. They seem to be gathered in a large group, making it easy to spot them from a distance."
 location_post_objective_victory_description = "With the goblin pack defeated, [LocationName] is safe once more. You should return to the guild for your reward."
 location_post_objective_failure_description = "The goblins proved too numerous. You barely escaped with your life. Regroup and try again later."
-turn_in_description = "You return to the guild and report your success in dealing with the goblin pack. The guild master thanks you profusely and rewards you with [RewardGold] gold.\n\n[QuestRewardSummary]"
-location_tag_required = ["cave", "forest", "ruins"]
+turn_in_description = "You return to the guild and report your success in dealing with the goblin pack. The guild master thanks you profusely and rewards you with [RewardGold] gold.
+
+[QuestRewardSummary]"
+location_tag_required = Array[String](["cave", "forest", "ruins"])
 min_player_level = 4
 enemies = Array[Dictionary]([{
 "archetype": "Goblin Shaman",

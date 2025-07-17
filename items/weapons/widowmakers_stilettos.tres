@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://df6n1srv7y735"]
+
+[ext_resource type="Script" uid="uid://d4d2r2qwwnfty" path="res://scripts/skills/rogue/assassin/gouge.gd" id="1_gk1nn"]
+[ext_resource type="Texture2D" uid="uid://07quh0hn6qvk" path="res://assets/ui/items/weapon/widowmakers_stilettos.png" id="2_joijx"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_8gdxr"]
+
+[sub_resource type="Resource" id="Resource_pbc78"]
+script = ExtResource("1_gk1nn")
+
+[resource]
+script = ExtResource("3_8gdxr")
+equip_slot = 0
+damage_bonus = 5.0
+crit_chance_bonus = 0.2
+granted_skill = SubResource("Resource_pbc78")
+item_lvl = 5
+item_name = "Widowmaker's Stilettos"
+description = "A perfectly matched pair of daggers, weighted for throwing but deadliest in a precise, stunning strike to the vitals."
+icon = ExtResource("2_joijx")
+tier = 2
+value = 10

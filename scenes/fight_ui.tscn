@@ -1,6 +1,6 @@
 [gd_scene load_steps=32 format=3 uid="uid://d25rdiau8ito5"]
 
-[ext_resource type="Script" path="res://scripts/ui/fight_ui.gd" id="1_fhe66"]
+[ext_resource type="Script" uid="uid://cbey4oygseol4" path="res://scripts/ui/fight_ui.gd" id="1_fhe66"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="2_bcqcl"]
 [ext_resource type="PackedScene" uid="uid://cje0ll6pwd5yp" path="res://scenes/character_display.tscn" id="3_4n8ts"]
 [ext_resource type="PackedScene" uid="uid://d7xhco1lda27" path="res://scenes/fight_ui_enemy_group.tscn" id="4_udwmr"]

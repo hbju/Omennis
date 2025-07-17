@@ -9,7 +9,7 @@ func use_skill(from: CombatCharacter, skill_pos: Vector2i, map: CombatMap) -> bo
 	var skill_target = map.get_character(skill_pos)
 	if not is_valid_target_type(from, skill_target):
 		return false
-
+	
 
 	from.gain_status("lynx_eye", 99, crit_bonus) # Duration is effectively infinite until moved
 	from.character_moved.connect(func () : 

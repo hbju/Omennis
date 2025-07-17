@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bcow2c1wvn77x"]
 
-[ext_resource type="Script" path="res://scripts/ui/item_slot.gd" id="1_ncd4c"]
+[ext_resource type="Script" uid="uid://bimam4so0qhcx" path="res://scripts/ui/item_slot.gd" id="1_ncd4c"]
 [ext_resource type="Texture2D" uid="uid://ca3id8dr2p6ja" path="res://assets/ui/items/rare_item_bg.png" id="1_vvb3k"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_auwa2"]
 [ext_resource type="Texture2D" uid="uid://jociusrry768" path="res://assets/ui/items/armor/armor_12.png" id="3_ina65"]

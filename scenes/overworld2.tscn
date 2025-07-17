@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://2lvmtc3368bu" path="res://assets/terrain/desert_tiles.png" id="3_oogvk"]
 [ext_resource type="Texture2D" uid="uid://bbslanlrxq5t1" path="res://assets/terrain/forest_tiles.png" id="4_yvkce"]
 [ext_resource type="Texture2D" uid="uid://25877011eu5o" path="res://assets/terrain/hill_tiles.png" id="5_6j7ki"]
-[ext_resource type="Script" path="res://scripts/overworld/overworld.gd" id="5_lhtub"]
+[ext_resource type="Script" uid="uid://bg88od01xpo4n" path="res://scripts/overworld/overworld.gd" id="5_lhtub"]
 [ext_resource type="PackedScene" uid="uid://cqovmd6uny5ij" path="res://scenes/player.tscn" id="6_0k0dn"]
 [ext_resource type="Texture2D" uid="uid://kyyy40pc3ghx" path="res://assets/terrain/mountain_tiles.png" id="6_u421d"]
 [ext_resource type="PackedScene" uid="uid://cdrsfqh46wpr2" path="res://scenes/place.tscn" id="7_65p2q"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://cehdjqrvkxicd"]
 
-[ext_resource type="Script" path="res://scripts/ui/arena_class_selection.gd" id="1_7pt7w"]
+[ext_resource type="Script" uid="uid://bk1b27bfxlxuh" path="res://scripts/ui/arena_class_selection.gd" id="1_7pt7w"]
 [ext_resource type="Texture2D" uid="uid://b2pmoyyn33jjs" path="res://assets/ui/fight_ui/menu_foundation.png" id="1_cixhl"]
 [ext_resource type="Texture2D" uid="uid://duq2x2rxbv2m0" path="res://assets/ui/buttons/red/square_red_normal.png" id="2_aqjqd"]
 [ext_resource type="FontFile" uid="uid://coqhbo7l7vts0" path="res://assets/fonts/playfair/PlayfairDisplay-Regular.ttf" id="2_tyu74"]
