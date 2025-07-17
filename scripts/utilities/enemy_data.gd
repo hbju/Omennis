@@ -76,8 +76,7 @@ static var ENEMY_CLASS_DEFINITIONS = {
             {"skill": Frenzy, "min_level": 4},
             {"skill": WarCry, "min_level": 5}
         ],
-        "portraits": [1],
-        "loot_table": preload("res://items/loot_tables/mountain_drake_loot.tres")
+        "portraits": [1]
     },
     "Kaelen Vane" : {
         "class_enum": Character.CLASSES.Rogue,

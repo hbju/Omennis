@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=15 format=3 uid="uid://bn81gyi087edg"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_4xrvs"]
+[ext_resource type="Resource" uid="uid://cyo5of1e72bxs" path="res://items/weapons/gnarled_branch.tres" id="2_0ijc8"]
+[ext_resource type="Resource" uid="uid://6c0k7bj8yw6a" path="res://items/weapons/carved_wand.tres" id="3_5wtvc"]
+[ext_resource type="Resource" uid="uid://ctwup5ayjicet" path="res://items/weapons/maul_of_the_brute.tres" id="4_8p4fd"]
+[ext_resource type="Resource" uid="uid://d0m7p6quncst8" path="res://items/weapons/reavers_axe.tres" id="5_i6bm7"]
+[ext_resource type="Resource" uid="uid://bpl52axbdejba" path="res://items/weapons/woodcutters_axe.tres" id="6_b54rl"]
+[ext_resource type="Resource" uid="uid://bddjht63y0mce" path="res://items/weapons/berserkers_greataxe.tres" id="7_8xbaa"]
+[ext_resource type="Resource" uid="uid://crh7p1o4xsad3" path="res://items/weapons/eagle-eye_longbow.tres" id="8_vyufc"]
+[ext_resource type="Resource" uid="uid://o267bwofjo64" path="res://items/weapons/hunters_shortbow.tres" id="9_fkrau"]
+[ext_resource type="Resource" uid="uid://bau4f8eru7dhs" path="res://items/weapons/protective_wardstaff.tres" id="10_6upnw"]
+[ext_resource type="Resource" uid="uid://df6n1srv7y735" path="res://items/weapons/widowmakers_stilettos.tres" id="11_n8tvo"]
+[ext_resource type="Resource" uid="uid://cbg8wsohh3fdk" path="res://items/weapons/archmages_staff_of_meteors.tres" id="12_ymrsd"]
+[ext_resource type="Resource" uid="uid://dk032dla3js2m" path="res://items/weapons/knights_flail.tres" id="13_0ijc8"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="13_qh3l7"]
+
+[resource]
+script = ExtResource("13_qh3l7")
+entries = Dictionary[ExtResource("1_4xrvs"), Vector2i]({
+ExtResource("2_0ijc8"): Vector2i(0, 0),
+ExtResource("3_5wtvc"): Vector2i(0, 0),
+ExtResource("4_8p4fd"): Vector2i(0, 0),
+ExtResource("5_i6bm7"): Vector2i(0, 0),
+ExtResource("6_b54rl"): Vector2i(0, 0),
+ExtResource("7_8xbaa"): Vector2i(0, 0),
+ExtResource("8_vyufc"): Vector2i(0, 0),
+ExtResource("9_fkrau"): Vector2i(0, 0),
+ExtResource("10_6upnw"): Vector2i(0, 0),
+ExtResource("11_n8tvo"): Vector2i(0, 0),
+ExtResource("12_ymrsd"): Vector2i(0, 0),
+ExtResource("13_0ijc8"): Vector2i(0, 0)
+})
+item_drop_chance = 70

@@ -16,7 +16,6 @@ var is_unlocked: Array[PartyMember] = []
 
 signal skill_hover_entered(skill_node: Control, skill: Skill) 
 signal skill_hover_exited()
-signal skill_selected_for_slot(skill: Skill)
 
 func _ready():
 	mouse_entered.connect(_on_mouse_entered)

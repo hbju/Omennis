@@ -5,3 +5,5 @@ versions/
 get_txt_files.py
 scripts/skills/combined.txt
 scripts/combined.txt
+.venv
+loot_table_tests.ipynb

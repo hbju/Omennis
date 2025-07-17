@@ -22,6 +22,7 @@ func decrease_cooldown():
 ##
 func use_skill(_from: CombatCharacter, _skill_pos: Vector2i, _map: CombatMap) -> bool :
 	assert(false, "function not implemented")
+	skill_finished.emit()
 	return false
 
 ##

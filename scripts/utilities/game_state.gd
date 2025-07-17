@@ -47,6 +47,28 @@ func _ready():
 
 	party[0].equip_item(test_jerkin.duplicate())
 
+	var test_loot_table = load("res://items/loot_tables/basic_loot.tres") as LootTable
+	var rolls = 1000
+	var mob_number = 4
+	for mob_level in range(1, 8) : 
+		var item_count: Dictionary[BaseItem, int] = {}
+		for i in range(rolls):
+			for j in range(mob_number):
+				var loot: Array = test_loot_table.roll_for_loot(mob_level)
+				if loot.is_empty():
+					continue
+				var item: BaseItem = loot[0]
+				var item_qty: int = loot[1]
+				if not item_count.has(item):
+					item_count[item] = 0
+				item_count[item] += item_qty
+
+		print("Test loot table rolls for level %d: " % mob_level)
+		for item in item_count:
+			print("  %s: %d (%d%%), tier : %d" % [item.item_name, item_count[item], item_count[item]*100.0/rolls, item.tier])
+		print("--- End of test rolls for level %d ---\n" % mob_level)
+
+
 	print("GameState initialized with %d test items." % party_inventory.size())
 	
 ## PARTY LOGIC 
