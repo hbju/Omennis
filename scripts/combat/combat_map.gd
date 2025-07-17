@@ -36,7 +36,7 @@ func _ready():
 		#var player3 = PartyMember.new_rand(Character.CLASSES.Rogue)
 		#var player4 = PartyMember.new_rand(Character.CLASSES.Mage)
 		var base_xp = 4000
-		player1.equip_item(load("res://items/weapons/assassins_blade.tres") as WeaponItem)
+		player1.equip_item(load("res://items/weapons/assassins_kris.tres") as WeaponItem)
 		player1.receive_experience(base_xp)
 		player2.receive_experience(base_xp)
 		#player3.receive_experience(base_xp)
@@ -403,6 +403,8 @@ func _on_character_hover_entered(character: CombatCharacter):
 	if character_tooltip_instance and is_instance_valid(character):
 
 		print("Hovering over character: ", character.character.character_name)
+		if character_tooltip_instance.is_visible():
+			return
 			
 		character_tooltip_instance.update_content(character)
 

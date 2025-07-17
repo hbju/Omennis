@@ -410,7 +410,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="weapon_skill_button" type="TextureButton" parent="."]
-self_modulate = Color(1, 0.545632, 0.438898, 1)
+self_modulate = Color(0.992157, 0.239216, 0, 1)
 z_index = 1
 layout_mode = 1
 anchors_preset = 4
