@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="WeaponItem" load_steps=2 format=3 uid="uid://bpl52axbdejba"]
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=3 format=3 uid="uid://bpl52axbdejba"]
 
+[ext_resource type="Texture2D" uid="uid://b1etwxektu4vk" path="res://assets/ui/items/weapon/woodcutters_axe.png" id="1_2nhok"]
 [ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_e7cu3"]
 
 [resource]
@@ -10,5 +11,6 @@ crit_chance_bonus = 0.0
 item_lvl = 3
 item_name = "Woodcutter's Axe"
 description = "Heavy and unbalanced for proper combat, but its sharpened edge is more than capable of splitting a helm or a skull."
+icon = ExtResource("1_2nhok")
 tier = 0
 value = 10

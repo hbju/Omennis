@@ -76,7 +76,10 @@ static var ENEMY_CLASS_DEFINITIONS = {
             {"skill": Frenzy, "min_level": 4},
             {"skill": WarCry, "min_level": 5}
         ],
-        "portraits": [1]
+        "portraits": [1],
+        "loot_tables": [
+            preload("res://items/loot_tables/basic_loot.tres") as LootTable,
+        ]
     },
     "Kaelen Vane" : {
         "class_enum": Character.CLASSES.Rogue,

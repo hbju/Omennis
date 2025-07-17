@@ -243,8 +243,7 @@ offset_right = 20.0
 offset_bottom = 18.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Z
-"
+text = "Z"
 label_settings = SubResource("LabelSettings_gqye1")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -325,8 +324,7 @@ offset_right = 20.0
 offset_bottom = 18.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "E
-"
+text = "E"
 label_settings = SubResource("LabelSettings_gqye1")
 horizontal_alignment = 1
 vertical_alignment = 1

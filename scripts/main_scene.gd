@@ -69,6 +69,15 @@ func _end_combat(victory: bool):
 	else:
 		printerr("Cannot calculate XP, last_enemy_groups is null!")
 
+	var gained_loot: Array[BaseItem] = []
+	if last_enemy_groups:
+		if victory :
+			gained_loot = _generate_loot_from_enemies(last_enemy_groups)
+			GameState.party_inventory.append_array(gained_loot)
+			print("Gained loot: ", gained_loot)
+	else :
+		printerr("Cannot generate loot, last_enemy_groups is null!")
+
 
 	var party_before: Array[PartyMember] = []
 	for member in GameState.party:
@@ -96,5 +105,17 @@ func _on_post_fight_proceed():
 
 	overworld.event_manager.exit_fight(curr_victory)
 
-
-
+func _generate_loot_from_enemies(enemies: Array[EnemyGroup]) -> Array[BaseItem]:
+	var loot: Array[BaseItem] = []
+	for enemy_group in enemies:
+		for enemy in enemy_group.enemies:
+			var enemy_archetype = EnemyData.ENEMY_CLASS_DEFINITIONS.get(enemy.character_name, {})
+			if enemy_archetype:
+				var loot_tables: Array = enemy_archetype.get("loot_tables", [])
+				if not loot_tables.is_empty():
+					for table in loot_tables:
+						var item = table.roll_for_loot(enemy.character_level)
+						if item:
+							for i in range(item[1]):  # item[1] is the quantity
+								loot.append(item[0])  # Append the item, ignoring quantity
+	return loot

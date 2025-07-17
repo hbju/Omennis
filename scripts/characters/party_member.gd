@@ -245,6 +245,9 @@ func _recalculate_stats():
 	self.damage = self._base_damage
 	self.crit_chance = 0.05 # Base 5%
 	self.crit_damage_multiplier = 1.5 # Base 150%
+	print("%s recalculating stats..." % self.character_name)
+	print("Base stats: Max Health = %d, Damage = %.2f, Crit Chance = %.2f" % 
+		[self._base_max_health, self._base_damage, self.crit_chance])
 
 	# Reset item-specific variables
 	self.weapon_skill = null
@@ -259,14 +262,22 @@ func _recalculate_stats():
 
 		# Apply bonuses based on item type
 		if item is WeaponItem:
+			print("Applying bonuses from %s in slot %s" % [item.item_name, slot_key])
 			self.damage += item.damage_bonus
 			self.crit_chance += item.crit_chance_bonus
 			if item.granted_skill:
 				self.weapon_skill = item.granted_skill.duplicate(true)
 		
 		elif item is EquipmentItem:
+			print("Applying bonuses from %s in slot %s, item stats : %s, %s" % [item.item_name, slot_key, item.health_bonus, item.armor_bonus])
 			self.max_health += item.health_bonus
 			self.init_shield += item.armor_bonus
+			print("Stats after applying %s: Max Health = %d, Damage = %.2f" % 
+				[item.item_name, self.max_health, self.damage])
+
+	print("%s recalculated stats: Max Health = %d, Damage = %.2f, Crit Chance = %.2f" % 
+		[self.character_name, self.max_health, self.damage, self.crit_chance])
+
 
 func reset_skills():
 	super()

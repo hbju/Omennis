@@ -98,6 +98,17 @@ func _on_tab_button_pressed(panel_to_show: Control, button_pressed: TextureButto
 	if active_panel:
 		active_panel.hide()
 
+	if panel_to_show == stats_panel:
+		_update_stats_panel()
+	elif panel_to_show == traits_panel:
+		_update_traits_panel()
+	elif panel_to_show == skills_panel:
+		_update_skills_panel()
+	elif panel_to_show == relationships_panel:
+		_update_relationships_panel()
+	elif panel_to_show == inventory_panel:
+		_update_inventory_panel()
+
 	panel_to_show.show()
 	active_panel = panel_to_show
 

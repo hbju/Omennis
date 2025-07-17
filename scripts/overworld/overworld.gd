@@ -57,9 +57,7 @@ func _ready():
 	GameState.change_gold(100)
 	
 	if testing :
-		#GameState.accept_quest("obsidianwhisperhollow")
-		#GameState.turn_quest("obsidianwhispermire")
-		#GameState.turn_quest("obsidianwhispercauldron")
+		GameState.accept_quest("sparksoot")
 		GameState.new_candidate(PartyMember.new_rand())
 		GameState.recruit_candidate()
 		GameState.new_candidate(PartyMember.new_rand())
