@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=2 format=3 uid="uid://cwn02ja3ba5x1"]
+
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_a7t8v"]
+
+[resource]
+script = ExtResource("1_a7t8v")
+equip_slot = 0
+damage_bonus = 6.0
+crit_chance_bonus = 0.0
+item_lvl = 5
+item_name = "Orcish Cleaver"
+description = "A thick, heavy-bladed weapon of crude but effective design. "
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://idot062w253d"

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://8qi4q2qfvi4g"]
+
+[ext_resource type="Texture2D" uid="uid://b1u2m7faliyto" path="res://assets/ui/items/accessories/hardened_chitin_fragment.png" id="1_6i3t1"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_s01ag"]
+
+[resource]
+script = ExtResource("1_s01ag")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 20
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Hardened Chitin Fragment"
+description = "Surprisingly resilient."
+icon = ExtResource("1_6i3t1")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

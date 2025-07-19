@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=7 format=3 uid="uid://dwyj8ynarotmv"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_mgrgx"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="2_c6hsg"]
+[ext_resource type="Resource" uid="uid://j40vv4a6esaa" path="res://items/armor/uncommon/acolytes_faded_robes.tres" id="2_dxn8r"]
+[ext_resource type="Resource" uid="uid://bxfvg38fuudbv" path="res://items/weapons/uncommon/sacrificial_dirk.tres" id="3_yyt4e"]
+[ext_resource type="Resource" uid="uid://c6my7fq57vq8" path="res://items/accessories/uncommon/necromancers_hood.tres" id="4_rap6t"]
+[ext_resource type="Resource" uid="uid://baav0jw74xnnr" path="res://items/accessories/epic/eye_of_the_lich.tres" id="5_gckmm"]
+
+[resource]
+script = ExtResource("2_c6hsg")
+entries = Dictionary[ExtResource("1_mgrgx"), Vector2i]({
+ExtResource("2_dxn8r"): Vector2i(0, 0),
+ExtResource("3_yyt4e"): Vector2i(0, 0),
+ExtResource("4_rap6t"): Vector2i(0, 0),
+ExtResource("5_gckmm"): Vector2i(0, 0)
+})
+item_drop_chance = 70
+metadata/_custom_type_script = "uid://dglg813fa2kem"

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://cifpy0f110urd"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_0p2bw"]
+[ext_resource type="Texture2D" uid="uid://ufcimrnq8ab5" path="res://assets/ui/items/armor/tattered_robes.png" id="1_2t00a"]
+
+[resource]
+script = ExtResource("1_0p2bw")
+equip_slot = 0
+health_bonus = 10
+armor_bonus = 5
+passives = Array[Resource]([])
+item_lvl = 1
+item_name = "Tattered Robes"
+description = "The faded, threadbare robes of a hedge mage or forgotten acolyte."
+icon = ExtResource("1_2t00a")
+tier = 0
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

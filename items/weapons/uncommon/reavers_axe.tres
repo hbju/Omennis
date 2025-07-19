@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://d0m7p6quncst8"]
+
+[ext_resource type="Script" uid="uid://oic6py7hi7ms" path="res://scripts/skills/warrior/charge.gd" id="1_don02"]
+[ext_resource type="Texture2D" uid="uid://b2q8d24s5ty30" path="res://assets/ui/items/weapon/reavers_axe.png" id="2_5321n"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_qqm4s"]
+
+[sub_resource type="Resource" id="Resource_p5k3m"]
+script = ExtResource("1_don02")
+
+[resource]
+script = ExtResource("3_qqm4s")
+equip_slot = 0
+damage_bonus = 5.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_p5k3m")
+item_lvl = 5
+item_name = "Reaver's Axe"
+description = "A hefty, broad-headed axe whose weight lends a terrifying momentum."
+icon = ExtResource("2_5321n")
+tier = 1
+value = 40

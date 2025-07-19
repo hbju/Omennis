@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://bqa3iyginaecd"]
+
+[ext_resource type="Texture2D" uid="uid://cqb3u53dr8wfd" path="res://assets/ui/items/accessories/cracked_leather_cap.png" id="1_0uo2o"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_y0yli"]
+
+[resource]
+script = ExtResource("1_y0yli")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 10
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 2
+item_name = "Cracked Leather Cap"
+description = "Better than a bare head."
+icon = ExtResource("1_0uo2o")
+tier = 0
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

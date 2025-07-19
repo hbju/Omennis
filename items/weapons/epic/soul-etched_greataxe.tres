@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://5xsamiiqo22u"]
+
+[ext_resource type="Script" uid="uid://cxsw4y2h40lbw" path="res://scripts/skills/mage/necromancer/death_knight/soul_harvest.gd" id="1_2m8ce"]
+[ext_resource type="Texture2D" uid="uid://bb1a5dye5qp7i" path="res://assets/ui/items/weapon/soul-etched_greataxe.png" id="2_3snp1"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_r4b01"]
+
+[sub_resource type="Resource" id="Resource_y5edn"]
+script = ExtResource("1_2m8ce")
+metadata/_custom_type_script = "uid://cxsw4y2h40lbw"
+
+[resource]
+script = ExtResource("3_r4b01")
+equip_slot = 0
+damage_bonus = 6.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_y5edn")
+item_lvl = 6
+item_name = "Soul-Etched Greataxe"
+description = "The blade of this immense axe is covered in screaming faces, the souls of those it has slain. It seems to have a thirst all its own."
+icon = ExtResource("2_3snp1")
+tier = 3
+value = 10
+metadata/_custom_type_script = "uid://idot062w253d"

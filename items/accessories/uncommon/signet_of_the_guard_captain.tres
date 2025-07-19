@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://dy2qq4wrpsxly"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_0gydh"]
+[ext_resource type="Texture2D" uid="uid://ddcqew6smhd8s" path="res://assets/ui/items/accessories/signet_of_the_guard_captain.png" id="1_noe8j"]
+
+[resource]
+script = ExtResource("1_0gydh")
+equip_slot = 1
+health_bonus = 10
+armor_bonus = 10
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Signet of the Guard Captain"
+description = "A heavy bronze ring bearing the crest of a forgotten city watch."
+icon = ExtResource("1_noe8j")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

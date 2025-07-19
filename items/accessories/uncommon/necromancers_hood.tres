@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://c6my7fq57vq8"]
+
+[ext_resource type="Texture2D" uid="uid://b03iny2ngqpd" path="res://assets/ui/items/accessories/necromancers_hood.png" id="1_75jgt"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_o8pqb"]
+
+[resource]
+script = ExtResource("1_o8pqb")
+equip_slot = 1
+health_bonus = 25
+armor_bonus = 5
+damage_bonus = 1
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 4
+item_name = "Necromancer's Hood"
+description = "It is stained with reagents and smells faintly of grave dust."
+icon = ExtResource("1_75jgt")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

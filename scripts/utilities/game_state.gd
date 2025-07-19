@@ -39,16 +39,6 @@ signal random_event
 func _ready():
 	party.append(PartyMember.new_rand())
 
-	var test_jerkin = load("res://items/armor/leather_jerkin.tres") as EquipmentItem
-	
-	party_inventory.append(test_jerkin)
-	party_inventory.append(load("res://items/armor/guardian_plate.tres") as EquipmentItem)
-	party_inventory.append(load("res://items/weapons/assassins_kris.tres") as WeaponItem)
-
-	party[0].equip_item(test_jerkin.duplicate())
-
-	
-
 
 	print("GameState initialized with %d test items." % party_inventory.size())
 	

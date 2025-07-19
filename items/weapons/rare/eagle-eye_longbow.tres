@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://crh7p1o4xsad3"]
+
+[ext_resource type="Script" uid="uid://q06rob5ftnya" path="res://scripts/skills/rogue/scout/marksman/shooter_stance.gd" id="1_noltt"]
+[ext_resource type="Texture2D" uid="uid://xx5wh6vq680c" path="res://assets/ui/items/weapon/eagle-eye-longbow.png" id="2_pqwdm"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_mwxpr"]
+
+[sub_resource type="Resource" id="Resource_5n4ga"]
+script = ExtResource("1_noltt")
+
+[resource]
+script = ExtResource("3_mwxpr")
+equip_slot = 0
+damage_bonus = 4.0
+crit_chance_bonus = 0.1
+granted_skill = SubResource("Resource_5n4ga")
+item_lvl = 5
+item_name = "Eagle-Eye Longbow"
+description = "Crafted from a single piece of heartwood, this bow demands immense strength to draw, but rewards the user with unparalleled range and precision."
+icon = ExtResource("2_pqwdm")
+tier = 2
+value = 10

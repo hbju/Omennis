@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://dgr3dgx5mtf4r"]
+
+[ext_resource type="Texture2D" uid="uid://deuquktpi8k58" path="res://assets/ui/items/accessories/shadow_weave_amulet.png" id="1_75fd5"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_d1p16"]
+
+[resource]
+script = ExtResource("1_d1p16")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 0
+damage_bonus = 2
+crit_chance_bonus = 0.05
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Shadow Weave Amulet"
+description = "An amulet of polished obsidian that seems to drink the light around it."
+icon = ExtResource("1_75fd5")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

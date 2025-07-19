@@ -109,7 +109,7 @@ func _generate_loot_from_enemies(enemies: Array[EnemyGroup]) -> Array[BaseItem]:
 	var loot: Array[BaseItem] = []
 	for enemy_group in enemies:
 		for enemy in enemy_group.enemies:
-			var enemy_archetype = EnemyData.ENEMY_CLASS_DEFINITIONS.get(enemy.character_name, {})
+			var enemy_archetype = EnemiesData.ENEMY_CLASS_DEFINITIONS.get(enemy.character_name, {})
 			if enemy_archetype:
 				var loot_tables: Array = enemy_archetype.get("loot_tables", [])
 				if not loot_tables.is_empty():

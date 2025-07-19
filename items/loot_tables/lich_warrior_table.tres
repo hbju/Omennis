@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=7 format=3 uid="uid://3tkvhb283g4i"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_o6ycm"]
+[ext_resource type="Resource" uid="uid://c5io66b16vq0u" path="res://items/armor/epic/lich_lords_plate.tres" id="2_0t2ck"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="2_cbm35"]
+[ext_resource type="Resource" uid="uid://5xsamiiqo22u" path="res://items/weapons/epic/soul-etched_greataxe.tres" id="3_gaeny"]
+[ext_resource type="Resource" uid="uid://baav0jw74xnnr" path="res://items/accessories/epic/eye_of_the_lich.tres" id="4_l03q3"]
+[ext_resource type="Resource" uid="uid://d2v04v6konmvk" path="res://items/accessories/epic/heart_of_the_mountain.tres" id="5_qbwl1"]
+
+[resource]
+script = ExtResource("2_cbm35")
+entries = Dictionary[ExtResource("1_o6ycm"), Vector2i]({
+ExtResource("2_0t2ck"): Vector2i(0, 0),
+ExtResource("3_gaeny"): Vector2i(0, 0),
+ExtResource("4_l03q3"): Vector2i(0, 0),
+ExtResource("5_qbwl1"): Vector2i(0, 0)
+})
+item_drop_chance = 20
+metadata/_custom_type_script = "uid://dglg813fa2kem"

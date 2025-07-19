@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://cacs6to6b0upd"]
+
+[ext_resource type="Script" uid="uid://ctcw1mk2jorpm" path="res://scripts/skills/warrior/barbarian/frenzy.gd" id="1_3gsx2"]
+[ext_resource type="Texture2D" uid="uid://cdgwj1jxipvjd" path="res://assets/ui/items/weapon/drake_fang_dagger.png" id="2_tu32u"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_7rh8s"]
+
+[sub_resource type="Resource" id="Resource_8ra77"]
+script = ExtResource("1_3gsx2")
+metadata/_custom_type_script = "uid://ctcw1mk2jorpm"
+
+[resource]
+script = ExtResource("3_7rh8s")
+equip_slot = 0
+damage_bonus = 4.0
+crit_chance_bonus = 0.1
+granted_skill = SubResource("Resource_8ra77")
+item_lvl = 3
+item_name = "Drake Fang Dagger"
+description = "A dagger carved from the tooth of a Mountain Drake. "
+icon = ExtResource("2_tu32u")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://idot062w253d"

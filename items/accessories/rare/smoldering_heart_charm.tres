@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://lfhg4yp0q8wn"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_ia0ha"]
+[ext_resource type="Texture2D" uid="uid://3hgnihwhe3yf" path="res://assets/ui/items/accessories/smoldering_heart_charm.png" id="1_ohjub"]
+
+[resource]
+script = ExtResource("1_ia0ha")
+equip_slot = 1
+health_bonus = 20
+armor_bonus = 0
+damage_bonus = 3
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 4
+item_name = "Smoldering Heart Charm"
+description = "It pulses with a slow, steady heat that invigorates the blood and hardens the will."
+icon = ExtResource("1_ohjub")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

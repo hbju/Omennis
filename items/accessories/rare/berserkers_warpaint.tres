@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://cfpw4hcdj88sg"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_jmkkw"]
+[ext_resource type="Texture2D" uid="uid://b1fjnkmfahh2m" path="res://assets/ui/items/accessories/berserkers_warpaint.png" id="1_p4yc7"]
+
+[resource]
+script = ExtResource("1_jmkkw")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 0
+damage_bonus = 4
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 5
+item_name = "Berserker's Warpaint"
+description = "A pot of thick, blood-red paste. When smeared on the skin, it ignites a fire in the soul that cares little for pain and only for the fray."
+icon = ExtResource("1_p4yc7")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

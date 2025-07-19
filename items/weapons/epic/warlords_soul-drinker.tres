@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://do6ajx6jna5gf"]
+
+[ext_resource type="Script" uid="uid://5pqx0xxepnq2" path="res://scripts/skills/warrior/barbarian/berserker/raging_blow.gd" id="1_1sdvh"]
+[ext_resource type="Texture2D" uid="uid://b4uyc5s3t0h41" path="res://assets/ui/items/weapon/warlords_soul-drinker.png" id="2_qvji1"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_kxtqc"]
+
+[sub_resource type="Resource" id="Resource_b1gbb"]
+script = ExtResource("1_1sdvh")
+
+[resource]
+script = ExtResource("3_kxtqc")
+equip_slot = 0
+damage_bonus = 9.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_b1gbb")
+item_lvl = 6
+item_name = "Warlord's Soul-Drinker"
+description = "This ancient, rune-etched greataxe feasts on the vitality of those it fells, fortifying its master with the stolen life force of their enemies."
+icon = ExtResource("2_qvji1")
+tier = 3
+value = 10

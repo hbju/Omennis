@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://d2v04v6konmvk"]
+
+[ext_resource type="Texture2D" uid="uid://bvmups6l4fuhm" path="res://assets/ui/items/accessories/heart_of_the_mountain.png" id="1_aijif"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_b63wu"]
+
+[resource]
+script = ExtResource("1_b63wu")
+equip_slot = 1
+health_bonus = 90
+armor_bonus = 30
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 6
+item_name = "Heart of the Mountain"
+description = "A flawless, house-sized diamond? No, a tiny gemstone that feels impossibly heavy. It grants the wearer the resilience of a tectonic plate."
+icon = ExtResource("1_aijif")
+tier = 3
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

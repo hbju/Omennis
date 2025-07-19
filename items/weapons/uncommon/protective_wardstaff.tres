@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://bau4f8eru7dhs"]
+
+[ext_resource type="Script" uid="uid://bj3dgcomq65qc" path="res://scripts/skills/mage/arcane_shield.gd" id="1_b5mpp"]
+[ext_resource type="Texture2D" uid="uid://cu7cofjjrbtwq" path="res://assets/ui/items/weapon/protective_wardstaff.png" id="2_nedh8"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_2qvj2"]
+
+[sub_resource type="Resource" id="Resource_xv7ud"]
+script = ExtResource("1_b5mpp")
+
+[resource]
+script = ExtResource("3_2qvj2")
+equip_slot = 0
+damage_bonus = 2.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_xv7ud")
+item_lvl = 2
+item_name = "Protective Wardstaff"
+description = "A simple wooden staff inscribed with faint runes of binding and safety."
+icon = ExtResource("2_nedh8")
+tier = 1
+value = 40

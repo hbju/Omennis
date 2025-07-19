@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://gvmk83yh1cj"]
+
+[ext_resource type="Script" uid="uid://nqtt3p3ruj7n" path="res://scripts/skills/rogue/assassin/poison_dagger.gd" id="1_f3xfm"]
+[ext_resource type="Texture2D" uid="uid://crx72o7ycv5s1" path="res://assets/ui/items/weapon/assassins_kris.png" id="2_vb0uu"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_gsimd"]
+
+[sub_resource type="Resource" id="Resource_8td1u"]
+script = ExtResource("1_f3xfm")
+
+[resource]
+script = ExtResource("3_gsimd")
+equip_slot = 0
+damage_bonus = 3.0
+crit_chance_bonus = 0.1
+granted_skill = SubResource("Resource_8td1u")
+item_lvl = 4
+item_name = "Assassin's Kris"
+description = "A dagger with a distinctive wavy blade. The grooves are perfect for holding poison."
+icon = ExtResource("2_vb0uu")
+tier = 2
+value = 10

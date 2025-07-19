@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://eqojcp1wxq2c"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_8p8ub"]
+[ext_resource type="Texture2D" uid="uid://dstxa7br8nnec" path="res://assets/ui/items/armor/hardened_leather_vest.png" id="1_p1xcc"]
+
+[resource]
+script = ExtResource("1_8p8ub")
+equip_slot = 0
+health_bonus = 5
+armor_bonus = 15
+passives = Array[Resource]([])
+item_lvl = 2
+item_name = "Hardened Leather Vest"
+description = "Leather boiled in wax to give it a rigid, protective quality."
+icon = ExtResource("1_p1xcc")
+tier = 0
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

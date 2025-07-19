@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://dgvijqjqpl5xe"]
+
+[ext_resource type="Texture2D" uid="uid://ddh4x556v8gjx" path="res://assets/ui/items/accessories/horned_iron_helm.png" id="1_21yia"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="2_ihj7x"]
+
+[resource]
+script = ExtResource("2_ihj7x")
+equip_slot = 1
+health_bonus = 20
+armor_bonus = 20
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 4
+item_name = "Tusked Iron Helm"
+description = "An iron helm crudely decorated with horns."
+icon = ExtResource("1_21yia")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

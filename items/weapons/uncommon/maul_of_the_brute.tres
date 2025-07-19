@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://ctwup5ayjicet"]
+
+[ext_resource type="Script" uid="uid://oic6py7hi7ms" path="res://scripts/skills/warrior/charge.gd" id="1_7byh7"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="2_0dpwy"]
+[ext_resource type="Texture2D" uid="uid://br8p11hpc4mht" path="res://assets/ui/items/weapon/maul_of_the_brute.png" id="2_vbgrc"]
+
+[sub_resource type="Resource" id="Resource_f52xp"]
+script = ExtResource("1_7byh7")
+
+[resource]
+script = ExtResource("2_0dpwy")
+equip_slot = 0
+damage_bonus = 3.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_f52xp")
+item_lvl = 3
+item_name = "Maul of the Brute"
+description = "Less a weapon and more a slab of iron on a stick. "
+icon = ExtResource("2_vbgrc")
+tier = 1
+value = 40

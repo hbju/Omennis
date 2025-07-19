@@ -31,6 +31,8 @@ font_color = Color(0.803922, 0.654902, 0, 1)
 [node name="item_tooltip" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_left = 1.0
+offset_right = 1.0
 script = ExtResource("2_lv2bh")
 
 [node name="item_container" type="PanelContainer" parent="."]

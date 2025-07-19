@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://b7vuefc5chgg0"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_sk4tf"]
+[ext_resource type="Texture2D" uid="uid://df0fkl3k71lkw" path="res://assets/ui/items/accessories/shard_of_winter.png" id="1_v8rx0"]
+
+[resource]
+script = ExtResource("1_sk4tf")
+equip_slot = 1
+health_bonus = 20
+armor_bonus = 0
+damage_bonus = 3
+crit_chance_bonus = 0.05
+passives = Array[Resource]([])
+item_lvl = 5
+item_name = "Shard of Winter"
+description = "Clasping it fills the bearer with a cold, merciless resolve."
+icon = ExtResource("1_v8rx0")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

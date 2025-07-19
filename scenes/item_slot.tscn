@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bimam4so0qhcx" path="res://scripts/ui/item_slot.gd" id="1_ncd4c"]
 [ext_resource type="Texture2D" uid="uid://ca3id8dr2p6ja" path="res://assets/ui/items/rare_item_bg.png" id="1_vvb3k"]
 [ext_resource type="Texture2D" uid="uid://ckxik8lsk2na5" path="res://assets/ui/party_ui/rect_frame.png" id="3_auwa2"]
-[ext_resource type="Texture2D" uid="uid://jociusrry768" path="res://assets/ui/items/armor/armor_12.png" id="3_ina65"]
+[ext_resource type="Texture2D" uid="uid://b0bl85dw3ul56" path="res://assets/ui/items/armor/acolytes_faded_robes.png" id="3_fa8gv"]
 
 [node name="item_slot" type="PanelContainer"]
 custom_minimum_size = Vector2(150, 150)
@@ -23,11 +23,12 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="item_icon" type="TextureRect" parent="."]
+visible = false
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("3_ina65")
+texture = ExtResource("3_fa8gv")
 expand_mode = 1
 stretch_mode = 5
 

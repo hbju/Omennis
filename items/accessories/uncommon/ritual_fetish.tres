@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://dqnd4m5n63ump"]
+
+[ext_resource type="Texture2D" uid="uid://b7svwb45eokgs" path="res://assets/ui/items/accessories/ritual_fetish.png" id="1_jn7rq"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_tme58"]
+
+[resource]
+script = ExtResource("1_tme58")
+equip_slot = 1
+health_bonus = 30
+armor_bonus = 0
+damage_bonus = 3
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 5
+item_name = "Ritual Fetish"
+description = "A small, disturbing doll made of twigs, feathers, and what looks like human hair. It feels warm to the touch."
+icon = ExtResource("1_jn7rq")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

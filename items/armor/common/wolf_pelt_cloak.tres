@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://e1yxdgfdb0cd"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_l6aem"]
+[ext_resource type="Texture2D" uid="uid://d0o0yk7oba830" path="res://assets/ui/items/armor/wolf_pelt_cloak.png" id="1_tvt5q"]
+
+[resource]
+script = ExtResource("1_l6aem")
+equip_slot = 0
+health_bonus = 20
+armor_bonus = 15
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Wolf Pelt Cloak"
+description = "The hide of a common wolf."
+icon = ExtResource("1_tvt5q")
+tier = 0
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

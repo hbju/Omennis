@@ -58,7 +58,7 @@ func update_content(character: CombatCharacter):
 		base_skill_cooldown.text = ""
 		base_skill_button.hide()
 
-	if character.character.weapon_skill:
+	if character is PlayerCombatCharacter and character.character.weapon_skill:
 		weapon_skill_button.show()
 		weapon_skill_cooldown.text = str(character.character.weapon_skill.get_cooldown())
 		if character.character.weapon_skill.get_cooldown() > 0:
@@ -109,7 +109,7 @@ func _on_internal_skill_hover(index: int):
 
 	if index == 0 and displayed_character.character.base_skill:
 		skill = displayed_character.character.base_skill
-	elif index == 1 and displayed_character.character.weapon_skill:
+	elif index == 1 and displayed_character is PlayerCombatCharacter and displayed_character.character.weapon_skill:
 		skill = displayed_character.character.weapon_skill
 	elif index > 1 and index - 2 < displayed_character.character.skill_list.size():
 		skill = displayed_character.character.skill_list[index - 2]

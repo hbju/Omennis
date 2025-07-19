@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://kec6w1727l2r"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_klcx8"]
+[ext_resource type="Texture2D" uid="uid://b6x6jq81i2b37" path="res://assets/ui/items/accessories/amulet_of_the_brawler.png" id="1_xvn5c"]
+
+[resource]
+script = ExtResource("1_klcx8")
+equip_slot = 1
+health_bonus = 10
+armor_bonus = 0
+damage_bonus = 1
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Amulet of the Brawler"
+description = "A fist-sized chunk of iron on a thick chain."
+icon = ExtResource("1_xvn5c")
+tier = 0
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

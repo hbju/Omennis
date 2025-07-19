@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://dk032dla3js2m"]
+
+[ext_resource type="Script" uid="uid://bnu4nwx0vcwk2" path="res://scripts/skills/warrior/knight/crusader/zealous_charge.gd" id="1_308bk"]
+[ext_resource type="Texture2D" uid="uid://37je3xkcxhyi" path="res://assets/ui/items/weapon/knights_flail.png" id="2_7u1k6"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_n2lr2"]
+
+[sub_resource type="Resource" id="Resource_hiqrx"]
+script = ExtResource("1_308bk")
+
+[resource]
+script = ExtResource("3_n2lr2")
+equip_slot = 0
+damage_bonus = 3.0
+crit_chance_bonus = 0.05
+granted_skill = SubResource("Resource_hiqrx")
+item_lvl = 3
+item_name = "Knight's Flail"
+description = "A brutal weapon that circumvents a defender's shield."
+icon = ExtResource("2_7u1k6")
+tier = 2
+value = 10

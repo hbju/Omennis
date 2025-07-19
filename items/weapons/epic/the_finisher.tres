@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://db0g8e33pjphl"]
+
+[ext_resource type="Script" uid="uid://ctbwmjwa25gkd" path="res://scripts/skills/rogue/assassin/executioner/final_strike.gd" id="1_2d3l5"]
+[ext_resource type="Texture2D" uid="uid://bjac3feyi3g6p" path="res://assets/ui/items/weapon/the_finisher.png" id="2_s7udk"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_xsmxw"]
+
+[sub_resource type="Resource" id="Resource_sekmu"]
+script = ExtResource("1_2d3l5")
+
+[resource]
+script = ExtResource("3_xsmxw")
+equip_slot = 0
+damage_bonus = 8.0
+crit_chance_bonus = 0.1
+granted_skill = SubResource("Resource_sekmu")
+item_lvl = 6
+item_name = "The Finisher"
+description = "A legendary blade that seems to guide its wielder's hand towards the perfect moment to end a life. Each kill is not an end, but a new beginning."
+icon = ExtResource("2_s7udk")
+tier = 3
+value = 10

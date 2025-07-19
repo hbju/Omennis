@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=3 format=3 uid="uid://56wv44i65ssk"]
+
+[ext_resource type="Texture2D" uid="uid://dmlq4s5cr1h4n" path="res://assets/ui/items/weapon/chitterer_leg_scythe.png" id="1_4mrdh"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_ujpyy"]
+
+[resource]
+script = ExtResource("1_ujpyy")
+equip_slot = 0
+damage_bonus = 2.0
+crit_chance_bonus = 0.05
+item_lvl = 2
+item_name = "Chitterer Leg Scythe"
+description = "The serrated foreleg of an Ash-Chitterer, repurposed as a makeshift weapon."
+icon = ExtResource("1_4mrdh")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://idot062w253d"

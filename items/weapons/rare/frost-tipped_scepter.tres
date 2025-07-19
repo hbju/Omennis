@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://kf4tturotaf6"]
+
+[ext_resource type="Script" uid="uid://c4s53kjdrxove" path="res://scripts/skills/mage/elementalist/frostbolt.gd" id="1_6v6pg"]
+[ext_resource type="Texture2D" uid="uid://cloho12v44wq5" path="res://assets/ui/items/weapon/frost-tipped_scepter.PNG" id="2_cqc8a"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_1pt4f"]
+
+[sub_resource type="Resource" id="Resource_4uws0"]
+script = ExtResource("1_6v6pg")
+
+[resource]
+script = ExtResource("3_1pt4f")
+equip_slot = 0
+damage_bonus = 5.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_4uws0")
+item_lvl = 4
+item_name = "Frost-Tipped Scepter"
+description = "A scepter of blue-tinged crystal that is perpetually cold to the touch."
+icon = ExtResource("2_cqc8a")
+tier = 2
+value = 10

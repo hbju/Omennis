@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=5 format=3 uid="uid://co162kynyl8c6"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_011k4"]
+[ext_resource type="Resource" uid="uid://e1yxdgfdb0cd" path="res://items/armor/common/wolf_pelt_cloak.tres" id="2_31ilu"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="2_ftwj0"]
+[ext_resource type="Resource" uid="uid://dbwjrd8rva8a2" path="res://items/accessories/common/wolf_fang_talisman.tres" id="3_qdgol"]
+
+[resource]
+script = ExtResource("2_ftwj0")
+entries = Dictionary[ExtResource("1_011k4"), Vector2i]({
+ExtResource("2_31ilu"): Vector2i(0, 0),
+ExtResource("3_qdgol"): Vector2i(0, 0)
+})
+item_drop_chance = 80
+metadata/_custom_type_script = "uid://dglg813fa2kem"

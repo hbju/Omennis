@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=6 format=3 uid="uid://chprrle285qqn"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_4wokt"]
+[ext_resource type="Resource" uid="uid://dn06154ljbltg" path="res://items/weapons/common/shiv.tres" id="2_01p6a"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="2_ifxyn"]
+[ext_resource type="Resource" uid="uid://bqa3iyginaecd" path="res://items/accessories/common/cracked_leather_cap.tres" id="3_t0sya"]
+[ext_resource type="Resource" uid="uid://dnhprbi3sdje6" path="res://items/accessories/common/lucky_rock.tres" id="4_lvtjp"]
+
+[resource]
+script = ExtResource("2_ifxyn")
+entries = Dictionary[ExtResource("1_4wokt"), Vector2i]({
+ExtResource("2_01p6a"): Vector2i(0, 0),
+ExtResource("3_t0sya"): Vector2i(0, 0),
+ExtResource("4_lvtjp"): Vector2i(0, 0)
+})
+item_drop_chance = 80
+metadata/_custom_type_script = "uid://dglg813fa2kem"

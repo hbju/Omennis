@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=7 format=3 uid="uid://cgun6t7bc2h7p"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_ubu2g"]
+[ext_resource type="Resource" uid="uid://okfdps8cyg4q" path="res://items/weapons/rare/warchiefs_head-taker.tres" id="2_f01ae"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="2_tjo8v"]
+[ext_resource type="Resource" uid="uid://bikl3xuvf871f" path="res://items/armor/rare/plate_of_the_tyrant.tres" id="3_kp6yk"]
+[ext_resource type="Resource" uid="uid://do6ajx6jna5gf" path="res://items/weapons/epic/warlords_soul-drinker.tres" id="4_4wi0f"]
+[ext_resource type="Resource" uid="uid://bddjht63y0mce" path="res://items/weapons/rare/berserkers_greataxe.tres" id="5_mxel4"]
+
+[resource]
+script = ExtResource("2_tjo8v")
+entries = Dictionary[ExtResource("1_ubu2g"), Vector2i]({
+ExtResource("2_f01ae"): Vector2i(0, 0),
+ExtResource("3_kp6yk"): Vector2i(0, 0),
+ExtResource("4_4wi0f"): Vector2i(0, 0),
+ExtResource("5_mxel4"): Vector2i(0, 0)
+})
+item_drop_chance = 40
+metadata/_custom_type_script = "uid://dglg813fa2kem"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://der1csr2ipan8"]
+
+[ext_resource type="Texture2D" uid="uid://crrjmqd5ro00r" path="res://assets/ui/items/armor/armor_5.PNG" id="1_b8m1b"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_cbw51"]
+
+[resource]
+script = ExtResource("1_cbw51")
+equip_slot = 0
+health_bonus = 40
+armor_bonus = 120
+passives = Array[Resource]([])
+item_lvl = 6
+item_name = "Guardian Plate"
+description = "Master-forged plate armor, its surface covered in dents and scratches that each tell a story of a blow meant for someone else."
+icon = ExtResource("1_b8m1b")
+tier = 2
+value = 10

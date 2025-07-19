@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://c5io66b16vq0u"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_tdaik"]
+[ext_resource type="Texture2D" uid="uid://ck2uojcidg1wh" path="res://assets/ui/items/armor/lich_lords_plate.png" id="1_tdxtc"]
+
+[resource]
+script = ExtResource("1_tdaik")
+equip_slot = 0
+health_bonus = 50
+armor_bonus = 160
+passives = Array[Resource]([])
+item_lvl = 7
+item_name = "Lich Lord's Plate"
+description = "Ancient plate armor animated by sheer force of will. Runes of undeath glow with a malevolent light across its surface."
+icon = ExtResource("1_tdxtc")
+tier = 3
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

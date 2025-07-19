@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://baoplkmt7qd0g"]
+
+[ext_resource type="Script" uid="uid://xi1r537bat1q" path="res://scripts/skills/mage/elementalist/thunderstrike.gd" id="1_f5xfu"]
+[ext_resource type="Texture2D" uid="uid://p5dy0jyn8ubr" path="res://assets/ui/items/weapon/scepter_of_storms.png" id="2_rsiap"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_mjyn2"]
+
+[sub_resource type="Resource" id="Resource_md6s3"]
+script = ExtResource("1_f5xfu")
+
+[resource]
+script = ExtResource("3_mjyn2")
+equip_slot = 0
+damage_bonus = 4.0
+crit_chance_bonus = 0.05
+granted_skill = SubResource("Resource_md6s3")
+item_lvl = 4
+item_name = "Scepter of Storms"
+description = "The air crackles around this silver scepter, which can call down the fury of a raging tempest to incapacitate a single, unfortunate target."
+icon = ExtResource("2_rsiap")
+tier = 2
+value = 10

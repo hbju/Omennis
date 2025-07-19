@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://ch6njxcarpycp"]
+
+[ext_resource type="Script" uid="uid://cyyrtjqbhkdnc" path="res://scripts/skills/warrior/defensive_stance.gd" id="1_bkfvj"]
+[ext_resource type="Texture2D" uid="uid://ciuxlfqxq4xgc" path="res://assets/ui/items/weapon/squire_shortsword.png" id="2_ta1dr"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_elkew"]
+
+[sub_resource type="Resource" id="Resource_5gp4r"]
+script = ExtResource("1_bkfvj")
+
+[resource]
+script = ExtResource("3_elkew")
+equip_slot = 0
+damage_bonus = 1.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_5gp4r")
+item_lvl = 1
+item_name = "Squire's Shortsword"
+description = "A well-made, practical shortsword."
+icon = ExtResource("2_ta1dr")
+tier = 1
+value = 40

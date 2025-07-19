@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://baav0jw74xnnr"]
+
+[ext_resource type="Texture2D" uid="uid://bkq3b1c4pj4yg" path="res://assets/ui/items/accessories/eye_of_the_lich.png" id="1_k3oxl"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_rqplq"]
+
+[resource]
+script = ExtResource("1_rqplq")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 0
+damage_bonus = 3
+crit_chance_bonus = 0.1
+passives = Array[Resource]([])
+item_lvl = 4
+item_name = "Eye of the Lich"
+description = "A magically preserved eye, floating in a crystal orb. It stares without blinking, granting its owner a fraction of its former master's unholy insight into the art of killing."
+icon = ExtResource("1_k3oxl")
+tier = 3
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

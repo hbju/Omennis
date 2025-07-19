@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://cntkwnu61hfob"]
+
+[ext_resource type="Texture2D" uid="uid://cqgtv74ic6irn" path="res://assets/ui/items/armor/reinforced_leather_armor.png" id="1_sb8wi"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_ydiu5"]
+
+[resource]
+script = ExtResource("1_ydiu5")
+equip_slot = 0
+health_bonus = 32
+armor_bonus = 48
+passives = Array[Resource]([])
+item_lvl = 4
+item_name = "Reinforced Leather Armor"
+description = "Hardened leather stitched with plates of crude iron over the vital areas."
+icon = ExtResource("1_sb8wi")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=6 format=3 uid="uid://bivbusngey1fq"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_ngnj8"]
+[ext_resource type="Resource" uid="uid://b7ecjtfhiao76" path="res://items/armor/rare/drake_scale_vest.tres" id="2_5yve2"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="2_tlo1s"]
+[ext_resource type="Resource" uid="uid://lfhg4yp0q8wn" path="res://items/accessories/rare/smoldering_heart_charm.tres" id="3_e6jyk"]
+[ext_resource type="Resource" uid="uid://cacs6to6b0upd" path="res://items/weapons/rare/drake_fang_dagger.tres" id="4_b4f83"]
+
+[resource]
+script = ExtResource("2_tlo1s")
+entries = Dictionary[ExtResource("1_ngnj8"), Vector2i]({
+ExtResource("2_5yve2"): Vector2i(0, 0),
+ExtResource("3_e6jyk"): Vector2i(0, 0),
+ExtResource("4_b4f83"): Vector2i(0, 0)
+})
+item_drop_chance = 50
+metadata/_custom_type_script = "uid://dglg813fa2kem"

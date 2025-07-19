@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://djd3sqt73j1x2"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_my5ke"]
+[ext_resource type="Texture2D" uid="uid://b1giheedbwl68" path="res://assets/ui/items/accessories/poachers_ring.png" id="1_xs04r"]
+
+[resource]
+script = ExtResource("1_my5ke")
+equip_slot = 1
+health_bonus = 15
+armor_bonus = 0
+damage_bonus = 0
+crit_chance_bonus = 0.05
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Poacher's Ring"
+description = "A ring carved from the antler of a stag."
+icon = ExtResource("1_xs04r")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

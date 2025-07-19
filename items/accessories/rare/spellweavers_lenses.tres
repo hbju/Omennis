@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://benuobj4enr0i"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_07gti"]
+[ext_resource type="Texture2D" uid="uid://pn4rddnpryab" path="res://assets/ui/items/accessories/spellweavers_lenses.png" id="1_mymbe"]
+
+[resource]
+script = ExtResource("1_07gti")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 0
+damage_bonus = 1
+crit_chance_bonus = 0.05
+passives = Array[Resource]([])
+item_lvl = 1
+item_name = "Spellweaver's Lenses"
+description = "A crystal lens set in a silver frame, designed to be held over one's eyes."
+icon = ExtResource("1_mymbe")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

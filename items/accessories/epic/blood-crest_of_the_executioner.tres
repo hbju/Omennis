@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=2 format=3 uid="uid://dsd5a8wt26snn"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_e08la"]
+
+[resource]
+script = ExtResource("1_e08la")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 0
+damage_bonus = 5
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 5
+item_name = "Blood-Crest of the Executioner"
+description = "This iron emblem is awarded only to those who have mastered the art of the killing blow. It hungers for nothing less."
+tier = 3
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

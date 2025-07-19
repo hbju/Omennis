@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://b0vi3j07w2wd7"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_ge23c"]
+[ext_resource type="Texture2D" uid="uid://b0fmi6pdvp6c8" path="res://assets/ui/items/accessories/bear_claw_talisman.png" id="1_o57xe"]
+
+[resource]
+script = ExtResource("1_ge23c")
+equip_slot = 1
+health_bonus = 20
+armor_bonus = 0
+damage_bonus = 2
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 4
+item_name = "Bear Claw Talisman"
+description = "The formidable claw of a great bear, polished and capped in iron."
+icon = ExtResource("1_o57xe")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

@@ -8,7 +8,6 @@ extends PanelContainer
 @export var item_name: String = "Leather Jerkin":
 	set(value):
 		item_name = value
-		_update_item()
 
 
 # This variable holds the actual item data.
@@ -45,13 +44,4 @@ var item_data: BaseItem:
 
 func _ready():
 	# Ensure the slot is empty on start
-	self.item_data = load("res://items/armor/leather_jerkin.tres") as BaseItem
-
-func _update_item():
-	if Engine.is_editor_hint():
-		print("Setting item_name to: ", item_name)
-		var new_item_data = load("res://items/armor/" + item_name.replace(" ", "_").to_lower() + ".tres") as BaseItem
-		if new_item_data:
-			self.item_data = new_item_data
-		else:
-			print("Item not found in path : ", "res://assets/items/armor/" + item_name.replace(" ", "_").to_lower() + ".tres")
+	self.item_data = load("res://items/armor/common/leather_jerkin.tres") as BaseItem

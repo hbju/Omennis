@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://cbg8wsohh3fdk"]
+
+[ext_resource type="Script" uid="uid://c5e865mkvjynw" path="res://scripts/skills/mage/elementalist/archmage/meteor.gd" id="1_nwbc7"]
+[ext_resource type="Texture2D" uid="uid://ccjesdmgx6y4u" path="res://assets/ui/items/weapon/archmages_staff_of_meteors.png" id="2_cxs53"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_ntle8"]
+
+[sub_resource type="Resource" id="Resource_2b6eh"]
+script = ExtResource("1_nwbc7")
+
+[resource]
+script = ExtResource("3_ntle8")
+equip_slot = 0
+damage_bonus = 8.0
+crit_chance_bonus = 0.05
+granted_skill = SubResource("Resource_2b6eh")
+item_lvl = 6
+item_name = "Archmage's Staff of Meteors"
+description = "Crafted from obsidian and star-iron, this staff is a conduit to the heavens, allowing its wielder to call down celestial destruction upon their foes."
+icon = ExtResource("2_cxs53")
+tier = 3
+value = 250

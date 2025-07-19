@@ -29,7 +29,7 @@ func _ready():
 	skill_tooltip.global_position = Vector2(-1000, -1000) # Start
 	skill_tooltip.show()
 	skill_tooltip.reset_size()
-	update_content(load("res://items/weapons/assassins_kris.tres")) # Load a placeholder item to set up the UI
+	update_content(load("res://items/weapons/rare/assassins_kris.tres")) # Load a placeholder item to set up the UI
 	hide()
 
 func update_content(item: BaseItem):

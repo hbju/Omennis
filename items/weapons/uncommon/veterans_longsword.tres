@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://7rjrpppvfgd5"]
+
+[ext_resource type="Script" uid="uid://cyyrtjqbhkdnc" path="res://scripts/skills/warrior/defensive_stance.gd" id="1_48dvb"]
+[ext_resource type="Texture2D" uid="uid://c083wpqasnbip" path="res://assets/ui/items/weapon/veterans_longsword.png" id="2_7lpco"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_c22f0"]
+
+[sub_resource type="Resource" id="Resource_epmhx"]
+script = ExtResource("1_48dvb")
+
+[resource]
+script = ExtResource("3_c22f0")
+equip_slot = 0
+damage_bonus = 4.0
+crit_chance_bonus = 0.05
+granted_skill = SubResource("Resource_epmhx")
+item_lvl = 5
+item_name = "Veteran's Longsword"
+description = "A well-balanced blade that has survived many campaigns. "
+icon = ExtResource("2_7lpco")
+tier = 1
+value = 10

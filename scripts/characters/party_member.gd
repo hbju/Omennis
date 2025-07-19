@@ -272,6 +272,8 @@ func _recalculate_stats():
 			print("Applying bonuses from %s in slot %s, item stats : %s, %s" % [item.item_name, slot_key, item.health_bonus, item.armor_bonus])
 			self.max_health += item.health_bonus
 			self.init_shield += item.armor_bonus
+			self.damage += item.damage_bonus
+			self.crit_chance += item.crit_chance_bonus
 			print("Stats after applying %s: Max Health = %d, Damage = %.2f" % 
 				[item.item_name, self.max_health, self.damage])
 

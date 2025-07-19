@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://chkj0sfmej4sf"]
+
+[ext_resource type="Texture2D" uid="uid://dvw4fkmdaet2h" path="res://assets/ui/items/armor/chitin-weave_carapace.png" id="1_gdiop"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_vm78r"]
+
+[resource]
+script = ExtResource("1_vm78r")
+equip_slot = 0
+health_bonus = 75
+armor_bonus = 45
+passives = Array[Resource]([])
+item_lvl = 5
+item_name = "Chitin-Weave Carapace"
+description = "The chestplate from an Ash-Chitterer Queen, fashioned into a form-fitting cuirass."
+icon = ExtResource("1_gdiop")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

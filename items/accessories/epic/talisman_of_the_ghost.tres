@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://dtvfv4xkefa1u"]
+
+[ext_resource type="Texture2D" uid="uid://c4f6ssackn026" path="res://assets/ui/items/accessories/talisman_of_the_ghost.png" id="1_1ioig"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_ptnek"]
+
+[resource]
+script = ExtResource("1_ptnek")
+equip_slot = 1
+health_bonus = 30
+armor_bonus = 0
+damage_bonus = 4
+crit_chance_bonus = 0.1
+passives = Array[Resource]([])
+item_lvl = 6
+item_name = "Talisman of the Ghost"
+description = "A wisp of solidified shadow that writhes within a glass pendant. It promises lethal precision to those who can master its whispers."
+icon = ExtResource("1_1ioig")
+tier = 3
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://6sdb7865y4ey"]
+
+[ext_resource type="Script" uid="uid://c0w68l4jqdskq" path="res://scripts/skills/mage/necromancer/lich/decay.gd" id="1_pginp"]
+[ext_resource type="Texture2D" uid="uid://chwci17bj3d0u" path="res://assets/ui/items/weapon/queens_mandible.png" id="2_o5siy"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_y5n1f"]
+
+[sub_resource type="Resource" id="Resource_kq070"]
+script = ExtResource("1_pginp")
+metadata/_custom_type_script = "uid://c0w68l4jqdskq"
+
+[resource]
+script = ExtResource("3_y5n1f")
+equip_slot = 0
+damage_bonus = 7.0
+crit_chance_bonus = 0.05
+granted_skill = SubResource("Resource_kq070")
+item_lvl = 6
+item_name = "Queen's Mandible"
+description = "Strangely, it still oozes the queen's poison."
+icon = ExtResource("2_o5siy")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://idot062w253d"

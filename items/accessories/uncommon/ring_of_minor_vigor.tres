@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://bf4s1713missj"]
+
+[ext_resource type="Texture2D" uid="uid://q5nf5yed6ed7" path="res://assets/ui/items/accessories/ring_of_minor_vigor.png" id="1_jis2a"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_n1am7"]
+
+[resource]
+script = ExtResource("1_n1am7")
+equip_slot = 1
+health_bonus = 40
+armor_bonus = 0
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 4
+item_name = "Ring of Minor Vigor"
+description = "A simple iron band that suffuses the wearer with a sense of vitality."
+icon = ExtResource("1_jis2a")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

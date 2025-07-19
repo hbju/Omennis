@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://b0kimm8yqb056"]
+
+[ext_resource type="Script" uid="uid://dnyy5k7njuiwu" path="res://scripts/skills/mage/necromancer/drain_life.gd" id="1_em3ne"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="1_gcohm"]
+[ext_resource type="Texture2D" uid="uid://ch755qj5mneue" path="res://assets/ui/items/weapon/orcish_spirit-staff.png" id="2_yyni3"]
+
+[sub_resource type="Resource" id="Resource_gt85y"]
+script = ExtResource("1_em3ne")
+metadata/_custom_type_script = "uid://dnyy5k7njuiwu"
+
+[resource]
+script = ExtResource("1_gcohm")
+equip_slot = 0
+damage_bonus = 6.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_gt85y")
+item_lvl = 6
+item_name = "Orcish Spirit-Staff"
+description = "A staff topped with animal skulls and dangling fetishes. "
+icon = ExtResource("2_yyni3")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://idot062w253d"

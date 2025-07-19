@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://wwpa5goqhx2c"]
+
+[ext_resource type="Texture2D" uid="uid://d1ieyvkvdalsd" path="res://assets/ui/items/accessories/thiefs_ring.png" id="1_6v6u1"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_ggi13"]
+
+[resource]
+script = ExtResource("1_ggi13")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 0
+damage_bonus = 0
+crit_chance_bonus = 0.05
+passives = Array[Resource]([])
+item_lvl = 2
+item_name = "Thief's Ring"
+description = "Those in the trade claim it helps guide a shiv to its mark."
+icon = ExtResource("1_6v6u1")
+tier = 0
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

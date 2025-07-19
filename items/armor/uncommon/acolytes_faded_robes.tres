@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://j40vv4a6esaa"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_b0q5g"]
+[ext_resource type="Texture2D" uid="uid://b0bl85dw3ul56" path="res://assets/ui/items/armor/acolytes_faded_robes.png" id="1_d1t5y"]
+
+[resource]
+script = ExtResource("1_b0q5g")
+equip_slot = 0
+health_bonus = 35
+armor_bonus = 15
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Acolyte's Faded Robes"
+description = "These robes of an arcane order are interwoven with subtle protective threads, now frayed with time and neglect."
+icon = ExtResource("1_d1t5y")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

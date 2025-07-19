@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://bmriwjwbw51xs"]
+
+[ext_resource type="Script" uid="uid://c4s53kjdrxove" path="res://scripts/skills/mage/elementalist/frostbolt.gd" id="1_m5hwr"]
+[ext_resource type="Texture2D" uid="uid://cougess1kpd72" path="res://assets/ui/items/weapon/glacial_edge.png" id="2_p2jv1"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_rcy3b"]
+
+[sub_resource type="Resource" id="Resource_23pps"]
+script = ExtResource("1_m5hwr")
+metadata/_custom_type_script = "uid://c4s53kjdrxove"
+
+[resource]
+script = ExtResource("3_rcy3b")
+equip_slot = 0
+damage_bonus = 3.0
+crit_chance_bonus = 0.0
+granted_skill = SubResource("Resource_23pps")
+item_lvl = 2
+item_name = "Glacial Edge"
+description = "A greatsword forged from enchanted ice that never melts. "
+icon = ExtResource("2_p2jv1")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://idot062w253d"

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=7 format=3 uid="uid://dj86hgyv6mep5"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_gkln3"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="2_nahli"]
+[ext_resource type="Resource" uid="uid://cifpy0f110urd" path="res://items/armor/common/tattered_robes.tres" id="2_upxv1"]
+[ext_resource type="Resource" uid="uid://bimet0hwnsrxl" path="res://items/weapons/uncommon/channeling_rod.tres" id="3_1lo74"]
+[ext_resource type="Resource" uid="uid://benuobj4enr0i" path="res://items/accessories/rare/spellweavers_lenses.tres" id="4_x1yg3"]
+[ext_resource type="Resource" uid="uid://baoplkmt7qd0g" path="res://items/weapons/rare/scepter_of_storms.tres" id="5_hmtar"]
+
+[resource]
+script = ExtResource("2_nahli")
+entries = Dictionary[ExtResource("1_gkln3"), Vector2i]({
+ExtResource("2_upxv1"): Vector2i(0, 0),
+ExtResource("3_1lo74"): Vector2i(0, 0),
+ExtResource("4_x1yg3"): Vector2i(0, 0),
+ExtResource("5_hmtar"): Vector2i(0, 0)
+})
+item_drop_chance = 70
+metadata/_custom_type_script = "uid://dglg813fa2kem"

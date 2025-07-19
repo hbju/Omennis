@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=6 format=3 uid="uid://bdye6hkpt0s36"]
+
+[ext_resource type="Script" uid="uid://bsn8ocbq3t1je" path="res://scripts/items/base_item.gd" id="1_pon21"]
+[ext_resource type="Resource" uid="uid://6sdb7865y4ey" path="res://items/weapons/rare/queens_mandible.tres" id="2_h0hmd"]
+[ext_resource type="Resource" uid="uid://chkj0sfmej4sf" path="res://items/armor/rare/chitin-weave_carapace.tres" id="3_h6tab"]
+[ext_resource type="Resource" uid="uid://dv4bdd0du8bcs" path="res://items/accessories/rare/gland_of_caustic_bile.tres" id="4_p6lt5"]
+[ext_resource type="Script" uid="uid://dglg813fa2kem" path="res://scripts/items/loot_table.gd" id="5_evcrr"]
+
+[resource]
+script = ExtResource("5_evcrr")
+entries = Dictionary[ExtResource("1_pon21"), Vector2i]({
+ExtResource("2_h0hmd"): Vector2i(0, 0),
+ExtResource("3_h6tab"): Vector2i(0, 0),
+ExtResource("4_p6lt5"): Vector2i(0, 0)
+})
+item_drop_chance = 80
+metadata/_custom_type_script = "uid://dglg813fa2kem"

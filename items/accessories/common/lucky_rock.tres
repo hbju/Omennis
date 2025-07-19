@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://dnhprbi3sdje6"]
+
+[ext_resource type="Texture2D" uid="uid://cht1wospqfl11" path="res://assets/ui/items/accessories/lucky_rock.png" id="1_60dce"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_lyyrf"]
+
+[resource]
+script = ExtResource("1_lyyrf")
+equip_slot = 1
+health_bonus = 5
+armor_bonus = 0
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 1
+item_name = "Lucky Rock"
+description = "It probably has no magical properties, but it feels reassuring in your pocket."
+icon = ExtResource("1_60dce")
+tier = 0
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://d20qm0t0gu38u"]
+
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_ccfar"]
+[ext_resource type="Texture2D" uid="uid://dtfhd34a1bwu0" path="res://assets/ui/items/accessories/paladins_relic.png" id="1_tlo73"]
+
+[resource]
+script = ExtResource("1_ccfar")
+equip_slot = 1
+health_bonus = 40
+armor_bonus = 20
+damage_bonus = 0
+crit_chance_bonus = 0.0
+passives = Array[Resource]([])
+item_lvl = 5
+item_name = "Paladin's Relic"
+description = "The weathered holy symbol of a fallen paladin."
+icon = ExtResource("1_tlo73")
+tier = 2
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://o267bwofjo64"]
+
+[ext_resource type="Script" uid="uid://cptap6ckyac3r" path="res://scripts/skills/rogue/scout/crippling_shot.gd" id="1_2qglm"]
+[ext_resource type="Texture2D" uid="uid://dfoj1grk7yfxi" path="res://assets/ui/items/weapon/hunters_shortbow.png" id="2_gu4ni"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_bmg2d"]
+
+[sub_resource type="Resource" id="Resource_6qsit"]
+script = ExtResource("1_2qglm")
+
+[resource]
+script = ExtResource("3_bmg2d")
+equip_slot = 0
+damage_bonus = 2.0
+crit_chance_bonus = 0.05
+granted_skill = SubResource("Resource_6qsit")
+item_lvl = 3
+item_name = "Hunter's Shortbow"
+description = "Made from yew and reinforced with sinew. "
+icon = ExtResource("2_gu4ni")
+tier = 1
+value = 30

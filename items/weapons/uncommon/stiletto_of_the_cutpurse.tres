@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=5 format=3 uid="uid://1xaabyk7cq2g"]
+
+[ext_resource type="Script" uid="uid://bh27u31dq6yqq" path="res://scripts/skills/rogue/backstab.gd" id="1_rbjuw"]
+[ext_resource type="Texture2D" uid="uid://c5md2iasegs2x" path="res://assets/ui/items/weapon/stiletto_of_the_cutpurse.png" id="2_pyvpm"]
+[ext_resource type="Script" uid="uid://idot062w253d" path="res://scripts/items/weapon_item.gd" id="3_770h6"]
+
+[sub_resource type="Resource" id="Resource_61wal"]
+script = ExtResource("1_rbjuw")
+
+[resource]
+script = ExtResource("3_770h6")
+equip_slot = 0
+damage_bonus = 2.0
+crit_chance_bonus = 0.1
+granted_skill = SubResource("Resource_61wal")
+item_lvl = 4
+item_name = "Stiletto of the Cutpurse"
+description = "Favored by those who prefer to end fights before they begin."
+icon = ExtResource("2_pyvpm")
+tier = 1
+value = 10

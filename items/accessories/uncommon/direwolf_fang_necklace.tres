@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=3 format=3 uid="uid://07ifaj0d2qht"]
+
+[ext_resource type="Texture2D" uid="uid://bi0nfaswcgk6o" path="res://assets/ui/items/accessories/direwolf_fang_necklace.png" id="1_g21sc"]
+[ext_resource type="Script" uid="uid://hy1i3fgplvu1" path="res://scripts/items/equipment_item.gd" id="1_mfuy7"]
+
+[resource]
+script = ExtResource("1_mfuy7")
+equip_slot = 1
+health_bonus = 0
+armor_bonus = 0
+damage_bonus = 2
+crit_chance_bonus = 0.05
+passives = Array[Resource]([])
+item_lvl = 3
+item_name = "Direwolf Fang Necklace"
+description = "A necklace of massive fangs, each the size of a dagger."
+icon = ExtResource("1_g21sc")
+tier = 1
+value = 10
+metadata/_custom_type_script = "uid://hy1i3fgplvu1"
